@@ -14,31 +14,45 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { ScrollArea } from "@/components/ui/scroll-area";
+// import { Separator } from "@/components/ui/separator";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import Link from "next/link";
+import { nigerianStates } from "@/data";
+import { MapPin } from "lucide-react";
 
 const formSchema = z.object({
-  Firstname: z.string().min(2, {
-    message: "Input First name",
+  Fullname: z.string().min(2, {
+    message: "Input Full name",
   }),
-  Lastname: z.string().min(6, {
-    message: "Input Last name",
+  Phone: z.string().refine((value) => /^(\+)?\d+$/.test(value), {
+    message: "Phone number must be a number",
+  }),
+  location: z.string({
+    required_error: "Please select a location.",
   }),
 });
 
 const completeProfile = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      Firstname: "",
-      Lastname: "",
-    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const phoneValue = Number(values.Phone);
     console.log(values);
   }
 
@@ -57,11 +71,11 @@ const completeProfile = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
               <FormField
                 control={form.control}
-                name="Firstname"
+                name="Fullname"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-xl font-medium">
-                      First name
+                      Full name
                     </FormLabel>
                     <FormControl>
                       <div>
@@ -79,22 +93,54 @@ const completeProfile = () => {
               />
               <FormField
                 control={form.control}
-                name="Lastname"
+                name="Phone"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-xl font-medium">
-                      Last name
+                      Phone number
                     </FormLabel>
                     <FormControl>
                       <div>
                         <Input
-                          type="text"
+                          type="number"
                           className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]"
-                          placeholder="Enter Last name"
+                          placeholder="+234"
                           {...field}
                         />
                       </div>
                     </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-xl font-medium">
+                      Location
+                    </FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="py-6 relative indent-5 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]">
+                          <MapPin className="absolute top-4 text-[#4F5B67] w-[15px] h-[15px]" />
+                          <SelectValue placeholder="Select Location" />
+                        </SelectTrigger>
+                      </FormControl>{" "}
+                      <SelectContent className="h-[400px] overflow-y-scroll">
+                        {nigerianStates.map((single, index) => {
+                          return (
+                            <SelectItem key={index} value={single}>
+                              {single}
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
