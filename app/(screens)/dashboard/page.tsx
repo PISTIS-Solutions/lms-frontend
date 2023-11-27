@@ -116,9 +116,9 @@ const Dashboard = () => {
                   <p className="underline text-main text-xs md:text-sm">View all</p>
                 </div>
                 <div className="md:flex flex-wrap justify-between my-5">
-                  {courseList.map((course) => {
+                  {courseList.map((course, index) => {
                     return (
-                      <div className="rounded-[8px] my-2 md:my-0 relative bg-[#F8F9FF] w-[242px] h-[234px]">
+                      <div key={index} className="rounded-[8px] my-2 md:my-0 relative bg-[#F8F9FF] w-[242px] h-[234px]">
                         <div>
                           <Image src={course.image} alt={course.courseTitle} />
                         </div>

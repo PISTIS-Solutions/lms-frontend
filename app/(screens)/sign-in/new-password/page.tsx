@@ -30,7 +30,7 @@ const formSchema = z.object({
   }),
 });
 
-const newPassword = () => {
+const NewPassword = () => {
   //submit function
   const router = useRouter();
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -173,4 +173,4 @@ const newPassword = () => {
   );
 };
 
-export default newPassword;
+export default NewPassword;
