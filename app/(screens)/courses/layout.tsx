@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Dashboard",
+  title: "Courses",
 };
 
 export default function RootLayout({
@@ -10,8 +10,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
-      <main>{children}</main>
-    </div>
+    <main>
+      <div>{children}</div>
+    </main>
   );
 }
