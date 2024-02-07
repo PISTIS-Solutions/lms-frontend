@@ -9,27 +9,14 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 import Fulllogo from "@/public/assets/full-logo.png";
+import useFormStore from "@/store/create-account";
 
 const Verify_SignUp = () => {
-  const [otp, setOtp] = useState(["", "", "", "", ""]);
+  const { otp, setOtp } = useFormStore();
 
-  const handleOtpChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
-    const value = e.target.value;
-    if (/^\d*$/.test(value) && value.length <= 1) {
-      const updatedOtp = [...otp];
-      updatedOtp[index] = value;
-      setOtp(updatedOtp);
-      if (index < 4 && value !== "") {
-        const nextInput =
-          e.target.parentElement?.nextElementSibling?.querySelector("input");
-        if (nextInput) {
-          nextInput.focus();
-        }
-      }
-    }
+  const handleOtpChange = (index: number, value: string) => {
+    setOtp(index, value);
+    
   };
 
   const router = useRouter();
@@ -71,7 +58,7 @@ const Verify_SignUp = () => {
                 maxLength={1}
                 className="border border-[#33CC99] w-14 md:w-24 h-14 md:h-24 text-3xl md:text-6xl text-center  rounded-full "
                 value={digit}
-                onChange={(e) => handleOtpChange(e, index)}
+                onChange={(e) => handleOtpChange(index, e.target.value)}
               />
             ))}
           </form>

@@ -32,28 +32,47 @@ import { nigerianStates } from "@/data";
 import { MapPin } from "lucide-react";
 
 import Fulllogo from "@/public/assets/full-logo.png";
+import useFormStore from "@/store/create-account";
+import { useRouter } from "next/navigation";
 
-const formSchema = z.object({
-  Fullname: z.string().min(2, {
-    message: "Input Full name",
-  }),
-  Phone: z.string().refine((value) => /^(\+)?\d+$/.test(value), {
-    message: "Phone number must be a number",
-  }),
-  location: z.string({
-    required_error: "Please select a location.",
-  }),
-});
+// const formSchema = z.object({
+//   Fullname: z.string().min(2, {
+//     message: "Input Full name",
+//   }),
+//   Phone: z.string().refine((value) => /^(\+)?\d+$/.test(value), {
+//     message: "Phone number must be a number",
+//   }),
+//   location: z.string({
+//     required_error: "Please select a location.",
+//   }),
+// });
 
 const Completeprofile = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
+  const formStore = useFormStore();
+  const router = useRouter();
+  // const form = useForm<z.infer<typeof formSchema>>({
+  //   resolver: zodResolver(formSchema),
+  //   defaultValues: {
+  //     Fullname: formStore.Fullname,
+  //     Phone: formStore.Phone,
+  //     location: formStore.location,
+  //   },
+  // });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const phoneValue = Number(values.Phone);
-    console.log(values);
-  }
+  const onSubmit = (e: any) => {
+    e.preventDefault();
+    const createAccountDetails = {
+      email: formStore.email,
+      password: formStore.password,
+      confirm: formStore.confirm,
+      Fullname: formStore.Fullname,
+      Phone: Number(formStore.Phone),
+      location: formStore.location,
+      otp: formStore.otp.join(""),
+    };
+
+    console.log("Form Values", createAccountDetails);
+  };
 
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
@@ -78,92 +97,58 @@ const Completeprofile = () => {
           </h3>
         </div>
         <div className="px-2 md:px-0">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-              <FormField
-                control={form.control}
-                name="Fullname"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="md:text-xl text-sm font-medium">
-                      Full name
-                    </FormLabel>
-                    <FormControl>
-                      <div>
-                        <Input
-                          type="text"
-                          className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]"
-                          placeholder="Enter Full name"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+          <form onSubmit={onSubmit} className="space-y-3">
+            <div>
+              <label className="md:text-xl text-sm font-medium">
+                Full name
+              </label>
+              <input
+                type="text"
+                className="py-4 w-full indent-4 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]"
+                placeholder="Enter Full name"
+                value={formStore.Fullname}
+                onChange={(e) => formStore.setField("Fullname", e.target.value)}
               />
-              <FormField
-                control={form.control}
-                name="Phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="md:text-xl text-sm font-medium">
-                      Phone number
-                    </FormLabel>
-                    <FormControl>
-                      <div>
-                        <Input
-                          className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]"
-                          placeholder="+234"
-                          type="number"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+            </div>
+
+            <div>
+              <label className="md:text-xl text-sm font-medium">
+                Phone number
+              </label>
+              <input
+                className="py-4 w-full indent-4 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]"
+                placeholder="Input phone number"
+                type="text"
+                value={formStore.Phone}
+                onChange={(e) => formStore.setField("Phone", e.target.value)}
               />
-              <FormField
-                control={form.control}
-                name="location"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="md:text-xl text-sm font-medium">
-                      Location
-                    </FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="py-6 relative indent-5 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]">
-                          <MapPin className="absolute top-4 text-[#4F5B67] w-[15px] h-[15px]" />
-                          <SelectValue placeholder="Select Location" />
-                        </SelectTrigger>
-                      </FormControl>{" "}
-                      <SelectContent className="h-[400px] overflow-y-scroll">
-                        {nigerianStates.map((single, index) => {
-                          return (
-                            <SelectItem key={index} value={single}>
-                              {single}
-                            </SelectItem>
-                          );
-                        })}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                className="w-full bg-[#33CC99] py-6 font-medium text-lg md:text-2xl text-black hover:text-white"
+            </div>
+
+            <div>
+              <label className="md:text-xl text-sm font-medium">Location</label>
+              <select
+                className="py-4 w-full relative indent-4 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]"
+                value={formStore.location}
+                onChange={(e) => formStore.setField("location", e.target.value)}
               >
-                Proceed
-              </Button>
-            </form>
-          </Form>
+                <option value="" disabled>
+                  Select Location
+                </option>
+                {nigerianStates.map((single, index) => (
+                  <option key={index} value={single}>
+                    {single}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#33CC99] py-4 rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
+            >
+              Proceed
+            </button>
+          </form>
         </div>
         <div>
           <p className="text-center text-sm absolute bottom-4 md:sticky w-full md:text-lg font-normal ">
