@@ -64,7 +64,7 @@ const SideNav = () => {
                       pathname === `/${nav.link}`
                         ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
                         : "text-white"
-                    } flex items-center pl-5 gap-3  text-center hover:bg-sub hover:border-r-2 hover:border-r-[#6E6EF7] duration-150 ease-in-out cursor-pointer my-1 py-3`}
+                    } flex items-center pl-5 gap-3 text-center hover:bg-sub hover:border-r-2 hover:border-r-[#6E6EF7] duration-150 ease-in-out cursor-pointer my-1 py-3`}
                   >
                     <span> {nav.icon} </span>
                     <span className="text-lg">{nav.title}</span>
@@ -74,14 +74,14 @@ const SideNav = () => {
             })}
           </div>
           <div>
-            <div className="text-white text-center hover:bg-sub hover:border-r-2 hover:border-r-[#6E6EF7] duration-150 ease-in-out cursor-pointer my-1 py-1">
+            <div className="">
               <Link href={"/settings"} className="">
                 <div
                   className={`link ${
                     pathname === "/settings"
                       ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
                       : "text-white"
-                  } flex items-center pl-5 gap-3  text-center hover:bg-sub hover:border-r-2 hover:border-r-[#6E6EF7] duration-150 ease-in-out cursor-pointer my-1 py-2`}
+                  } flex items-center pl-5 gap-3 text-center hover:bg-sub hover:border-r-2 hover:border-r-[#6E6EF7] duration-150 ease-in-out cursor-pointer my-1 py-2`}
                 >
                   {" "}
                   <Settings />
@@ -95,7 +95,7 @@ const SideNav = () => {
                   pathname === "/log-out"
                     ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
                     : "text-white"
-                } flex items-center pl-5 gap-3  text-center hover:bg-sub hover:border-r-2 hover:border-r-[#6E6EF7] duration-150 ease-in-out cursor-pointer my-1 py-2`}
+                } flex items-center pl-5 gap-3 text-center hover:bg-sub hover:border-r-2 hover:border-r-[#6E6EF7] duration-150 ease-in-out cursor-pointer my-1 py-2`}
               >
                 {" "}
                 <LogOut />

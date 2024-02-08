@@ -12,25 +12,25 @@ import Fulllogo from "@/public/assets/full-logo.png";
 import useFormStore from "@/store/create-account";
 
 const Verify_SignUp = () => {
-  const { otp, setOtp } = useFormStore();
+  // const { otp, setOtp } = useFormStore();
 
-  const handleOtpChange = (index: number, value: string) => {
-    setOtp(index, value);
-    
-  };
+  // const handleOtpChange = (index: number, value: string) => {
+  //   setOtp(index, value);
+
+  // };
 
   const router = useRouter();
 
-  const handleOtpSubmit = () => {
-    console.log("OTP Submitted:", otp.join(""));
-    router.push("/create-account/success");
-  };
+  // const handleOtpSubmit = () => {
+  //   console.log("OTP Submitted:", otp.join(""));
+  //   router.push("/create-account/success");
+  // };
 
-  const isFormIncomplete = otp.some((digit) => digit === "");
+  // const isFormIncomplete = otp.some((digit) => digit === "");
 
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-full md:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 block md:flex flex-col justify-around px-0 md:px-10">
+      <div className="bg-white w-full md:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 block md:flex flex-col  px-0 md:px-10">
         <div className="h-auto block md:hidden w-full bg-main p-2">
           <Image src={Fulllogo} alt="logo" />
         </div>
@@ -43,13 +43,19 @@ const Verify_SignUp = () => {
           />
         </div>
         <div className="px-2 my-10 md:my-0 md:px-0">
-          <h1 className="md:text-4xl text-3xl font-semibold">Verify Account</h1>
-          <h3 className="md:text-2xl text-lg ">
+          <h1 className="md:text-4xl text-3xl text-center py-5 font-semibold">Verify Account</h1>
+          {/* <h3 className="md:text-2xl text-lg ">
             Please enter the 5 digit code sent to your email address to complete
             your sign up process
-          </h3>
+          </h3> */}
         </div>
         <div>
+          <h1 className="text-2xl text-center">
+            A message has been sent to your email address, verify your account
+            on your email
+          </h1>
+        </div>
+        {/* <div>
           <form className="flex justify-around md:justify-between">
             {otp.map((digit, index) => (
               <input
@@ -72,12 +78,12 @@ const Verify_SignUp = () => {
               Submit
             </Button>
           </div>
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <p className="text-center text-sm absolute bottom-4 md:sticky w-full md:text-lg font-normal ">
             Didn’t get a code? <Link href=""> Resend in 60s</Link>
           </p>
-        </div>
+        </div> */}
       </div>
     </main>
   );

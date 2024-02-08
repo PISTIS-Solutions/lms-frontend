@@ -5,20 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import logo from "../../../public/assets/pistis_logo.png";
-import { Mail, KeyRound, Eye, EyeOff } from "lucide-react";
-import { useForm } from "react-hook-form";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { Mail, KeyRound, Eye, EyeOff, Loader2 } from "lucide-react";
 import Link from "next/link";
 import useFormStore from "../../../store/create-account";
 
@@ -26,24 +13,47 @@ import Fulllogo from "@/public/assets/full-logo.png";
 
 const SignUp = () => {
   const formStore = useFormStore();
-  //submit function
+  const [specialCharacterErr, setSpecialCharacterErr] = useState();
+  const [loading, setLoading] = useState<boolean>();
   const router = useRouter();
-
-  const onSubmit = (e: any) => {
+  //submit function
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
       if (formStore.password === formStore.confirm) {
         if (!containsSpecialCharacters(formStore.password)) {
           throw new Error("Password must contain special characters");
         }
-        router.push("/create-account/verify");
-      } else {
-        throw new Error("Password and Confirm do not match");
+        setLoading(true);
+        const response = await fetch(
+          "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: formStore.email,
+              password: formStore.password,
+              re_password: formStore.confirm,
+            }),
+          }
+        );
+        if (response.ok) {
+          console.log("Form data posted successfully");
+          router.push("/create-account/verify");
+        } else {
+          console.error("Failed to post form data");
+        }
       }
-    } catch (error) {
-      console.error("An error occurred:", error);
+    } catch (error: any) {
+      setSpecialCharacterErr(error.message);
+    } finally {
+      setLoading(false);
     }
   };
+
   function containsSpecialCharacters(str: string): boolean {
     const specialCharacters = /[!@#$%^&*()_+[\]{};':"\\|,.<>/?]/;
     return specialCharacters.test(str);
@@ -130,10 +140,18 @@ const SignUp = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#33CC99] py-4 rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
+              className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
             >
-              Sign Up
+              {loading ? <Loader2 className="animate-spin text-white" /> : <>Submit</>}
             </button>
+            <p className="text-red-500 text-center">{specialCharacterErr}</p>
+            {formStore.password != formStore.confirm ? (
+              <p className="text-red-500 text-center">
+                Password and Confirm password contains different characters
+              </p>
+            ) : (
+              <></>
+            )}
           </form>
         </div>
         <div>
