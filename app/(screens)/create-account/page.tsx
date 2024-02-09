@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import logo from "../../../public/assets/pistis_logo.png";
-import { Mail, KeyRound, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Mail, KeyRound, Eye, EyeOff, Loader2, Check } from "lucide-react";
 import Link from "next/link";
 import useFormStore from "../../../store/create-account";
 
@@ -15,6 +15,7 @@ const SignUp = () => {
   const formStore = useFormStore();
   const [specialCharacterErr, setSpecialCharacterErr] = useState();
   const [loading, setLoading] = useState<boolean>();
+  const [modal, setModal] = useState<boolean>(false);
   const router = useRouter();
   //submit function
   const onSubmit = async (e: React.FormEvent) => {
@@ -42,9 +43,11 @@ const SignUp = () => {
         );
         if (response.ok) {
           console.log("Form data posted successfully");
-          router.push("/create-account/verify");
+          setModal(true);
+          // router.push("/create-account/activate/[uid]");
         } else {
           console.error("Failed to post form data");
+          setModal(false);
         }
       }
     } catch (error: any) {
@@ -142,8 +145,23 @@ const SignUp = () => {
               type="submit"
               className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
             >
-              {loading ? <Loader2 className="animate-spin text-white" /> : <>Submit</>}
+              {loading ? (
+                <Loader2 className="animate-spin text-white" />
+              ) : (
+                <>Submit</>
+              )}
             </button>
+            {modal && (
+              // <div className="w-full h-full absolute bg-red-500 top-0">
+              <div className="flex rounded-md flex-col items-center absolute w-1/2 h-36 bg-white top-[30%]  left-[25%] justify-center text-green-500 shadow-md">
+                <div className="flex">
+                  <p className="text-xl">Success</p>
+                  <Check />
+                </div>
+                <p>Check your email address for validation</p>
+              </div>
+              // </div>
+            )}
             <p className="text-red-500 text-center">{specialCharacterErr}</p>
             {formStore.password != formStore.confirm ? (
               <p className="text-red-500 text-center">
