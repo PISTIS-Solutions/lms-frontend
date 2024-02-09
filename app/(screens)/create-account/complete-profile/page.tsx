@@ -61,16 +61,7 @@ const Completeprofile = () => {
 
   const onSubmit = (e: any) => {
     e.preventDefault();
-    const createAccountDetails = {
-      email: formStore.email,
-      password: formStore.password,
-      confirm: formStore.confirm,
-      Fullname: formStore.Fullname,
-      Phone: Number(formStore.Phone),
-      location: formStore.location,
-    };
-
-    console.log("Form Values", createAccountDetails);
+   
   };
 
   return (
