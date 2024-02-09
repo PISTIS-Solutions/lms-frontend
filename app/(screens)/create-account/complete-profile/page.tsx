@@ -68,7 +68,6 @@ const Completeprofile = () => {
       Fullname: formStore.Fullname,
       Phone: Number(formStore.Phone),
       location: formStore.location,
-      otp: formStore.otp.join(""),
     };
 
     console.log("Form Values", createAccountDetails);
