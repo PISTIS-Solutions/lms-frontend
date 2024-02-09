@@ -60,7 +60,7 @@ export default function Home() {
       <section className=" flex items-center px-5 md:px-10 justify-between bg-mid-back h-[117px] bg-no-repeat bg-cover">
         <div className="flex justify-between w-full">
           <p className="text-white text-sm md:text-2xl font-medium">
-            30+ Students
+            30+ Sextudents
           </p>
           <p className="text-white text-sm md:text-2xl font-medium">
             Expert Mentors
