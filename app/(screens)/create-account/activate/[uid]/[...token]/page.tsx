@@ -63,10 +63,10 @@ const Verify_SignUp = () => {
 
   const handleVerifyToken = async (e: React.FormEvent) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch(
-        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/reset_password_confirm/",
+        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/",
         {
           method: "POST",
           headers: {
@@ -78,17 +78,16 @@ const Verify_SignUp = () => {
           }),
         }
       );
-      
+
       if (response.ok) {
         // setModal(true);
-        console.log("successful")
-        console.log('Great response');
+        console.log("successful");
+        console.log("Great response");
       }
     } catch (error: any) {
-      console.log(error.message)
+      console.log(error.message);
     }
   };
-  
 
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
