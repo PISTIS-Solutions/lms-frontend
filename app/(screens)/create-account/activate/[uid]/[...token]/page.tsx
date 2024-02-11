@@ -18,7 +18,7 @@ const Verify_SignUp = () => {
   const handleVerifyToken = async () => {
     try {
       const url =
-        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/reset_password/";
+        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/";
 
       console.log("Sending request...");
 

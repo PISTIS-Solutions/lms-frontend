@@ -156,7 +156,7 @@ const SignUp = () => {
                   <p className="text-xl">Success</p>
                   <Check />
                 </div>
-                <p className="text-center pt-5">Check your email address for validation</p>
+                <p className="text-center pt-5 w-full">Check your email address for validation</p>
               </div>
               // </div>
             )}
