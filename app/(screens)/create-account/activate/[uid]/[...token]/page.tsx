@@ -8,10 +8,32 @@ import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 
 import Fulllogo from "@/public/assets/full-logo.png";
+import axios from "axios";
 
 const Verify_SignUp = () => {
   const router = useRouter();
+  const [response, setResponse] = useState<any>();
   const params = useParams<{ uid: any; token: any }>();
+
+  const handleVerifyToken = async () => {
+    try {
+      const url =
+        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/reset_password/";
+
+      console.log("Sending request...");
+
+      const response = await axios.post(url, {
+        uid: params.uid,
+        token: params.token,
+      });
+
+      console.log("Response received:", response);
+
+      setResponse(JSON.stringify(response.data, null, 2));
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
@@ -41,7 +63,7 @@ const Verify_SignUp = () => {
           <p>{params.token}</p>
         </div>
         <div>
-          <Button>Verify</Button>
+          <Button onClick={handleVerifyToken}>Verify</Button>
         </div>
       </div>
     </main>
