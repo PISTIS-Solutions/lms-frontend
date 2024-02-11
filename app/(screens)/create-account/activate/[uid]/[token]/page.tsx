@@ -9,36 +9,19 @@ import { useParams, useRouter } from "next/navigation";
 
 import Fulllogo from "@/public/assets/full-logo.png";
 import axios from "axios";
+import { Check, Loader2 } from "lucide-react";
 
 const Verify_SignUp = () => {
   const router = useRouter();
-  const [response, setResponse] = useState<any>();
+  const [response, setResponse] = useState<object>();
+  const [loading, setLoading] = useState<any>();
   const params = useParams<{ uid: string; token: string }>();
-
-  // const handleVerifyToken = async () => {
-  //   try {
-  //     const url =
-  //       "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/";
-
-  //     console.log("Sending request new...");
-
-  //     const response = await axios.post(url, {
-  //       uid: params.uid,
-  //       token: params.token,
-  //     });
-
-  //     console.log("Response received:", response);
-
-  //     setResponse(JSON.stringify(response.data, null, 2));
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
 
   const handleVerifyToken = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
+      setLoading(true);
       const response = await axios.post(
         "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/",
         {
@@ -53,8 +36,8 @@ const Verify_SignUp = () => {
       );
 
       if (response.status === 200) {
-        console.log("Great response:", response.data);
-        // Access response.data here for further processing
+        setResponse(response.data);
+        setLoading(false);
       }
     } catch (error: any) {
       console.log("Error:", error.message);
@@ -81,16 +64,29 @@ const Verify_SignUp = () => {
           </h1>
         </div>
         <div>
-          <h1 className="text-2xl text-center">
-            A message has been sent to your email address, verify your account
-            on your email
+          <h1 className="text-2xl py-10 text-center">
+            A message was sent to your email address, click "Verify" button to
+            verify your account.
           </h1>
-          <p>{params.uid}</p>
-          <p>{params.token}</p>
         </div>
         <div>
-          <Button onClick={handleVerifyToken}>Verify</Button>
+          <Button
+            className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
+            onClick={handleVerifyToken}
+          >
+            {loading ? (
+              <Loader2 className="animate-spin text-white" />
+            ) : (
+              <>Submit</>
+            )}
+          </Button>
         </div>
+        {response && (
+          <div className="flex justify-end py-2 gap-x-2">
+            <Check className="text-green-500" />
+            <p>Verified</p>
+          </div>
+        )}
       </div>
     </main>
   );
