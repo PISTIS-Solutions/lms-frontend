@@ -13,7 +13,7 @@ import axios from "axios";
 const Verify_SignUp = () => {
   const router = useRouter();
   const [response, setResponse] = useState<any>();
-  const params = useParams<{ uid: any; token: any }>();
+  const params = useParams<{ uid: string; token: string }>();
 
   // const handleVerifyToken = async () => {
   //   try {
@@ -35,31 +35,60 @@ const Verify_SignUp = () => {
   //   }
   // };
 
+  // const handleVerifyToken = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+
+  //   try {
+  //     const response = await axios.post(
+  //       "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/",
+  //       {
+  //         uid: params.uid,
+  //         token: params.token,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
+
+  //     if (response.status === 200) {
+  //       console.log("Great response:", response.data);
+  //       // Access response.data here for further processing
+  //     }
+  //   } catch (error: any) {
+  //     console.log("Error:", error.message);
+  //   }
+  // };
+
   const handleVerifyToken = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     try {
-      const response = await axios.post(
-        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/",
+      const response = await fetch(
+        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/reset_password_confirm/",
         {
-          uid: params.uid,
-          token: params.token,
-        },
-        {
+          method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({
+            uid: params.uid,
+            token: params.token,
+          }),
         }
       );
-
-      if (response.status === 200) {
-        console.log("Great response:", response.data);
-        // Access response.data here for further processing
+      
+      if (response.ok) {
+        // setModal(true);
+        console.log("successful")
+        console.log('Great response');
       }
     } catch (error: any) {
-      console.log("Error:", error.message);
+      console.log(error.message)
     }
   };
+  
 
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
