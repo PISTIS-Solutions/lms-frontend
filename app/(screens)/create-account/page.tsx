@@ -42,11 +42,9 @@ const SignUp = () => {
           }
         );
         if (response.ok) {
-          console.log("Form data posted successfully");
           setModal(true);
           // router.push("/create-account/activate/[uid]");
         } else {
-          console.error("Failed to post form data");
           setModal(false);
         }
       }
@@ -153,12 +151,12 @@ const SignUp = () => {
             </button>
             {modal && (
               // <div className="w-full h-full absolute bg-red-500 top-0">
-              <div className="flex rounded-md flex-col items-center absolute w-1/2 h-36 bg-white top-[30%]  left-[25%] justify-center text-green-500 shadow-md">
+              <div className="flex rounded-md flex-col items-center absolute w-1/2 h-36 bg-white top-[30%] left-[25%] justify-center text-green-500 shadow-md">
                 <div className="flex">
                   <p className="text-xl">Success</p>
                   <Check />
                 </div>
-                <p>Check your email address for validation</p>
+                <p className="text-center pt-5">Check your email address for validation</p>
               </div>
               // </div>
             )}
