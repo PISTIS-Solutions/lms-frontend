@@ -15,23 +15,49 @@ const Verify_SignUp = () => {
   const [response, setResponse] = useState<any>();
   const params = useParams<{ uid: any; token: any }>();
 
-  const handleVerifyToken = async () => {
+  // const handleVerifyToken = async () => {
+  //   try {
+  //     const url =
+  //       "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/";
+
+  //     console.log("Sending request new...");
+
+  //     const response = await axios.post(url, {
+  //       uid: params.uid,
+  //       token: params.token,
+  //     });
+
+  //     console.log("Response received:", response);
+
+  //     setResponse(JSON.stringify(response.data, null, 2));
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+
+  const handleVerifyToken = async (e: React.FormEvent) => {
+    e.preventDefault();
+
     try {
-      const url =
-        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/";
+      const response = await axios.post(
+        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/",
+        {
+          uid: params.uid,
+          token: params.token,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      console.log("Sending request...");
-
-      const response = await axios.post(url, {
-        uid: params.uid,
-        token: params.token,
-      });
-
-      console.log("Response received:", response);
-
-      setResponse(JSON.stringify(response.data, null, 2));
-    } catch (error) {
-      console.error("Error:", error);
+      if (response.status === 200) {
+        console.log("Great response:", response.data);
+        // Access response.data here for further processing
+      }
+    } catch (error: any) {
+      console.log("Error:", error.message);
     }
   };
 
