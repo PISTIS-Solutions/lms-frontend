@@ -35,57 +35,29 @@ const Verify_SignUp = () => {
   //   }
   // };
 
-  // const handleVerifyToken = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     const response = await axios.post(
-  //       "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/",
-  //       {
-  //         uid: params.uid,
-  //         token: params.token,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
-
-  //     if (response.status === 200) {
-  //       console.log("Great response:", response.data);
-  //       // Access response.data here for further processing
-  //     }
-  //   } catch (error: any) {
-  //     console.log("Error:", error.message);
-  //   }
-  // };
-
   const handleVerifyToken = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/",
         {
-          method: "POST",
+          uid: params.uid,
+          token: params.token,
+        },
+        {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            uid: params.uid,
-            token: params.token,
-          }),
         }
       );
 
-      if (response.ok) {
-        // setModal(true);
-        console.log("successful");
-        console.log("Great response");
+      if (response.status === 200) {
+        console.log("Great response:", response.data);
+        // Access response.data here for further processing
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.log("Error:", error.message);
     }
   };
 
