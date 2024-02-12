@@ -45,6 +45,8 @@ const Completeprofile = () => {
       }
     } catch (error: any) {
       console.error("Error completing profile:", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 

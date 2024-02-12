@@ -31,7 +31,7 @@ const SignIn = () => {
       const url = urls.signin;
 
       // Make the API request
-      const response = await axios.patch(url, {
+      const response = await axios.post(url, {
         email: formStore.email,
         password: formStore.password,
       });
