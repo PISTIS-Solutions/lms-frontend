@@ -23,25 +23,25 @@ const SignIn = () => {
 
     console.log(formStore.email);
     console.log(formStore.password)
-    // try {
-    // if (!containsSpecialCharacters(formStore.password)) {
-    //   throw new Error("Password must contain special characters");
-    // }
-    //   setLoading(false);
-    //   const url = urls.signin;
+    try {
+    if (!containsSpecialCharacters(formStore.password)) {
+      throw new Error("Password must contain special characters");
+    }
+      setLoading(false);
+      const url = urls.signin;
 
-    //   // Make the API request
-    //   const response = await axios.patch(url, {
-    //     email: formStore.email,
-    //     password: formStore.password,
-    //   });
+      // Make the API request
+      const response = await axios.patch(url, {
+        email: formStore.email,
+        password: formStore.password,
+      });
 
-    //   if (response.status === 200) {
-    //     setLoading(true);
-    //   }
-    // } catch (error: any) {
-    //   console.error("Error completing profile:", error.message);
-    // }
+      if (response.status === 200) {
+        setLoading(true);
+      }
+    } catch (error: any) {
+      console.error("Error completing profile:", error.message);
+    }
   };
 
   function containsSpecialCharacters(str: string): boolean {
