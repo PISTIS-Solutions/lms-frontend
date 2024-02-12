@@ -14,8 +14,9 @@ import { urls } from "@/utils/config";
 
 const Verify_SignUp = () => {
   const router = useRouter();
-  const [response, setResponse] = useState<object>();
+  const [response, setResponse] = useState<any>();
   const [loading, setLoading] = useState<any>();
+  const [used, setUsed] = useState<string>();
   const params = useParams<{ uid: string; token: string }>();
 
   const handleVerifyToken = async (e: React.FormEvent) => {
@@ -39,6 +40,11 @@ const Verify_SignUp = () => {
       if (response.status === 200) {
         setResponse(response.data);
         setLoading(false);
+        localStorage.setItem("user_id", response.data.user_id);
+        router.replace("/create-account/complete-profile")
+      }
+      if (response.status === 403) {
+        setUsed("Email already verified");
       }
     } catch (error: any) {
       console.log("Error:", error.message);
@@ -82,7 +88,12 @@ const Verify_SignUp = () => {
             )}
           </Button>
         </div>
-        {response && (
+        {used && (
+          <div>
+            <p className="text-right text-red-500">Email Already Verified</p>
+          </div>
+        )}
+        {response?.is_active && (
           <div className="flex justify-end py-2 gap-x-2">
             <Check className="text-green-500" />
             <p>Verified</p>

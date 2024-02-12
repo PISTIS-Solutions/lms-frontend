@@ -4,54 +4,51 @@ import React, { useState } from "react";
 import Image from "next/image";
 
 import logo from "../../../public/assets/pistis_logo.png";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, KeyRound, Mail } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Eye, EyeOff, KeyRound, Loader2, Mail } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 // import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
-
-const formSchema = z.object({
-  Email: z.string().min(2, {
-    message: "Input correct email address",
-  }),
-  Password: z.string().min(6, {
-    message: "Password must contain a minimum of 6 characters",
-  }),
-});
+import useLoginFormStore from "@/store/sign-in-store";
+import axios from "axios";
+import { urls } from "@/utils/config";
 
 const SignIn = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      Email: "",
-      Password: "",
-    },
-  });
+  const formStore = useLoginFormStore();
+  const route = useRouter();
+  const [loading, setLoading] = useState<boolean>();
 
-  //toggle password
-  const [showPassword, setShowPassword] = useState(true);
-  const togglePassword = () => {
-    setShowPassword((prev) => !prev);
+  const onsubmitLogin = async (e: any) => {
+    e.preventDefault();
+
+    console.log(formStore.email);
+    console.log(formStore.password)
+    // try {
+    // if (!containsSpecialCharacters(formStore.password)) {
+    //   throw new Error("Password must contain special characters");
+    // }
+    //   setLoading(false);
+    //   const url = urls.signin;
+
+    //   // Make the API request
+    //   const response = await axios.patch(url, {
+    //     email: formStore.email,
+    //     password: formStore.password,
+    //   });
+
+    //   if (response.status === 200) {
+    //     setLoading(true);
+    //   }
+    // } catch (error: any) {
+    //   console.error("Error completing profile:", error.message);
+    // }
   };
 
-  const route = useRouter();
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
-    // setCookie("logged", "true");
-    route.push("/dashboard");
+  function containsSpecialCharacters(str: string): boolean {
+    const specialCharacters = /[!@#$%^&*()_+[\]{};':"\\|,.<>/?]/;
+    return specialCharacters.test(str);
   }
+
   return (
     <main className="bg-form-back h-screen w-full bg-no-repeat bg-cover relative">
       <div className="bg-white w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-10">
@@ -63,76 +60,61 @@ const SignIn = () => {
           <h3 className="text-2xl">Glad to have you back!</h3>
         </div>
         <div>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-              <FormField
-                control={form.control}
-                name="Email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xl font-medium">
-                      Email Address
-                    </FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
-                        <Input
-                          type="email"
-                          className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-6"
-                          placeholder="example@gmail.com"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+          <form onSubmit={onsubmitLogin} className="space-y-3">
+            <div>
+              <label className="text-[#3E3E3E] text-xl">Email Address</label>
+              <div className="relative">
+                <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                <input
+                  type="email"
+                  className="py-4 bg-[#FAFAFA] w-full placeholder:text-[#4F5B67] rounded-[6px] indent-10"
+                  placeholder="example@gmail.com"
+                  value={formStore.email}
+                  onChange={(e) => formStore.setField("email", e.target.value)}
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-[#3E3E3E] text-xl">Password</label>
+              <div className="relative">
+                <KeyRound className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                {formStore.showPassword ? (
+                  <Eye
+                    onClick={formStore.togglePassword}
+                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+                  />
+                ) : (
+                  <EyeOff
+                    onClick={formStore.togglePassword}
+                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+                  />
                 )}
-              />
-              <FormField
-                control={form.control}
-                name="Password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xl font-medium">
-                      Password
-                    </FormLabel>
-                    <FormControl>
-                      <div className="relative">
-                        <KeyRound className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
-                        {showPassword ? (
-                          <Eye
-                            onClick={togglePassword}
-                            className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
-                          />
-                        ) : (
-                          <EyeOff
-                            onClick={togglePassword}
-                            className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
-                          />
-                        )}
-                        <Input
-                          type={showPassword ? "password" : "text"}
-                          className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-6"
-                          placeholder="Password"
-                          {...field}
-                        />
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <p className="text-[#3E3E3E] text-base text-right">
-                <Link href="/sign-in/forgot-password">Forgot Password?</Link>
-              </p>
-              <Button
-                type="submit"
-                className="w-full bg-[#33CC99] py-6 font-medium text-2xl text-black hover:text-white"
-              >
-                Sign In
-              </Button>
-            </form>
-          </Form>
+                <input
+                  type={formStore.showPassword ? "text" : "password"}
+                  className="py-4 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-10 w-full"
+                  placeholder="Password"
+                  value={formStore.password}
+                  onChange={(e) =>
+                    formStore.setField("password", e.target.value)
+                  }
+                />
+              </div>
+            </div>
+            <p className="text-[#3E3E3E] text-base text-right">
+              <Link href="/sign-in/forgot-password">Forgot Password?</Link>
+            </p>
+            {/* <p className="text-red-500 text-center">{specialCharacterErr}</p> */}
+            <button
+              type="submit"
+              className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
+            >
+              {loading ? (
+                <Loader2 className="animate-spin text-white" />
+              ) : (
+                <>Sign In</>
+              )}
+            </button>
+          </form>
         </div>
         <div>
           <p className="text-center text-lg font-normal ">

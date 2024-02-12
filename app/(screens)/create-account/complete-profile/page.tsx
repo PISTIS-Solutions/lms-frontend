@@ -1,67 +1,51 @@
 "use client";
-import { useForm } from "react-hook-form";
-
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import logo from "../../../../public/assets/pistis_logo.png";
-
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { ScrollArea } from "@/components/ui/scroll-area";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import Link from "next/link";
 import { nigerianStates } from "@/data";
-import { MapPin } from "lucide-react";
 
 import Fulllogo from "@/public/assets/full-logo.png";
 import useFormStore from "@/store/create-account";
 import { useRouter } from "next/navigation";
-
-// const formSchema = z.object({
-//   Fullname: z.string().min(2, {
-//     message: "Input Full name",
-//   }),
-//   Phone: z.string().refine((value) => /^(\+)?\d+$/.test(value), {
-//     message: "Phone number must be a number",
-//   }),
-//   location: z.string({
-//     required_error: "Please select a location.",
-//   }),
-// });
+import axios from "axios";
+import { Loader2 } from "lucide-react";
 
 const Completeprofile = () => {
   const formStore = useFormStore();
-  const router = useRouter();
-  // const form = useForm<z.infer<typeof formSchema>>({
-  //   resolver: zodResolver(formSchema),
-  //   defaultValues: {
-  //     Fullname: formStore.Fullname,
-  //     Phone: formStore.Phone,
-  //     location: formStore.location,
-  //   },
-  // });
+  const [loading, setLoading] = useState<boolean>();
+  const [success, setSuccess] = useState<boolean>(false);
 
-  const onSubmit = (e: any) => {
+  const router = useRouter();
+
+  const onSubmitCompleteProfile = async (e: any) => {
     e.preventDefault();
-   
+    try {
+      setLoading(false);
+      const user_id = localStorage.getItem("user_id");
+
+      if (!user_id) {
+        console.error("User ID not found in local storage.");
+        return;
+      }
+
+      const url = `https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/${user_id}/complete_profile/`;
+
+      // Make the API request
+      const response = await axios.patch(url, {
+        full_name: formStore.Fullname,
+        phone_number: formStore.Phone,
+        location: formStore.location,
+      });
+
+      if (response.status === 200) {
+        setSuccess(true);
+        setLoading(true);
+      }
+    } catch (error: any) {
+      console.error("Error completing profile:", error.message);
+    }
   };
 
   return (
@@ -86,8 +70,15 @@ const Completeprofile = () => {
             Please provide personal details
           </h3>
         </div>
+        <div>
+          {success && (
+            <p className="text-center text-green-500">
+              Profile Successfully Created!
+            </p>
+          )}
+        </div>
         <div className="px-2 md:px-0">
-          <form onSubmit={onSubmit} className="space-y-3">
+          <form onSubmit={onSubmitCompleteProfile} className="space-y-3">
             <div>
               <label className="md:text-xl text-sm font-medium">
                 Full name
@@ -134,9 +125,13 @@ const Completeprofile = () => {
 
             <button
               type="submit"
-              className="w-full bg-[#33CC99] py-4 rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
+              className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
             >
-              Proceed
+              {loading ? (
+                <Loader2 className="animate-spin text-white" />
+              ) : (
+                <>Proceed</>
+              )}
             </button>
           </form>
         </div>
