@@ -7,6 +7,7 @@ import { useParams, useRouter } from "next/navigation";
 import logo from "@/public/assets/pistis_logo.png";
 import { Mail, KeyRound, Eye, EyeOff, Loader2 } from "lucide-react";
 import useForgotPassStore from "@/store/forgot-password";
+import { urls } from "@/utils/config";
 
 const NewPassword = () => {
   const passwordStore = useForgotPassStore();
@@ -28,7 +29,7 @@ const NewPassword = () => {
         }
         setLoading(true);
         const response = await fetch(
-          "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/reset_password_confirm/",
+          urls.changePassword,
           {
             method: "POST",
             headers: {

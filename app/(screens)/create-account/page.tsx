@@ -10,6 +10,7 @@ import Link from "next/link";
 import useFormStore from "../../../store/create-account";
 
 import Fulllogo from "@/public/assets/full-logo.png";
+import { urls } from "@/utils/config";
 
 const SignUp = () => {
   const formStore = useFormStore();
@@ -28,7 +29,7 @@ const SignUp = () => {
         }
         setLoading(true);
         const response = await fetch(
-          "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/",
+          urls.signup,
           {
             method: "POST",
             headers: {

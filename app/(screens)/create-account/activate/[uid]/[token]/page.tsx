@@ -10,6 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import Fulllogo from "@/public/assets/full-logo.png";
 import axios from "axios";
 import { Check, Loader2 } from "lucide-react";
+import { urls } from "@/utils/config";
 
 const Verify_SignUp = () => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const Verify_SignUp = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/activation/",
+        urls.activateEmail,
         {
           uid: params.uid,
           token: params.token,
