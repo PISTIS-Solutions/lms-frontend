@@ -10,6 +10,7 @@ import Link from "next/link";
 import useFormStore from "../../../store/create-account";
 
 import Fulllogo from "@/public/assets/full-logo.png";
+import { urls } from "@/utils/config";
 
 const SignUp = () => {
   const formStore = useFormStore();
@@ -27,20 +28,17 @@ const SignUp = () => {
           throw new Error("Password must contain special characters");
         }
         setLoading(true);
-        const response = await fetch(
-          "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: formStore.email,
-              password: formStore.password,
-              re_password: formStore.confirm,
-            }),
-          }
-        );
+        const response = await fetch(urls.signup, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: formStore.email,
+            password: formStore.password,
+            re_password: formStore.confirm,
+          }),
+        });
         if (response.ok) {
           setModal(true);
           // router.push("/create-account/activate/[uid]");
@@ -80,59 +78,72 @@ const SignUp = () => {
         </div>
         <div className="px-2 md:px-0">
           <form onSubmit={onSubmit} className="space-y-3">
-            <div className="relative">
-              <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
-              <input
-                type="email"
-                className="py-4 bg-[#FAFAFA] w-full placeholder:text-[#4F5B67] rounded-[6px] indent-10"
-                placeholder="example@gmail.com"
-                value={formStore.email}
-                onChange={(e) => formStore.setField("email", e.target.value)}
-              />
+            <div>
+              <label className="text-[#3E3E3E] text-xl">Email Address</label>
+              <div className="relative">
+                <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                <input
+                  type="email"
+                  className="py-4 bg-[#FAFAFA] w-full placeholder:text-[#4F5B67] rounded-[6px] indent-10"
+                  placeholder="example@gmail.com"
+                  value={formStore.email}
+                  onChange={(e) => formStore.setField("email", e.target.value)}
+                />
+              </div>
             </div>
 
-            <div className="relative">
-              <KeyRound className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
-              {formStore.showPassword ? (
-                <Eye
-                  onClick={formStore.togglePassword}
-                  className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+            <div>
+              <label className="text-[#3E3E3E] text-xl">Create Password</label>
+              <div className="relative">
+                <KeyRound className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                {formStore.showPassword ? (
+                  <Eye
+                    onClick={formStore.togglePassword}
+                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+                  />
+                ) : (
+                  <EyeOff
+                    onClick={formStore.togglePassword}
+                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+                  />
+                )}
+                <input
+                  type={formStore.showPassword ? "text" : "password"}
+                  className="py-4 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-10 w-full"
+                  placeholder="Password"
+                  value={formStore.password}
+                  onChange={(e) =>
+                    formStore.setField("password", e.target.value)
+                  }
                 />
-              ) : (
-                <EyeOff
-                  onClick={formStore.togglePassword}
-                  className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
-                />
-              )}
-              <input
-                type={formStore.showPassword ? "text" : "password"}
-                className="py-4 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-10 w-full"
-                placeholder="Password"
-                value={formStore.password}
-                onChange={(e) => formStore.setField("password", e.target.value)}
-              />
+              </div>
             </div>
 
-            <div className="relative">
-              <KeyRound className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
-              {formStore.showConfirmPassword ? (
-                <Eye
-                  onClick={formStore.toggleConfirmPassword}
-                  className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+            <div>
+              <label className="text-[#3E3E3E] text-xl">Confirm Password</label>
+              <div className="relative">
+                <KeyRound className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                {formStore.showConfirmPassword ? (
+                  <Eye
+                    onClick={formStore.toggleConfirmPassword}
+                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+                  />
+                ) : (
+                  <EyeOff
+                    onClick={formStore.toggleConfirmPassword}
+                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+                  />
+                )}
+                <input
+                  type={formStore.showConfirmPassword ? "text" : "password"}
+                  className="py-4 w-full bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-10"
+                  placeholder="Confirm Password"
+                  value={formStore.confirm}
+                  onChange={(e) =>
+                    formStore.setField("confirm", e.target.value)
+                  }
                 />
-              ) : (
-                <EyeOff
-                  onClick={formStore.toggleConfirmPassword}
-                  className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
-                />
-              )}
-              <input
-                type={formStore.showConfirmPassword ? "text" : "password"}
-                className="py-4 w-full bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-10"
-                placeholder="Confirm Password"
-                value={formStore.confirm}
-                onChange={(e) => formStore.setField("confirm", e.target.value)}
-              />
+              </div>
             </div>
 
             <p className="text-[#3E3E3E] text-xs md:text-base text-right">
@@ -156,7 +167,9 @@ const SignUp = () => {
                   <p className="text-xl">Success</p>
                   <Check />
                 </div>
-                <p className="text-center pt-5 w-full">Check your email address for validation</p>
+                <p className="text-center pt-5 w-full">
+                  Check your email address for validation
+                </p>
               </div>
               // </div>
             )}

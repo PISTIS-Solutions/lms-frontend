@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 import SideNav from "@/components/side-comp/side-nav";
 import React, { useState } from "react";
 
