@@ -21,10 +21,10 @@ const SignIn = () => {
   const onsubmitLogin = async (e: any) => {
     e.preventDefault();
     try {
+      setLoading(true);
       if (!containsSpecialCharacters(formStore.password)) {
         throw new Error("Password must contain special characters");
       }
-      setLoading(false);
       const url = urls.signin;
 
       // Make the API request
@@ -34,7 +34,7 @@ const SignIn = () => {
       });
 
       if (response.status === 200) {
-        setLoading(true);
+        
         route.replace("/dashboard");
         localStorage.setItem("user_details", response.data);
       }

@@ -22,16 +22,16 @@ const Completeprofile = () => {
   const onSubmitCompleteProfile = async (e: any) => {
     e.preventDefault();
     try {
-      setLoading(false);
       const user_id = localStorage.getItem("user_id");
-
+      
       if (!user_id) {
         console.error("User ID not found in local storage.");
         return;
       }
-
+      
       const url = `https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/${user_id}/complete_profile/`;
-
+      
+      setLoading(true);
       // Make the API request
       const response = await axios.patch(url, {
         full_name: formStore.Fullname,
@@ -41,7 +41,8 @@ const Completeprofile = () => {
 
       if (response.status === 200) {
         setSuccess(true);
-        setLoading(true);
+        // setLoading(true);
+        router.push("/sign-in")
       }
     } catch (error: any) {
       console.error("Error completing profile:", error.message);
