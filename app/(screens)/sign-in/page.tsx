@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 
 import logo from "../../../public/assets/pistis_logo.png";
-import { Eye, EyeOff, KeyRound, Loader2, Mail } from "lucide-react";
+import { Eye, EyeOff, KeyRound, Loader2, Mail, Router } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 // import { setCookie } from "cookies-next";
@@ -20,13 +20,10 @@ const SignIn = () => {
 
   const onsubmitLogin = async (e: any) => {
     e.preventDefault();
-
-    console.log(formStore.email);
-    console.log(formStore.password)
     try {
-    if (!containsSpecialCharacters(formStore.password)) {
-      throw new Error("Password must contain special characters");
-    }
+      if (!containsSpecialCharacters(formStore.password)) {
+        throw new Error("Password must contain special characters");
+      }
       setLoading(false);
       const url = urls.signin;
 
@@ -38,9 +35,13 @@ const SignIn = () => {
 
       if (response.status === 200) {
         setLoading(true);
+        route.replace("/dashboard");
+        localStorage.setItem("user_details", response.data);
       }
     } catch (error: any) {
       console.error("Error completing profile:", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
