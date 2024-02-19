@@ -6,8 +6,6 @@ import Image from "next/image";
 import logo from "../../../public/assets/pistis_logo.png";
 import { Eye, EyeOff, KeyRound, Loader2, Mail, Router } from "lucide-react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-// import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import useLoginFormStore from "@/store/sign-in-store";
 import axios from "axios";
@@ -34,9 +32,8 @@ const SignIn = () => {
       });
 
       if (response.status === 200) {
-        
         route.replace("/dashboard");
-        localStorage.setItem("user_details", response.data);
+        localStorage.setItem("token", response.data.access);
       }
     } catch (error: any) {
       console.error("Error completing profile:", error.message);

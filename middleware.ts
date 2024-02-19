@@ -1,17 +1,33 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
- 
-export function middleware(request: NextRequest) {
-  console.log ('Middlewear')
-  console.log(request.method)
-  console.log(request.url)
-  
-  const origin = request.headers.get('origin')
-  console.log(origin)
+import { isAuthenticated } from "@/utils/isAuth";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-  return NextResponse.next()
+const protectedRoutes = [
+  "/dashboard",
+  "/courses",
+  "/courses/modules",
+  "/courses/modules/[content]",
+  "/grading",
+  "/log-out",
+  "/project",
+  "/project/[project]",
+  "/settings",
+];
+
+export default function middleware(req: NextRequest) {
+  if (
+    !isAuthenticated &&
+    isProtectedRoute(req.nextUrl.pathname, protectedRoutes)
+  ) {
+    const absoluteURL = new URL("/sign-in", req.nextUrl.origin);
+    return NextResponse.redirect(absoluteURL.toString());
+  }
 }
 
-export const config = {
-  matcher: '/app/:path*'
+//for dynamic routes e.g "/courses/modules/[content e.g 1]"
+function isProtectedRoute(path: string, protectedRoutes: string[]): boolean {
+  return protectedRoutes.some((route) => {
+    const regex = new RegExp(`^${route.replace(/\[.*\]/, ".*")}$`);
+    return regex.test(path);
+  });
 }
