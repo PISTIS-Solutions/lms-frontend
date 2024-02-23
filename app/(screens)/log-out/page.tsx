@@ -24,14 +24,19 @@ const LogOut = () => {
           </div>
         </div>
         <div className="h-screen flex justify-center items-center ">
-          <div className="lg:w-1/3 w-1/2 flex justify-center flex-col gap-y-5 p-4 items-center h-auto bg-white shadow-md rounded-[8px]">
+          <div className="lg:w-[642px] w-1/2 flex justify-center flex-col gap-y-5 p-4 items-center h-auto bg-white shadow-md rounded-[8px]">
             <Image src={sad} alt="don't log out" />
-            <p className="text-sm lg:text-xl text-center">
-              It’s sad to see you go <br /> Are you sure about this?
+            <p className="text-sm lg:text-lg text-center">
+              Are you sure you want to log out?
             </p>
-            <Button className="bg-sub rounded-[8px] py-4 px-6 w-full lg:w-1/2 text-xl hover:bg-main hover:text-white">
-              Confirm
+            <div className="">
+            <Button className="bg-[] rounded-[8px] mr-[43px] py-4 px-6 text-sm border-2 border-solid border-[#3c9] hover:bg-main hover:text-white text-black">
+              Stay Logged In
             </Button>
+            <Button className="bg-sub rounded-[8px] py-4 px-6 text-sm hover:bg-main hover:text-white text-black">
+              Yes, Log Out.
+            </Button>
+            </div>
           </div>
         </div>
       </div>

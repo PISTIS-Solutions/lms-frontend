@@ -16,6 +16,8 @@ import gitops from "@/public/assets/course/gitops.png";
 import TestimonialCard from "@/components/side-comp/testimony-card";
 import avatar from "@/public/assets/avatar.png";
 import ansible from "@/public/assets/course/ansible.png";
+import vectorb from "@/public/assets/vector-b.png";
+import vectorg from "@/public/assets/vector-g.png";
 
 import Coursecard from "@/components/side-comp/course-card";
 import LandingCard from "@/components/side-comp/landing-card";
@@ -42,4 +44,6 @@ export {
   Coursecard,
   LandingCard,
   NavigationBar,
+  vectorb,
+  vectorg,
 };
