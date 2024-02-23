@@ -5,4 +5,5 @@ export const urls = {
   changePassword: `${baseURL}/users/student/reset_password_confirm/`,
   activateEmail: `${baseURL}/users/student/activation/`,
   signin: `${baseURL}/jwt/create/`,
+  resetPassword: `${baseURL}/users/student/reset_password/`
 };

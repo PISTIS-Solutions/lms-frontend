@@ -20,6 +20,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { urls } from "@/utils/config";
 
 const formSchema = z.object({
   Email: z.string().min(2, {
@@ -42,8 +43,7 @@ const ForgotPassword = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const email = values.Email;
     try {
-      const url =
-        "https://pistis-lms-backend.onrender.com/api/v1/auth/users/student/reset_password/";
+      const url = urls.resetPassword;
       await axios.post(url, { email });
       router.push("/sign-in/forgot-password/verify");
     } catch (error) {
@@ -86,7 +86,9 @@ const ForgotPassword = () => {
                           placeholder="example@gmail.com"
                           {...field}
                         />
-                        {Unsuccess && <p className="text-red-500 font-bold">Unsuccessful</p>}
+                        {Unsuccess && (
+                          <p className="text-red-500 font-bold">Unsuccessful</p>
+                        )}
                       </div>
                     </FormControl>
                     <FormMessage />
