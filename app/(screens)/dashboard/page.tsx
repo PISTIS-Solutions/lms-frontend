@@ -1,4 +1,4 @@
- "use client";
+"use client";
 import SideNav from "@/components/side-comp/side-nav";
 import React, { useState } from "react";
 
@@ -18,6 +18,8 @@ import { FaArrowRight } from "react-icons/fa6";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import ProjectReview from "@/components/side-comp/project-review-table";
+
+import { vectorb, vectorg } from "../../index";
 
 const tags = [
   "Project submission by Femi Oyewale",
@@ -75,11 +77,19 @@ const Dashboard = () => {
         <div className="">
           <div className="grid grid-cols-1 lg:grid-cols-10 p-4">
             <div className=" col-span-1 lg:col-span-7">
-              <div className="w-[98%] rounded-[8px] bg-white py-10 px-5 shadow-md mr-5 mb-2">
-                <h1 className="text-xl md:text-2xl font-semibold">Welcome Beatrice</h1>
-                <p className="md:text-base text-sm">
-                  Complete your course and take a step further
-                </p>
+              <div className="w-[98%] rounded-[8px] bg-white md:h-[133px] h-[128px] flex justify-between pl-5 shadow-md mr-5 mb-2">
+                <div className="md:mt-[38px] mt-[30px]">
+                  <h1 className="text-xl md:text-2xl font-semibold">
+                    Welcome Beatrice
+                  </h1>
+                  <p className="md:text-base text-sm">
+                    Complete your course and take a step further💪
+                  </p>
+                </div>
+                <div className="">
+                  <Image src={vectorg} alt="" priority className="z-10 relative" />
+                  <Image src={vectorb} alt="" priority className="relative md:bottom-[101px] bottom-[65px] md:left-[23px]" />
+                </div>
               </div>
               <div className="lg:flex block justify-between gap-0 md:gap-5 pr-4">
                 <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-sub flex items-center justify-between px-5">
@@ -112,13 +122,20 @@ const Dashboard = () => {
               </div>
               <div className="w-[98%] bg-white shadow-md rounded-[8px] p-5 mr-5 my-3">
                 <div className="flex justify-between items-end">
-                  <h1 className="text-md md:text-xl font-semibold">My Courses</h1>
-                  <p className="underline text-main text-xs md:text-sm">View all</p>
+                  <h1 className="text-md md:text-xl font-semibold">
+                    My Courses
+                  </h1>
+                  <p className="underline text-main text-xs md:text-sm">
+                    View all
+                  </p>
                 </div>
-                <div className="md:flex flex-wrap justify-between my-5">
+                <div className="md:flex justify-between my-5">
                   {courseList.map((course, index) => {
                     return (
-                      <div key={index} className="rounded-[8px] my-2 md:my-0 relative bg-[#F8F9FF] w-[242px] h-[234px]">
+                      <div
+                        key={index}
+                        className="rounded-[8px] mr-[12px] my-2 md:my-0 relative bg-[#F8F9FF] w-[242px] h-[234px]"
+                      >
                         <div>
                           <Image src={course.image} alt={course.courseTitle} />
                         </div>
@@ -148,7 +165,7 @@ const Dashboard = () => {
             <div className="col-span-3">
               <div className="bg-white h-[370px] md:h-[400px] rounded-[8px] p-2 shadow-sm ">
                 <h1 className="md:text-2xl text-lg font-medium mb-4">
-                  Pending Grading
+                  Your Activity
                 </h1>
                 <div>
                   <ScrollArea className="w-full h-[300px] md:h-[320px] rounded-md">
