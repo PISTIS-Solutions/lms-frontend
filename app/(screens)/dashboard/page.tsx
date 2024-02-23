@@ -19,6 +19,8 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import ProjectReview from "@/components/side-comp/project-review-table";
 
+import { vectorb, vectorg } from "../../index";
+
 const tags = [
   "Project submission by Femi Oyewale",
   "Project submission by Femi Oyewale",
@@ -75,21 +77,18 @@ const Dashboard = () => {
         <div className="">
           <div className="grid grid-cols-1 lg:grid-cols-10 p-4">
             <div className=" col-span-1 lg:col-span-7">
-              <div className="w-[98%] rounded-[8px] bg-white py-10 px-5 shadow-md mr-5 mb-2">
-                <h1 className="text-xl md:text-2xl font-semibold">
-                  Welcome Beatrice
-                </h1>
-                <p className="md:text-base text-sm">
-                  Complete your course and take a step further
-                </p>
-                <div className="vector">
-
-                <div className="w-[135.577px] h-[119.437px] rotate-45 bg-[#3C9] rounded-lg">
-                  hi
+              <div className="w-[98%] rounded-[8px] bg-white md:h-[133px] h-[128px] flex justify-between pl-5 shadow-md mr-5 mb-2">
+                <div className="md:mt-[38px] mt-[30px]">
+                  <h1 className="text-xl md:text-2xl font-semibold">
+                    Welcome Beatrice
+                  </h1>
+                  <p className="md:text-base text-sm">
+                    Complete your course and take a step further💪
+                  </p>
                 </div>
-                <div className="w-[191.686px] h-[134.639px] rotate-45 bg-[#006] rounded-lg">
-                  hi
-                </div>
+                <div className="">
+                  <Image src={vectorg} alt="" priority className="z-10 relative" />
+                  <Image src={vectorb} alt="" priority className="relative md:bottom-[101px] bottom-[65px] md:left-[23px]" />
                 </div>
               </div>
               <div className="lg:flex block justify-between gap-0 md:gap-5 pr-4">
