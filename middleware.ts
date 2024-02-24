@@ -1,6 +1,7 @@
-import { isAuthenticated } from "@/utils/isAuth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+// import Cookies from "js-cookie";
+import { cookies } from "next/headers";
 
 const protectedRoutes = [
   "/dashboard",
@@ -15,6 +16,8 @@ const protectedRoutes = [
 ];
 
 export default function middleware(req: NextRequest) {
+  const tokenPresent = cookies().get("authToken")?.value;
+  const isAuthenticated = tokenPresent !== undefined ? true : false;
   if (
     !isAuthenticated &&
     isProtectedRoute(req.nextUrl.pathname, protectedRoutes)
@@ -22,6 +25,8 @@ export default function middleware(req: NextRequest) {
     const absoluteURL = new URL("/sign-in", req.nextUrl.origin);
     return NextResponse.redirect(absoluteURL.toString());
   }
+
+  return NextResponse.next();
 }
 
 //for dynamic routes e.g "/courses/modules/[content e.g 1]"
