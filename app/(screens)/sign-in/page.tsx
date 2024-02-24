@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import useLoginFormStore from "@/store/sign-in-store";
 import axios from "axios";
 import { urls } from "@/utils/config";
+import Cookies from "js-cookie";
 
 const SignIn = () => {
   const formStore = useLoginFormStore();
@@ -32,8 +33,9 @@ const SignIn = () => {
       });
 
       if (response.status === 200) {
+        Cookies.set("authToken", response.data.access);
+        Cookies.set("refreshToken", response.data.refresh);
         route.replace("/dashboard");
-        localStorage.setItem("token", response.data.access);
       }
     } catch (error: any) {
       console.error("Error completing profile:", error.message);
