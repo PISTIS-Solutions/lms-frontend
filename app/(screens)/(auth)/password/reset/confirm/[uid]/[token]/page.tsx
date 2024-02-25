@@ -21,28 +21,24 @@ const NewPassword = () => {
   //submit function
   const onSubmitChangePassword = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       if (passwordStore.password === passwordStore.confirm) {
         if (!containsSpecialCharacters(passwordStore.password)) {
           throw new Error("Password must contain special characters");
         }
         setLoading(true);
-        const response = await fetch(
-          urls.changePassword,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              uid: params.uid,
-              token: params.token,
-              password: passwordStore.password,
-              re_password: passwordStore.confirm,
-            }),
-          }
-        );
+        const response = await fetch(urls.changePassword, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            uid: params.uid,
+            token: params.token,
+            new_password: passwordStore.password,
+            re_new_password: passwordStore.confirm,
+          }),
+        });
         if (response.ok) {
           setModal(true);
           // router.push("/create-account/activate/[uid]");
@@ -126,7 +122,11 @@ const NewPassword = () => {
               />
             </div>
             <div>
-              {modal && <p className="text-green-500 text-md text-center">Password Changed Successfully</p>}
+              {modal && (
+                <p className="text-green-500 text-md text-center">
+                  Password Changed Successfully
+                </p>
+              )}
               <p className="text-red-500 text-center">{specialCharacterErr}</p>
               {passwordStore.password != passwordStore.confirm ? (
                 <p className="text-red-500 text-center">
