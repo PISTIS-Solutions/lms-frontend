@@ -51,23 +51,29 @@ const SignIn = () => {
 
   return (
     <main className="bg-form-back h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-[100%] sm:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-10">
+      <div className="bg-white w-[100%] sm:w-[50%] h-screen rounded-none md:rounded-tl-[40px] md:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-10">
         <div className="flex justify-end">
           <Image src={logo} alt="pistis_logo" className="" priority />
         </div>
         <div className="">
-          <h1 className="text-4xl font-semibold">Sign In</h1>
-          <h3 className="text-2xl">Glad to have you back!</h3>
+          <h1 className="md:text-4xl sm:text-2xl text-xl font-semibold">
+            Sign In
+          </h1>
+          <h3 className="md:text-2xl sm:text-lg text-base">
+            Glad to have you back!
+          </h3>
         </div>
         <div>
-          <form onSubmit={onsubmitLogin} className="space-y-3">
+          <form onSubmit={onsubmitLogin} className="space-y-2">
             <div>
-              <label className="text-[#3E3E3E] text-xl">Email Address</label>
+              <label className="text-[#3E3E3E] md:text-xl text-base sm:text-sm">
+                Email Address
+              </label>
               <div className="relative">
-                <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                <Mail className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
                 <input
                   type="email"
-                  className="py-4 bg-[#FAFAFA] w-full placeholder:text-[#4F5B67] rounded-[6px] indent-10"
+                  className="py-4 bg-[#FAFAFA] w-full text-xs md:text-base placeholder:text-[#4F5B67] rounded-[6px] indent-7"
                   placeholder="example@gmail.com"
                   value={formStore.email}
                   onChange={(e) => formStore.setField("email", e.target.value)}
@@ -75,9 +81,11 @@ const SignIn = () => {
               </div>
             </div>
             <div>
-              <label className="text-[#3E3E3E] text-xl">Password</label>
+              <label className="text-[#3E3E3E] md:text-xl text-base sm:text-sm">
+                Password
+              </label>
               <div className="relative">
-                <KeyRound className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                <KeyRound className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
                 {formStore.showPassword ? (
                   <Eye
                     onClick={formStore.togglePassword}
@@ -91,7 +99,7 @@ const SignIn = () => {
                 )}
                 <input
                   type={formStore.showPassword ? "text" : "password"}
-                  className="py-4 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-10 w-full"
+                  className="py-4 bg-[#FAFAFA] text-xs md:text-base  placeholder:text-[#4F5B67] rounded-[6px] indent-7 w-full"
                   placeholder="Password"
                   value={formStore.password}
                   onChange={(e) =>
@@ -100,11 +108,12 @@ const SignIn = () => {
                 />
               </div>
             </div>
-            <p className="text-[#3E3E3E] text-base text-right">
+            <p className="text-[#3E3E3E] text-sm md:text-base text-right">
               <Link href="/sign-in/forgot-password">Forgot Password?</Link>
             </p>
             {/* <p className="text-red-500 text-center">{specialCharacterErr}</p> */}
             <button
+              disabled={loading}
               type="submit"
               className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
             >
@@ -117,9 +126,11 @@ const SignIn = () => {
           </form>
         </div>
         <div>
-          <p className="text-center text-lg font-normal ">
+          <p className="text-center text-base md:text-lg font-normal ">
             Don't have an account?{" "}
-            <Link href="/create-account">Create Account</Link>
+            <Link className="text-main font-semibold" href="/create-account">
+              Create Account
+            </Link>
           </p>
         </div>
       </div>
