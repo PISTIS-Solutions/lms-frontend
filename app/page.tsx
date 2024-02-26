@@ -158,14 +158,14 @@ export default function Home() {
       </section>
       <section className="bg-[#FAFAFD] ">
         <div className="py-7">
-          <p className="text-[#7d7d7d] z-10 text-xs sm:text-lg md:text-2xl font-medium text-center">
+          <p className="text-[#7d7d7d] z-10 text-xs sm:text-lg md:text-2xl font-medium text-center px-[40px]">
             TESTIMONIALS
           </p>
           <h1 className="md:text-4xl z-20 sm:text-xl text-lg  text-center font-bold">
             What Our Students Say
           </h1>
         </div>
-        <div className="flex flex-wrap gap-5 justify-around py-16 px-2 items-center">
+        <div className="flex flex-wrap justify-around py-16 px-[40px] items-center">
           <TestimonialCard
             avatar={avatar}
             name="Sylvia Okoro"
@@ -187,7 +187,7 @@ export default function Home() {
         <h1 className="mb-5 text-xl sm:text-2xl md:text-4xl text-center font-bold">
           Our Popular courses
         </h1>
-        <div className="relative mx-5 lg:mx-40">
+        <div className="relative md:mr-[169px] md:ml-[169px] lg:mx-40">
           <div className="grid px-2 grid-cols-1 md:grid-cols-2 place-items-center xl:grid-cols-3 gap-[16px]">
             <Coursecard
               image={ansible}

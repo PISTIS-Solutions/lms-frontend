@@ -163,12 +163,12 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="col-span-3">
-              <div className="bg-white h-[370px] md:h-[400px] rounded-[8px] p-2 shadow-sm ">
+              <div className="bg-white h-[370px] md:h-[285px] rounded-[8px] p-2 shadow-sm ">
                 <h1 className="md:text-2xl text-lg font-medium mb-4">
                   Your Activity
                 </h1>
                 <div>
-                  <ScrollArea className="w-full h-[300px] md:h-[320px] rounded-md">
+                  <ScrollArea className="w-full h-[300px] md:h-[200px] rounded-md">
                     <div>
                       {tags.map((tag, index) => (
                         <>
@@ -189,6 +189,7 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="border-md bg-white rounded-[8px] p-2 h-1/2 w-auto mt-2">
+                <h1 className="text-xl">Progress Report</h1>
                 <Doughnut data={data} />
               </div>
             </div>
