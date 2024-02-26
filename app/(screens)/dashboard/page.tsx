@@ -163,7 +163,7 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="col-span-3">
-              <div className="bg-white h-[370px] md:h-[285px] rounded-[8px] p-2 shadow-sm ">
+              <div className="bg-white h-[370px] md:h-[275px] rounded-[8px] p-2 shadow-sm ">
                 <h1 className="md:text-2xl text-lg font-medium mb-4">
                   Your Activity
                 </h1>
