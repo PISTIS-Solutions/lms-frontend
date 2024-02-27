@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import { BookOpenText, GraduationCap, ListChecks } from "lucide-react";
+import { BookOpenText, BookText, ListChecks } from "lucide-react";
 import PaginatedTable from "@/components/side-comp/pagination-table-students";
 import PaginatedTableMentor from "@/components/side-comp/pagination-table mentor";
 
@@ -104,16 +104,16 @@ const Dashboard = () => {
                 <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-main flex items-center justify-between px-5">
                   <div>
                     <h1 className="text-2xl text-[#5D5B5B] font-medium">60</h1>
-                    <p className="text-base text-[#00173A]">Total Students</p>
+                    <p className="text-base text-[#00173A]">Completed Courses</p>
                   </div>
                   <span className="bg-[#F8F9FF] rounded-full p-3">
-                    <GraduationCap className="text-main" />
+                    <BookText className="text-main" />
                   </span>
                 </div>
                 <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-[#CC3366] flex items-center justify-between px-5">
                   <div>
                     <h1 className="text-2xl text-[#5D5B5B] font-medium">6</h1>
-                    <p className="text-base text-[#00173A]">Total Mentors</p>
+                    <p className="text-base text-[#00173A]">Completed project</p>
                   </div>
                   <span className="bg-[#F8F9FF] rounded-full p-3">
                     <ListChecks className="text-main" />
@@ -188,7 +188,7 @@ const Dashboard = () => {
                   </ScrollArea>
                 </div>
               </div>
-              <div className="border-md bg-white rounded-[8px] p-2 h-1/2 w-auto mt-2">
+              <div className="border-md bg-white rounded-[8px] p-2 h-[53.5%] shadow-xl w-auto mt-2">
                 <h1 className="text-xl">Progress Report</h1>
                 <Doughnut data={data} />
               </div>
