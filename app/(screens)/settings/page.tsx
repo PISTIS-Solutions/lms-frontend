@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 
 import user from "@/public/assets/avatar.png";
-import { EditIcon, Eye, EyeOff, KeyRound, Mail } from "lucide-react";
+import { EditIcon, Eye, EyeOff, KeyRound, Loader2, Mail } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +19,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+
+import Cookies from "js-cookie";
+import axios from "axios";
+import { urls } from "@/utils/config";
 
 const formSchema = z.object({
   Email: z.string().min(2, {
@@ -43,6 +47,10 @@ const SettingsPage = () => {
   });
 
   const [notSame, setNotSame] = useState("");
+  const [deleteModal, setDeleteModal] = useState(false);
+  const showDeleteModal = () => {
+    setDeleteModal((prev) => !prev);
+  };
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.confirmPassword === values.newPassword) {
@@ -64,6 +72,43 @@ const SettingsPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(true);
   const toggleConfirmPassword = () => {
     setShowConfirmPassword((prev) => !prev);
+  };
+
+
+  const [loading, setLoading] = useState(false)
+  const DeleteStudent = async () => {
+    setLoading(true);
+    try {
+      const accessToken = Cookies.get("authToken");
+      const response = await axios.delete(urls.deleteStudent, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      Cookies.remove("authToken")
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        try {
+          const refreshToken = Cookies.get("refreshToken");
+          const accessToken = Cookies.get("authToken");
+
+          const refreshResponse = await axios.post(urls.adminRefreshToken, {
+            refresh: refreshToken,
+            access: accessToken,
+          });
+          Cookies.set("authToken", refreshResponse.data.access);
+          // Retry the fetch after token refresh
+          await DeleteStudent();
+        } catch (refreshError: any) {
+          console.error("Error refreshing token:", refreshError.message);
+          Cookies.remove("authToken");
+        }
+      } else {
+        console.error("Error:", error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -291,10 +336,32 @@ const SettingsPage = () => {
                   All data associated with this account will be deleted if you
                   deactivate this account
                 </p>
-                <h2 className="text-red-500 cursor-pointer text-base text-center lg:text-left my-4 lg:my-0 md:text-xl font-medium ">
+                <h2
+                  onClick={showDeleteModal}
+                  className="text-red-500 cursor-pointer text-base text-center lg:text-left my-4 lg:my-0 md:text-xl font-medium "
+                >
                   Deactivate
                 </h2>
               </div>
+              {deleteModal && (
+                <div className="w-full h-full absolute top-0 left-0 flex justify-center items-center bg-slate-200/50">
+                  <div className="bg-white rounded-[8px] py-10 px-5 w-auto max-w-[605px] h-[189px] max-h-auto">
+                    <h1 className="text-black font-semibold text-2xl ">
+                      Deactivate account
+                    </h1>
+                    <p className="text-[#3E3E3E] text-lg py-2">
+                      Are you sure you want to deactivate your account? By doing
+                      this, you will lose all your saved data
+                    </p>
+                    <div className="flex justify-end gap-x-5 items-center">
+                      <Button onClick={DeleteStudent} disabled={loading} className="bg-[#F10F2A] text-white">
+                        {loading ? <Loader2 className=" animate-spin"/> : <p>Deactivate</p>}
+                      </Button>
+                      <p className="cursor-pointer" onClick={showDeleteModal}>Cancel</p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
