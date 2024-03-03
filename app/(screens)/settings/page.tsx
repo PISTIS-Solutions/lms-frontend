@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 
 import SideNav from "@/components/side-comp/side-nav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
+import Cookies from 'js-cookie'
 
 import user from "@/public/assets/avatar.png";
 import { EditIcon, Eye, EyeOff, KeyRound, Mail } from "lucide-react";
@@ -19,9 +20,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { urls } from "@/utils/config";
+
+import axios from "axios";
 
 const formSchema = z.object({
-  Email: z.string().min(2, {
+  email: z.string().min(2, {
     message: "Input correct email address",
   }),
   fullName: z.string(),
@@ -34,20 +38,46 @@ const SettingsPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      Email: "",
+      email: "",
       fullName: "",
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
     },
   });
-
   const [notSame, setNotSame] = useState("");
+
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.confirmPassword === values.newPassword) {
       console.log(values);
-      setNotSame("");
+      if (values.fullName !== "") {
+        axios
+          .patch(urls.updateStudentProfile, {
+            full_name: values.fullName,
+            email: values.email,
+          },{
+            headers:{
+              Authorization: "Bearer " + Cookies.get('authToken')
+            }
+          })
+          .then((res) => console.log(res))
+          .catch((error) => console.log(error));
+      } else {
+        axios
+          .post(urls.setStudentPassword, {
+            new_passsword: values.newPassword,
+            re_new_password: values.confirmPassword,
+            current_password: values.currentPassword,
+          },{
+            headers:{
+              Authorization: "Bearer " + Cookies.get('authToken')
+            }
+          })
+          .then((res) => console.log(res))
+          .catch((error) => console.log(error));
+        setNotSame("");
+      }
     } else {
       setNotSame("New Password and Confirm Password must be the same");
     }
@@ -131,7 +161,7 @@ const SettingsPage = () => {
                         />
                         <FormField
                           control={form.control}
-                          name="Email"
+                          name="email"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel className="md:text-xl text-sm my-3 text-[#3E3E3E]">
@@ -161,6 +191,13 @@ const SettingsPage = () => {
                         </div>
                       </div>
                     </div>
+                  </form>
+                </Form>
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-3"
+                  >
                     <div className="block md:grid grid-cols-6 py-5">
                       <h1 className="text-[22px] col-span-2 font-medium ">
                         Password
