@@ -35,13 +35,18 @@ const SignIn = () => {
         password: formStore.password,
       });
 
+      console.log(response, "response");
+
       if (response.status === 200) {
         Cookies.set("authToken", response.data.access);
         Cookies.set("refreshToken", response.data.refresh);
         Cookies.set("fullName", response.data.user.full_name);
         route.replace("/dashboard");
-      } else if (response.status === 401) {
-        toast.error("Account is not registered", {
+      }
+    } catch (error: any) {
+      console.error("Error completing profile:", error);
+      if (error?.response?.status === 401) {
+        toast.error("Email address or password is incorrect", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: true,
@@ -51,8 +56,6 @@ const SignIn = () => {
           theme: "dark",
         });
       }
-    } catch (error: any) {
-      console.error("Error completing profile:", error.message);
     } finally {
       setLoading(false);
     }
@@ -77,6 +80,7 @@ const SignIn = () => {
             Glad to have you back!
           </h3>
         </div>
+        <ToastContainer />
         <div>
           <form onSubmit={onsubmitLogin} className="space-y-2">
             <div>
