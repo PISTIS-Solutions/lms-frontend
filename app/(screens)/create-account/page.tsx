@@ -12,6 +12,9 @@ import useFormStore from "../../../store/create-account";
 import Fulllogo from "@/public/assets/full-logo.png";
 import { urls } from "@/utils/config";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const SignUp = () => {
   const formStore = useFormStore();
   const [specialCharacterErr, setSpecialCharacterErr] = useState();
@@ -40,8 +43,18 @@ const SignUp = () => {
           }),
         });
         if (response.ok) {
-          setModal(true);
+          // setModal(true);
           // router.push("/create-account/activate/[uid]");
+
+          toast.success("Check email for validation!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
         } else {
           setModal(false);
         }
@@ -76,6 +89,7 @@ const SignUp = () => {
           <h1 className="md:text-4xl text-3xl font-semibold">Create Account</h1>
           <h3 className="md:text-2xl text-lg ">Let’s get you started</h3>
         </div>
+        <ToastContainer />
         <div className="px-2 md:px-0">
           <form onSubmit={onSubmit} className="space-y-3">
             <div>
@@ -151,6 +165,7 @@ const SignUp = () => {
             </p>
 
             <button
+              disabled={loading}
               type="submit"
               className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
             >
@@ -160,7 +175,7 @@ const SignUp = () => {
                 <>Submit</>
               )}
             </button>
-            {modal && (
+            {/* {modal && (
               // <div className="w-full h-full absolute bg-red-500 top-0">
               <div className="flex rounded-md flex-col items-center absolute w-1/2 h-36 bg-white top-[30%] left-[25%] justify-center text-green-500 shadow-md">
                 <div className="flex">
@@ -172,7 +187,7 @@ const SignUp = () => {
                 </p>
               </div>
               // </div>
-            )}
+            )} */}
             <p className="text-red-500 text-center">{specialCharacterErr}</p>
             {formStore.password != formStore.confirm ? (
               <p className="text-red-500 text-center">

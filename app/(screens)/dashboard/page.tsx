@@ -1,15 +1,14 @@
 "use client";
 import SideNav from "@/components/side-comp/side-nav";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import { BookOpenText, GraduationCap, ListChecks } from "lucide-react";
+import { BookOpenText, GraduationCap, ListChecks, Loader2 } from "lucide-react";
 import PaginatedTable from "@/components/side-comp/pagination-table-students";
 import PaginatedTableMentor from "@/components/side-comp/pagination-table mentor";
 
-import { courseList } from "@/data/courses";
 import Image from "next/image";
 
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
@@ -20,6 +19,12 @@ import { Doughnut } from "react-chartjs-2";
 import ProjectReview from "@/components/side-comp/project-review-table";
 
 import { vectorb, vectorg } from "../../index";
+import TopNav from "@/components/side-comp/topNav";
+import { useRouter } from "next/navigation";
+
+import Cookies from "js-cookie";
+import axios from "axios";
+import { urls } from "@/utils/config";
 
 const tags = [
   "Project submission by Femi Oyewale",
@@ -33,6 +38,13 @@ const tags = [
   "Project submission by Femi Oyewale",
   "Project submission by Femi Oyewale",
 ];
+
+interface StuData {
+  total_courses: number;
+  courses_completed: number;
+  projects_completed: number;
+  enrolled_courses: [];
+}
 
 const Dashboard = () => {
   const [table, setTable] = useState("students");
@@ -58,21 +70,58 @@ const Dashboard = () => {
     ],
   };
 
+  
+
+  const [stuData, setStuData] = useState<StuData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const route = useRouter();
+  //fetch dashboard data with acceess token and use refresh token to refresh expired token
+  const fetchStuData = async () => {
+    try {
+      const accessToken = Cookies.get("authToken");
+      const response = await axios.get(urls.studentDashboard, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setStuData(response.data);
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        try {
+          const refreshToken = Cookies.get("refreshToken");
+          const accessToken = Cookies.get("authToken");
+
+          const refreshResponse = await axios.post(urls.adminRefreshToken, {
+            refresh: refreshToken,
+            access: accessToken,
+          });
+          Cookies.set("authToken", refreshResponse.data.access);
+          // Retry the fetch after token refresh
+          await fetchStuData();
+        } catch (refreshError: any) {
+          console.error("Error refreshing token:", refreshError.message);
+          Cookies.remove("authToken");
+        }
+      } else {
+        console.error("Error:", error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchStuData();
+  }, []);
+
+  const userName = Cookies.get("fullName")
+
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
       <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
-          <div className="flex items-center gap-1 md:gap-2">
-            <Avatar>
-              {/* <AvatarImage src={avatar} /> */}
-              <AvatarFallback>JN</AvatarFallback>
-            </Avatar>
-            <div>
-              <h1 className="md:text-base text-sm font-medium">John Mark</h1>
-              <p className="md:text-sm text-xs text-[#5D5B5B]">Student</p>
-            </div>
-          </div>
+          <TopNav />
         </div>
         <div className="">
           <div className="grid grid-cols-1 lg:grid-cols-10 p-4">
@@ -80,21 +129,39 @@ const Dashboard = () => {
               <div className="w-[98%] rounded-[8px] bg-white md:h-[133px] h-[128px] flex justify-between pl-5 shadow-md mr-5 mb-2">
                 <div className="md:mt-[38px] mt-[30px]">
                   <h1 className="text-xl md:text-2xl font-semibold">
-                    Welcome Beatrice
+                    Welcome, {userName}
                   </h1>
                   <p className="md:text-base text-sm">
                     Complete your course and take a step further💪
                   </p>
                 </div>
                 <div className="">
-                  <Image src={vectorg} alt="" priority className="z-10 relative" />
-                  <Image src={vectorb} alt="" priority className="relative md:bottom-[101px] bottom-[65px] md:left-[23px]" />
+                  <Image
+                    src={vectorg}
+                    alt=""
+                    priority
+                    className="z-10 relative"
+                  />
+                  <Image
+                    src={vectorb}
+                    alt=""
+                    priority
+                    className="relative md:bottom-[101px] bottom-[65px] md:left-[23px]"
+                  />
                 </div>
               </div>
               <div className="lg:flex block justify-between gap-0 md:gap-5 pr-4">
                 <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-sub flex items-center justify-between px-5">
                   <div>
-                    <h1 className="text-2xl text-[#5D5B5B] font-medium">15</h1>
+                    {loading ? (
+                      <Loader2 className="animate-spin text-xl" />
+                    ) : (
+                      stuData && (
+                        <h1 className="text-2xl text-[#5D5B5B] font-medium">
+                          {stuData.total_courses}
+                        </h1>
+                      )
+                    )}
                     <p className="text-base text-[#00173A]">Total Courses</p>
                   </div>
                   <span className="bg-[#F8F9FF] rounded-full p-3">
@@ -103,8 +170,18 @@ const Dashboard = () => {
                 </div>
                 <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-main flex items-center justify-between px-5">
                   <div>
-                    <h1 className="text-2xl text-[#5D5B5B] font-medium">60</h1>
-                    <p className="text-base text-[#00173A]">Total Students</p>
+                    {loading ? (
+                      <Loader2 className="animate-spin text-xl" />
+                    ) : (
+                      stuData && (
+                        <h1 className="text-2xl text-[#5D5B5B] font-medium">
+                          {stuData.courses_completed}
+                        </h1>
+                      )
+                    )}
+                    <p className="text-base text-[#00173A]">
+                      Completed Courses
+                    </p>
                   </div>
                   <span className="bg-[#F8F9FF] rounded-full p-3">
                     <GraduationCap className="text-main" />
@@ -112,8 +189,18 @@ const Dashboard = () => {
                 </div>
                 <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-[#CC3366] flex items-center justify-between px-5">
                   <div>
-                    <h1 className="text-2xl text-[#5D5B5B] font-medium">6</h1>
-                    <p className="text-base text-[#00173A]">Total Mentors</p>
+                    {loading ? (
+                      <Loader2 className="animate-spin text-xl" />
+                    ) : (
+                      stuData && (
+                        <h1 className="text-2xl text-[#5D5B5B] font-medium">
+                          {stuData.projects_completed}
+                        </h1>
+                      )
+                    )}
+                    <p className="text-base text-[#00173A]">
+                      Completed Projects
+                    </p>
                   </div>
                   <span className="bg-[#F8F9FF] rounded-full p-3">
                     <ListChecks className="text-main" />
@@ -130,7 +217,14 @@ const Dashboard = () => {
                   </p>
                 </div>
                 <div className="md:flex justify-between my-5">
-                  {courseList.map((course, index) => {
+                  {stuData?.enrolled_courses &&
+                  stuData.enrolled_courses.length > 0 ? (
+                    <>data dey</>
+                  ) : (
+                    <p>No enrolled courses yet</p>
+                  )}
+
+                  {/* {courseList.map((course, index) => {
                     return (
                       <div
                         key={index}
@@ -158,7 +252,7 @@ const Dashboard = () => {
                         </div>
                       </div>
                     );
-                  })}
+                  })} */}
                 </div>
               </div>
             </div>
