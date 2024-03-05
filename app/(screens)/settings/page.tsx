@@ -8,7 +8,7 @@ import Cookies from 'js-cookie'
 
 import user from "@/public/assets/avatar.png";
 import { EditIcon, Eye, EyeOff, KeyRound, Mail } from "lucide-react";
-import { z } from "zod";
+import { string, z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -22,6 +22,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { urls } from "@/utils/config";
 
+import { useRouter } from "next/navigation";
+
 import axios from "axios";
 
 const formSchema = z.object({
@@ -33,8 +35,14 @@ const formSchema = z.object({
   newPassword: z.string(),
   confirmPassword: z.string(),
 });
+interface UserDetailsInterface {
+full_name:string;
+phone_number:string;
+email:string;
+}
 
 const SettingsPage = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,11 +54,20 @@ const SettingsPage = () => {
     },
   });
   const [notSame, setNotSame] = useState("");
+  const [userDetails, setUserDetails] = useState<UserDetailsInterface>({full_name:'', phone_number:'', email:''})
+
+  useEffect(()=>{ 
+    const userDetailString:string|null = localStorage.getItem("userDetails")
+    const userDetailsObject =userDetailString? JSON.parse(userDetailString) :null
+    form.setValue('fullName',userDetailsObject?.full_name )
+    form.setValue('email',userDetailsObject?.email )
+    setUserDetails(userDetailsObject)
+  },[])
 
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.confirmPassword === values.newPassword) {
-      console.log(values);
+      // console.log(values);
       if (values.fullName !== "") {
         axios
           .patch(urls.updateStudentProfile, {
@@ -61,7 +78,11 @@ const SettingsPage = () => {
               Authorization: "Bearer " + Cookies.get('authToken')
             }
           })
-          .then((res) => console.log(res))
+          .then((res) => {
+            console.log(res)
+            Cookies.remove("authToken");
+            router.replace("/")
+          })
           .catch((error) => console.log(error));
       } else {
         axios
@@ -107,7 +128,7 @@ const SettingsPage = () => {
               <AvatarFallback>JN</AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="md:text-base text-sm font-medium">John Mark</h1>
+              <h1 className="md:text-base text-sm font-medium">{userDetails?.full_name}</h1>
               <p className="md:text-sm text-xs text-[#5D5B5B]">Student</p>
             </div>
           </div>

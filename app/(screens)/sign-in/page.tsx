@@ -33,6 +33,7 @@ const SignIn = () => {
       });
 
       if (response.status === 200) {
+        localStorage.setItem('userDetails',JSON.stringify(response.data.user))
         Cookies.set("authToken", response.data.access);
         Cookies.set("refreshToken", response.data.refresh);
         route.replace("/dashboard");
