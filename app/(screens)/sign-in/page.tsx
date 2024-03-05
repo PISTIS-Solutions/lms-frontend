@@ -35,8 +35,6 @@ const SignIn = () => {
         password: formStore.password,
       });
 
-      console.log(response, "response");
-
       if (response.status === 200) {
         Cookies.set("authToken", response.data.access);
         Cookies.set("refreshToken", response.data.refresh);
@@ -44,9 +42,18 @@ const SignIn = () => {
         route.replace("/dashboard");
       }
     } catch (error: any) {
-      console.error("Error completing profile:", error);
-      if (error?.response?.status === 401) {
-        toast.error("Email address or password is incorrect", {
+      if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: true,

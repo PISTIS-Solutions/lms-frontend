@@ -191,7 +191,7 @@ const SettingsPage = () => {
                         <div className="lg:flex block justify-end">
                           <Button
                             type="submit"
-                            className="w-full mt-5 lg:w-1/3 bg-[#33CC99] py-6 font-medium text-lg md:text-2xl text-black hover:text-white"
+                            className="w-full mt-5 bg-[#33CC99] py-6 font-medium text-lg md:text-2xl text-black hover:text-white"
                           >
                             Save Changes
                           </Button>

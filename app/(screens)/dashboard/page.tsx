@@ -25,6 +25,11 @@ import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { urls } from "@/utils/config";
+import refreshAdminToken from "@/utils/refreshToken";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Link from "next/link";
 
 const tags = [
   "Project submission by Femi Oyewale",
@@ -70,8 +75,6 @@ const Dashboard = () => {
     ],
   };
 
-  
-
   const [stuData, setStuData] = useState<StuData | null>(null);
   const [loading, setLoading] = useState(true);
   const route = useRouter();
@@ -87,23 +90,28 @@ const Dashboard = () => {
       setStuData(response.data);
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        try {
-          const refreshToken = Cookies.get("refreshToken");
-          const accessToken = Cookies.get("authToken");
-
-          const refreshResponse = await axios.post(urls.adminRefreshToken, {
-            refresh: refreshToken,
-            access: accessToken,
-          });
-          Cookies.set("authToken", refreshResponse.data.access);
-          // Retry the fetch after token refresh
-          await fetchStuData();
-        } catch (refreshError: any) {
-          console.error("Error refreshing token:", refreshError.message);
-          Cookies.remove("authToken");
-        }
+        await refreshAdminToken();
+        await fetchStuData();
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
       } else {
-        console.error("Error:", error.message);
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
       }
     } finally {
       setLoading(false);
@@ -114,11 +122,12 @@ const Dashboard = () => {
     fetchStuData();
   }, []);
 
-  const userName = Cookies.get("fullName")
+  const userName = Cookies.get("fullName");
 
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
+      <ToastContainer />
       <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
           <TopNav />
@@ -213,13 +222,41 @@ const Dashboard = () => {
                     My Courses
                   </h1>
                   <p className="underline text-main text-xs md:text-sm">
-                    View all
+                    <Link href="/courses">View all</Link>
                   </p>
                 </div>
                 <div className="md:flex justify-between my-5">
                   {stuData?.enrolled_courses &&
                   stuData.enrolled_courses.length > 0 ? (
-                    <>data dey</>
+                    stuData.enrolled_courses.slice(0, 3).map((data: any) => {
+                      return (
+                        <div
+                          key={data.id}
+                          className="rounded-[8px] mr-[12px] my-2 md:my-0 relative bg-[#F8F9FF] w-[242px] h-[234px]"
+                        >
+                          <div>
+                            <Image src={data.image} alt={data.title} />
+                          </div>
+                          <div className="p-2">
+                            <h3 className="text-xl font-medium">
+                              {data.title}
+                            </h3>
+                            <p className="absolute bottom-0 cursor-pointer right-2 capitalize text-[#3E3E3E] font-medium flex items-center gap-1">
+                              {data.condition}{" "}
+                              {data.condition === "completed" ? (
+                                <span className="text-main">
+                                  <IoIosCheckmarkCircleOutline />
+                                </span>
+                              ) : (
+                                <span className="text-main">
+                                  <FaArrowRight />
+                                </span>
+                              )}
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })
                   ) : (
                     <p>No enrolled courses yet</p>
                   )}
