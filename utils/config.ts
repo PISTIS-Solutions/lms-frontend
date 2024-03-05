@@ -5,4 +5,9 @@ export const urls = {
   changePassword: `${baseURL}/users/student/reset_password_confirm/`,
   activateEmail: `${baseURL}/users/student/activation/`,
   signin: `${baseURL}/jwt/create/`,
+  forgotPassword: `${baseURL}/users/student/reset_password/`,
+  adminRefreshToken: `${baseURL}/jwt/refresh/`,
+  studentDashboard: `${baseURL}/users/student/dashboard/`,
+  deleteStudent: `${baseURL}/users/student/me/`,
+  courses: `${baseURL}/courses/`
 };

@@ -41,7 +41,7 @@ const Verify_SignUp = () => {
         setResponse(response.data);
         setLoading(false);
         localStorage.setItem("user_id", response.data.user_id);
-        router.replace("/create-account/complete-profile")
+        router.replace("/create-account/success");
       }
       if (response.status === 403) {
         setUsed("Email already verified");
@@ -78,6 +78,7 @@ const Verify_SignUp = () => {
         </div>
         <div>
           <Button
+            disabled={loading}
             className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
             onClick={handleVerifyToken}
           >

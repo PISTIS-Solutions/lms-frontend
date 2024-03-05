@@ -3,6 +3,7 @@
 import PendingModal from "@/components/side-comp/modal/pending-modal";
 import ReviewedModal from "@/components/side-comp/modal/reviewed-modal";
 import SideNav from "@/components/side-comp/side-nav";
+import TopNav from "@/components/side-comp/topNav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -73,16 +74,7 @@ const Project = () => {
       <SideNav />
       <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
-          <div className="flex items-center gap-1 md:gap-2">
-            <Avatar>
-              {/* <AvatarImage src={avatar} /> */}
-              <AvatarFallback>JN</AvatarFallback>
-            </Avatar>
-            <div>
-              <h1 className="md:text-base text-sm font-medium">John Mark</h1>
-              <p className="md:text-sm text-xs text-[#5D5B5B]">Student</p>
-            </div>
-          </div>
+          <TopNav/>
         </div>
         <div className="p-4">
           <div className="relative w-full md:w-1/3">

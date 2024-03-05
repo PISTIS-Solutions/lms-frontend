@@ -12,6 +12,9 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Completeprofile = () => {
   const formStore = useFormStore();
   const [loading, setLoading] = useState<boolean>();
@@ -40,6 +43,15 @@ const Completeprofile = () => {
       });
 
       if (response.status === 200) {
+        toast.success("Profile Created Successfully!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
         setSuccess(true);
         // setLoading(true);
         router.push("/sign-in")
@@ -65,6 +77,7 @@ const Completeprofile = () => {
             priority
           />
         </div>
+        <ToastContainer />
         <div className="px-2 my-10 md:my-0 md:px-0">
           <h1 className="md:text-4xl text-3xl font-semibold">
             Complete your profile
@@ -74,11 +87,11 @@ const Completeprofile = () => {
           </h3>
         </div>
         <div>
-          {success && (
+          {/* {success && (
             <p className="text-center text-green-500">
               Profile Successfully Created!
             </p>
-          )}
+          )} */}
         </div>
         <div className="px-2 md:px-0">
           <form onSubmit={onSubmitCompleteProfile} className="space-y-3">
