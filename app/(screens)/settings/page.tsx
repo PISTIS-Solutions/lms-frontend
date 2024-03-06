@@ -1,10 +1,10 @@
 "use client";
-import React, { useState , useEffect} from "react";
+import React, { useState, useEffect } from "react";
 
 import SideNav from "@/components/side-comp/side-nav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
-import Cookies from 'js-cookie'
+import Cookies from "js-cookie";
 
 import user from "@/public/assets/avatar.png";
 import { EditIcon, Eye, EyeOff, KeyRound, Mail } from "lucide-react";
@@ -35,14 +35,19 @@ const formSchema = z.object({
   newPassword: z.string(),
   confirmPassword: z.string(),
 });
+
 interface UserDetailsInterface {
-full_name:string;
-phone_number:string;
-email:string;
+  full_name: string;
+  phone_number: string;
+  email: string;
 }
+
+//steps:
 
 const SettingsPage = () => {
   const router = useRouter();
+
+  //find a way to separate the password form field from the general info form field or redo all of the field the way you want but make sure the fields values are separated
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -54,47 +59,64 @@ const SettingsPage = () => {
     },
   });
   const [notSame, setNotSame] = useState("");
-  const [userDetails, setUserDetails] = useState<UserDetailsInterface>({full_name:'', phone_number:'', email:''})
+  // something like this but for both the general information and password change
+  const [userDetails, setUserDetails] = useState<UserDetailsInterface>({
+    full_name: "",
+    phone_number: "",
+    email: "",
+  });
 
-  useEffect(()=>{ 
-    const userDetailString:string|null = localStorage.getItem("userDetails")
-    const userDetailsObject =userDetailString? JSON.parse(userDetailString) :null
-    form.setValue('fullName',userDetailsObject?.full_name )
-    form.setValue('email',userDetailsObject?.email )
-    setUserDetails(userDetailsObject)
-  },[])
+  // this is not required; as the user, you would obviously know you name, so the lcal storage is irrelevant, you can always add that yourself.
+  useEffect(() => {
+    const userDetailString: string | null = localStorage.getItem("userDetails");
+    const userDetailsObject = userDetailString
+      ? JSON.parse(userDetailString)
+      : null;
+    form.setValue("fullName", userDetailsObject?.full_name);
+    form.setValue("email", userDetailsObject?.email);
+    setUserDetails(userDetailsObject);
+  }, []);
 
-
+  //rewrite function; remove conditional statement because both endpoints are not related, use a better method to catch errors and the actions to be run after error is caught; use a try, catch
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (values.confirmPassword === values.newPassword) {
       // console.log(values);
       if (values.fullName !== "") {
         axios
-          .patch(urls.updateStudentProfile, {
-            full_name: values.fullName,
-            email: values.email,
-          },{
-            headers:{
-              Authorization: "Bearer " + Cookies.get('authToken')
+          .patch(
+            urls.updateStudentProfile,
+            {
+              full_name: values.fullName,
+              email: values.email,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + Cookies.get("authToken"),
+              },
             }
-          })
+          )
           .then((res) => {
-            console.log(res)
-            Cookies.remove("authToken");
-            router.replace("/")
+            //you may decide to remove token, if necessary
+            console.log(res);
+            // Cookies.remove("authToken");
+            // router.replace("/");
           })
           .catch((error) => console.log(error));
       } else {
         axios
-          .post(urls.setStudentPassword, {
-            new_passsword: values.newPassword,
-            re_new_password: values.confirmPassword,
-            current_password: values.currentPassword,
-          },{
-            headers:{
-              Authorization: "Bearer " + Cookies.get('authToken')
+          .post(
+            urls.setStudentPassword,
+            {
+              new_passsword: values.newPassword,
+              re_new_password: values.confirmPassword,
+              current_password: values.currentPassword,
+            },
+            {
+              headers: {
+                Authorization: "Bearer " + Cookies.get("authToken"),
+              },
             }
-          })
+          )
           .then((res) => console.log(res))
           .catch((error) => console.log(error));
         setNotSame("");
@@ -128,7 +150,9 @@ const SettingsPage = () => {
               <AvatarFallback>JN</AvatarFallback>
             </Avatar>
             <div>
-              <h1 className="md:text-base text-sm font-medium">{userDetails?.full_name}</h1>
+              <h1 className="md:text-base text-sm font-medium">
+                {userDetails?.full_name}
+              </h1>
               <p className="md:text-sm text-xs text-[#5D5B5B]">Student</p>
             </div>
           </div>
