@@ -80,7 +80,7 @@ const Courses = () => {
   return (
     <div className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
-      <ToastContainer/>
+      <ToastContainer />
       <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
           <TopNav />
@@ -111,7 +111,7 @@ const Courses = () => {
                     title={course.title}
                     paragraph={course.paragraph}
                     // module={course.module}
-                    // duration={course.duration}
+                    duration={course.course_duration}
                   />
                 </div>
               ))

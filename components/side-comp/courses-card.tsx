@@ -26,7 +26,7 @@ interface cardProps {
   title: string;
   paragraph: string;
   // module: { moduleHeader: string; moduleBody: string }[];
-  // duration: number;
+  duration: number;
   handleCardClick: any;
   // handleOpen: () => void;
 }
@@ -37,7 +37,7 @@ const CoursesCard = ({
   title,
   paragraph,
   // module,
-  // duration,
+  duration,
   handleCardClick,
 }: // handleOpen,
 cardProps) => {
@@ -204,7 +204,7 @@ cardProps) => {
             </div>
             <div className="flex md:text-base text-xs items-center gap-x-1">
               <Hourglass className="text-main" />
-              {/* {duration} week */}0 week
+              {duration}
             </div>
           </div>
           <Button
