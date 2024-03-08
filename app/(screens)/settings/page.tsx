@@ -24,23 +24,36 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { urls } from "@/utils/config";
 import TopNav from "@/components/side-comp/topNav";
+import refreshToken from "@/utils/refreshToken";
 
+//general schema
 const formSchema = z.object({
   Email: z.string().min(2, {
     message: "Input correct email address",
   }),
   fullName: z.string(),
+});
+//password change schema
+const formSchema2 = z.object({
   currentPassword: z.string(),
   newPassword: z.string(),
   confirmPassword: z.string(),
 });
 
 const SettingsPage = () => {
+  //general default values
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       Email: "",
       fullName: "",
+    },
+  });
+
+  // password change default value
+  const form2 = useForm<z.infer<typeof formSchema2>>({
+    resolver: zodResolver(formSchema2),
+    defaultValues: {
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
@@ -53,14 +66,93 @@ const SettingsPage = () => {
     setDeleteModal((prev) => !prev);
   };
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.confirmPassword === values.newPassword) {
-      console.log(values);
-      setNotSame("");
-    } else {
-      setNotSame("New Password and Confirm Password must be the same");
+  // function submitPassword(values: z.infer<typeof formSchema2>, e:any) {
+  //   e.preventDefault();
+  //   // if (values.confirmPassword === values.newPassword) {
+  //   console.log(values.confirmPassword, "cP");
+  //   console.log(values.newPassword, "newp");
+  //   console.log(values.currentPassword, "cuxP");
+  //   const token = Cookies.get("authToken");
+  //   axios
+  //     .post(
+  //       urls.setStudentPassword,
+  //       {
+  //         new_passsword: values.newPassword,
+  //         re_new_password: values.confirmPassword,
+  //         current_password: values.currentPassword,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: "Bearer " + token,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       //you may decide to remove token, if necessary
+  //       console.log(res.status);
+  //       // Cookies.remove("authToken");
+  //       // router.replace("/");
+  //     })
+  //     .catch((error) => console.log(error));
+  //   // } else {
+  //   //   setNotSame("New Password and Confirm Password must be the same");
+  //   // }
+  // }
+
+  //function works, rewrite in a way you understand. also check if new password and confirm newpassword is same before running the post operation.
+  //write a similar function to change general details (patch) using the fields in "submitGeneral" function
+  const submitPassword = async (
+    values: z.infer<typeof formSchema2>,
+    e: any
+  ) => {
+    e.preventDefault();
+
+    try {
+      const token = Cookies.get("authToken"); // Use token instead of accessToken
+      const response = await axios.post(
+        urls.setStudentPassword,
+        {
+          new_password: values.newPassword,
+          re_new_password: values.confirmPassword,
+          current_password: values.currentPassword,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      ///204 is the success status
+      if (response.status === 204) {
+        console.log("done?");
+        //handle what happends after success. either remove cookie or not, your choice.
+      }
+      // Handle the response as needed
+    } catch (error: any) {
+      //this checks for the 401 error, which is "unauthorised" i.e token expired
+      if (error.response && error.response.status === 401) {
+        try {
+          //this refreshToken is a function that helps to refresh an expired access token; you can get it from utils
+          await refreshToken();
+          // this helps to re do function after the access token has been refreshed
+          await submitPassword(values, e);
+
+          // Handle the response after refreshing the token
+        } catch (refreshError: any) {
+          console.error("Error refreshing token:", refreshError.message);
+          // Handle refresh error
+        }
+      } else {
+        console.error("Password change failed:", error.message);
+        // Handle other errors
+      }
     }
-  }
+  };
+
+  const submitGeneral = (values: z.infer<typeof formSchema>) => {
+    console.log(values.Email);
+    console.log(values.fullName);
+  };
 
   const [showPassword, setShowPassword] = useState(true);
   const togglePassword = () => {
@@ -75,8 +167,7 @@ const SettingsPage = () => {
     setShowConfirmPassword((prev) => !prev);
   };
 
-
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const DeleteStudent = async () => {
     setLoading(true);
     try {
@@ -86,7 +177,7 @@ const SettingsPage = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      Cookies.remove("authToken")
+      Cookies.remove("authToken");
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         try {
@@ -117,7 +208,7 @@ const SettingsPage = () => {
       <SideNav />
       <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
-          <TopNav/>
+          <TopNav />
         </div>
         <div className="md:p-5 p-2">
           <div>
@@ -136,9 +227,10 @@ const SettingsPage = () => {
             </div>
             <div>
               <div className="md:px-5 px-2">
+                {/* general form fields */}
                 <Form {...form}>
                   <form
-                    onSubmit={form.handleSubmit(onSubmit)}
+                    onSubmit={form.handleSubmit(submitGeneral)}
                     className="space-y-3"
                   >
                     <div className="block md:grid grid-cols-6 py-5">
@@ -198,13 +290,21 @@ const SettingsPage = () => {
                         </div>
                       </div>
                     </div>
+                  </form>
+                </Form>
+                {/* change password form field */}
+                <Form {...form2}>
+                  <form
+                    onSubmit={form2.handleSubmit(submitPassword)}
+                    className="space-y-3"
+                  >
                     <div className="block md:grid grid-cols-6 py-5">
                       <h1 className="text-[22px] col-span-2 font-medium ">
                         Password
                       </h1>
                       <div className="col-span-4">
                         <FormField
-                          control={form.control}
+                          control={form2.control}
                           name="currentPassword"
                           render={({ field }) => (
                             <FormItem>
@@ -237,7 +337,7 @@ const SettingsPage = () => {
                           )}
                         />
                         <FormField
-                          control={form.control}
+                          control={form2.control}
                           name="newPassword"
                           render={({ field }) => (
                             <FormItem>
@@ -270,7 +370,7 @@ const SettingsPage = () => {
                           )}
                         />
                         <FormField
-                          control={form.control}
+                          control={form2.control}
                           name="confirmPassword"
                           render={({ field }) => (
                             <FormItem>
@@ -346,10 +446,20 @@ const SettingsPage = () => {
                       this, you will lose all your saved data
                     </p>
                     <div className="flex justify-end gap-x-5 items-center">
-                      <Button onClick={DeleteStudent} disabled={loading} className="bg-[#F10F2A] text-white">
-                        {loading ? <Loader2 className=" animate-spin"/> : <p>Deactivate</p>}
+                      <Button
+                        onClick={DeleteStudent}
+                        disabled={loading}
+                        className="bg-[#F10F2A] text-white"
+                      >
+                        {loading ? (
+                          <Loader2 className=" animate-spin" />
+                        ) : (
+                          <p>Deactivate</p>
+                        )}
                       </Button>
-                      <p className="cursor-pointer" onClick={showDeleteModal}>Cancel</p>
+                      <p className="cursor-pointer" onClick={showDeleteModal}>
+                        Cancel
+                      </p>
                     </div>
                   </div>
                 </div>
