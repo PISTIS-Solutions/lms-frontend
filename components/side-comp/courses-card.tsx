@@ -10,8 +10,6 @@ import {
   LucideLockKeyhole,
   Trash2,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
 import axios from "axios";
 import { urls } from "@/utils/config";
 import Cookies from "js-cookie";
@@ -21,13 +19,14 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 interface cardProps {
-  id: number;
+  id: string;
   // img: any;
   title: string;
   paragraph: string;
   // module: { moduleHeader: string; moduleBody: string }[];
   duration: number;
   handleCardClick: any;
+  isEnrolled: any;
   // handleOpen: () => void;
 }
 
@@ -39,6 +38,7 @@ const CoursesCard = ({
   // module,
   duration,
   handleCardClick,
+  isEnrolled,
 }: // handleOpen,
 cardProps) => {
   const [moduleCount, setModuleCount] = useState<number>();
@@ -100,7 +100,7 @@ cardProps) => {
 
   //enroll
   const [enrolling, setEnrolling] = useState(false);
-  const handleEnroll = async () => {
+  const handleEnroll = async (id: string) => {
     setEnrolling(true);
 
     try {
@@ -116,7 +116,7 @@ cardProps) => {
       });
 
       if (response.status === 200) {
-        console.log("Enrollment successful:", response );
+        window.location.reload();
         toast.success(response.data.message, {
           position: "top-right",
           autoClose: 5000,
@@ -130,7 +130,7 @@ cardProps) => {
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
-        await handleEnroll();
+        await handleEnroll(id);
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
@@ -207,15 +207,21 @@ cardProps) => {
               {duration}
             </div>
           </div>
-          <Button
-            onClick={() => {
-              handleEnroll();
-            }}
-            disabled={enrolling}
-            className="w-full text-black bg-sub hover:text-black text-sm md:text-lg my-2"
-          >
-            {enrolling ? "Enrolling..." : "Enroll"}
-          </Button>
+          {isEnrolled ? (
+            <button className="w-full text-black py-1 cursor-not-allowed rounded-[4px] border border-sub bg-white hover:text-black text-sm md:text-lg my-2">
+              Enrolled
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                handleEnroll(id);
+              }}
+              disabled={enrolling}
+              className="w-full text-black bg-sub py-1 rounded-[4px] cursor-pointer hover:text-black text-sm md:text-lg my-2"
+            >
+              Enroll
+            </button>
+          )}
         </div>
       </div>
       <div

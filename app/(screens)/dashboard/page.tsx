@@ -23,9 +23,6 @@ import TopNav from "@/components/side-comp/topNav";
 import { useRouter } from "next/navigation";
 
 import Cookies from "js-cookie";
-import axios from "axios";
-import { urls } from "@/utils/config";
-import refreshAdminToken from "@/utils/refreshToken";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
