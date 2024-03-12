@@ -12,6 +12,9 @@ import axios from "axios";
 import { urls } from "@/utils/config";
 import Cookies from "js-cookie";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const SignIn = () => {
   const formStore = useLoginFormStore();
   const route = useRouter();
@@ -36,10 +39,31 @@ const SignIn = () => {
         localStorage.setItem('userDetails',JSON.stringify(response.data.user))
         Cookies.set("authToken", response.data.access);
         Cookies.set("refreshToken", response.data.refresh);
+        Cookies.set("fullName", response.data.user.full_name);
         route.replace("/dashboard");
       }
     } catch (error: any) {
-      console.error("Error completing profile:", error.message);
+      if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
     } finally {
       setLoading(false);
     }
@@ -64,6 +88,7 @@ const SignIn = () => {
             Glad to have you back!
           </h3>
         </div>
+        <ToastContainer />
         <div>
           <form onSubmit={onsubmitLogin} className="space-y-2">
             <div>
@@ -74,7 +99,7 @@ const SignIn = () => {
                 <Mail className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
                 <input
                   type="email"
-                  className="py-4 bg-[#FAFAFA] w-full text-xs md:text-base placeholder:text-[#4F5B67] rounded-[6px] indent-7"
+                  className="py-4 bg-[#FAFAFA] w-full text-xs md:text-base placeholder:text-[#4F5B67] rounded-[6px] indent-9"
                   placeholder="example@gmail.com"
                   value={formStore.email}
                   onChange={(e) => formStore.setField("email", e.target.value)}
@@ -100,7 +125,7 @@ const SignIn = () => {
                 )}
                 <input
                   type={formStore.showPassword ? "text" : "password"}
-                  className="py-4 bg-[#FAFAFA] text-xs md:text-base  placeholder:text-[#4F5B67] rounded-[6px] indent-7 w-full"
+                  className="py-4 bg-[#FAFAFA] text-xs md:text-base  placeholder:text-[#4F5B67] rounded-[6px] indent-9 w-full"
                   placeholder="Password"
                   value={formStore.password}
                   onChange={(e) =>

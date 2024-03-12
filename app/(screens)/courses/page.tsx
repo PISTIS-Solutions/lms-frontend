@@ -1,16 +1,18 @@
 "use client";
 import SideNav from "@/components/side-comp/side-nav";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Input } from "@/components/ui/input";
-import { Plus, Search } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Loader2Icon, Plus, Search } from "lucide-react";
 import CoursesCard from "@/components/side-comp/courses-card";
 
-import Link from "next/link";
-import { dummydata } from "@/data/dummyModules";
 import { useRouter } from "next/navigation";
+import TopNav from "@/components/side-comp/topNav";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import useStudentStore from "@/store/dashboard-fetch";
+import useCourseStore from "@/store/fetch-courses";
 
 const Courses = () => {
   const router = useRouter();
@@ -23,48 +25,51 @@ const Courses = () => {
   //   setModal((prev) => !prev);
   // };
 
+  const { stuData, enrolled_courses, fetchStuData } = useStudentStore();
+  const { courses, loading, fetchStuCourses } = useCourseStore();
+
+  useEffect(() => {
+    fetchStuCourses();
+    fetchStuData();
+  }, []);
+  const isEnrolled = (courseId: string) =>
+    stuData?.enrolled_courses.some(
+      (enrolledCourse: any) => enrolledCourse.id === courseId
+    );
+
   return (
     <div className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
+      <ToastContainer />
       <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
-          <div className="flex items-center gap-1 md:gap-2">
-            <Avatar>
-              {/* <AvatarImage src={avatar} /> */}
-              <AvatarFallback>JN</AvatarFallback>
-            </Avatar>
-            <div>
-              <h1 className="md:text-base text-sm font-medium">John Mark</h1>
-              <p className="md:text-sm text-xs text-[#5D5B5B]">Admin</p>
-            </div>
-          </div>
+          <TopNav />
         </div>
         <div className="py-2 px-2 md:px-7">
-          {/* <div className="flex justify-end">
-            <Link href="/courses/add-course">
-              <Button className="flex items-center md:text-base text-xs gap-x-2 cursor-pointer text-black hover:text-white bg-sub">
-                New Course
-                <Plus />
-              </Button>
-            </Link>
-          </div> */}
           <div className="my-5 grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-5">
-            {dummydata.map((fake, index) => {
-              return (
-                <div key={index}>
+            {loading ? (
+              <span className="flex text-center justify-center items-center">
+                <Loader2Icon className=" animate-spin" />
+                Loading...
+              </span>
+            ) : courses && courses.length > 0 ? (
+              courses.map((course: any) => (
+                <div key={course.id}>
                   <CoursesCard
-                    id={fake.id}
+                    id={course.id}
                     handleCardClick={handleCardClick}
                     // handleOpen={handleOpen}
-                    img={fake.img}
-                    title={fake.title}
-                    paragraph={fake.paragraph}
-                    module={fake.module}
-                    duration={fake.duration}
+                    // img={fake.img}
+                    title={course.title}
+                    paragraph={course.paragraph}
+                    duration={course.course_duration}
+                    isEnrolled={isEnrolled(course.id)}
                   />
                 </div>
-              );
-            })}
+              ))
+            ) : (
+              <p className="text-center">No courses available.</p>
+            )}
           </div>
         </div>
         {/* {modal && (

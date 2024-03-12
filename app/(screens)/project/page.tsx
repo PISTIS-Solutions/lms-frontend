@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { dummydata } from "@/data/dummyModules";
 import CoursesCard from "@/components/side-comp/courses-card";
@@ -8,8 +8,10 @@ import SideNav from "@/components/side-comp/side-nav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Search } from "lucide-react";
+import { Loader2Icon, Plus, Search } from "lucide-react";
 import Link from "next/link";
+import TopNav from "@/components/side-comp/topNav";
+import useCourseStore from "@/store/fetch-courses";
 
 const Project = () => {
   const router = useRouter();
@@ -17,38 +19,22 @@ const Project = () => {
     router.push(`/project/${id}`);
   };
 
-  // const [modal, setModal] = useState(false);
-  // const handleOpen = () => {
-  //   setModal((prev) => !prev);
-  // };
+  const { courses, loading, fetchStuCourses } = useCourseStore();
+
+  useEffect(() => {
+    fetchStuCourses();
+  }, []);
 
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
       <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
-          <div className="flex items-center gap-1 md:gap-2">
-            <Avatar>
-              {/* <AvatarImage src={avatar} /> */}
-              <AvatarFallback>JN</AvatarFallback>
-            </Avatar>
-            <div>
-              <h1 className="md:text-base text-sm font-medium">John Mark</h1>
-              <p className="md:text-sm text-xs text-[#5D5B5B]">Admin</p>
-            </div>
-          </div>
+          <TopNav />
         </div>
         <div className="py-2 px-2 md:px-7">
-          <div className="flex justify-end">
-            <Link href="/courses/add-course">
-              <Button className="flex items-center md:text-base text-xs gap-x-2 cursor-pointer text-black hover:text-white bg-sub">
-                New Project
-                <Plus />
-              </Button>
-            </Link>
-          </div>
           <div className="my-5 grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-5">
-            {dummydata.map((fake) => {
+            {/* {dummydata.map((fake) => {
               return (
                 <div key={fake.id}>
                   <ProjectCard
@@ -64,7 +50,28 @@ const Project = () => {
                 />
                 </div>
               );
-            })}
+            })} */}
+            {loading ? (
+              <span className="flex text-center justify-center items-center">
+                <Loader2Icon className=" animate-spin" />
+                Loading...
+              </span>
+            ) : courses && courses.length > 0 ? (
+              courses.map((course: any) => (
+                <div key={course.id}>
+                  <ProjectCard
+                    id={course.id}
+                    handleCardClick={handleCardClick}
+                    // handleOpen={handleOpen}
+                    // img={course.img}
+                    title={course.title}
+                    paragraph={course.paragraph} // project={course.project}
+                  />
+                </div>
+              ))
+            ) : (
+              <p className="text-center">No projects available.</p>
+            )}
           </div>
         </div>
         {/* {modal && (

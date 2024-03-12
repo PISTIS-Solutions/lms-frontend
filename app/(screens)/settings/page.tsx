@@ -7,8 +7,8 @@ import Image from "next/image";
 import Cookies from 'js-cookie'
 
 import user from "@/public/assets/avatar.png";
-import { EditIcon, Eye, EyeOff, KeyRound, Mail } from "lucide-react";
-import { string, z } from "zod";
+import { EditIcon, Eye, EyeOff, KeyRound, Loader2, Mail } from "lucide-react";
+import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -20,89 +20,149 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { urls } from "@/utils/config";
 
-import { useRouter } from "next/navigation";
 
 import axios from "axios";
+import { urls } from "@/utils/config";
+import TopNav from "@/components/side-comp/topNav";
+import refreshToken from "@/utils/refreshToken";
+import { cookies } from "next/headers";
 
+//general schema
 const formSchema = z.object({
   email: z.string().min(2, {
     message: "Input correct email address",
   }),
   fullName: z.string(),
+  phoneNumber: z.number()
+});
+//password change schema
+const formSchema2 = z.object({
   currentPassword: z.string(),
   newPassword: z.string(),
   confirmPassword: z.string(),
 });
 interface UserDetailsInterface {
 full_name:string;
-phone_number:string;
+phoneNumber:number;
 email:string;
 }
 
 const SettingsPage = () => {
-  const router = useRouter();
+  //general default values
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: "",
       fullName: "",
+      phoneNumber: 0
+    },
+  });
+
+  // password change default value
+  const form2 = useForm<z.infer<typeof formSchema2>>({
+    resolver: zodResolver(formSchema2),
+    defaultValues: {
       currentPassword: "",
       newPassword: "",
       confirmPassword: "",
     },
   });
   const [notSame, setNotSame] = useState("");
-  const [userDetails, setUserDetails] = useState<UserDetailsInterface>({full_name:'', phone_number:'', email:''})
+  const [deleteModal, setDeleteModal] = useState(false);
+  const showDeleteModal = () => {
+    setDeleteModal((prev) => !prev);
+  };
 
-  useEffect(()=>{ 
-    const userDetailString:string|null = localStorage.getItem("userDetails")
-    const userDetailsObject =userDetailString? JSON.parse(userDetailString) :null
-    form.setValue('fullName',userDetailsObject?.full_name )
-    form.setValue('email',userDetailsObject?.email )
-    setUserDetails(userDetailsObject)
-  },[])
+  // function submitPassword(values: z.infer<typeof formSchema2>, e:any) {
+  //   e.preventDefault();
+  //   // if (values.confirmPassword === values.newPassword) {
+  //   console.log(values.confirmPassword, "cP");
+  //   console.log(values.newPassword, "newp");
+  //   console.log(values.currentPassword, "cuxP");
+  //   const token = Cookies.get("authToken");
+  //   axios
+  //     .post(
+  //       urls.setStudentPassword,
+  //       {  
+  //         new_passsword: values.newPassword,
+  //         re_new_password: values.confirmPassword,
+  //         current_password: values.currentPassword,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: "Bearer " + token,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       //you may decide to remove token, if necessary
+  //       console.log(res.status);
+  //       // Cookies.remove("authToken");
+  //       // router.replace("/");
+  //     })
+  //     .catch((error) => console.log(error));
+  //   // } else {
+  //   //   setNotSame("New Password and Confirm Password must be the same");
+  //   // }
+  // }
 
+  //function works, rewrite in a way you understand. also check if new password and confirm newpassword is same before running the post operation.
+  //write a similar function to change general details (patch) using the fields in "submitGeneral" function
+  const submitPassword = async (
+    values: z.infer<typeof formSchema2>,
+    e: any
+  ) => {
+    e.preventDefault();
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.confirmPassword === values.newPassword) {
-      // console.log(values);
-      if (values.fullName !== "") {
-        axios
-          .patch(urls.updateStudentProfile, {
-            full_name: values.fullName,
-            email: values.email,
-          },{
-            headers:{
-              Authorization: "Bearer " + Cookies.get('authToken')
-            }
-          })
-          .then((res) => {
-            console.log(res)
-            Cookies.remove("authToken");
-            router.replace("/")
-          })
-          .catch((error) => console.log(error));
-      } else {
-        axios
-          .post(urls.setStudentPassword, {
-            new_passsword: values.newPassword,
-            re_new_password: values.confirmPassword,
-            current_password: values.currentPassword,
-          },{
-            headers:{
-              Authorization: "Bearer " + Cookies.get('authToken')
-            }
-          })
-          .then((res) => console.log(res))
-          .catch((error) => console.log(error));
-        setNotSame("");
+    try {
+      const token = Cookies.get("authToken"); // Use token instead of accessToken
+      const response = await axios.post(
+        urls.setStudentPassword,
+        {
+          new_password: values.newPassword,
+          re_new_password: values.confirmPassword,
+          current_password: values.currentPassword,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+      ///204 is the success status
+      if (response.status === 204) {
+        console.log("done?");
+        //handle what happends after success. either remove cookie or not, your choice.
       }
-    } else {
-      setNotSame("New Password and Confirm Password must be the same");
+      // Handle the response as needed
+    } catch (error: any) {
+      //this checks for the 401 error, which is "unauthorised" i.e token expired
+      if (error.response && error.response.status === 401) {
+        try {
+          //this refreshToken is a function that helps to refresh an expired access token; you can get it from utils
+          await refreshToken();
+          // this helps to re do function after the access token has been refreshed
+          await submitPassword(values, e);
+
+          // Handle the response after refreshing the token
+        } catch (refreshError: any) {
+          console.error("Error refreshing token:", refreshError.message);
+          // Handle refresh error
+        }
+      } else {
+        console.error("Password change failed:", error.message);
+        // Handle other errors
+      }
     }
-  }
+  };
+
+  const submitGeneral = async (values: z.infer<typeof formSchema>, e: any) => {
+    e.preventDefault();
+    // console.log(values.email);
+    // console.log(values.fullName);
+    // console.log(values.phoneNumber);
+  };
 
   const [showPassword, setShowPassword] = useState(true);
   const togglePassword = () => {
@@ -117,21 +177,48 @@ const SettingsPage = () => {
     setShowConfirmPassword((prev) => !prev);
   };
 
+  const [loading, setLoading] = useState(false);
+  const DeleteStudent = async () => {
+    setLoading(true);
+    try {
+      const accessToken = Cookies.get("authToken");
+      const response = await axios.delete(urls.deleteStudent, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      Cookies.remove("authToken");
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        try {
+          const refreshToken = Cookies.get("refreshToken");
+          const accessToken = Cookies.get("authToken");
+
+          const refreshResponse = await axios.post(urls.adminRefreshToken, {
+            refresh: refreshToken,
+            access: accessToken,
+          });
+          Cookies.set("authToken", refreshResponse.data.access);
+          // Retry the fetch after token refresh
+          await DeleteStudent();
+        } catch (refreshError: any) {
+          console.error("Error refreshing token:", refreshError.message);
+          Cookies.remove("authToken");
+        }
+      } else {
+        console.error("Error:", error.message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
       <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
-          <div className="flex items-center gap-1 md:gap-2">
-            <Avatar>
-              {/* <AvatarImage src={avatar} /> */}
-              <AvatarFallback>JN</AvatarFallback>
-            </Avatar>
-            <div>
-              <h1 className="md:text-base text-sm font-medium">{userDetails?.full_name}</h1>
-              <p className="md:text-sm text-xs text-[#5D5B5B]">Student</p>
-            </div>
-          </div>
+          <TopNav />
         </div>
         <div className="md:p-5 p-2">
           <div>
@@ -150,9 +237,10 @@ const SettingsPage = () => {
             </div>
             <div>
               <div className="md:px-5 px-2">
+                {/* general form fields */}
                 <Form {...form}>
                   <form
-                    onSubmit={form.handleSubmit(onSubmit)}
+                    onSubmit={form.handleSubmit(submitGeneral)}
                     className="space-y-3"
                   >
                     <div className="block md:grid grid-cols-6 py-5">
@@ -201,11 +289,34 @@ const SettingsPage = () => {
                               </FormControl>
                             </FormItem>
                           )}
-                        />
+                        /> 
+                        <FormField
+                        control={form.control}
+                        name="phoneNumber"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="md:text-xl text-sm my-3 text-[#3E3E3E]">
+                              Phone Number
+                            </FormLabel>
+                            <FormControl>
+                              <div className="relative">
+                                <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                                <Input
+                                  type="phone"
+                                  className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-6"
+                                  placeholder="445-892-5312"
+                                  {...field}
+                                />
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
                         <div className="lg:flex block justify-end">
                           <Button
-                            type="submit"
-                            className="w-full mt-5 lg:w-1/3 bg-[#33CC99] py-6 font-medium text-lg md:text-2xl text-black hover:text-white"
+                            // onClick={}
+                           type="submit"
+                            className="w-full mt-5 bg-[#33CC99] py-6 font-medium text-lg md:text-2xl text-black hover:text-white"
                           >
                             Save Changes
                           </Button>
@@ -214,9 +325,10 @@ const SettingsPage = () => {
                     </div>
                   </form>
                 </Form>
-                <Form {...form}>
+                {/* change password form field */}
+                <Form {...form2}>
                   <form
-                    onSubmit={form.handleSubmit(onSubmit)}
+                    onSubmit={form2.handleSubmit(submitPassword)}
                     className="space-y-3"
                   >
                     <div className="block md:grid grid-cols-6 py-5">
@@ -225,7 +337,7 @@ const SettingsPage = () => {
                       </h1>
                       <div className="col-span-4">
                         <FormField
-                          control={form.control}
+                          control={form2.control}
                           name="currentPassword"
                           render={({ field }) => (
                             <FormItem>
@@ -258,7 +370,7 @@ const SettingsPage = () => {
                           )}
                         />
                         <FormField
-                          control={form.control}
+                          control={form2.control}
                           name="newPassword"
                           render={({ field }) => (
                             <FormItem>
@@ -291,7 +403,7 @@ const SettingsPage = () => {
                           )}
                         />
                         <FormField
-                          control={form.control}
+                          control={form2.control}
                           name="confirmPassword"
                           render={({ field }) => (
                             <FormItem>
@@ -332,6 +444,7 @@ const SettingsPage = () => {
                     </div>
                     <div className="lg:flex block justify-end">
                       <Button
+                        // onClick={submitPassword}
                         type="submit"
                         className="w-full lg:w-1/3 bg-[#33CC99] py-6 font-medium text-lg md:text-2xl text-black hover:text-white"
                       >
@@ -349,10 +462,42 @@ const SettingsPage = () => {
                   All data associated with this account will be deleted if you
                   deactivate this account
                 </p>
-                <h2 className="text-red-500 cursor-pointer text-base text-center lg:text-left my-4 lg:my-0 md:text-xl font-medium ">
+                <h2
+                  onClick={showDeleteModal}
+                  className="text-red-500 cursor-pointer text-base text-center lg:text-left my-4 lg:my-0 md:text-xl font-medium "
+                >
                   Deactivate
                 </h2>
               </div>
+              {deleteModal && (
+                <div className="w-full h-full absolute top-0 left-0 flex justify-center items-center bg-slate-200/50">
+                  <div className="bg-white rounded-[8px] py-10 px-5 w-auto max-w-[605px] h-[189px] max-h-auto">
+                    <h1 className="text-black font-semibold text-2xl ">
+                      Deactivate account
+                    </h1>
+                    <p className="text-[#3E3E3E] text-lg py-2">
+                      Are you sure you want to deactivate your account? By doing
+                      this, you will lose all your saved data
+                    </p>
+                    <div className="flex justify-end gap-x-5 items-center">
+                      <Button
+                        onClick={DeleteStudent}
+                        disabled={loading}
+                        className="bg-[#F10F2A] text-white"
+                      >
+                        {loading ? (
+                          <Loader2 className=" animate-spin" />
+                        ) : (
+                          <p>Deactivate</p>
+                        )}
+                      </Button>
+                      <p className="cursor-pointer" onClick={showDeleteModal}>
+                        Cancel
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

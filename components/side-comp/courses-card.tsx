@@ -1,44 +1,188 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import img from "@/public/assets/course/ansible.png";
-import { BookText, Hourglass, Lock, LucideLockKeyhole, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
+import {
+  BookText,
+  Hourglass,
+  Lock,
+  LucideLoader2,
+  LucideLockKeyhole,
+  Trash2,
+} from "lucide-react";
+import axios from "axios";
+import { urls } from "@/utils/config";
+import Cookies from "js-cookie";
+import refreshAdminToken from "@/utils/refreshToken";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface cardProps {
-  id: number;
-  img: any;
+  id: string;
+  // img: any;
   title: string;
   paragraph: string;
-  module: { moduleHeader: string; moduleBody: string }[];
+  // module: { moduleHeader: string; moduleBody: string }[];
   duration: number;
   handleCardClick: any;
+  isEnrolled: any;
   // handleOpen: () => void;
 }
 
 const CoursesCard = ({
   id,
-  img,
+  // img,
   title,
   paragraph,
-  module,
+  // module,
   duration,
   handleCardClick,
-  // handleOpen,
-}: cardProps) => {
+  isEnrolled,
+}: // handleOpen,
+cardProps) => {
+  const [moduleCount, setModuleCount] = useState<number>();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const getModuleCount = async () => {
+      setLoading(true);
+      try {
+        const authToken = Cookies.get("authToken");
+        const response = await axios.get(`${urls.courses}${id}/modules/`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+
+        if (response.status === 200) {
+          // Assuming the modules are an array in the response
+          const count = response.data.length;
+          setModuleCount(count);
+          setLoading(false);
+        } else {
+          console.error(`Error fetching modules for course ${id}`);
+          setModuleCount(0); // or handle the error as needed
+        }
+      } catch (error: any) {
+        if (error.response && error.response.status === 401) {
+          await refreshAdminToken();
+          await getModuleCount();
+        } else if (error?.message === "Network Error") {
+          toast.error("Check your network!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
+        } else {
+          toast.error(error?.response?.data?.detail, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
+        }
+        setModuleCount(0); // or handle the error as needed
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getModuleCount();
+  }, []);
+
+  //enroll
+  const [enrolling, setEnrolling] = useState(false);
+  const handleEnroll = async (id: string) => {
+    setEnrolling(true);
+
+    try {
+      const authToken = Cookies.get("authToken");
+      const enrollmentEndpoint = `${urls.courses}${id}/enroll/`;
+
+      const response = await axios.post(enrollmentEndpoint, null, {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        window.location.reload();
+        toast.success(response.data.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await handleEnroll(id);
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else if (
+        error?.response?.data?.message ===
+        "User already enrolled in this course."
+      ) {
+        toast.error(error?.response?.data?.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } finally {
+      setEnrolling(false);
+    }
+  };
   return (
     <div className="relative">
+      <ToastContainer />
       <div
         key={id}
-        onClick={() => {
-          handleCardClick(id);
-        }}
+        // onClick={() => {
+        //   handleCardClick(id);
+        // }}
         className=" w-full cursor-pointer h-auto shadow-md rounded-[8px] bg-[#FFF]"
       >
         <Image
           src={img}
           alt="img"
+          priority
           className="rounded-tr-[4px] w-full rounded-tl-[4px]"
         />
         <div className="p-2">
@@ -49,15 +193,35 @@ const CoursesCard = ({
           <div className="flex items-center gap-x-4 mt-4">
             <div className="flex md:text-base text-xs items-center gap-x-1">
               <BookText className="text-main" />
-              {/* {module} module */}
-              {module.length} module
+              {loading ? (
+                <>
+                  <LucideLoader2 className="animate-spin" />
+                </>
+              ) : (
+                moduleCount
+              )}{" "}
+              module
             </div>
             <div className="flex md:text-base text-xs items-center gap-x-1">
               <Hourglass className="text-main" />
-              {duration} week
+              {duration}
             </div>
           </div>
-          <Button className="w-full text-black bg-sub hover:text-black text-sm md:text-lg my-2">Enroll</Button>
+          {isEnrolled ? (
+            <button className="w-full text-black py-1 cursor-not-allowed rounded-[4px] border border-sub bg-white hover:text-black text-sm md:text-lg my-2">
+              Enrolled
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                handleEnroll(id);
+              }}
+              disabled={enrolling}
+              className="w-full text-black bg-sub py-1 rounded-[4px] cursor-pointer hover:text-black text-sm md:text-lg my-2"
+            >
+              Enroll
+            </button>
+          )}
         </div>
       </div>
       <div
