@@ -32,6 +32,7 @@ const formSchema = z.object({
     message: "Input correct email address",
   }),
   fullName: z.string(),
+  phoneNumber: z.number()
 });
 //password change schema
 const formSchema2 = z.object({
@@ -47,6 +48,7 @@ const SettingsPage = () => {
     defaultValues: {
       Email: "",
       fullName: "",
+      phoneNumber:0
     },
   });
 
@@ -66,6 +68,8 @@ const SettingsPage = () => {
     setDeleteModal((prev) => !prev);
   };
 
+  //function works, rewrite in a way you understand. also check if new password and confirm newpassword is same before running the post operation.
+  //write a similar function to change general details (patch) using the fields in "submitGeneral" function
   // function submitPassword(values: z.infer<typeof formSchema2>, e:any) {
   //   e.preventDefault();
   //   // if (values.confirmPassword === values.newPassword) {
@@ -99,8 +103,7 @@ const SettingsPage = () => {
   //   // }
   // }
 
-  //function works, rewrite in a way you understand. also check if new password and confirm newpassword is same before running the post operation.
-  //write a similar function to change general details (patch) using the fields in "submitGeneral" function
+  
   const submitPassword = async (
     values: z.infer<typeof formSchema2>,
     e: any

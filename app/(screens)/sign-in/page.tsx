@@ -136,7 +136,11 @@ const SignIn = () => {
             <p className="text-[#3E3E3E] text-sm md:text-base text-right">
               <Link href="/sign-in/forgot-password">Forgot Password?</Link>
             </p>
-            {/* <p className="text-red-500 text-center">{specialCharacterErr}</p> */}
+            {!containsSpecialCharacters(formStore.password) && (
+              <p className="text-red-500 text-sm text-center">
+                Password must contain special characters
+              </p>
+            )}
             <button
               disabled={loading}
               type="submit"
