@@ -9,5 +9,7 @@ export const urls = {
   adminRefreshToken: `${baseURL}/jwt/refresh/`,
   studentDashboard: `${baseURL}/users/student/dashboard/`,
   deleteStudent: `${baseURL}/users/student/me/`,
-  courses: `${baseURL}/courses/`
+  courses: `${baseURL}/courses/`,
+  setStudentPassword: `${baseURL}/users/student/set_password/`,
 };
+

@@ -23,13 +23,11 @@ import TopNav from "@/components/side-comp/topNav";
 import { useRouter } from "next/navigation";
 
 import Cookies from "js-cookie";
-import axios from "axios";
-import { urls } from "@/utils/config";
-import refreshAdminToken from "@/utils/refreshToken";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import useStudentStore from "@/store/dashboard-fetch";
 
 const tags = [
   "Project submission by Femi Oyewale",
@@ -75,48 +73,9 @@ const Dashboard = () => {
     ],
   };
 
-  const [stuData, setStuData] = useState<StuData | null>(null);
-  const [loading, setLoading] = useState(true);
   const route = useRouter();
   //fetch dashboard data with acceess token and use refresh token to refresh expired token
-  const fetchStuData = async () => {
-    try {
-      const accessToken = Cookies.get("authToken");
-      const response = await axios.get(urls.studentDashboard, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      setStuData(response.data);
-    } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await fetchStuData();
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { stuData, loading, fetchStuData } = useStudentStore();
 
   useEffect(() => {
     fetchStuData();
