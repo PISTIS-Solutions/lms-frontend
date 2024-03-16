@@ -10,6 +10,7 @@ export const urls = {
   studentDashboard: `${baseURL}/users/student/dashboard/`,
   deleteStudent: `${baseURL}/users/student/me/`,
   courses: `${baseURL}/courses/`,
+  updateStudentProfile: `${baseURL}/users/student/me/`,
   setStudentPassword: `${baseURL}/users/student/set_password/`,
 };
 
