@@ -3,7 +3,7 @@ import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Favicon from '../public/favicon.ico';
 
-const montserrat = Montserrat({ subsets: ["latin"], display: "swap" });
+const montserrat = Montserrat({ subsets: ["latin"]});
 
 export const metadata: Metadata = {
   title: "Pistis Student",

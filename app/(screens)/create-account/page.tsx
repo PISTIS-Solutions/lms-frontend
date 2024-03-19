@@ -42,6 +42,7 @@ const SignUp = () => {
             re_password: formStore.confirm,
           }),
         });
+
         if (response.ok) {
           // setModal(true);
           // router.push("/create-account/activate/[uid]");
@@ -56,11 +57,21 @@ const SignUp = () => {
             theme: "dark",
           });
         } else {
-          setModal(false);
+          toast.error("This email address has been registered!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
         }
       }
     } catch (error: any) {
-      setSpecialCharacterErr(error.message);
+      if (error.message === "Password must contain special characters") {
+        setSpecialCharacterErr(error.message);
+      }
     } finally {
       setLoading(false);
     }
