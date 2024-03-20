@@ -176,41 +176,7 @@
 //     setShowConfirmPassword((prev) => !prev);
 //   };
 
-//   const [loading, setLoading] = useState(false);
-//   const DeleteStudent = async () => {
-//     setLoading(true);
-//     try {
-//       const accessToken = Cookies.get("authToken");
-//       const response = await axios.delete(urls.deleteStudent, {
-//         headers: {
-//           Authorization: `Bearer ${accessToken}`,
-//         },
-//       });
-//       Cookies.remove("authToken");
-//     } catch (error: any) {
-//       if (error.response && error.response.status === 401) {
-//         try {
-//           const refreshToken = Cookies.get("refreshToken");
-//           const accessToken = Cookies.get("authToken");
-
-//           const refreshResponse = await axios.post(urls.adminRefreshToken, {
-//             refresh: refreshToken,
-//             access: accessToken,
-//           });
-//           Cookies.set("authToken", refreshResponse.data.access);
-//           // Retry the fetch after token refresh
-//           await DeleteStudent();
-//         } catch (refreshError: any) {
-//           console.error("Error refreshing token:", refreshError.message);
-//           Cookies.remove("authToken");
-//         }
-//       } else {
-//         console.error("Error:", error.message);
-//       }
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
+//
 
 "use client";
 import React, { useState } from "react";
@@ -242,6 +208,7 @@ import Cookies from "js-cookie";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import refreshAdminToken from "@/utils/refreshToken";
 
 const formSchema = z.object({
   Email: z.string().min(2, {
@@ -299,7 +266,10 @@ const SettingsPage = () => {
   };
 
   const [passwordLoading, setPasswordLoading] = useState(false);
-  const onSubmitPassword = async (values: z.infer<typeof passwordSchema>, e: any) => {
+  const onSubmitPassword = async (
+    values: z.infer<typeof passwordSchema>,
+    e: any
+  ) => {
     e.preventDefault();
     if (values.confirmPassword === values.newPassword) {
       setNotSame("");
@@ -319,7 +289,6 @@ const SettingsPage = () => {
             },
           }
         );
-        console.log(response, "pass");
 
         if (response.status === 204) {
           setPasswordLoading(false);
@@ -338,7 +307,7 @@ const SettingsPage = () => {
         if (error.response && error.response.status === 401) {
           try {
             await refreshToken();
-            await onSubmit(values, e);
+            await onSubmitPassword(values, e);
           } catch (refreshError: any) {
             console.error("Error refreshing token:", refreshError.message);
           }
@@ -389,10 +358,10 @@ const SettingsPage = () => {
       setNotSame("New password and confirm new Password must be the same");
     }
   };
-  
+
   const [generalLoading, setGeneralLoading] = useState(false);
   const onSubmitGeneral = async (
-    values: z.infer<typeof formSchema2>,
+    values: z.infer<typeof formSchema>,
     e: any
   ) => {
     e.preventDefault();
@@ -466,9 +435,63 @@ const SettingsPage = () => {
     setShowConfirmPassword((prev) => !prev);
   };
 
+  const [loading, setLoading] = useState(false);
+  const DeactivateStudent = async () => {
+    try {
+      setLoading(true);
+      const accessToken = Cookies.get("authToken");
+      const response = await axios.delete(urls.deleteStudent, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        toast.success("Account Deactivated!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } catch (error: any) {
+      setLoading(false);
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await DeactivateStudent();
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
+      <ToastContainer/>
       <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
           <TopNav />
@@ -742,11 +765,13 @@ const SettingsPage = () => {
                     </p>
                     <div className="flex justify-end gap-x-5 items-center">
                       <Button
-                        // onClick={DeleteStudent}
-                        disabled={passwordLoading}
+                        onClick={() => {
+                          DeactivateStudent()
+                        }}
+                        disabled={loading}
                         className="bg-[#F10F2A] text-white"
                       >
-                        {passwordLoading ? (
+                        {loading ? (
                           <Loader2 className=" animate-spin" />
                         ) : (
                           <p>Deactivate</p>

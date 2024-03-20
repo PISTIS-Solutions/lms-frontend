@@ -5,7 +5,13 @@ import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import { BookOpenText, GraduationCap, BookText, ListChecks, Loader2 } from "lucide-react";
+import {
+  BookOpenText,
+  GraduationCap,
+  BookText,
+  ListChecks,
+  Loader2,
+} from "lucide-react";
 import PaginatedTable from "@/components/side-comp/pagination-table-students";
 import PaginatedTableMentor from "@/components/side-comp/pagination-table mentor";
 
@@ -28,26 +34,9 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import useStudentStore from "@/store/dashboard-fetch";
-
-const tags = [
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-];
-
-interface StuData {
-  total_courses: number;
-  courses_completed: number;
-  projects_completed: number;
-  enrolled_courses: [];
-}
+import axios from "axios";
+import { urls } from "@/utils/config";
+import refreshAdminToken from "@/utils/refreshToken";
 
 const Dashboard = () => {
   const [table, setTable] = useState("students");
@@ -61,25 +50,68 @@ const Dashboard = () => {
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 
+  const route = useRouter();
+  //fetch dashboard data with acceess token and use refresh token to refresh expired token
+  const { stuData, loading, fetchStuData } = useStudentStore();
+
+  //activities endpoint
+  const [activity, setActivities] = useState([]);
+  const userActivity = async () => {
+    try {
+      const accessToken = Cookies.get("authToken");
+      const response = await axios.get(urls.activities, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.status === 200) {
+        setActivities(response.data);
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await userActivity();
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchStuData();
+    userActivity();
+  }, []);
+
+  const notStarted = stuData?.total_courses - stuData?.courses_completed;
   const data = {
     labels: ["Completed", "Not Started"],
     datasets: [
       {
-        label: "Completed",
-        data: [80, 19],
+        label: "Courses",
+        data: [stuData?.courses_completed + 10, notStarted + 10],
         backgroundColor: ["#C36", "#3C9"],
         borderWidth: 1,
       },
     ],
   };
-
-  const route = useRouter();
-  //fetch dashboard data with acceess token and use refresh token to refresh expired token
-  const { stuData, loading, fetchStuData } = useStudentStore();
-
-  useEffect(() => {
-    fetchStuData();
-  }, []);
 
   const userName = Cookies.get("fullName");
 
@@ -260,8 +292,10 @@ const Dashboard = () => {
                 <div>
                   <ScrollArea className="w-full h-[300px] md:h-[200px] rounded-md">
                     <div>
-                      {tags.map((tag, index) => (
-                        <>
+                      {activity.length === 0 ? (
+                        <p className="text-center">No activity yet</p>
+                      ) : (
+                        activity.map((tag, index) => (
                           <div
                             key={index}
                             className="flex items-center gap-3 md:gap-4 py-2 md:py-3 px-1 md:px-2 cursor-pointer hover:bg-main hover:text-white duration-150 ease-in-out bg-[#FBFBFB] my-2 rounded-[8px]"
@@ -270,15 +304,15 @@ const Dashboard = () => {
                               {/* <AvatarImage src={avatar} /> */}
                               <AvatarFallback>JN</AvatarFallback>
                             </Avatar>
-                            <p className="md:text-lg text-sm">{tag}</p>
+                            <p className="md:text-md text-sm">{tag}</p>
                           </div>
-                        </>
-                      ))}
+                        ))
+                      )}
                     </div>
                   </ScrollArea>
                 </div>
               </div>
-              <div className="border-md bg-white rounded-[8px] p-2 h-[53.5%] shadow-xl w-auto mt-2">
+              <div className="border-md bg-white rounded-[8px] p-2 h-auto shadow-xl w-auto mt-2">
                 <h1 className="text-xl">Progress Report</h1>
                 <Doughnut data={data} />
               </div>
