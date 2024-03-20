@@ -298,12 +298,8 @@ const SettingsPage = () => {
     setDeleteModal((prev) => !prev);
   };
 
-  //add loading state for both
-  //add no network state for both
-  //add success toast
-  //add error toast
   const [passwordLoading, setPasswordLoading] = useState(false);
-  const onSubmit = async (values: z.infer<typeof passwordSchema>, e: any) => {
+  const onSubmitPassword = async (values: z.infer<typeof passwordSchema>, e: any) => {
     e.preventDefault();
     if (values.confirmPassword === values.newPassword) {
       setNotSame("");
@@ -393,9 +389,10 @@ const SettingsPage = () => {
       setNotSame("New password and confirm new Password must be the same");
     }
   };
+  
   const [generalLoading, setGeneralLoading] = useState(false);
   const onSubmitGeneral = async (
-    values: z.infer<typeof formSchema>,
+    values: z.infer<typeof formSchema2>,
     e: any
   ) => {
     e.preventDefault();
@@ -588,7 +585,7 @@ const SettingsPage = () => {
                 {/* change password form field */}
                 <Form {...passwordForm}>
                   <form
-                    onSubmit={passwordForm.handleSubmit(onSubmit)}
+                    onSubmit={passwordForm.handleSubmit(onSubmitPassword)}
                     className="space-y-3"
                   >
                     <div className="block md:grid grid-cols-6 py-5">
