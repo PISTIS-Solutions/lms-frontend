@@ -43,8 +43,12 @@ const ForgotPassword = () => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const email = values.Email;
     try {
+<<<<<<< HEAD
+      const url = urls.resetPassword;
+=======
       const url =
         urls.forgotPassword;
+>>>>>>> e82b2254c1f6fa720bdab79bcc5778bf94d3ddad
       await axios.post(url, { email });
       router.push("/sign-in/forgot-password/verify");
     } catch (error) {
@@ -87,7 +91,9 @@ const ForgotPassword = () => {
                           placeholder="example@gmail.com"
                           {...field}
                         />
-                        {Unsuccess && <p className="text-red-500 font-bold">Unsuccessful</p>}
+                        {Unsuccess && (
+                          <p className="text-red-500 font-bold">Unsuccessful</p>
+                        )}
                       </div>
                     </FormControl>
                     <FormMessage />
