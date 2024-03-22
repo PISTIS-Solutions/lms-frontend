@@ -74,9 +74,14 @@ const Verify_SignUp = () => {
     }
   };
 
+  const [reloaded, setReloaded] = useState(false);
+
   useEffect(() => {
-    window.location.reload()
-  }, []);
+    if (!reloaded) {
+      window.location.reload();
+      setReloaded(true);
+    }
+  }, [reloaded]);
 
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
