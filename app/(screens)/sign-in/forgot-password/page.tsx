@@ -14,17 +14,19 @@ import {
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, KeyRound, Mail } from "lucide-react";
+import { Eye, EyeOff, KeyRound, Loader2Icon, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { urls } from "@/utils/config";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const formSchema = z.object({
   Email: z.string().min(2, {
-    message: "Input correct email address",
+    message: "Input a valid email address",
   }),
 });
 
@@ -36,27 +38,52 @@ const ForgotPassword = () => {
     },
   });
 
-  const [Unsuccess, setUnsuccess] = useState(false);
-
   const router = useRouter();
+  const [loading, setLoading] = useState(false)
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>, e: any) => {
+    e.preventDefault();
     const email = values.Email;
     try {
-      const url =
-        urls.forgotPassword;
-      await axios.post(url, { email });
-      router.push("/sign-in/forgot-password/verify");
-    } catch (error) {
-      console.error("Error:", error);
-      setUnsuccess(true);
-    }
+      setLoading(true)
+      const url = urls.forgotPassword;
+      const response = await axios.post(url, { email: email });
 
-    //
+      if (response.status === 204) {
+        router.push("/sign-in/forgot-password/verify");
+        setLoading(false)
+      }
+    } catch (error: any) {
+      setLoading(false)
+      if (error.response.data.email[0] === "Email does not Exist ") {
+        toast.error("Email address is invalid", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } finally{
+      setLoading(false)
+    }
   };
 
   return (
     <main className="bg-form-back h-screen w-full bg-no-repeat bg-cover relative">
+      <ToastContainer />
       <div className="bg-white w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 flex flex-col gap-28 px-10">
         <div className="flex justify-end">
           <Image src={logo} alt="pistis_logo" className="" priority />
@@ -87,7 +114,6 @@ const ForgotPassword = () => {
                           placeholder="example@gmail.com"
                           {...field}
                         />
-                        {Unsuccess && <p className="text-red-500 font-bold">Unsuccessful</p>}
                       </div>
                     </FormControl>
                     <FormMessage />
@@ -95,10 +121,13 @@ const ForgotPassword = () => {
                 )}
               />
               <Button
+              disabled={loading}
                 type="submit"
-                className="w-full mt-10 bg-[#33CC99] py-6 font-medium text-2xl text-black hover:text-white"
+                className="w-full disabled:cursor-not-allowed disabled:bg-sub/20 mt-10 bg-[#33CC99] py-6 font-medium text-2xl text-black hover:text-white"
               >
-                Submit
+                {
+                  loading ? <Loader2Icon className="animate-spin"/> : "Submit"
+                }
               </Button>
             </form>
           </Form>

@@ -24,7 +24,7 @@ const NavigationBar = () => {
           </Button>
         </Link>
 
-        <Link href="/create-account">
+        <Link href="/pricing">
           <p className="text-xl hover:text-gray-200 text-white font-medium cursor-pointer">
             Create account
           </p>
