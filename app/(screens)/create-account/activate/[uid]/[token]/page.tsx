@@ -24,6 +24,7 @@ const Verify_SignUp = () => {
 
   const handleVerifyToken = async (e: React.FormEvent) => {
     e.preventDefault();
+    // window.location.reload();
 
     try {
       setLoading(true);
@@ -71,17 +72,76 @@ const Verify_SignUp = () => {
           theme: "dark",
         });
       }
+    } finally{
+      setLoading(false)
     }
   };
+  // const resendToken = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   // window.location.reload();
 
-  const [reloaded, setReloaded] = useState(false);
+  //   try {
+  //     setLoading(true);
+  //     const response = await axios.post(
+  //       urls.activateEmail,
+  //       {
+  //         uid: params.uid,
+  //         token: params.token,
+  //       },
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     );
 
-  useEffect(() => {
-    if (!reloaded) {
-      window.location.reload();
-      setReloaded(true);
-    }
-  }, [reloaded]);
+  //     if (response.status === 200) {
+  //       // setResponse(response.data);
+  //       setLoading(false);
+  //       localStorage.setItem("user_id", response.data.user_id);
+  //       toast.success("Chec email for new tokeen", {
+
+  //       })
+  //       // router.replace("/create-account/success");
+  //     }
+  //     if (response.status === 403) {
+  //       setUsed("Email already verified");
+  //     }
+  //   } catch (error: any) {
+  //     if (error?.message === "Network Error") {
+  //       toast.error("Check your network!", {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: true,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "dark",
+  //       });
+  //     } else {
+  //       toast.error(error?.response?.data?.detail, {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: true,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "dark",
+  //       });
+  //     }
+  //   } finally{
+  //     setLoading(false)
+  //   }
+  // };
+
+  // const [reloaded, setReloaded] = useState(false);
+
+  // useEffect(() => {
+  //   if (!reloaded) {
+  //     window.location.reload();
+  //     setReloaded(true);
+  //   }
+  // }, [reloaded]);
 
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
@@ -122,11 +182,9 @@ const Verify_SignUp = () => {
             )}
           </Button>
         </div>
-        {used && (
-          <div>
-            <p className="text-right text-red-500">Email Already Verified</p>
-          </div>
-        )}
+        {/* <div>
+          <p className="text-right cursor-pointer text-main">Resend Token</p>
+        </div> */}
         {response?.is_active && (
           <div className="flex justify-end py-2 gap-x-2">
             <Check className="text-green-500" />
