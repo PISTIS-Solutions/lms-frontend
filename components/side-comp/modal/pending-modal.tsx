@@ -6,7 +6,7 @@ import React from "react";
 
 const PendingModal = ({ handleCloseModal, person }: any) => {
   return (
-    <div className="bg-white p-4 w-full mx-2 md:mx-0 md:w-1/3 h-5/6">
+    <div className="bg-white p-4 w-full mx-2 md:mx-0 md:w-1/3 h-full">
       <div>
         <div className="flex justify-between items-center">
           <h1 className="md:text-2xl text-lg font-medium">Terraform</h1>
@@ -45,7 +45,7 @@ const PendingModal = ({ handleCloseModal, person }: any) => {
         </div>
       </div>
       <div className="flex justify-end">
-        <Button className="bg-sub hover:text-white text-black">Submit</Button>
+        <Button className="bg-sub hover:text-white text-black mt-[55px]">Submit</Button>
       </div>
     </div>
   );

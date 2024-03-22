@@ -36,9 +36,20 @@ const SignIn = () => {
       });
 
       if (response.status === 200) {
+        toast.success("Successfully Logged in!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
         Cookies.set("authToken", response.data.access);
         Cookies.set("refreshToken", response.data.refresh);
         Cookies.set("fullName", response.data.user.full_name);
+        Cookies.set("plan", response.data.user.plan);
+
         route.replace("/dashboard");
       }
     } catch (error: any) {
@@ -157,7 +168,7 @@ const SignIn = () => {
         <div>
           <p className="text-center text-base md:text-lg font-normal ">
             Don't have an account?{" "}
-            <Link className="text-main font-semibold" href="/create-account">
+            <Link className="text-main font-semibold" href="/pricing">
               Create Account
             </Link>
           </p>

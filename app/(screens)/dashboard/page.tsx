@@ -5,7 +5,14 @@ import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import { BookOpenText, GraduationCap, ListChecks, Loader2 } from "lucide-react";
+import {
+  BookOpenText,
+  GraduationCap,
+  BookText,
+  ListChecks,
+  Loader2,
+  CalendarDays,
+} from "lucide-react";
 import PaginatedTable from "@/components/side-comp/pagination-table-students";
 import PaginatedTableMentor from "@/components/side-comp/pagination-table mentor";
 
@@ -28,26 +35,60 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import useStudentStore from "@/store/dashboard-fetch";
+import axios from "axios";
+import { urls } from "@/utils/config";
+import refreshAdminToken from "@/utils/refreshToken";
+import { Button } from "@/components/ui/button";
+
+const formatDate = (isoDateString: any) => {
+  const date = new Date(isoDateString);
+  const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const month = monthNames[date.getMonth()];
+  let day = date.getDate();
+  let daySuffix;
+  if (day === 1 || day === 21 || day === 31) {
+    daySuffix = "st";
+  } else if (day === 2 || day === 22) {
+    daySuffix = "nd";
+  } else if (day === 3 || day === 23) {
+    daySuffix = "rd";
+  } else {
+    daySuffix = "th";
+  }
+
+  // Year in "2024" format
+  const year = date.getFullYear();
+
+  return `${month} ${day}${daySuffix}, ${year}`;
+};
 
 const tags = [
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
-  "Project submission by Femi Oyewale",
+  {
+    message: "This is a message",
+    activity_date: "2019-08-24T12:00:00Z",
+  },
+  {
+    message: "This is a message",
+    activity_date: "2019-08-25T13:00:00Z",
+  },
+  {
+    message: "This is a message",
+    activity_date: "2019-08-26T14:00:00Z",
+  },
 ];
-
-interface StuData {
-  total_courses: number;
-  courses_completed: number;
-  projects_completed: number;
-  enrolled_courses: [];
-}
 
 const Dashboard = () => {
   const [table, setTable] = useState("students");
@@ -61,27 +102,71 @@ const Dashboard = () => {
 
   ChartJS.register(ArcElement, Tooltip, Legend);
 
+  const route = useRouter();
+  //fetch dashboard data with acceess token and use refresh token to refresh expired token
+  const { stuData, loading, fetchStuData } = useStudentStore();
+
+  //activities endpoint
+  const [activity, setActivities] = useState<any>([]);
+  const userActivity = async () => {
+    try {
+      const accessToken = Cookies.get("authToken");
+      const response = await axios.get(urls.activities, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.status === 200) {
+        setActivities(response.data);
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await userActivity();
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchStuData();
+    userActivity();
+  }, []);
+
+  const notStarted = stuData?.total_courses - stuData?.courses_completed;
   const data = {
     labels: ["Completed", "Not Started"],
     datasets: [
       {
-        label: "Completed",
-        data: [80, 19],
+        label: "Courses",
+        data: [stuData?.courses_completed + 10, notStarted + 10],
         backgroundColor: ["#C36", "#3C9"],
         borderWidth: 1,
       },
     ],
   };
 
-  const route = useRouter();
-  //fetch dashboard data with acceess token and use refresh token to refresh expired token
-  const { stuData, loading, fetchStuData } = useStudentStore();
-
-  useEffect(() => {
-    fetchStuData();
-  }, []);
-
   const userName = Cookies.get("fullName");
+  const plan = Cookies.get("plan");
 
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
@@ -94,29 +179,35 @@ const Dashboard = () => {
         <div className="">
           <div className="grid grid-cols-1 lg:grid-cols-10 p-4">
             <div className=" col-span-1 lg:col-span-7">
-              <div className="w-[98%] rounded-[8px] bg-white md:h-[133px] h-[128px] flex justify-between pl-5 shadow-md mr-5 mb-2">
+              <div className="w-[98%] rounded-[8px] relative bg-white md:h-[133px] h-[128px] flex justify-between pl-5 shadow-md mr-5 mb-2">
                 <div className="md:mt-[38px] mt-[30px]">
                   <h1 className="text-xl md:text-2xl font-semibold">
                     Welcome, {userName}
                   </h1>
-                  <p className="md:text-base text-sm">
-                    Complete your course and take a step further💪
+                  <p className="md:text-base text-sm pr-4">
+                    {plan === "Free"
+                      ? "You are using the free version, upgrade now to complete more courses"
+                      : "Complete your course and take a step further💪"}
                   </p>
                 </div>
-                <div className="">
-                  <Image
-                    src={vectorg}
-                    alt=""
-                    priority
-                    className="z-10 relative"
-                  />
-                  <Image
-                    src={vectorb}
-                    alt=""
-                    priority
-                    className="relative md:bottom-[101px] bottom-[65px] md:left-[23px]"
-                  />
-                </div>
+                {plan === "Free" ? (
+                  <Button className="bg-sub rounded-[8px] text-black hover:text-white hover:bg-main font-medium absolute md:top-10 bottom-2 right-5 ">Upgrade Plan</Button>
+                ) : (
+                  <div className="">
+                    <Image
+                      src={vectorg}
+                      alt=""
+                      priority
+                      className="z-10 relative"
+                    />
+                    <Image
+                      src={vectorb}
+                      alt=""
+                      priority
+                      className="relative md:bottom-[101px] bottom-[65px] md:left-[23px]"
+                    />
+                  </div>
+                )}
               </div>
               <div className="lg:flex block justify-between gap-0 md:gap-5 pr-4">
                 <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-sub flex items-center justify-between px-5">
@@ -152,7 +243,7 @@ const Dashboard = () => {
                     </p>
                   </div>
                   <span className="bg-[#F8F9FF] rounded-full p-3">
-                    <GraduationCap className="text-main" />
+                    <BookText className="text-main" />
                   </span>
                 </div>
                 <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-[#CC3366] flex items-center justify-between px-5">
@@ -253,32 +344,43 @@ const Dashboard = () => {
               </div>
             </div>
             <div className="col-span-3">
-              <div className="bg-white h-[370px] md:h-[400px] rounded-[8px] p-2 shadow-sm ">
-                <h1 className="md:text-2xl text-lg font-medium mb-4">
+              <div className="bg-white h-[370px] md:h-[275px] rounded-[8px] p-2 shadow-sm ">
+                <h1 className="md:text-2xl text-lg font-medium  mt-4">
                   Your Activity
                 </h1>
+                <hr />
                 <div>
-                  <ScrollArea className="w-full h-[300px] md:h-[320px] rounded-md">
+                  <ScrollArea className="w-full h-[300px] md:h-[200px] rounded-md">
                     <div>
-                      {tags.map((tag, index) => (
-                        <>
+                      {activity.length !== 0 ? (
+                        <p className="text-center">No activity yet</p>
+                      ) : (
+                        activity.map((tag:any, index:any) => (
                           <div
                             key={index}
-                            className="flex items-center gap-3 md:gap-4 py-2 md:py-3 px-1 md:px-2 cursor-pointer hover:bg-main hover:text-white duration-150 ease-in-out bg-[#FBFBFB] my-2 rounded-[8px]"
+                            className="flex items-center gap-3 md:gap-4 py-2 md:py-3 px-1 md:px-2 cursor-pointer"
                           >
-                            <Avatar className="md:w-[61px] w-[40px] md:h-[61px] h-[40px] hover:text-black">
-                              {/* <AvatarImage src={avatar} /> */}
-                              <AvatarFallback>JN</AvatarFallback>
-                            </Avatar>
-                            <p className="md:text-lg text-sm">{tag}</p>
+                            <div className="flex items-top gap-x-2">
+                              <div className="w-4 h-4 mt-1 bg-main flex justify-center items-center rounded-full">
+                                <div className=" w-2 h-2 bg-white rounded-full"></div>
+                              </div>
+                              <div>
+                                <p className="text-sm">{tag?.message}</p>
+                                <span className="text-[#999999] text-xs flex items-center gap-x-1">
+                                  <CalendarDays className="w-4 h-4" />{" "}
+                                  <p>{formatDate(tag?.activity_date)}</p>
+                                </span>
+                              </div>
+                            </div>
                           </div>
-                        </>
-                      ))}
+                        ))
+                      )}
                     </div>
                   </ScrollArea>
                 </div>
               </div>
-              <div className="border-md bg-white rounded-[8px] p-2 h-1/2 w-auto mt-2">
+              <div className="border-md bg-white rounded-[8px] p-2 h-auto shadow-xl w-auto mt-2">
+                <h1 className="text-xl">Progress Report</h1>
                 <Doughnut data={data} />
               </div>
             </div>
