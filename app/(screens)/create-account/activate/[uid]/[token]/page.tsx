@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
 import logo from "@/public/assets/pistis_logo.png";
@@ -11,6 +11,9 @@ import Fulllogo from "@/public/assets/full-logo.png";
 import axios from "axios";
 import { Check, Loader2 } from "lucide-react";
 import { urls } from "@/utils/config";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Verify_SignUp = () => {
   const router = useRouter();
@@ -47,12 +50,37 @@ const Verify_SignUp = () => {
         setUsed("Email already verified");
       }
     } catch (error: any) {
-      console.log("Error:", error.message);
+      if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
     }
   };
 
+  useEffect(() => {
+    window.location.reload()
+  }, []);
+
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
+      <ToastContainer />
       <div className="bg-white w-full md:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 block md:flex flex-col  px-0 md:px-10">
         <div className="h-auto block md:hidden w-full bg-main p-2">
           <Image src={Fulllogo} alt="logo" />
