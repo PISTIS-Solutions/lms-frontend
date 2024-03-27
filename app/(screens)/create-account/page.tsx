@@ -46,7 +46,7 @@ const SignUp = () => {
         if (response.ok) {
           // setModal(true);
           // router.push("/create-account/activate/[uid]");
-
+          localStorage.setItem("email", formStore.email);
           toast.success("Check email for validation!", {
             position: "top-right",
             autoClose: 5000,

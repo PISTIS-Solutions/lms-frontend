@@ -1,5 +1,5 @@
-"use client"
-import { CheckCircle2 } from "lucide-react";
+"use client";
+import { Check, CheckCircle2 } from "lucide-react";
 import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -9,10 +9,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 const PricingCard = () => {
   const services = [
-    { serv: "Access to 1 one-on-one mentoring session" },
-    { serv: "30 days free access" },
-    { serv: "Access to 3 courses" },
-    { serv: "Access to 3 projects" },
+    { serv: "1 one-on-one mentoring session" },
+    { serv: "30 days access" },
+    { serv: "3 courses" },
+    { serv: "3 projects" },
   ];
 
   const freePlan = () => {
@@ -28,9 +28,9 @@ const PricingCard = () => {
   };
 
   return (
-    <div className="border-2 relative border-main rounded-[8px] max-w-[310px] w-full h-[444px]">
+    <div className="border-2 relative border-[A5ACBA] rounded-[4px] max-w-[310px] w-full h-[444px]">
       <ToastContainer />
-      <div className="bg-[#F8F9FF] rounded-tr-[8px] rounded-tl-[8px] px-4 py-6">
+      <div className="bg-[#F8F9FF] text-center rounded-tr-[4px] rounded-tl-[4px] px-4 py-6">
         <div>
           <h1 className="text-lg text-[#1A1A1A] font-medium">Basic Plan</h1>
           <p className="text-xs text-[#3E3E3E] pb-4 pt-2">
@@ -40,11 +40,13 @@ const PricingCard = () => {
         </div>
         <h1 className="text-2xl text-main font-semibold">Free</h1>
       </div>
-      <div className="pt-4 h-[45%] overflow-y-scroll px-4">
+      <div className="pt-4 h-[45%] px-7 overflow-y-scroll">
         {services.map((service, i) => {
           return (
             <div key={i} className="flex py-2 items-top gap-x-1">
-              <CheckCircle2 className="text-main h-4 w-4" />
+              <span className="w-4 h-4 mt-0.5 bg-[#EEEEEE] flex items-center justify-center p-0.5 rounded-full">
+                <Check className="text-[#919BA7]" />
+              </span>
               <p className="text-sm text-[#1A1A1A] font-medium">
                 {service.serv}
               </p>
@@ -58,7 +60,7 @@ const PricingCard = () => {
             onClick={() => {
               freePlan();
             }}
-            className="bg-sub absolute bottom-4 hover:text-white hover:bg-main w-[90%] mx-4"
+            className="bg-sub absolute bottom-4 text-black hover:text-white hover:bg-main w-[90%] mx-4"
           >
             Choose Plan
           </Button>

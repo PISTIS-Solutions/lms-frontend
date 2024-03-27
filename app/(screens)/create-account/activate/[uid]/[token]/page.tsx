@@ -14,12 +14,12 @@ import { urls } from "@/utils/config";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useFormStore from "@/store/create-account";
 
 const Verify_SignUp = () => {
   const router = useRouter();
-  const [response, setResponse] = useState<any>();
+  // const [response, setResponse] = useState<any>();
   const [loading, setLoading] = useState<any>();
-  const [used, setUsed] = useState<string>();
   const params = useParams<{ uid: string; token: string }>();
 
   const handleVerifyToken = async (e: React.FormEvent) => {
@@ -42,13 +42,29 @@ const Verify_SignUp = () => {
       );
 
       if (response.status === 200) {
-        setResponse(response.data);
+        toast.success("Email Verified!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
         setLoading(false);
         localStorage.setItem("user_id", response.data.user_id);
         router.replace("/create-account/success");
       }
       if (response.status === 403) {
-        setUsed("Email already verified");
+        toast.error("Email already used!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
       }
     } catch (error: any) {
       if (error?.message === "Network Error") {
@@ -72,67 +88,81 @@ const Verify_SignUp = () => {
           theme: "dark",
         });
       }
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
-  // const resendToken = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   // window.location.reload();
 
-  //   try {
-  //     setLoading(true);
-  //     const response = await axios.post(
-  //       urls.activateEmail,
-  //       {
-  //         uid: params.uid,
-  //         token: params.token,
-  //       },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //       }
-  //     );
+  const formStore = useFormStore();
+  const email = localStorage.getItem("email");
+  const resendToken = async (e: any) => {
+    e.preventDefault();
+    // window.location.reload();
 
-  //     if (response.status === 200) {
-  //       // setResponse(response.data);
-  //       setLoading(false);
-  //       localStorage.setItem("user_id", response.data.user_id);
-  //       toast.success("Chec email for new tokeen", {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        urls.resendToken,
+        {
+          email: email,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  //       })
-  //       // router.replace("/create-account/success");
-  //     }
-  //     if (response.status === 403) {
-  //       setUsed("Email already verified");
-  //     }
-  //   } catch (error: any) {
-  //     if (error?.message === "Network Error") {
-  //       toast.error("Check your network!", {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: true,
-  //         closeOnClick: true,
-  //         pauseOnHover: false,
-  //         draggable: false,
-  //         theme: "dark",
-  //       });
-  //     } else {
-  //       toast.error(error?.response?.data?.detail, {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: true,
-  //         closeOnClick: true,
-  //         pauseOnHover: false,
-  //         draggable: false,
-  //         theme: "dark",
-  //       });
-  //     }
-  //   } finally{
-  //     setLoading(false)
-  //   }
-  // };
+      if (response.status === 204) {
+        // setResponse(response.data);
+        setLoading(false);
+        toast.success("Check email for new tokeen", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+        // router.replace("/create-account/success");
+      }
+    } catch (error: any) {
+      if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else if (error.response.data.email[0] === "Email does not Exist ") {
+        toast.error("Email address is invalid", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // const [reloaded, setReloaded] = useState(false);
 
@@ -182,15 +212,22 @@ const Verify_SignUp = () => {
             )}
           </Button>
         </div>
-        {/* <div>
-          <p className="text-right cursor-pointer text-main">Resend Token</p>
-        </div> */}
-        {response?.is_active && (
+        <div>
+          <p
+            onClick={(e) => {
+              resendToken(e);
+            }}
+            className="text-right cursor-pointer text-main"
+          >
+            Resend Token
+          </p>
+        </div>
+        {/* {response?.is_active && (
           <div className="flex justify-end py-2 gap-x-2">
             <Check className="text-green-500" />
             <p>Verified</p>
           </div>
-        )}
+        )} */}
       </div>
     </main>
   );
