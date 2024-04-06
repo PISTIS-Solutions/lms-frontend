@@ -49,7 +49,6 @@ const SignIn = () => {
         Cookies.set("refreshToken", response.data.refresh);
         Cookies.set("fullName", response.data.user.full_name);
         Cookies.set("plan", response.data.user.plan);
-
         route.replace("/dashboard");
       }
     } catch (error: any) {
