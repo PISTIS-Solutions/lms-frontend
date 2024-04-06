@@ -20,11 +20,6 @@ const Courses = () => {
     router.push(`/courses/${id}`);
   };
 
-  // const [modal, setModal] = useState(false);
-  // const handleOpen = () => {
-  //   setModal((prev) => !prev);
-  // };
-
   const { stuData, enrolled_courses, fetchStuData } = useStudentStore();
   const { courses, loading, fetchStuCourses } = useCourseStore();
 
@@ -32,6 +27,7 @@ const Courses = () => {
     fetchStuCourses();
     fetchStuData();
   }, []);
+
   const isEnrolled = (courseId: string) =>
     stuData?.enrolled_courses.some(
       (enrolledCourse: any) => enrolledCourse.id === courseId
@@ -53,9 +49,10 @@ const Courses = () => {
                 Loading...
               </span>
             ) : courses && courses.length > 0 ? (
-              courses.map((course: any) => (
+              courses.map((course: any, index: any) => (
                 <div key={course.id}>
                   <CoursesCard
+                    index={index}
                     id={course.id}
                     handleCardClick={handleCardClick}
                     // handleOpen={handleOpen}
@@ -72,28 +69,6 @@ const Courses = () => {
             )}
           </div>
         </div>
-        {/* {modal && (
-          <section className="absolute top-0 flex justify-center items-center left-0 bg-slate-100/50 h-screen w-full">
-            <div className="bg-white md:py-14 py-3 px-2 md:px-7 h-[200px] rounded-[8px] w-1/2 md:w-[608px]">
-              <h1 className="md:text-2xl text-lg font-medium">Delete Course</h1>
-              <p className="md:text-xl text-sm text-[#3E3E3E] font-normal">
-                Are you sure you want to delete this course? You will not be
-                able to retrieve it later
-              </p>
-              <div className="flex md:gap-x-2 gap-x-1 justify-between my-2 md:my-0 md:justify-end items-center">
-                <Button className="bg-red-500 text-white text-sm md:text-lg rounded-[8px]">
-                  Delete
-                </Button>
-                <p
-                  className="cursor-pointer text-sm md:text-lg"
-                  onClick={handleOpen}
-                >
-                  Cancel
-                </p>
-              </div>
-            </div>
-          </section>
-        )} */}
       </div>
     </div>
   );

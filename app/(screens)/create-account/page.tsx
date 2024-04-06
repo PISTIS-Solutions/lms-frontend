@@ -42,11 +42,11 @@ const SignUp = () => {
             re_password: formStore.confirm,
           }),
         });
-
+        console.log(response, "signup");
         if (response.ok) {
           // setModal(true);
           // router.push("/create-account/activate/[uid]");
-
+          localStorage.setItem("email", formStore.email);
           toast.success("Check email for validation!", {
             position: "top-right",
             autoClose: 5000,
