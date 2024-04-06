@@ -31,7 +31,8 @@ const useCourseStore = create<CourseStore>((set, get) => ({
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      set({ courses: response.data, loading: false });
+      set({ courses: response.data.results, loading: false });
+      console.log(response, "response")
     } catch (error:any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();

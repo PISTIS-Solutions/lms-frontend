@@ -1,21 +1,16 @@
 "use client";
 import SideNav from "@/components/side-comp/side-nav";
 import React, { useEffect, useState } from "react";
-
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import {
   BookOpenText,
-  GraduationCap,
   BookText,
   ListChecks,
   Loader2,
   CalendarDays,
+  X,
 } from "lucide-react";
-import PaginatedTable from "@/components/side-comp/pagination-table-students";
-import PaginatedTableMentor from "@/components/side-comp/pagination-table mentor";
-
 import Image from "next/image";
 
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
@@ -39,6 +34,9 @@ import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
 import { Button } from "@/components/ui/button";
+import Pricing from "../pricing/page";
+import PricingCard from "@/components/side-comp/pricing-card";
+import PaidPricing from "@/components/side-comp/paid-pricing";
 
 const formatDate = (isoDateString: any) => {
   const date = new Date(isoDateString);
@@ -75,31 +73,7 @@ const formatDate = (isoDateString: any) => {
   return `${month} ${day}${daySuffix}, ${year}`;
 };
 
-const tags = [
-  {
-    message: "This is a message",
-    activity_date: "2019-08-24T12:00:00Z",
-  },
-  {
-    message: "This is a message",
-    activity_date: "2019-08-25T13:00:00Z",
-  },
-  {
-    message: "This is a message",
-    activity_date: "2019-08-26T14:00:00Z",
-  },
-];
-
 const Dashboard = () => {
-  const [table, setTable] = useState("students");
-
-  const changeTableMentors = () => {
-    setTable("mentors");
-  };
-  const changeTableStudents = () => {
-    setTable("students");
-  };
-
   ChartJS.register(ArcElement, Tooltip, Legend);
 
   const route = useRouter();
@@ -158,7 +132,7 @@ const Dashboard = () => {
     datasets: [
       {
         label: "Courses",
-        data: [stuData?.courses_completed + 10, notStarted + 10],
+        data: [stuData?.courses_completed, notStarted],
         backgroundColor: ["#C36", "#3C9"],
         borderWidth: 1,
       },
@@ -167,6 +141,12 @@ const Dashboard = () => {
 
   const userName = Cookies.get("fullName");
   const plan = Cookies.get("plan");
+  
+
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const handleModal = () => {
+    setOpenModal((prev) => !prev);
+  };
 
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
@@ -191,7 +171,12 @@ const Dashboard = () => {
                   </p>
                 </div>
                 {plan === "Free" ? (
-                  <Button className="bg-sub rounded-[8px] text-black hover:text-white hover:bg-main font-medium absolute md:top-10 bottom-2 right-5 ">Upgrade Plan</Button>
+                  <Button
+                    onClick={handleModal}
+                    className="bg-sub rounded-[8px] text-black hover:text-white hover:bg-main font-medium absolute md:top-10 bottom-2 right-5 "
+                  >
+                    Upgrade Plan
+                  </Button>
                 ) : (
                   <div className="">
                     <Image
@@ -355,7 +340,7 @@ const Dashboard = () => {
                       {activity.length !== 0 ? (
                         <p className="text-center">No activity yet</p>
                       ) : (
-                        activity.map((tag:any, index:any) => (
+                        activity.map((tag: any, index: any) => (
                           <div
                             key={index}
                             className="flex items-center gap-3 md:gap-4 py-2 md:py-3 px-1 md:px-2 cursor-pointer"
@@ -398,6 +383,36 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      {openModal && (
+        <div className="w-full h-screen bg-black/25 absolute top-0 flex justify-center items-center left-0">
+          <div className="rounded-[8px] relative bg-white border-t-2 w-3/4 border-t-main ">
+            <div className="text-center text-black flex justify-center items-center flex-col py-5">
+              <h1 className="font-semibold py-5 text-4xl">
+                Find the right plan for you
+              </h1>
+              <p className="max-w-[60vw]">
+                Make payment into{" "}
+                <span className="font-semibold">
+                  THE PISTIS TECH HUB (6366146872, MONIEPOINT MFB)
+                </span>
+                , mail payment receipt to{" "}
+                <span className="font-semibold">learning@pistis.solution</span>{" "}
+                for payment confirmation.
+              </p>
+              <button
+                onClick={handleModal}
+                className=" bg-transparent absolute top-5 right-5 cursor-pointer"
+              >
+                <X className="text-main border border-main rounded-md " />
+              </button>
+            </div>
+            <div className="flex items-center justify-center pb-5 gap-x-10 ">
+              <PricingCard />
+              <PaidPricing />
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 };

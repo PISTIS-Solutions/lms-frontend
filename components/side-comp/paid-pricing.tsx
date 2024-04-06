@@ -1,5 +1,5 @@
 "use client";
-import { CheckCircle2 } from "lucide-react";
+import { Check, CheckCircle2 } from "lucide-react";
 import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
@@ -8,10 +8,10 @@ import "react-toastify/dist/ReactToastify.css";
 
 const PaidPricing = () => {
   const services = [
-    { serv: "Access to 4 one-on-one mentoring sessions/month" },
-    { serv: "6 months free access" },
-    { serv: "Access to all courses" },
-    { serv: "Access to all projects" },
+    { serv: "4 one-on-one mentoring sessions per month" },
+    { serv: "6months free access" },
+    { serv: "15 courses" },
+    { serv: "15 projects" },
     { serv: "Group blocker sessions" },
   ];
 
@@ -29,9 +29,9 @@ const PaidPricing = () => {
   };
 
   return (
-    <div className="border-2 relative border-main rounded-[8px] max-w-[310px] w-full h-[444px]">
+    <div className="border-2 relative border-[A5ACBA] rounded-[4px] max-w-[310px] w-full h-[444px]">
       <ToastContainer />
-      <div className="bg-[#F8F9FF] rounded-tr-[8px] rounded-tl-[8px] px-4 py-6">
+      <div className="bg-[#F8F9FF] text-center rounded-tr-[4px] rounded-tl-[4px] px-4 py-6">
         <div>
           <h1 className="text-lg text-[#1A1A1A] font-medium">Paid Plan</h1>
           <p className="text-xs text-[#3E3E3E] pb-4 pt-2">
@@ -43,22 +43,24 @@ const PaidPricing = () => {
       </div>
 
       <div className="bg-main rounded-br-[8px] rounded-bl-[8px]">
-        <div className="pt-4 h-[277px] overflow-y-scroll px-4">
+        <div className="pt-4 h-[277px] px-7 overflow-y-scroll">
           {services.map((service, i) => {
             return (
               <div key={i} className="flex py-2 items-top gap-x-1">
-                <CheckCircle2 className="text-white h-4 w-4" />
+                <span className="w-4 h-4 mt-0.5 bg-[#33CC99] flex items-center justify-center p-0.5 rounded-full">
+                  <Check className="text-white" />
+                </span>
                 <p className="text-sm text-white font-medium">{service.serv}</p>
               </div>
             );
           })}
         </div>
-        <Link href="/pricing/paid">
+        <Link href="/create-account">
           <Button
             onClick={() => {
               paidFunct();
             }}
-            className="bg-sub absolute bottom-4 hover:text-white hover:bg-main w-[90%] mx-4"
+            className="bg-sub absolute bottom-4  hover:text-white text-black hover:bg-main w-[90%] mx-4"
           >
             Choose Plan
           </Button>
