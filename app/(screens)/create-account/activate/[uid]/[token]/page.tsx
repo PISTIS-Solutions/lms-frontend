@@ -21,78 +21,80 @@ const Verify_SignUp = () => {
   // const [response, setResponse] = useState<any>();
   const [loading, setLoading] = useState<any>();
   const params = useParams<{ uid: string; token: string }>();
-
-  const handleVerifyToken = async (e: React.FormEvent) => {
-    e.preventDefault();
-    // window.location.reload();
-
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        urls.activateEmail,
-        {
-          uid: params.uid,
-          token: params.token,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
+  const uid = params.uid;
+  const token = params.token;
+  
+  useEffect(() => {
+    const handleVerifyToken = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.post(
+          urls.activateEmail,
+          {
+            uid: uid,
+            token: token,
           },
-        }
-      );
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      if (response.status === 200) {
-        toast.success("Email Verified!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
+        if (response.status === 200) {
+          toast.success("Email Verified!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
+          setLoading(false);
+          console.log(response.data.user_id, "vri");
+          localStorage.setItem("user_id", response.data.user_id);
+          router.replace("/create-account/success");
+        } else if (response.status === 403) {
+          toast.error("Email already used!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
+        }
+      } catch (error: any) {
+        if (error?.message === "Network Error") {
+          toast.error("Check your network!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
+        } else {
+          toast.error(error?.response?.data?.detail, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
+        }
+      } finally {
         setLoading(false);
-        console.log(response.data.user_id, "vri")
-        localStorage.setItem("user_id", response.data.user_id);
-        router.replace("/create-account/success");
       }
-      if (response.status === 403) {
-        toast.error("Email already used!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-    } catch (error: any) {
-      if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+    };
+
+    handleVerifyToken();
+  }, [token]);
 
   const formStore = useFormStore();
   const email = localStorage.getItem("email");
@@ -113,7 +115,6 @@ const Verify_SignUp = () => {
           },
         }
       );
-
       if (response.status === 204) {
         // setResponse(response.data);
         setLoading(false);
@@ -165,15 +166,6 @@ const Verify_SignUp = () => {
     }
   };
 
-  // const [reloaded, setReloaded] = useState(false);
-
-  // useEffect(() => {
-  //   if (!reloaded) {
-  //     window.location.reload();
-  //     setReloaded(true);
-  //   }
-  // }, [reloaded]);
-
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
       <ToastContainer />
@@ -204,7 +196,7 @@ const Verify_SignUp = () => {
           <Button
             disabled={loading}
             className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
-            onClick={handleVerifyToken}
+            // onClick={handleVerifyToken}
           >
             {loading ? (
               <Loader2 className="animate-spin text-white" />
