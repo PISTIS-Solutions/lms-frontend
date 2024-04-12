@@ -44,7 +44,7 @@ const NavigationBar = () => {
               <Button className="bg-main w-full">Sign In</Button>
             </Link>
 
-            <Link href="/create-account">
+            <Link href="/pricing">
               <p className="text-xl text-center font-medium py-4">
                 Create account
               </p>
