@@ -12,15 +12,15 @@ const Pricing = () => {
         <Image
           alt="pistis-logo"
           src={logo}
-          className="absolute top-3 right-3"
+          className="absolute md:top-3 top-0 right-0 md:right-3"
         />
         <div className="text-center text-white flex justify-center items-center flex-col h-[35vh]">
-          <h1 className="font-semibold pb-5 text-4xl">
+          <h1 className="font-semibold pb-5 text-xl sm:text-xl md:text-4xl">
             Find the right plan for you
           </h1>
-          <p className="max-w-[60vw]">
+          <p className="md:max-w-[60vw] max-w-full md:text-base sm:text-sm text-xs ">
             Make payment into{" "}
-            <span className="font-semibold">
+            <span className="  font-semibold">
               THE PISTIS TECH HUB (6366146872, MONIEPOINT MFB)
             </span>
             , mail payment receipt to{" "}
@@ -30,12 +30,12 @@ const Pricing = () => {
         </div>
       </div>
         <div className="w-full h-[42px] bg-main">
-          <p className="text-center text-white pt-3 font-medium">
+          <p className="text-center text-white md:pt-3 pt-1 text-xs md:text-base font-medium">
             Send a mail to learning@pistis.solution for installmental payment
             plan
           </p>
         </div>
-      <div className="flex items-center justify-center gap-x-10 h-[80vh]">
+      <div className="flex flex-wrap mt-4 md:mt-0 gap-y-4 md:gap-y-0 items-center justify-center gap-x-10 h-[80vh]">
         <PricingCard />
         <PaidPricing />
       </div>

@@ -85,7 +85,7 @@ const Completeprofile = () => {
 
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-full md:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 block md:flex flex-col justify-around px-0 md:px-10">
+      <div className="bg-white w-full lg:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 block md:flex flex-col justify-around px-0 md:px-10">
         <div className="h-auto block md:hidden w-full bg-main p-2">
           <Image src={Fulllogo} alt="logo" />
         </div>
@@ -99,10 +99,10 @@ const Completeprofile = () => {
         </div>
         <ToastContainer />
         <div className="px-2 my-10 md:my-0 md:px-0">
-          <h1 className="md:text-4xl text-3xl font-semibold">
+          <h1 className="md:text-4xl text-3xl text-center lg:text-left font-semibold">
             Complete your profile
           </h1>
-          <h3 className="md:text-2xl text-lg ">
+          <h3 className="md:text-2xl text-lg text-center lg:text-left">
             Please provide personal details
           </h3>
         </div>
@@ -116,12 +116,12 @@ const Completeprofile = () => {
         <div className="px-2 md:px-0">
           <form onSubmit={onSubmitCompleteProfile} className="space-y-3">
             <div>
-              <label className="md:text-xl text-sm font-medium">
+              <label className="text-[#3E3E3E] text-lg md:text-xl">
                 Full name
               </label>
               <input
                 type="text"
-                className="py-4 w-full indent-4 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]"
+                className="md:py-4 py-3 bg-[#FAFAFA] md:text-base text-sm w-full placeholder:text-[#4F5B67] rounded-[6px] indent-5"
                 placeholder="Enter Full name"
                 value={formStore.Fullname}
                 onChange={(e) => formStore.setField("Fullname", e.target.value)}
@@ -129,11 +129,11 @@ const Completeprofile = () => {
             </div>
 
             <div>
-              <label className="md:text-xl text-sm font-medium">
+              <label className="text-[#3E3E3E] text-lg md:text-xl">
                 Phone number
               </label>
               <input
-                className="py-4 w-full indent-4 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]"
+                className="md:py-4 py-3 bg-[#FAFAFA] md:text-base text-sm w-full placeholder:text-[#4F5B67] rounded-[6px] indent-5"
                 placeholder="Input phone number"
                 type="text"
                 value={formStore.Phone}
@@ -142,9 +142,11 @@ const Completeprofile = () => {
             </div>
 
             <div>
-              <label className="md:text-xl text-sm font-medium">Location</label>
+              <label className="text-[#3E3E3E] text-lg md:text-xl">
+                Location
+              </label>
               <select
-                className="py-4 w-full relative indent-4 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px]"
+                className="md:py-4 py-3 bg-[#FAFAFA] md:text-base text-sm w-full placeholder:text-[#4F5B67] rounded-[6px] indent-5"
                 value={formStore.location}
                 onChange={(e) => formStore.setField("location", e.target.value)}
               >

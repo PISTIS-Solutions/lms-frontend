@@ -97,10 +97,9 @@ const Verify_SignUp = () => {
   }, [token]);
 
   const formStore = useFormStore();
-  const email = localStorage.getItem("email");
   const resendToken = async (e: any) => {
+    const email = localStorage.getItem("email");
     e.preventDefault();
-    // window.location.reload();
 
     try {
       setLoading(true);
@@ -169,7 +168,7 @@ const Verify_SignUp = () => {
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
       <ToastContainer />
-      <div className="bg-white w-full md:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 block md:flex flex-col  px-0 md:px-10">
+      <div className="bg-white w-full lg:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 block md:flex flex-col  px-0 md:px-10">
         <div className="h-auto block md:hidden w-full bg-main p-2">
           <Image src={Fulllogo} alt="logo" />
         </div>
@@ -182,20 +181,20 @@ const Verify_SignUp = () => {
           />
         </div>
         <div className="px-2 my-10 md:my-0 md:px-0">
-          <h1 className="md:text-4xl text-3xl text-center py-5 font-semibold">
+          <h1 className="md:text-4xl text-xl text-center py-5 font-semibold">
             Verify Account
           </h1>
         </div>
         <div>
-          <h1 className="text-2xl py-10 text-center">
+          <h1 className=" md:text-2xl text-base py-2 md:py-10 text-center">
             A message was sent to your email address, click "Verify" button to
             verify your account.
           </h1>
         </div>
-        <div>
+        <div className="flex justify-center">
           <Button
             disabled={loading}
-            className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
+            className="w-[95%] bg-[#33CC99] my-3 md:my-0 py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
             // onClick={handleVerifyToken}
           >
             {loading ? (
@@ -210,7 +209,7 @@ const Verify_SignUp = () => {
             onClick={(e) => {
               resendToken(e);
             }}
-            className="text-right cursor-pointer text-main"
+            className="md:text-right md:text-base text-center text-sm cursor-pointer text-main"
           >
             Resend Token
           </p>
