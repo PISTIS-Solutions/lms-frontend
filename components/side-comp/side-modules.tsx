@@ -12,16 +12,16 @@ const SideModules = ({ courseRead, selectedIndex, handleItemClick }: any) => {
           <div
             key={module.id}
             className={`py-3 px-4 cursor-pointer ${
-              index === selectedIndex ? "bg-main text-white" : ""
+              module.id === selectedIndex ? "bg-main text-white" : ""
             }`}
-            onClick={() => handleItemClick(index, module.id)}
+            onClick={() => handleItemClick(module.id)}
           >
             <h2 className="md:text-lg text-sm font-medium">
               {index + 1}. {module.module_title}
             </h2>
             <p
               className={`md:text-sm text-xs font-normal ${
-                index === selectedIndex ? "block" : "hidden"
+                module.id === selectedIndex ? "block" : "hidden"
               }`}
             >
               {module.module_sub_title}

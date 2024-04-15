@@ -84,7 +84,7 @@ const SignUp = () => {
 
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-full lg:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 block md:flex flex-col justify-around px-0 md:px-10">
+      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-5  md:px-6 lg:px-10">
         <div className="h-auto block md:hidden w-full bg-main p-2">
           <Image src={Fulllogo} alt="logo" />
         </div>
@@ -211,7 +211,7 @@ const SignUp = () => {
             )} */}
             <p className="text-red-500 text-center">{specialCharacterErr}</p>
             {formStore.password != formStore.confirm ? (
-              <p className="text-red-500 text-center">
+              <p className="text-red-500 text-xs md:text-sm lg:text-base text-center">
                 Password and Confirm password contains different characters
               </p>
             ) : (

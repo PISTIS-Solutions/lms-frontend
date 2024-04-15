@@ -39,22 +39,22 @@ const ForgotPassword = () => {
   });
 
   const router = useRouter();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = async (values: z.infer<typeof formSchema>, e: any) => {
     e.preventDefault();
     const email = values.Email;
     try {
-      setLoading(true)
+      setLoading(true);
       const url = urls.forgotPassword;
       const response = await axios.post(url, { email: email });
 
       if (response.status === 204) {
         router.push("/sign-in/forgot-password/verify");
-        setLoading(false)
+        setLoading(false);
       }
     } catch (error: any) {
-      setLoading(false)
+      setLoading(false);
       if (error.response.data.email[0] === "Email does not Exist ") {
         toast.error("Email address is invalid", {
           position: "top-right",
@@ -76,21 +76,23 @@ const ForgotPassword = () => {
           theme: "dark",
         });
       }
-    } finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <main className="bg-form-back h-screen w-full bg-no-repeat bg-cover relative">
       <ToastContainer />
-      <div className="bg-white w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 flex flex-col gap-28 px-10">
+      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-5  md:px-6 lg:px-10">
         <div className="flex justify-end">
           <Image src={logo} alt="pistis_logo" className="" priority />
         </div>
         <div className="">
-          <h1 className="text-4xl font-semibold">Forgot Password?</h1>
-          <h3 className="text-2xl">
+          <h1 className="md:text-4xl sm:text-2xl text-xl font-semibold">
+            Forgot Password?
+          </h1>
+          <h3 className="md:text-2xl sm:text-lg text-base">
             Please provide your registered email address
           </h3>
         </div>
@@ -102,7 +104,7 @@ const ForgotPassword = () => {
                 name="Email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xl font-medium">
+                    <FormLabel className="md:text-xl text-lg font-medium">
                       Email Address
                     </FormLabel>
                     <FormControl>
@@ -121,13 +123,11 @@ const ForgotPassword = () => {
                 )}
               />
               <Button
-              disabled={loading}
+                disabled={loading}
                 type="submit"
-                className="w-full disabled:cursor-not-allowed disabled:bg-sub/20 mt-10 bg-[#33CC99] py-6 font-medium text-2xl text-black hover:text-white"
+                className="w-full disabled:cursor-not-allowed disabled:bg-sub/20 mt-10 bg-[#33CC99] py-6 font-medium text-sm md:text-xl lg:text-2xl text-black hover:text-white"
               >
-                {
-                  loading ? <Loader2Icon className="animate-spin"/> : "Submit"
-                }
+                {loading ? <Loader2Icon className="animate-spin" /> : "Submit"}
               </Button>
             </form>
           </Form>
