@@ -11,15 +11,15 @@ import SideModules from "@/components/side-comp/side-modules";
 
 const Module = () => {
   const router = useRouter();
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const params = useParams<{ modules: string }>();
+  const courseID = params.modules;
+  const [selectedIndex, setSelectedIndex] = useState(courseID);
 
   const { courseRead, fetchCourseRead, loading } = useCourseRead();
 
-  const courseID = params.modules;
 
-  const handleItemClick = (index: number, moduleId: string) => {
-    setSelectedIndex(index === selectedIndex ? -1 : index);
+  const handleItemClick = (moduleId: any) => {
+    setSelectedIndex(moduleId === selectedIndex ? null : moduleId);
     router.replace(`/courses/${courseID}/${moduleId}`);
   };
 

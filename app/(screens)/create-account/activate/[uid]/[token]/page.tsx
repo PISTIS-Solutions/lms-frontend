@@ -15,6 +15,7 @@ import { urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useFormStore from "@/store/create-account";
+import Link from "next/link";
 
 const Verify_SignUp = () => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const Verify_SignUp = () => {
   const params = useParams<{ uid: string; token: string }>();
   const uid = params.uid;
   const token = params.token;
-  
+
   useEffect(() => {
     const handleVerifyToken = async () => {
       try {
@@ -97,73 +98,6 @@ const Verify_SignUp = () => {
   }, [token]);
 
   const formStore = useFormStore();
-  const resendToken = async (e: any) => {
-    const email = localStorage.getItem("email");
-    e.preventDefault();
-
-    try {
-      setLoading(true);
-      const response = await axios.post(
-        urls.resendToken,
-        {
-          email: email,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.status === 204) {
-        // setResponse(response.data);
-        setLoading(false);
-        toast.success("Check email for new tokeen", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-        // router.replace("/create-account/success");
-      }
-    } catch (error: any) {
-      if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else if (error.response.data.email[0] === "Email does not Exist ") {
-        toast.error("Email address is invalid", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
@@ -205,21 +139,12 @@ const Verify_SignUp = () => {
           </Button>
         </div>
         <div>
-          <p
-            onClick={(e) => {
-              resendToken(e);
-            }}
-            className="md:text-right md:text-base text-center text-sm cursor-pointer text-main"
-          >
-            Resend Token
-          </p>
+          <Link href="/create-account/resendToken">
+            <p className="md:text-right md:text-base text-center text-sm cursor-pointer text-main">
+              Resend Token
+            </p>
+          </Link>
         </div>
-        {/* {response?.is_active && (
-          <div className="flex justify-end py-2 gap-x-2">
-            <Check className="text-green-500" />
-            <p>Verified</p>
-          </div>
-        )} */}
       </div>
     </main>
   );

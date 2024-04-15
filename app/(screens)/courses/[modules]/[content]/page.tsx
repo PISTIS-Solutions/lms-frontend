@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-import SideNav from "@/components/side-comp/side-nav"; 
+import SideNav from "@/components/side-comp/side-nav";
 import { ArrowLeft, ChevronRight, Edit3, Loader2, Plus } from "lucide-react";
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player/lazy";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import TopNav from "@/components/side-comp/topNav";
 
@@ -15,17 +15,16 @@ import useCourseRead from "@/store/course-read";
 const Content = () => {
   const router = useRouter();
   const params = useParams<{ modules: string; content: string }>();
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const courseID = params.modules;
+  const moduleID = params.content;
+  const [selectedIndex, setSelectedIndex] = useState(moduleID);
   const { moduleData, fetchModuleRead, moduleLoading } = useModuleRead();
   const { courseRead, fetchCourseRead, loading } = useCourseRead();
 
-  const handleItemClick = (index: number, moduleId: string) => {
-    setSelectedIndex(index === selectedIndex ? -1 : index);
+  const handleItemClick = (moduleId: any) => {
+    setSelectedIndex(moduleId === selectedIndex ? null : moduleId);
     router.replace(`/courses/${courseID}/${moduleId}`);
   };
-
-  const courseID = params.modules;
-  const moduleID = params.content;
 
   useEffect(() => {
     fetchModuleRead(courseID, moduleID);
@@ -63,14 +62,30 @@ const Content = () => {
               <h1 className=" px-4 text-[#1A1A1A] text-lg md:text-2xl my-4 font-medium">
                 {moduleData?.module_title}
               </h1>
-              <div className="md:grid block p-4 gap-x-4 grid-cols-10">
-                <ReactPlayer
-                  light={true}
-                  controls={true}
-                  url={moduleData?.module_url}
-                  className="w-full h-[428px] md:col-span-7"
-                />
-                <ScrollArea className="h-[428px] rounded-[8px] shadow-md my-2 md:my-0 bg-white col-span-3">
+              <div className="grid gap-x-2 grid-cols-10">
+                <span className="relative col-span-7">
+                  <ReactPlayer
+                    controls={false}
+                    width="100%"
+                    height="100%"
+                    autoplay={true}
+                    url={moduleData?.module_url}
+                    className="h-[428px]"
+                    config={{
+                      youtube: {
+                        playerVars: {
+                          controls: 0,
+                          modestbranding: 1,
+                        },
+                      },
+                    }}
+                  />
+                  <div className=" bg-transparent cursor-not-allowed w-full h-14 absolute top-0"/>
+                  <div className=" bg-transparent cursor-not-allowed w-full h-14 absolute bottom-0"/>
+
+                </span>
+
+                <ScrollArea className="h-[428px] col-span-3 rounded-[8px] shadow-md my-2 md:my-0 bg-white">
                   {loading ? (
                     <div className="w-[100%] flex items-center justify-center h-screen">
                       <Loader2 className=" w-8 h-8 animate-spin" />
@@ -86,14 +101,10 @@ const Content = () => {
                 </ScrollArea>
               </div>
               <div className="bg-white shadow-md p-4">
-                <div className="flex justify-between items-center">
+                <div className="">
                   <h1 className="md:text-2xl text-lg font-medium">
                     Module 1: {moduleData?.module_title}
                   </h1>
-                  <span className=" md:text-xl text-sm text-main underline gap-x-2 cursor-pointer flex items-center">
-                    <p className="">Edit</p>
-                    <Edit3 />
-                  </span>
                 </div>
                 <div>
                   <p

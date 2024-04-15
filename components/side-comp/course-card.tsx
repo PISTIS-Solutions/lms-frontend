@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import React from "react";
 
@@ -12,7 +13,12 @@ interface Componentprops {
 
 const Coursecard = ({ image, header, title, modules }: Componentprops) => {
   return (
-    <div className="md:w-[325px] w-auto max-w-[340px] cursor-pointer hover:scale-100 md:hover:scale-105 duration-75 ease-in-out shadow-md h-auto md:h-[351px] rounded-[16px] bg-white">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      className="md:w-[325px] w-auto max-w-[340px] cursor-pointer hover:scale-100 md:hover:scale-105 duration-75 ease-in-out shadow-md h-auto md:h-[351px] rounded-[16px] bg-white"
+    >
       <div>
         <Image
           src={image}
@@ -23,8 +29,12 @@ const Coursecard = ({ image, header, title, modules }: Componentprops) => {
       </div>
       <div className="p-3 flex flex-col justify-between h-auto md:h-[160px]">
         <div>
-          <h3 className="md:text-xl sm:text-lg text-sm font-semibold">{header}</h3>
-          <p className="md:text-lg text-xs sm:text-base font-medium text-[#3E3E3E]">{title}</p>
+          <h3 className="md:text-xl sm:text-lg text-sm font-semibold">
+            {header}
+          </h3>
+          <p className="md:text-lg text-xs py-5 sm:text-base font-medium text-[#3E3E3E]">
+            {title}
+          </p>
         </div>
         <div className="flex justify-between items-center">
           <div className="text-main flex gap-x-1">
@@ -34,10 +44,12 @@ const Coursecard = ({ image, header, title, modules }: Componentprops) => {
             <AiFillStar />
             <AiFillStar />
           </div>
-          <p className="md:text-lg sm:text:sm text-xs text-[#3E3E3E]">{modules} modules</p>
+          <p className="md:text-lg sm:text:sm text-xs text-[#3E3E3E]">
+            {modules} modules
+          </p>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
