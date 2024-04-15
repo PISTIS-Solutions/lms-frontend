@@ -85,7 +85,7 @@ const SignIn = () => {
 
   return (
     <main className="bg-form-back h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-[100%] sm:w-[50%] h-screen rounded-none md:rounded-tl-[40px] md:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-10">
+      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-5  md:px-6 lg:px-10">
         <div className="flex justify-end">
           <Image src={logo} alt="pistis_logo" className="" priority />
         </div>
@@ -101,7 +101,7 @@ const SignIn = () => {
         <div>
           <form onSubmit={onsubmitLogin} className="space-y-2">
             <div>
-              <label className="text-[#3E3E3E] md:text-xl text-base sm:text-sm">
+              <label className="text-[#3E3E3E] md:text-xl sm:text-base text-sm">
                 Email Address
               </label>
               <div className="relative">
@@ -143,11 +143,11 @@ const SignIn = () => {
                 />
               </div>
             </div>
-            <p className="text-[#3E3E3E] text-sm md:text-base text-right">
+            <p className="text-[#3E3E3E] text-xs md:text-sm lg:text-base text-right">
               <Link href="/sign-in/forgot-password">Forgot Password?</Link>
             </p>
             {!containsSpecialCharacters(formStore.password) && (
-              <p className="text-red-500 text-sm text-center">
+              <p className="text-red-500 text-xs md:text-sm lg:text-base text-center">
                 Password must contain special characters
               </p>
             )}
@@ -165,7 +165,7 @@ const SignIn = () => {
           </form>
         </div>
         <div>
-          <p className="text-center text-base md:text-lg font-normal ">
+          <p className="text-center font-medium text-sm md:text-xl lg:text-2xl">
             Don't have an account?{" "}
             <Link className="text-main font-semibold" href="/pricing">
               Create Account
