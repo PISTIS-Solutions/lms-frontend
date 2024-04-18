@@ -83,12 +83,12 @@ const Courses = () => {
     <div className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
       <ToastContainer />
-      <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
+      <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
           <TopNav />
         </div>
         <div className="py-2 px-2 md:px-7">
-          <div className="my-5 grid grid-cols-2 lg:grid-cols-3 gap-2 md:gap-5">
+          <div className="my-5 grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-2 md:gap-5">
             {loading ? (
               <span className="flex text-center justify-center items-center">
                 <Loader2Icon className=" animate-spin" />
@@ -111,7 +111,7 @@ const Courses = () => {
                 </div>
               ))
             ) : (
-              <p className="text-center">No courses available.</p>
+              <p className="text-center lg:text-base text-sm">No courses available.</p>
             )}
           </div>
         </div>

@@ -57,14 +57,14 @@ const MobileNav = () => {
   ];
 
   return (
-    <div className="relative w-36 z-[98]">
+    <div className="relative w-1/2 z-[98]">
       <div className={`absolute bg-main rounded-full top-6 z-[99] ${sidebarOpen ? "-right-4" : "ml-2"}`}>
         <button className="p-2 text-white" onClick={toggleSidebar}>
           {sidebarOpen ? <ArrowLeftCircle /> : <Menu />}
         </button>
       </div>
       <nav
-        className={`w-36 bg-main h-screen absolute top-0 transform transition-transform duration-300 ease-in-out ${
+        className={`w-full bg-main h-[100vh] absolute top-0 transform transition-transform duration-300 ease-in-out ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -79,10 +79,10 @@ const MobileNav = () => {
                       pathname === `/${nav.link}`
                         ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
                         : "text-white"
-                    } flex items-center pl-1 gap-1 text-center duration-150 ease-in-out cursor-pointer my-1 py-2`}
+                    } flex items-center pl-1 gap-1 text-center duration-150 ease-in-out cursor-pointer my-1 py-4`}
                   >
                     <span className=""> {nav.icon} </span>
-                    <span className="text-xs">{nav.title}</span>
+                    <span className="text-sm">{nav.title}</span>
                   </div>
                 </Link>
               );
@@ -96,11 +96,11 @@ const MobileNav = () => {
                     pathname === "/settings"
                       ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
                       : "text-white"
-                  } flex items-center pl-1 gap-1 text-center duration-150 ease-in-out cursor-pointer my-1 py-2`}
+                  } flex items-center pl-1 gap-1 text-center duration-150 ease-in-out cursor-pointer my-1 py-4`}
                 >
                   {" "}
                   <Settings />
-                  <span className="text-xs">Settings</span>
+                  <span className="text-sm">Settings</span>
                 </div>
               </Link>
             </div>
@@ -110,11 +110,11 @@ const MobileNav = () => {
                   pathname === "/log-out"
                     ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
                     : "text-white"
-                } flex items-center pl-1 gap-1 text-center duration-150 ease-in-out cursor-pointer my-1 py-2`}
+                } flex items-center pl-1 gap-1 text-center duration-150 ease-in-out cursor-pointer my-1 py-4`}
               >
                 {" "}
                 <LogOut />
-                <span className="text-xs">Log Out</span>
+                <span className="text-sm">Log Out</span>
               </div>
             </Link>
           </div>
