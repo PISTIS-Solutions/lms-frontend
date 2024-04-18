@@ -29,15 +29,14 @@ const Pricing = () => {
           </p>
         </div>
       </div>
-        <div className="w-full h-[42px] bg-main">
-          <p className="text-center text-white md:pt-3 pt-1 text-xs md:text-base font-medium">
-            Send a mail to learning@pistis.solution for installmental payment
-            plan
-          </p>
-        </div>
+      <div className="w-full h-[42px] bg-main">
+        <p className="text-center text-white md:pt-3 pt-1 text-xs md:text-base font-medium">
+          Send a mail to learning@pistis.solution for installmental payment plan
+        </p>
+      </div>
       <div className="flex flex-wrap mt-4 md:mt-0 gap-y-4 md:gap-y-0 items-center justify-center gap-x-10 h-[80vh]">
-        <PricingCard />
-        <PaidPricing />
+        <PricingCard bool={true} />
+        <PaidPricing bool={true} />
       </div>
     </main>
   );

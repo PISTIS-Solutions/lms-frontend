@@ -393,12 +393,12 @@ const Dashboard = () => {
       </div>
       {openModal && (
         <div className="w-full h-screen bg-black/25 absolute top-0 flex justify-center items-center left-0">
-          <div className="rounded-[8px] relative bg-white border-t-2 w-3/4 border-t-main ">
+          <div className="rounded-[8px] relative bg-white border-t-2 overflow-y-scroll w-[95vw] md:w-3/4 h-[85vh] md:auto border-t-main ">
             <div className="text-center text-black flex justify-center items-center flex-col py-5">
-              <h1 className="font-semibold py-5 text-4xl">
+            <h1 className="font-semibold pb-5 text-xl sm:text-xl md:text-4xl">
                 Find the right plan for you
               </h1>
-              <p className="max-w-[60vw]">
+              <p className="md:max-w-[60vw] max-w-full md:text-base sm:text-sm text-xs ">
                 Make payment into{" "}
                 <span className="font-semibold">
                   THE PISTIS TECH HUB (6366146872, MONIEPOINT MFB)
@@ -414,9 +414,9 @@ const Dashboard = () => {
                 <X className="text-main border border-main rounded-md " />
               </button>
             </div>
-            <div className="flex items-center justify-center pb-5 gap-x-10 ">
-              <PricingCard />
-              <PaidPricing />
+            <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
+              <PricingCard bool={false} />
+              <PaidPricing bool={false} />
             </div>
           </div>
         </div>
