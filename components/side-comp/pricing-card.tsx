@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const PricingCard = () => {
+const PricingCard = ({bool}:any) => {
   const services = [
     { serv: "1 one-on-one mentoring session" },
     { serv: "30 days access" },
@@ -54,18 +54,27 @@ const PricingCard = () => {
           );
         })}
       </div>
-      <div>
-        <Link href="/create-account">
+      {bool ? (
+          <Link href="/create-account">
+            <Button
+              onClick={() => {
+                freePlan();
+              }}
+              className="bg-sub absolute bottom-4  hover:text-white text-black hover:bg-main w-[90%] mx-4"
+            >
+              Choose Plan
+            </Button>
+          </Link>
+        ) : (
           <Button
             onClick={() => {
               freePlan();
             }}
-            className="bg-sub absolute bottom-4 text-black hover:text-white hover:bg-main w-[90%] mx-4"
+            className="bg-sub absolute bottom-4  hover:text-white text-black hover:bg-main w-[90%] mx-4"
           >
             Choose Plan
           </Button>
-        </Link>
-      </div>
+        )}
     </div>
   );
 };

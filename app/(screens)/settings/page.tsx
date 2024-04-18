@@ -270,7 +270,7 @@ const SettingsPage = () => {
       setNotSame("");
       try {
         setPasswordLoading(true);
-        const token = Cookies.get("adminAccessToken");
+        const token = Cookies.get("authToken");
         const response = await axios.post(
           urls.setStudentPassword,
           {
@@ -304,7 +304,7 @@ const SettingsPage = () => {
             await refreshToken();
             await onSubmitPassword(values, e);
           } catch (refreshError: any) {
-            console.error("Error refreshing token:", refreshError.message);
+            // console.error("Error refreshing token:", refreshError.message);
           }
         } else if (error?.message === "Network Error") {
           toast.error("Check your network!", {
@@ -395,8 +395,8 @@ const SettingsPage = () => {
           await refreshToken();
           await onSubmitGeneral(values, e);
         } catch (refreshError: any) {
-          console.error("Error refreshing token:", refreshError.message);
-          Cookies.remove("adminAccessToken");
+          // console.error("Error refreshing token:", refreshError.message);
+          // Cookies.remove("authToken");
         }
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {

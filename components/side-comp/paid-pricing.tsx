@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const PaidPricing = () => {
+const PaidPricing = ({ bool }: any) => {
   const services = [
     { serv: "4 one-on-one mentoring sessions per month" },
     { serv: "6months free access" },
@@ -55,7 +55,18 @@ const PaidPricing = () => {
             );
           })}
         </div>
-        <Link href="/create-account">
+        {bool ? (
+          <Link href="/create-account">
+            <Button
+              onClick={() => {
+                paidFunct();
+              }}
+              className="bg-sub absolute bottom-4  hover:text-white text-black hover:bg-main w-[90%] mx-4"
+            >
+              Choose Plan
+            </Button>
+          </Link>
+        ) : (
           <Button
             onClick={() => {
               paidFunct();
@@ -64,7 +75,7 @@ const PaidPricing = () => {
           >
             Choose Plan
           </Button>
-        </Link>
+        )}
       </div>
     </div>
   );
