@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import PendingModal from "@/components/side-comp/modal/pending-modal";
 import ReviewedModal from "@/components/side-comp/modal/reviewed-modal";
@@ -9,10 +9,64 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { projectData } from "@/data/projectData";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
+import axios from "axios";
+import { urls } from "@/utils/config";
+import refreshAdminToken from "@/utils/refreshToken";
+
+import Cookies from "js-cookie";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Project = () => {
+  // const [projectGrading, setProjectGrading] = useState([]);
+
+  // const fetchProjectGrading = async (courseId: any) => {
+  //   try {
+  //     const accessToken = Cookies.get("authToken");
+  //     const response = await axios.get(
+  //       `${urls.projectReview}${courseId}/submissions/`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       }
+  //     );
+  //     if (response.status === 200) {
+  //       setProjectGrading(response.data);
+  //       console.log(response, "ressy");
+  //     }
+  //   } catch (error: any) {
+  //     if (error.response && error.response.status === 401) {
+  //       await refreshAdminToken();
+  //       await fetchProjectGrading(courseId);
+  //     } else if (error?.message === "Network Error") {
+  //       toast.error("Check your network!", {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: true,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "dark",
+  //       });
+  //     } else {
+  //       toast.error(error?.response?.data?.detail, {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: true,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "dark",
+  //       });
+  //     }
+  //   }
+  // };
+
   const itemsPerPage = 9;
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -41,40 +95,120 @@ const Project = () => {
   };
 
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-
-  const [selectedPerson, setSelectedPerson] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
   const handleModal = (person: any) => {
-    setSelectedPerson(person);
-    setOpenModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setSelectedPerson(null);
-    setOpenModal(false);
+    setOpenModal((prev) => !prev);
   };
 
   //for approved modal
-  const [openModal, setOpenModal] = useState(false);
-
-  const [selectedPersonApproved, setSelectedPersonApproved] = useState(null);
-  const handleModalApproved = (person: any) => {
-    setSelectedPersonApproved(person);
-    setOpenModalApproved(true);
-  };
-
-  const handleCloseModalApproved = () => {
-    setSelectedPersonApproved(null);
-    setOpenModalApproved(false);
-  };
-
   const [openModalApproved, setOpenModalApproved] = useState(false);
+  const handleModalApproved = () => {
+    setOpenModalApproved((prev) => !prev);
+  };
+  const [courses, setCourses] = useState<any | null>(null);
+  const [loading, setLoading] = useState(false);
+  // useEffect(() => {
+  //   const fetchCourses = async () => {
+  //     try {
+  //       // setLoading(true);
+  //       const accessToken = Cookies.get("authToken");
+  //       const response = await axios.get(urls.courses, {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       });
+  //       setCourses(response.data.results);
+  //     } catch (error: any) {
+  //       if (error.response && error.response.status === 401) {
+  //         await refreshAdminToken();
+  //         await fetchCourses();
+  //       } else if (error?.message === "Network Error") {
+  //         toast.error("Check your network!", {
+  //           position: "top-right",
+  //           autoClose: 5000,
+  //           hideProgressBar: true,
+  //           closeOnClick: true,
+  //           pauseOnHover: false,
+  //           draggable: false,
+  //           theme: "dark",
+  //         });
+  //       } else {
+  //         toast.error(error?.response?.data?.detail, {
+  //           position: "top-right",
+  //           autoClose: 5000,
+  //           hideProgressBar: true,
+  //           closeOnClick: true,
+  //           pauseOnHover: false,
+  //           draggable: false,
+  //           theme: "dark",
+  //         });
+  //       }
+  //     } finally {
+  //       // setLoading(false);
+  //     }
+  //   };
+  //   fetchCourses();
+  // }, []);
 
+  // useEffect(() => {
+  //   fetchProjectGrading();
+  // }, []);
+
+  const [projectOverview, setProjectOverview] = useState<any>();
+  const [overviewLoad, setOverviewLoad] = useState<boolean>(false);
+  const fetchProjectOverview = async () => {
+    try {
+      const accessToken = Cookies.get("authToken");
+      setOverviewLoad(true);
+      const response = await axios.get(urls.projectOverview, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      setProjectOverview(response.data);
+      setOverviewLoad(false);
+      console.log(response, "response")
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await fetchProjectOverview();
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } finally {
+      setOverviewLoad(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProjectOverview();
+  }, []);
+
+  console.log(projectOverview, "po");
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
-      <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
+      <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
-          <TopNav/>
+          <TopNav />
         </div>
         <div className="p-4">
           <div className="relative w-full md:w-1/3">
@@ -82,6 +216,11 @@ const Project = () => {
             <span className="text-xl top-2 text-main cursor-pointer right-2 absolute">
               <FaMagnifyingGlass />
             </span>
+          </div>
+          <div>
+            <h1 className="font-semibold text-main py-2 text-xl">
+              Project Review
+            </h1>
           </div>
           <div className="overflow-x-scroll md:overflow-x-auto">
             <table className="w-full mt-2 text-left">
@@ -145,7 +284,7 @@ const Project = () => {
                           </p>
                         ) : person.status === "Reviewed" ? (
                           <p
-                            onClick={() => handleModalApproved(person)}
+                            onClick={() => handleModalApproved()}
                             className="bg-white border border-[#EEEEFB] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
                           >
                             View
@@ -171,7 +310,7 @@ const Project = () => {
                   Previous
                 </Button>
               </div>
-              <div className="flex space-x-4">
+              <div className="flex space-x-2 md:space-x-4">
                 {pageNumbers.map((page) => (
                   <p
                     key={page}
@@ -199,22 +338,16 @@ const Project = () => {
             </div>
 
             <div>
-              {openModal && selectedPerson && (
+              {openModal && (
                 <div className="bg-slate-200/50 top-0 left-0 absolute flex justify-center items-center w-full h-screen">
-                  <PendingModal
-                    person={selectedPerson}
-                    handleCloseModal={handleCloseModal}
-                  />
+                  <PendingModal handleCloseModal={handleModal} />
                 </div>
               )}
             </div>
             <div>
-              {openModalApproved && selectedPersonApproved && (
+              {openModalApproved && (
                 <div className="bg-slate-200/50 top-0 left-0 absolute flex justify-center items-center w-full h-screen">
-                  <ReviewedModal
-                    person={selectedPersonApproved}
-                    handleCloseModalApproved={handleCloseModalApproved}
-                  />
+                  <ReviewedModal handleReviewModal={handleModalApproved} />
                 </div>
               )}
             </div>

@@ -30,7 +30,7 @@ const Module = () => {
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
-      <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
+      <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-between items-center bg-white shadow-md p-4 w-full">
           <ArrowLeft
             onClick={() => {
@@ -52,12 +52,12 @@ const Module = () => {
               <ChevronRight className="text-main" />{" "}
               <p className="text-sm text-[#9C9C9C]">{courseRead?.title}</p>{" "}
             </span>
-            <div className="grid grid-cols-10 gap-x-2 my-2 ">
+            <div className="lg:grid flex flex-col-reverse grid-cols-10 gap-x-2 my-2 ">
               <div className="bg-white col-span-7 p-2 rounded-[8px] shadow-sm">
-                <h1 className="text-2xl text-main py-2">{courseRead?.title}</h1>
+                <h1 className="md:text-2xl text-xl text-main py-2">{courseRead?.title}</h1>
                 <p
                   dangerouslySetInnerHTML={{ __html: courseRead?.overview }}
-                  className="text-[#3E3E3E]"
+                  className="text-[#3E3E3E] text-justify md:text-base text-sm"
                 ></p>
               </div>
 

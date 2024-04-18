@@ -2,14 +2,14 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import React from "react";
 
-const ReviewedModal = ({ handleCloseModalApproved, person }: any) => {
+const ReviewedModal = ({ handleReviewModal, person }: any) => {
   return (
-    <div className="bg-white p-4 w-full mx-2 md:mx-0 md:w-1/3 h-5/6">
+    <div className="bg-white overflow-y-scroll p-4 w-full mx-2 md:mx-0 lg:w-1/3 h-5/6">
       <div>
         <div className="flex justify-between items-center">
           <h1 className="md:text-2xl text-lg font-medium">Terraform</h1>
           <span
-            onClick={handleCloseModalApproved}
+            onClick={handleReviewModal}
             className="border-2 cursor-pointer border-main p-2 rounded-sm w-[32px] h-[32px] flex justify-center items-center"
           >
             <X className="text-main" />
@@ -24,7 +24,7 @@ const ReviewedModal = ({ handleCloseModalApproved, person }: any) => {
           <h1 className="text-[#000066] text-base md:text-xl font-medium">
             Submission link
           </h1>
-          <p className="text-[#3E3E3E] text-base md:text-lg">{person.link}</p>
+          {/* <p className="text-[#3E3E3E] text-base md:text-lg">{person.link}</p> */}
         </div>
         <div className="my-4">
           <h1 className="text-[#000066] text-xl font-medium">Files</h1>

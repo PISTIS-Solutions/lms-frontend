@@ -19,24 +19,6 @@ const ProjectReview = () => {
 
   const totalPages = Math.ceil(projectData.length / itemsPerPage);
 
-  // const nextPage = () => {
-  //   if (currentPage < totalPages) {
-  //     setCurrentPage(currentPage + 1);
-  //   }
-  // };
-
-  // const prevPage = () => {
-  //   if (currentPage > 1) {
-  //     setCurrentPage(currentPage - 1);
-  //   }
-  // };
-
-  // const goToPage = (page: number) => {
-  //   if (page >= 1 && page <= totalPages) {
-  //     setCurrentPage(page);
-  //   }
-  // };
-
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
   const router = useRouter();
 

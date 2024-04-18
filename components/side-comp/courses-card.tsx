@@ -17,6 +17,7 @@ import refreshAdminToken from "@/utils/refreshToken";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useCourseRead from "@/store/course-read";
+import { motion } from "framer-motion";
 
 interface cardProps {
   id: string;
@@ -37,8 +38,8 @@ const CoursesCard = ({
   duration,
   handleCardClick,
   isEnrolled,
-  // cardLoad,
-}: cardProps) => {
+}: // cardLoad,
+cardProps) => {
   const [moduleCount, setModuleCount] = useState<number>();
   const [loading, setLoading] = useState(false);
   const [enrolling, setEnrolling] = useState(false);
@@ -171,7 +172,12 @@ const CoursesCard = ({
   };
 
   return (
-    <div className="relative">
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      className="relative"
+    >
       <ToastContainer />
       <div
         aria-disabled={isLockedDisabled || !isEnrolled}
@@ -182,7 +188,7 @@ const CoursesCard = ({
         }`}
         onClick={
           isLockedDisabled || !isEnrolled
-            ? undefined 
+            ? undefined
             : () => {
                 fetchCourseRead(id);
                 handleCardClick(id);
@@ -237,7 +243,7 @@ const CoursesCard = ({
           <LucideLockKeyhole />
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

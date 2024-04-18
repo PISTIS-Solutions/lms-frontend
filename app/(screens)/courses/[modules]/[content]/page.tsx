@@ -34,7 +34,7 @@ const Content = () => {
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
-      <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
+      <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-between items-center bg-white shadow-md p-4 w-full">
           <ArrowLeft
             onClick={() => {
@@ -62,7 +62,7 @@ const Content = () => {
               <h1 className=" px-4 text-[#1A1A1A] text-lg md:text-2xl my-4 font-medium">
                 {moduleData?.module_title}
               </h1>
-              <div className="grid gap-x-2 grid-cols-10">
+              <div className="md:grid flex flex-col-reverse gap-x-2 grid-cols-10">
                 <span className="relative col-span-7">
                   <ReactPlayer
                     controls={false}
@@ -70,7 +70,7 @@ const Content = () => {
                     height="100%"
                     autoplay={true}
                     url={moduleData?.module_url}
-                    className="h-[428px]"
+                    className="md:h-[428px] md:my-0 my-4"
                     config={{
                       youtube: {
                         playerVars: {
@@ -82,10 +82,9 @@ const Content = () => {
                   />
                   <div className=" bg-transparent cursor-not-allowed w-full h-14 absolute top-0"/>
                   <div className=" bg-transparent cursor-not-allowed w-full h-14 absolute bottom-0"/>
-
                 </span>
 
-                <ScrollArea className="h-[428px] col-span-3 rounded-[8px] shadow-md my-2 md:my-0 bg-white">
+                <ScrollArea className="md:h-[428px] h-auto col-span-3 rounded-[8px] shadow-md my-2 md:my-0 bg-white">
                   {loading ? (
                     <div className="w-[100%] flex items-center justify-center h-screen">
                       <Loader2 className=" w-8 h-8 animate-spin" />
@@ -100,7 +99,7 @@ const Content = () => {
                   )}
                 </ScrollArea>
               </div>
-              <div className="bg-white shadow-md p-4">
+              <div className="bg-white shadow-md p-4 my-5 md:my-0 ">
                 <div className="">
                   <h1 className="md:text-2xl text-lg font-medium">
                     Module 1: {moduleData?.module_title}

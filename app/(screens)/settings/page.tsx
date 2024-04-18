@@ -244,11 +244,6 @@ const passwordSchema = z.object({
 const SettingsPage = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      Email: "",
-      fullName: "",
-      phone_number: "",
-    },
   });
   const passwordForm = useForm<z.infer<typeof passwordSchema>>({
     resolver: zodResolver(passwordSchema),
@@ -349,7 +344,7 @@ const SettingsPage = () => {
             theme: "dark",
           });
         } else {
-          console.log("Password change failed:", error);
+          // console.log("Password change failed:", error);
         }
       } finally {
         setPasswordLoading(false);
@@ -382,7 +377,6 @@ const SettingsPage = () => {
           },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         setGeneralLoading(false);
         toast.success("General details changed successfully!", {
@@ -415,7 +409,7 @@ const SettingsPage = () => {
           theme: "dark",
         });
       } else {
-        console.log("Password change failed:", error);
+        // console.log("Password change failed:", error);
       }
     } finally {
       setGeneralLoading(false);
@@ -491,8 +485,8 @@ const SettingsPage = () => {
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
-      <ToastContainer/>
-      <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
+      <ToastContainer />
+      <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
           <TopNav />
         </div>
@@ -594,7 +588,7 @@ const SettingsPage = () => {
                       <Button
                         disabled={generalLoading}
                         type="submit"
-                        className="w-full lg:w-1/3 bg-[#33CC99] disabled:bg-[#33CC99]/25 disabled:cursor-none py-6 font-medium text-lg md:text-2xl text-black hover:text-white"
+                        className="w-full lg:w-1/3 bg-[#33CC99] disabled:bg-[#33CC99]/25 disabled:cursor-none py-6 font-medium text-base md:text-2xl text-black hover:text-white"
                       >
                         {generalLoading ? (
                           <Loader2 className="animate-spin" />
@@ -612,7 +606,7 @@ const SettingsPage = () => {
                     className="space-y-3"
                   >
                     <div className="block md:grid grid-cols-6 py-5">
-                      <h1 className="text-[22px] col-span-2 font-medium ">
+                      <h1 className="text-lg md:text-[22px] col-span-2 font-medium ">
                         Password
                       </h1>
                       <div className="col-span-4">
@@ -726,7 +720,7 @@ const SettingsPage = () => {
                       <Button
                         disabled={passwordLoading}
                         type="submit"
-                        className="w-full lg:w-1/3 bg-[#33CC99] py-6 font-medium text-lg md:text-2xl text-black hover:text-white"
+                        className="w-full lg:w-1/3 bg-[#33CC99] py-6 font-medium text-base md:text-2xl text-black hover:text-white"
                       >
                         {passwordLoading ? (
                           <Loader2 className="animate-spin" />
@@ -755,7 +749,7 @@ const SettingsPage = () => {
               </div>
               {deleteModal && (
                 <div className="w-full h-full absolute top-0 left-0 flex justify-center items-center bg-slate-200/50">
-                  <div className="bg-white rounded-[8px] py-10 px-5 w-auto max-w-[605px] h-[189px] max-h-auto">
+                  <div className="bg-white rounded-[8px] py-10 px-5 md:w-auto w-[605px] h-auto md:h-[189px] max-h-auto">
                     <h1 className="text-black font-semibold text-2xl ">
                       Deactivate account
                     </h1>
@@ -766,7 +760,7 @@ const SettingsPage = () => {
                     <div className="flex justify-end gap-x-5 items-center">
                       <Button
                         onClick={() => {
-                          DeactivateStudent()
+                          DeactivateStudent();
                         }}
                         disabled={loading}
                         className="bg-[#F10F2A] text-white"
