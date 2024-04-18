@@ -81,7 +81,7 @@ export default function Home() {
       </section>
       <section className=" flex items-center px-5 md:px-6 lg:px-10 justify-between bg-mid-back h-[117px] bg-no-repeat bg-cover">
         <div className="flex w-full md:justify-evenly justify-center divide-x-[4px]">
-          <p className="text-white lg:text-red-500 md:text-blue-500 text-xs md:text-lg lg:text-2xl font-medium pr-4 md:pr-20 lg:pr-36">
+          <p className="text-white text-xs md:text-lg lg:text-2xl font-medium pr-4 md:pr-20 lg:pr-36">
             30+ Students
           </p>
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium px-4 md:px-20 lg:px-36">

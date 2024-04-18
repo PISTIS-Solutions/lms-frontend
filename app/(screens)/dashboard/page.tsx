@@ -125,10 +125,10 @@ const Dashboard = () => {
     fetchStuData();
     userActivity();
   }, []);
-
+  
   const notStarted = stuData?.total_courses - stuData?.courses_completed;
   const data = {
-    labels: ["Completed", "Not Started"],
+    labels: ["Completed", "Not Completed"],
     datasets: [
       {
         label: "Courses",
@@ -141,7 +141,6 @@ const Dashboard = () => {
 
   const userName = Cookies.get("fullName");
   const plan = Cookies.get("plan");
-  
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const handleModal = () => {
@@ -152,14 +151,14 @@ const Dashboard = () => {
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
       <ToastContainer />
-      <div className="md:ml-64 ml-0 overflow-y-scroll h-screen">
+      <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
           <TopNav />
         </div>
         <div className="">
           <div className="grid grid-cols-1 lg:grid-cols-10 p-4">
             <div className=" col-span-1 lg:col-span-7">
-              <div className="w-[98%] rounded-[8px] relative bg-white md:h-[133px] h-[128px] flex justify-between pl-5 shadow-md mr-5 mb-2">
+              <div className="w-[98%] rounded-[8px] relative bg-white lg:h-[133px] h-auto flex justify-between lg:pl-5 pl-2 lg:p-0 p-2 shadow-md lg:mr-5 mr-2 lg:mb-2 mb-4">
                 <div className="md:mt-[38px] mt-[30px]">
                   <h1 className="text-xl md:text-2xl font-semibold">
                     Welcome, {userName}
@@ -171,12 +170,7 @@ const Dashboard = () => {
                   </p>
                 </div>
                 {plan === "Free" ? (
-                  <Button
-                    onClick={handleModal}
-                    className="bg-sub rounded-[8px] text-black hover:text-white hover:bg-main font-medium absolute md:top-10 bottom-2 right-5 "
-                  >
-                    Upgrade Plan
-                  </Button>
+                  <></>
                 ) : (
                   <div className="">
                     <Image
@@ -192,6 +186,16 @@ const Dashboard = () => {
                       className="relative md:bottom-[101px] bottom-[65px] md:left-[23px]"
                     />
                   </div>
+                )}
+                {plan === "Free" ? (
+                  <Button
+                    onClick={handleModal}
+                    className="bg-sub rounded-[8px] text-black w-full md:w-auto hover:text-white hover:bg-main font-medium m-4"
+                  >
+                    Upgrade Plan
+                  </Button>
+                ) : (
+                  <></>
                 )}
               </div>
               <div className="lg:flex block justify-between gap-0 md:gap-5 pr-4">
@@ -260,14 +264,14 @@ const Dashboard = () => {
                     <Link href="/courses">View all</Link>
                   </p>
                 </div>
-                <div className="md:flex justify-between my-5">
+                <div className="flex flex-wrap justify-center lg:justify-between my-5">
                   {stuData?.enrolled_courses &&
                   stuData.enrolled_courses.length > 0 ? (
                     stuData.enrolled_courses.slice(0, 3).map((data: any) => {
                       return (
                         <div
                           key={data.id}
-                          className="rounded-[8px] mr-[12px] my-2 md:my-0 relative bg-[#F8F9FF] w-[242px] h-[234px]"
+                          className="rounded-[8px] mr-[12px] my-2 lg:my-0 relative bg-[#F8F9FF] lg:w-[242px] w-full h-[234px]"
                         >
                           <div>
                             <Image src={data.image} alt={data.title} />
@@ -330,17 +334,17 @@ const Dashboard = () => {
             </div>
             <div className="col-span-3">
               <div className="bg-white h-[370px] md:h-[275px] rounded-[8px] p-2 shadow-sm ">
-                <h1 className="md:text-2xl text-lg font-medium  mt-4">
+                <h1 className="lg:text-2xl text-base md:text-lg font-medium  mt-4">
                   Your Activity
                 </h1>
                 <hr />
                 <div>
                   <ScrollArea className="w-full h-[300px] md:h-[200px] rounded-md">
                     <div>
-                      {activity.length !== 0 ? (
+                      {activity?.results?.length == 0 ? (
                         <p className="text-center">No activity yet</p>
                       ) : (
-                        activity.map((tag: any, index: any) => (
+                        activity?.results?.map((tag: any, index: any) => (
                           <div
                             key={index}
                             className="flex items-center gap-3 md:gap-4 py-2 md:py-3 px-1 md:px-2 cursor-pointer"
@@ -365,7 +369,9 @@ const Dashboard = () => {
                 </div>
               </div>
               <div className="border-md bg-white rounded-[8px] p-2 h-auto shadow-xl w-auto mt-2">
-                <h1 className="text-xl">Progress Report</h1>
+                <h1 className="lg:text-2xl text-base md:text-lg font-medium  mt-4">
+                  Progress Report
+                </h1>
                 <Doughnut data={data} />
               </div>
             </div>
@@ -373,7 +379,9 @@ const Dashboard = () => {
           <div className="p-4">
             <div className="bg-white rounded-[8px] p-2">
               <span className="flex justify-between items-center">
-                <h1 className="text-2xl font-medium my-4">Project Review</h1>
+                <h1 className="lg:text-2xl text-base md:text-lg font-medium  mt-4">
+                  Project Review
+                </h1>
                 <p className="text-sm text-main underline cursor-pointer">
                   view all
                 </p>

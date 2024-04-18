@@ -97,10 +97,10 @@ const SignUp = () => {
           />
         </div>
         <div className="px-2 my-10 md:my-0 md:px-0">
-          <h1 className="md:text-4xl text-3xl text-center md:text-left font-semibold">
+          <h1 className="md:text-4xl sm:text-2xl text-xl font-semibold">
             Create Account
           </h1>
-          <h3 className="md:text-2xl text-lg text-center md:text-left">
+          <h3 className="md:text-2xl sm:text-lg text-base">
             Let’s get you started!
           </h3>
         </div>
@@ -108,14 +108,14 @@ const SignUp = () => {
         <div className="px-2 md:px-0">
           <form onSubmit={onSubmit} className="space-y-3">
             <div>
-              <label className="text-[#3E3E3E] text-lg md:text-xl">
+              <label className="text-[#3E3E3E] md:text-xl sm:text-base text-sm">
                 Email Address
               </label>
               <div className="relative">
-                <Mail className="mr-2 absolute md:top-4 top-3 text-[#4F5B67] left-3 h-5 w-5" />
+                <Mail className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
                 <input
                   type="email"
-                  className="md:py-4 py-3 bg-[#FAFAFA] md:text-base text-sm w-full placeholder:text-[#4F5B67] rounded-[6px] indent-10"
+                  className="py-4 bg-[#FAFAFA] w-full text-xs md:text-base placeholder:text-[#4F5B67] rounded-[6px] indent-9"
                   placeholder="example@gmail.com"
                   value={formStore.email}
                   onChange={(e) => formStore.setField("email", e.target.value)}
@@ -124,11 +124,11 @@ const SignUp = () => {
             </div>
 
             <div>
-              <label className="text-[#3E3E3E] text-lg md:text-xl">
+              <label className="text-[#3E3E3E] md:text-xl text-base sm:text-sm">
                 Create Password
               </label>
               <div className="relative">
-                <KeyRound className="mr-2 absolute md:top-4 top-3 text-[#4F5B67] left-3 h-5 w-5" />
+                <KeyRound className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
                 {formStore.showPassword ? (
                   <Eye
                     onClick={formStore.togglePassword}
@@ -137,12 +137,12 @@ const SignUp = () => {
                 ) : (
                   <EyeOff
                     onClick={formStore.togglePassword}
-                    className="ml-2 absolute cursor-pointer md:top-4 top-3 text-[#4F5B67] right-3 h-5 w-5"
+                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
                   />
                 )}
                 <input
                   type={formStore.showPassword ? "text" : "password"}
-                  className="md:py-4 py-3 bg-[#FAFAFA] md:text-base text-sm placeholder:text-[#4F5B67] rounded-[6px] indent-10 w-full"
+                  className="py-4 bg-[#FAFAFA] text-xs md:text-base  placeholder:text-[#4F5B67] rounded-[6px] indent-9 w-full"
                   placeholder="Password"
                   value={formStore.password}
                   onChange={(e) =>
@@ -153,25 +153,25 @@ const SignUp = () => {
             </div>
 
             <div>
-              <label className="text-[#3E3E3E] text-lg md:text-xl">
+              <label className="text-[#3E3E3E] md:text-xl text-base sm:text-sm">
                 Confirm Password
               </label>
               <div className="relative">
-                <KeyRound className="mr-2 absolute md:top-4 top-3 text-[#4F5B67] left-3 h-5 w-5" />
+                <KeyRound className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
                 {formStore.showConfirmPassword ? (
                   <Eye
                     onClick={formStore.toggleConfirmPassword}
-                    className="ml-2 absolute cursor-pointer md:top-4 top-3 text-[#4F5B67] right-3 h-5 w-5"
+                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
                   />
                 ) : (
                   <EyeOff
                     onClick={formStore.toggleConfirmPassword}
-                    className="ml-2 absolute cursor-pointer md:top-4 top-3 text-[#4F5B67] right-3 h-5 w-5"
+                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
                   />
                 )}
                 <input
                   type={formStore.showConfirmPassword ? "text" : "password"}
-                  className="md:py-4 py-3 w-full bg-[#FAFAFA] md:text-base text-sm placeholder:text-[#4F5B67] rounded-[6px] indent-10"
+                  className="py-4 bg-[#FAFAFA] text-xs md:text-base  placeholder:text-[#4F5B67] rounded-[6px] indent-9 w-full"
                   placeholder="Confirm Password"
                   value={formStore.confirm}
                   onChange={(e) =>
@@ -181,7 +181,7 @@ const SignUp = () => {
               </div>
             </div>
 
-            <p className="text-[#3E3E3E] text-xs md:text-base text-right">
+            <p className="text-red-500 text-xs md:text-sm lg:text-base text-center">
               Password must contain special characters
             </p>
 
@@ -220,7 +220,7 @@ const SignUp = () => {
           </form>
         </div>
         <div>
-          <p className="text-center text-sm absolute bottom-4 md:sticky w-full md:text-lg font-normal ">
+          <p className="text-center font-medium text-sm md:text-xl lg:text-2xl">
             Already have an account? <Link href="/sign-in">Sign In</Link>
           </p>
         </div>
