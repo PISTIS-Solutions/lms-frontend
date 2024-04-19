@@ -1,185 +1,5 @@
-// "use client";
-// import React, { useState , useEffect} from "react";
-
-// import SideNav from "@/components/side-comp/side-nav";
-// import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-// import Image from "next/image";
-// import Cookies from 'js-cookie'
-
-// import user from "@/public/assets/avatar.png";
-// import { EditIcon, Eye, EyeOff, KeyRound, Loader2, Mail } from "lucide-react";
-// import { z } from "zod";
-// import { useForm } from "react-hook-form";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import {
-//   Form,
-//   FormControl,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-// } from "@/components/ui/form";
-// import { Input } from "@/components/ui/input";
-// import { Button } from "@/components/ui/button";
-
-// import axios from "axios";
-// import { urls } from "@/utils/config";
-// import TopNav from "@/components/side-comp/topNav";
-// import refreshToken from "@/utils/refreshToken";
-// import { cookies } from "next/headers";
-
-// //general schema
-// const formSchema = z.object({
-//   email: z.string().min(2, {
-//     message: "Input correct email address",
-//   }),
-//   fullName: z.string(),
-//   phoneNumber: z.number()
-// });
-// //password change schema
-// const formSchema2 = z.object({
-//   currentPassword: z.string(),
-//   newPassword: z.string(),
-//   confirmPassword: z.string(),
-// });
-// interface UserDetailsInterface {
-// full_name:string;
-// phoneNumber:number;
-// email:string;
-// }
-
-// const SettingsPage = () => {
-//   //general default values
-//   const form = useForm<z.infer<typeof formSchema>>({
-//     resolver: zodResolver(formSchema),
-//     defaultValues: {
-//       email: "",
-//       fullName: "",
-//       phoneNumber: 0
-//     },
-//   });
-
-//   // password change default value
-//   const form2 = useForm<z.infer<typeof formSchema2>>({
-//     resolver: zodResolver(formSchema2),
-//     defaultValues: {
-//       currentPassword: "",
-//       newPassword: "",
-//       confirmPassword: "",
-//     },
-//   });
-//   const [notSame, setNotSame] = useState("");
-//   const [deleteModal, setDeleteModal] = useState(false);
-//   const showDeleteModal = () => {
-//     setDeleteModal((prev) => !prev);
-//   };
-
-//   // function submitPassword(values: z.infer<typeof formSchema2>, e:any) {
-//   //   e.preventDefault();
-//   //   // if (values.confirmPassword === values.newPassword) {
-//   //   console.log(values.confirmPassword, "cP");
-//   //   console.log(values.newPassword, "newp");
-//   //   console.log(values.currentPassword, "cuxP");
-//   //   const token = Cookies.get("authToken");
-//   //   axios
-//   //     .post(
-//   //       urls.setStudentPassword,
-//   //       {
-//   //         new_passsword: values.newPassword,
-//   //         re_new_password: values.confirmPassword,
-//   //         current_password: values.currentPassword,
-//   //       },
-//   //       {
-//   //         headers: {
-//   //           Authorization: "Bearer " + token,
-//   //         },
-//   //       }
-//   //     )
-//   //     .then((res) => {
-//   //       //you may decide to remove token, if necessary
-//   //       console.log(res.status);
-//   //       // Cookies.remove("authToken");
-//   //       // router.replace("/");
-//   //     })
-//   //     .catch((error) => console.log(error));
-//   //   // } else {
-//   //   //   setNotSame("New Password and Confirm Password must be the same");
-//   //   // }
-//   // }
-
-//   //function works, rewrite in a way you understand. also check if new password and confirm newpassword is same before running the post operation.
-//   //write a similar function to change general details (patch) using the fields in "submitGeneral" function
-//   const submitPassword = async (
-//     values: z.infer<typeof formSchema2>,
-//     e: any
-//   ) => {
-//     e.preventDefault();
-
-//     try {
-//       const token = Cookies.get("authToken"); // Use token instead of accessToken
-//       const response = await axios.post(
-//         urls.setStudentPassword,
-//         {
-//           new_password: values.newPassword,
-//           re_new_password: values.confirmPassword,
-//           current_password: values.currentPassword,
-//         },
-//         {
-//           headers: {
-//             Authorization: "Bearer " + token,
-//           },
-//         }
-//       );
-//       ///204 is the success status
-//       if (response.status === 204) {
-//         console.log("done?");
-//         //handle what happends after success. either remove cookie or not, your choice.
-//       }
-//       // Handle the response as needed
-//     } catch (error: any) {
-//       //this checks for the 401 error, which is "unauthorised" i.e token expired
-//       if (error.response && error.response.status === 401) {
-//         try {
-//           //this refreshToken is a function that helps to refresh an expired access token; you can get it from utils
-//           await refreshToken();
-//           // this helps to re do function after the access token has been refreshed
-//           await submitPassword(values, e);
-
-//           // Handle the response after refreshing the token
-//         } catch (refreshError: any) {
-//           console.error("Error refreshing token:", refreshError.message);
-//           // Handle refresh error
-//         }
-//       } else {
-//         console.error("Password change failed:", error.message);
-//         // Handle other errors
-//       }
-//     }
-//   };
-
-//   const submitGeneral = async (values: z.infer<typeof formSchema>, e: any) => {
-//     e.preventDefault();
-//     // console.log(values.email);
-//     // console.log(values.fullName);
-//     // console.log(values.phoneNumber);
-//   };
-
-//   const [showPassword, setShowPassword] = useState(true);
-//   const togglePassword = () => {
-//     setShowPassword((prev) => !prev);
-//   };
-//   const [showNewPassword, setShowNewPassword] = useState(true);
-//   const toggleNewPassword = () => {
-//     setShowNewPassword((prev) => !prev);
-//   };
-//   const [showConfirmPassword, setShowConfirmPassword] = useState(true);
-//   const toggleConfirmPassword = () => {
-//     setShowConfirmPassword((prev) => !prev);
-//   };
-
-//
-
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 import SideNav from "@/components/side-comp/side-nav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -210,13 +30,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 
-const formSchema = z.object({
-  Email: z.string().min(2, {
-    message: "Input correct email address",
-  }),
-  fullName: z.string(),
-  phone_number: z.string(),
-});
 const passwordSchema = z.object({
   currentPassword: z.string(),
   newPassword: z
@@ -242,9 +55,10 @@ const passwordSchema = z.object({
 });
 
 const SettingsPage = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   const passwordForm = useForm<z.infer<typeof passwordSchema>>({
     resolver: zodResolver(passwordSchema),
     defaultValues: {
@@ -354,29 +168,53 @@ const SettingsPage = () => {
     }
   };
 
+  // pfp state
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && file.type.startsWith("image/")) {
+      setSelectedFile(file);
+    } else {
+      setSelectedFile(null);
+    }
+  };
+
+  const handleSelectImageClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
   const [generalLoading, setGeneralLoading] = useState(false);
-  const onSubmitGeneral = async (
-    values: z.infer<typeof formSchema>,
-    e: any
-  ) => {
+  const onSubmitGeneral = async (e: any) => {
     e.preventDefault();
 
     try {
       setGeneralLoading(true);
       const token = Cookies.get("authToken");
-      const response = await axios.patch(
-        urls.updateStudentProfile,
-        {
-          full_name: values.fullName,
-          email: values.Email,
-          phoneNumber: values.phone_number,
+
+      const formData = new FormData();
+
+      // Append string data to FormData
+      formData.append("full_name", fullName);
+      formData.append("email", email);
+      formData.append("phoneNumber", phoneNumber);
+
+      // Append file (if selected) to FormData
+      if (selectedFile) {
+        formData.append("profile_photo", selectedFile);
+      }
+
+      // Send request with FormData
+      const response = await axios.patch(urls.updateStudentProfile, formData, {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "multipart/form-data", // Set content type to multipart/form-data for file upload
         },
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
+      });
+
       if (response.status === 200) {
         setGeneralLoading(false);
         toast.success("General details changed successfully!", {
@@ -390,15 +228,17 @@ const SettingsPage = () => {
         });
       }
     } catch (error: any) {
+      // Handle errors
       if (error.response && error.response.status === 401) {
+        // Handle unauthorized error
         try {
           await refreshToken();
-          await onSubmitGeneral(values, e);
+          await onSubmitGeneral(e);
         } catch (refreshError: any) {
-          // console.error("Error refreshing token:", refreshError.message);
-          // Cookies.remove("authToken");
+          // Handle refresh token error
         }
       } else if (error?.message === "Network Error") {
+        // Handle network error
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,
@@ -409,9 +249,11 @@ const SettingsPage = () => {
           theme: "dark",
         });
       } else {
+        // Handle other errors
         // console.log("Password change failed:", error);
       }
     } finally {
+      // Reset loading state
       setGeneralLoading(false);
     }
   };
@@ -494,13 +336,28 @@ const SettingsPage = () => {
           <div>
             <div className=" flex justify-center items-center">
               <div className="relative">
-                <Image
-                  className="w-[159px] h-[159px] rounded-full"
-                  src={user}
-                  alt="user"
-                  priority
+                <span>
+                  {selectedFile ? (
+                    <img
+                      src={URL.createObjectURL(selectedFile)}
+                      alt="selected"
+                      className="w-[159px] h-[159px] rounded-full object-contain"
+                    />
+                  ) : (
+                    <Image src={user} alt="user" priority />
+                  )}
+                </span>
+                <input
+                  type="file"
+                  accept="image/*"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
                 />
-                <span className="bg-white rounded-full cursor-pointer absolute bottom-0 right-0 p-2">
+                <span
+                  onClick={handleSelectImageClick}
+                  className="bg-white rounded-full cursor-pointer absolute bottom-0 right-0 p-2"
+                >
                   <EditIcon />
                 </span>
               </div>
@@ -508,97 +365,92 @@ const SettingsPage = () => {
             <div>
               <div className="md:px-5 px-2">
                 {/* general form fields */}
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmitGeneral)}
-                    className="space-y-3"
-                  >
-                    <div className="block md:grid grid-cols-6 py-5">
-                      <h1 className="text-lg md:text-[22px] col-span-2 font-medium ">
-                        General
-                      </h1>
-                      <div className="col-span-4">
-                        <FormField
-                          control={form.control}
-                          name="fullName"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="md:text-xl text-sm my-3 text-[#3E3E3E]">
-                                Full name
-                              </FormLabel>
-                              <FormControl>
-                                <div className="">
-                                  <Input
-                                    className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] w-full rounded-[6px]"
-                                    placeholder="John Mark"
-                                    {...field}
-                                  />
-                                </div>
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="Email"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="md:text-xl text-sm my-3 text-[#3E3E3E]">
-                                Email Address
-                              </FormLabel>
-                              <FormControl>
-                                <div className="relative">
-                                  <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
-                                  <Input
-                                    type="email"
-                                    className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-6"
-                                    placeholder="example@gmail.com"
-                                    {...field}
-                                  />
-                                </div>
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="phone_number"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel className="md:text-xl text-sm my-3 text-[#3E3E3E]">
-                                Phone Number
-                              </FormLabel>
-                              <FormControl>
-                                <div className="relative">
-                                  <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
-                                  <Input
-                                    type="phoneNumber"
-                                    className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-6"
-                                    placeholder="445-892-5312"
-                                    {...field}
-                                  />
-                                </div>
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
+
+                <form className="space-y-3">
+                  <div className="block md:grid grid-cols-6 py-5">
+                    <h1 className="text-lg md:text-[22px] col-span-2 font-medium ">
+                      General
+                    </h1>
+                    <div className="col-span-4">
+                      <div>
+                        <div>
+                          <label className="md:text-xl text-sm my-3 text-[#3E3E3E]">
+                            Full name
+                          </label>
+                          <div>
+                            <div className="">
+                              <Input
+                                className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] w-full rounded-[6px]"
+                                placeholder="John Mark"
+                                value={fullName}
+                                onChange={(e) => {
+                                  setFullName(e.target.value);
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <div>
+                          <label className="md:text-xl text-sm my-3 text-[#3E3E3E]">
+                            Email Address
+                          </label>
+                          <div>
+                            <div className="relative">
+                              <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                              <Input
+                                type="email"
+                                className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-6"
+                                placeholder="example@gmail.com"
+                                value={email}
+                                onChange={(e) => {
+                                  setEmail(e.target.value);
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <div>
+                          <label className="md:text-xl text-sm my-3 text-[#3E3E3E]">
+                            Phone Number
+                          </label>
+                          <div>
+                            <div className="relative">
+                              <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                              <Input
+                                type="phoneNumber"
+                                className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-6"
+                                placeholder="445-892-5312"
+                                value={phoneNumber}
+                                onChange={(e) => {
+                                  setPhoneNumber(e.target.value);
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="lg:flex block justify-end">
-                      <Button
-                        disabled={generalLoading}
-                        type="submit"
-                        className="w-full lg:w-1/3 bg-[#33CC99] disabled:bg-[#33CC99]/25 disabled:cursor-none py-6 font-medium text-base md:text-2xl text-black hover:text-white"
-                      >
-                        {generalLoading ? (
-                          <Loader2 className="animate-spin" />
-                        ) : (
-                          "Save Changes"
-                        )}
-                      </Button>
-                    </div>
-                  </form>
-                </Form>
+                  </div>
+                  <div className="lg:flex block justify-end">
+                    <Button
+                      onClick={(e) => onSubmitGeneral(e)}
+                      disabled={generalLoading}
+                      type="submit"
+                      className="w-full lg:w-1/3 bg-[#33CC99] disabled:bg-[#33CC99]/25 disabled:cursor-none py-6 font-medium text-base md:text-2xl text-black hover:text-white"
+                    >
+                      {generalLoading ? (
+                        <Loader2 className="animate-spin" />
+                      ) : (
+                        "Save Changes"
+                      )}
+                    </Button>
+                  </div>
+                </form>
+
                 {/* change password form field */}
                 <Form {...passwordForm}>
                   <form

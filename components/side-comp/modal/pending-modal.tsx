@@ -179,7 +179,7 @@ const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
             handleSubmit();
           }}
           disabled={loading}
-          className="bg-sub w-full font-semibold  hover:text-white text-black mt-[55px]"
+          className="bg-sub w-full font-semibold  hover:text-white text-black mt-10 md:mt-[55px]"
         >
           {loading ? <Loader2 className="animate-spin" /> : "Submit"}
         </Button>
