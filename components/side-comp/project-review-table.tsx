@@ -1,23 +1,29 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2Icon } from "lucide-react";
 import { projectData } from "@/data/projectData";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import PendingModal from "./modal/pending-modal";
 import ReviewedModal from "./modal/reviewed-modal";
+import usePendingGradeStore from "@/store/project-review";
 
 const ProjectReview = () => {
+  const { projectReview, loading, fetchProjectReview } = usePendingGradeStore();
+  useEffect(() => {
+    fetchProjectReview();
+  }, []);
+
   const itemsPerPage = 4;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = projectData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentData = projectReview?.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(projectData.length / itemsPerPage);
+  const totalPages = Math.ceil(projectReview?.length / itemsPerPage);
 
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
   const router = useRouter();
@@ -53,6 +59,13 @@ const ProjectReview = () => {
 
   const [openModalApproved, setOpenModalApproved] = useState(false);
 
+  const formatDate = (dateString: any) => {
+    const date = new Date(dateString);
+    const month = date.toLocaleString("default", { month: "long" });
+    const day = date.getDate();
+    return `${month} ${day}`;
+  };
+
   return (
     <div className="overflow-x-scroll md:overflow-x-auto">
       <table className="w-full mt-2 text-left">
@@ -76,58 +89,78 @@ const ProjectReview = () => {
           </tr>
         </thead>
         <tbody className="relative">
-          {currentData.map((person, index) => (
-            <>
-              <tr key={index}>
-                <td
-                  //   onClick={() => handleCardClick(person.id)}
-                  className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
-                >
-                  {person.courseTitle}
-                </td>
-                <td className="md:py-4 md:text-base text-xs py-1">
-                  {person.deadLine}
-                </td>
-                <td className="md:py-4 md:text-base text-xs py-1">
-                  {!person.DateSubmitted ? "-" : person.DateSubmitted}
-                </td>
-                <td
-                  className={`md:py-4 md:text-base text-xs py-1 capitalize ${
-                    !person.status
-                      ? "text-gray-600"
-                      : person.status === "Pending"
-                      ? "text-orange-500"
-                      : person.status === "Reviewed"
-                      ? "text-green-500"
-                      : "text-gray-600"
-                  }`}
-                >
-                  {!person.status ? "No Submission" : person.status}
-                </td>
-                <td className="md:py-4 md:text-base text-xs py-1 text-main">
-                  {!person.status ? (
-                    "-"
-                  ) : person.status === "Pending" ? (
-                    <p
-                      onClick={() => handleModal(person)}
-                      className="bg-[#F8F9FF] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
-                    >
-                      Submit
-                    </p>
-                  ) : person.status === "Reviewed" ? (
-                    <p
-                      onClick={() => handleModalApproved(person)}
-                      className="bg-white border border-[#EEEEFB] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
-                    >
-                      View
-                    </p>
-                  ) : (
-                    ""
-                  )}
-                </td>
-              </tr>
-            </>
-          ))}
+          {loading ? (
+            <tr>
+              <td colSpan={6} className="py-4">
+                <span className="flex items-center justify-center">
+                  <Loader2Icon className="animate-spin" />
+                  <p>Loading</p>
+                </span>
+              </td>
+            </tr>
+          ) : currentData && currentData.length > 0 ? (
+            currentData.map((person: any, index: number) => (
+              <>
+                <tr key={index}>
+                  <td
+                    //   onClick={() => handleCardClick(person.id)}
+                    className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
+                  >
+                    {person.course_title}
+                  </td>
+                  <td className="md:py-4 md:text-base text-xs py-1">
+                    {formatDate(person.deadline)}
+                  </td>
+
+                  <td className="md:py-4 text-center md:text-base text-xs py-1">
+                    {!person.date_submitted
+                      ? "-"
+                      : formatDate(person.date_submitted)}
+                  </td>
+                  <td
+                    className={`md:py-4 md:text-base text-center text-xs py-1 capitalize ${
+                      !person.status
+                        ? "text-gray-600"
+                        : person.status === "Pending"
+                        ? "text-orange-500"
+                        : person.status === "Reviewed"
+                        ? "text-green-500"
+                        : "text-gray-600"
+                    }`}
+                  >
+                    {!person.status ? "No Submission" : person.status}
+                  </td>
+                  <td className="md:py-4 md:text-base text-xs py-1 text-main">
+                    {!person.status ? (
+                      "-"
+                    ) : person.status === "Pending" ? (
+                      <p
+                        onClick={() => handleModal(person)}
+                        className="bg-[#F8F9FF] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
+                      >
+                        Submit
+                      </p>
+                    ) : person.status === "Reviewed" ? (
+                      <p
+                        onClick={() => handleModalApproved(person)}
+                        className="bg-white border border-[#EEEEFB] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
+                      >
+                        View
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </td>
+                </tr>
+              </>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={6} className="py-4">
+                No data available.
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 

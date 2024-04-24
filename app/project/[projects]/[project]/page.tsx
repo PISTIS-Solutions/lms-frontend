@@ -87,7 +87,7 @@ const SideProject = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      setProjectList(response.data.results);
+      setProjectList(response.data);
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
@@ -193,6 +193,7 @@ const SideProject = () => {
             bool={true}
             pID2={projectList}
             handleCloseModal={openPendingModal}
+            setPendingModal={setPendingModal}
           />
         </div>
       )}

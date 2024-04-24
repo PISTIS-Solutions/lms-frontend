@@ -5,7 +5,7 @@ import SideNav from "@/components/side-comp/side-nav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 
-import user from "@/public/assets/avatar.png";
+import user from "@/public/assets/avatar.jpg";
 import { EditIcon, Eye, EyeOff, KeyRound, Loader2, Mail } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -112,7 +112,6 @@ const SettingsPage = () => {
           });
         }
       } catch (error: any) {
-        console.log(error);
         if (error.response && error.response.status === 401) {
           try {
             await refreshToken();
@@ -158,7 +157,6 @@ const SettingsPage = () => {
             theme: "dark",
           });
         } else {
-          // console.log("Password change failed:", error);
         }
       } finally {
         setPasswordLoading(false);
@@ -250,7 +248,6 @@ const SettingsPage = () => {
         });
       } else {
         // Handle other errors
-        // console.log("Password change failed:", error);
       }
     } finally {
       // Reset loading state
@@ -324,6 +321,7 @@ const SettingsPage = () => {
     }
   };
 
+  const profile_image = Cookies.get("pfp");
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
@@ -344,7 +342,12 @@ const SettingsPage = () => {
                       className="w-[159px] h-[159px] rounded-full object-contain"
                     />
                   ) : (
-                    <Image src={user} alt="user" priority />
+                    <Image
+                      src={user}
+                      className="w-[159px] h-[159px] rounded-full object-contain"
+                      alt="user"
+                      priority
+                    />
                   )}
                 </span>
                 <input

@@ -23,9 +23,11 @@ const Pricing = () => {
             <span className="  font-semibold">
               THE PISTIS TECH HUB (6366146872, MONIEPOINT MFB)
             </span>
-            , mail payment receipt to{" "}
+            ,send an email with payment receipt, full name and registered email
+            address to{" "}
             <span className="font-semibold">learning@pistis.solution</span> for
-            payment confirmation.
+            payment confirmation. Upon confirmation, your account will be
+            activated within 5 minutes.
           </p>
         </div>
       </div>

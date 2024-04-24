@@ -27,13 +27,13 @@ const Courses = () => {
     const fetchCourses = async () => {
       try {
         setLoading(true);
-        const accessToken = Cookies.get('authToken');
+        const accessToken = Cookies.get("authToken");
         const response = await axios.get(urls.courses, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        setCourses(response.data.results);
+        setCourses(response.data);
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
           await refreshAdminToken();
@@ -102,7 +102,7 @@ const Courses = () => {
                     id={course.id}
                     handleCardClick={handleCardClick}
                     // handleOpen={handleOpen}
-                    // img={fake.img}
+                    img={course.course_image}
                     title={course.title}
                     paragraph={course.paragraph}
                     duration={course.course_duration}
@@ -111,7 +111,9 @@ const Courses = () => {
                 </div>
               ))
             ) : (
-              <p className="text-center lg:text-base text-sm">No courses available.</p>
+              <p className="text-center lg:text-base text-sm">
+                No courses available.
+              </p>
             )}
           </div>
         </div>

@@ -27,6 +27,7 @@ interface cardProps {
   duration: number;
   handleCardClick: any;
   isEnrolled: any;
+  img: any;
   // cardLoad: boolean;
 }
 
@@ -38,6 +39,7 @@ const CoursesCard = ({
   duration,
   handleCardClick,
   isEnrolled,
+  img,
 }: // cardLoad,
 cardProps) => {
   const [moduleCount, setModuleCount] = useState<number>();
@@ -56,7 +58,7 @@ cardProps) => {
           },
         });
         if (response.status === 200) {
-          setModuleCount(response.data.count);
+          setModuleCount(response.data.length);
         } else {
           console.error(`Error fetching modules for course ${index}`);
           setModuleCount(0);
@@ -171,6 +173,8 @@ cardProps) => {
     }
   };
 
+  const imageUrl = img?.replace("image/upload/", "");
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}
@@ -196,10 +200,12 @@ cardProps) => {
         }
       >
         <Image
-          src={img}
-          alt="img"
+          src={imageUrl}
+          width={100}
+          height={100}
+          alt={title}
           priority
-          className="rounded-tr-[4px] w-full rounded-tl-[4px]"
+          className="rounded-tr-[4px] max-w-[357px] max-h-[191px] object-contain w-full rounded-tl-[4px]"
         />
         <div className="p-2">
           <div className="md:mb-14 mb-5">

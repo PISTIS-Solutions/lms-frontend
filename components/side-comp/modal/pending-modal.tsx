@@ -13,7 +13,14 @@ import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 import { useParams } from "next/navigation";
 
-const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
+const PendingModal = ({
+  handleCloseModal,
+  cID,
+  pID,
+  bool,
+  pID2,
+  setPendingModal,
+}: any) => {
   const params = useParams<{ projects: string; project: string }>();
   const courseID = params.projects;
   const projectParamId = params.project;
@@ -31,17 +38,77 @@ const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
   const projectData = pID2?.find((item: any) => item.id === projectParamId);
   const projectID = pID?.[0]?.id;
 
+  const [submitID, setSubmitId] = useState("");
+
+  // const patchSubmit = async (id: string) => {
+  //   if (link && comment !== "") {
+  //     try {
+  //       setLoading(true);
+  //       const accessToken = Cookies.get("authToken");
+  //       const response = await axios.post(
+  //         `${urls.courses}${cID}/submissions/${id}/`,
+  //         {
+  //           project_id: bool ? projectData?.id : projectID,
+  //           submission_link: link,
+  //           student_comments: comment,
+  //         },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${accessToken}`,
+  //           },
+  //         }
+  //       );
+  //       if (response.status === 200) {
+  //         toast.success("Project Submitted Successfully!", {
+  //           position: "top-right",
+  //           autoClose: 5000,
+  //           hideProgressBar: true,
+  //           closeOnClick: true,
+  //           pauseOnHover: false,
+  //           draggable: false,
+  //           theme: "dark",
+  //         });
+  //         setLoading(false);
+  //       }
+  //     } catch (error: any) {
+  //       console.log(error, "err");
+  //       if (error.response && error.response.status === 401) {
+  //         await refreshAdminToken();
+  //         await handleSubmit();
+  //       } else if (error?.message === "Network Error") {
+  //         toast.error("Check your network!", {
+  //           position: "top-right",
+  //           autoClose: 5000,
+  //           hideProgressBar: true,
+  //           closeOnClick: true,
+  //           pauseOnHover: false,
+  //           draggable: false,
+  //           theme: "dark",
+  //         });
+  //       } else {
+  //         toast.error(error?.response?.data?.detail, {
+  //           position: "top-right",
+  //           autoClose: 5000,
+  //           hideProgressBar: true,
+  //           closeOnClick: true,
+  //           pauseOnHover: false,
+  //           draggable: false,
+  //           theme: "dark",
+  //         });
+  //       }
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   }
+  // };
+
   const handleSubmit = async () => {
     if (link && comment !== "") {
       try {
         setLoading(true);
-        const url = bool
-          ? `${urls.courses}${cID}/projects/${projectData?.id}/`
-          : `${urls.courses}${cID}/projects/${projectID}/`;
-
         const accessToken = Cookies.get("authToken");
-        const response = await axios.patch(
-          url,
+        const response = await axios.post(
+          `${urls.courses}${cID}/submissions/`,
           {
             project_id: bool ? projectData?.id : projectID,
             submission_link: link,
@@ -53,7 +120,7 @@ const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
             },
           }
         );
-        if (response.status === 200) {
+        if (response.status === 201) {
           toast.success("Project Submitted Successfully!", {
             position: "top-right",
             autoClose: 5000,
@@ -64,6 +131,8 @@ const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
             theme: "dark",
           });
           setLoading(false);
+          setSubmitId(response.data.id);
+          console.log(response.data, "res");
         }
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
@@ -79,6 +148,7 @@ const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
             draggable: false,
             theme: "dark",
           });
+        } else if (error.status === "400") {
         } else {
           toast.error(error?.response?.data?.detail, {
             position: "top-right",

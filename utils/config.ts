@@ -14,5 +14,5 @@ export const urls = {
   setStudentPassword: `${baseURL}/users/student/set_password/`,
   activities: `${baseURL}/activities/`,
   resendToken: `${baseURL}/users/student/resend_activation/`,
-  projectOverview: `${baseURL}/users/student/project_overview/`,
+  projectReview: `${baseURL}/users/student/project-review/`,
 };

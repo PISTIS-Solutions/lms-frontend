@@ -125,10 +125,10 @@ const Dashboard = () => {
     fetchStuData();
     userActivity();
   }, []);
-  
+
   const notStarted = stuData?.total_courses - stuData?.courses_completed;
   const data = {
-    labels: ["Completed", "Not Completed"],
+    labels: ["Not Completed", "Completed"],
     datasets: [
       {
         label: "Courses",
@@ -158,12 +158,12 @@ const Dashboard = () => {
         <div className="">
           <div className="grid grid-cols-1 lg:grid-cols-10 p-4">
             <div className=" col-span-1 lg:col-span-7">
-              <div className="w-[98%] rounded-[8px] relative bg-white lg:h-[133px] h-auto flex justify-between lg:pl-5 pl-2 lg:p-0 p-2 shadow-md lg:mr-5 mr-2 lg:mb-2 mb-4">
+              <div className="w-[98%] rounded-[8px] relative bg-white h-[133px] flex justify-between lg:pl-5 pl-2 lg:p-0 p-2 shadow-md lg:mr-5 mr-2 lg:mb-2 mb-4">
                 <div className="md:mt-[38px] mt-[30px]">
-                  <h1 className="text-xl md:text-2xl font-semibold">
+                  <h1 className="sm:text-2xl text-xs md:text-lg font-medium">
                     Welcome, {userName}
                   </h1>
-                  <p className="md:text-base text-sm pr-4">
+                  <p className="md:text-base text-sm pr-4 z-20 relative">
                     {plan === "Free"
                       ? "You are using the free version, upgrade now to complete more courses"
                       : "Complete your course and take a step further💪"}
@@ -177,13 +177,13 @@ const Dashboard = () => {
                       src={vectorg}
                       alt=""
                       priority
-                      className="z-10 relative"
+                      className="absolute z-10 top-0 right-0"
                     />
                     <Image
                       src={vectorb}
                       alt=""
                       priority
-                      className="relative md:bottom-[101px] bottom-[65px] md:left-[23px]"
+                      className="bottom-0 absolute right-0"
                     />
                   </div>
                 )}
@@ -210,7 +210,7 @@ const Dashboard = () => {
                         </h1>
                       )
                     )}
-                    <p className="text-base text-[#00173A]">Total Courses</p>
+                    <p className="lg:text-base text-xs md:text-sm text-[#00173A]">Total Courses</p>
                   </div>
                   <span className="bg-[#F8F9FF] rounded-full p-3">
                     <BookOpenText className="text-main" />
@@ -227,7 +227,7 @@ const Dashboard = () => {
                         </h1>
                       )
                     )}
-                    <p className="text-base text-[#00173A]">
+                    <p className="lg:text-base text-xs md:text-sm text-[#00173A]">
                       Completed Courses
                     </p>
                   </div>
@@ -246,7 +246,7 @@ const Dashboard = () => {
                         </h1>
                       )
                     )}
-                    <p className="text-base text-[#00173A]">
+                    <p className="lg:text-base text-xs md:text-sm text-[#00173A]">
                       Completed Projects
                     </p>
                   </div>
@@ -264,20 +264,30 @@ const Dashboard = () => {
                     <Link href="/courses">View all</Link>
                   </p>
                 </div>
-                <div className="flex flex-wrap justify-center lg:justify-between my-5">
+                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 my-5">
                   {stuData?.enrolled_courses &&
                   stuData.enrolled_courses.length > 0 ? (
                     stuData.enrolled_courses.slice(0, 3).map((data: any) => {
+                      const imageUrl = data.course_image?.replace(
+                        "image/upload/",
+                        ""
+                      );
                       return (
                         <div
                           key={data.id}
-                          className="rounded-[8px] mr-[12px] my-2 lg:my-0 relative bg-[#F8F9FF] lg:w-[242px] w-full h-[234px]"
+                          className="rounded-[8px] mr-[12px] my-2 lg:my-0 relative bg-[#F8F9FF] sm:w-[242px] w-full h-[234px]"
                         >
-                          <div>
-                            <Image src={data.image} alt={data.title} />
+                          <div className="">
+                            <Image
+                              className=" object-cover w-full h-[140px]"
+                              src={imageUrl}
+                              width={100}
+                              height={100}
+                              alt={data.title}
+                            />
                           </div>
                           <div className="p-2">
-                            <h3 className="text-xl font-medium">
+                            <h3 className="text-xl capitalize font-medium">
                               {data.title}
                             </h3>
                             <p className="absolute bottom-0 cursor-pointer right-2 capitalize text-[#3E3E3E] font-medium flex items-center gap-1">
@@ -300,35 +310,7 @@ const Dashboard = () => {
                     <p>No enrolled courses yet</p>
                   )}
 
-                  {/* {courseList.map((course, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="rounded-[8px] mr-[12px] my-2 md:my-0 relative bg-[#F8F9FF] w-[242px] h-[234px]"
-                      >
-                        <div>
-                          <Image src={course.image} alt={course.courseTitle} />
-                        </div>
-                        <div className="p-2">
-                          <h3 className="text-xl font-medium">
-                            {course.courseTitle}
-                          </h3>
-                          <p className="absolute bottom-0 cursor-pointer right-2 capitalize text-[#3E3E3E] font-medium flex items-center gap-1">
-                            {course.condition}{" "}
-                            {course.condition === "completed" ? (
-                              <span className="text-main">
-                                <IoIosCheckmarkCircleOutline />
-                              </span>
-                            ) : (
-                              <span className="text-main">
-                                <FaArrowRight />
-                              </span>
-                            )}
-                          </p>
-                        </div>
-                      </div>
-                    );
-                  })} */}
+               
                 </div>
               </div>
             </div>
@@ -341,10 +323,10 @@ const Dashboard = () => {
                 <div>
                   <ScrollArea className="w-full h-[300px] md:h-[200px] rounded-md">
                     <div>
-                      {activity?.results?.length == 0 ? (
+                      {activity?.length == 0 ? (
                         <p className="text-center">No activity yet</p>
                       ) : (
-                        activity?.results?.map((tag: any, index: any) => (
+                        activity?.map((tag: any, index: any) => (
                           <div
                             key={index}
                             className="flex items-center gap-3 md:gap-4 py-2 md:py-3 px-1 md:px-2 cursor-pointer"
@@ -368,7 +350,7 @@ const Dashboard = () => {
                   </ScrollArea>
                 </div>
               </div>
-              <div className="border-md bg-white rounded-[8px] p-2 h-auto shadow-xl w-auto mt-2">
+              <div className="border-md bg-white rounded-[8px] p-2 h-auto shadow-xl max-w-[300px] w-auto mt-2">
                 <h1 className="lg:text-2xl text-base md:text-lg font-medium  mt-4">
                   Progress Report
                 </h1>
@@ -395,7 +377,7 @@ const Dashboard = () => {
         <div className="w-full h-screen bg-black/25 absolute top-0 flex justify-center items-center left-0">
           <div className="rounded-[8px] relative bg-white border-t-2 overflow-y-scroll w-[95vw] md:w-3/4 h-[85vh] md:auto border-t-main ">
             <div className="text-center text-black flex justify-center items-center flex-col py-5">
-            <h1 className="font-semibold pb-5 text-xl sm:text-xl md:text-4xl">
+              <h1 className="font-semibold pb-5 text-xl sm:text-xl md:text-4xl">
                 Find the right plan for you
               </h1>
               <p className="md:max-w-[60vw] max-w-full md:text-base sm:text-sm text-xs ">
@@ -403,9 +385,11 @@ const Dashboard = () => {
                 <span className="font-semibold">
                   THE PISTIS TECH HUB (6366146872, MONIEPOINT MFB)
                 </span>
-                , mail payment receipt to{" "}
+                , send an email with payment receipt, full name and registered
+                email address to{" "}
                 <span className="font-semibold">learning@pistis.solution</span>{" "}
-                for payment confirmation.
+                for payment confirmation. Upon confirmation, your account will
+                be upgraded in 10 minutes.
               </p>
               <button
                 onClick={handleModal}
@@ -415,7 +399,7 @@ const Dashboard = () => {
               </button>
             </div>
             <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
-              <PricingCard bool={false} />
+              <PricingCard bool={false}/>
               <PaidPricing bool={false} />
             </div>
           </div>

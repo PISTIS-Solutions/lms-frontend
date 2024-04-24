@@ -15,7 +15,6 @@ const LogOut = () => {
   const router = useRouter();
   const onlogOut = () => {
     Cookies.remove("authToken");
-    console.log(Cookies.get("authToken"))
     router.replace("/");
   };
 

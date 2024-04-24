@@ -8,73 +8,29 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { projectData } from "@/data/projectData";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Loader2Icon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 
-import axios from "axios";
-import { urls } from "@/utils/config";
-import refreshAdminToken from "@/utils/refreshToken";
-
-import Cookies from "js-cookie";
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import usePendingGradeStore from "@/store/project-review";
 
 const Project = () => {
-  // const [projectGrading, setProjectGrading] = useState([]);
-
-  // const fetchProjectGrading = async (courseId: any) => {
-  //   try {
-  //     const accessToken = Cookies.get("authToken");
-  //     const response = await axios.get(
-  //       `${urls.projectReview}${courseId}/submissions/`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       }
-  //     );
-  //     if (response.status === 200) {
-  //       setProjectGrading(response.data);
-  //       console.log(response, "ressy");
-  //     }
-  //   } catch (error: any) {
-  //     if (error.response && error.response.status === 401) {
-  //       await refreshAdminToken();
-  //       await fetchProjectGrading(courseId);
-  //     } else if (error?.message === "Network Error") {
-  //       toast.error("Check your network!", {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: true,
-  //         closeOnClick: true,
-  //         pauseOnHover: false,
-  //         draggable: false,
-  //         theme: "dark",
-  //       });
-  //     } else {
-  //       toast.error(error?.response?.data?.detail, {
-  //         position: "top-right",
-  //         autoClose: 5000,
-  //         hideProgressBar: true,
-  //         closeOnClick: true,
-  //         pauseOnHover: false,
-  //         draggable: false,
-  //         theme: "dark",
-  //       });
-  //     }
-  //   }
-  // };
+  const { projectReview, loading, fetchProjectReview } = usePendingGradeStore();
+  useEffect(() => {
+    fetchProjectReview();
+  }, []);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const itemsPerPage = 9;
   const [currentPage, setCurrentPage] = useState(1);
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = projectData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentData = projectReview.slice(indexOfFirstItem, indexOfLastItem);
 
-  const totalPages = Math.ceil(projectData.length / itemsPerPage);
+  const totalPages = Math.ceil(projectReview.length / itemsPerPage);
 
   const nextPage = () => {
     if (currentPage < totalPages) {
@@ -105,104 +61,18 @@ const Project = () => {
   const handleModalApproved = () => {
     setOpenModalApproved((prev) => !prev);
   };
-  const [courses, setCourses] = useState<any | null>(null);
-  const [loading, setLoading] = useState(false);
-  // useEffect(() => {
-  //   const fetchCourses = async () => {
-  //     try {
-  //       // setLoading(true);
-  //       const accessToken = Cookies.get("authToken");
-  //       const response = await axios.get(urls.courses, {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       });
-  //       setCourses(response.data.results);
-  //     } catch (error: any) {
-  //       if (error.response && error.response.status === 401) {
-  //         await refreshAdminToken();
-  //         await fetchCourses();
-  //       } else if (error?.message === "Network Error") {
-  //         toast.error("Check your network!", {
-  //           position: "top-right",
-  //           autoClose: 5000,
-  //           hideProgressBar: true,
-  //           closeOnClick: true,
-  //           pauseOnHover: false,
-  //           draggable: false,
-  //           theme: "dark",
-  //         });
-  //       } else {
-  //         toast.error(error?.response?.data?.detail, {
-  //           position: "top-right",
-  //           autoClose: 5000,
-  //           hideProgressBar: true,
-  //           closeOnClick: true,
-  //           pauseOnHover: false,
-  //           draggable: false,
-  //           theme: "dark",
-  //         });
-  //       }
-  //     } finally {
-  //       // setLoading(false);
-  //     }
-  //   };
-  //   fetchCourses();
-  // }, []);
 
-  // useEffect(() => {
-  //   fetchProjectGrading();
-  // }, []);
-
-  const [projectOverview, setProjectOverview] = useState<any>();
-  const [overviewLoad, setOverviewLoad] = useState<boolean>(false);
-  const fetchProjectOverview = async () => {
-    try {
-      const accessToken = Cookies.get("authToken");
-      setOverviewLoad(true);
-      const response = await axios.get(urls.projectOverview, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      setProjectOverview(response.data);
-      setOverviewLoad(false);
-      console.log(response, "response")
-    } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await fetchProjectOverview();
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-    } finally {
-      setOverviewLoad(false);
-    }
+  const formatDate = (dateString: any) => {
+    const date = new Date(dateString);
+    const month = date.toLocaleString("default", { month: "long" });
+    const day = date.getDate();
+    return `${month} ${day}`;
   };
 
-  useEffect(() => {
-    fetchProjectOverview();
-  }, []);
+  // const filteredProjects = projectReview?.results?.filter((person: any) =>
+  //   person.course_title.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
 
-  console.log(projectOverview, "po");
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
@@ -212,7 +82,15 @@ const Project = () => {
         </div>
         <div className="p-4">
           <div className="relative w-full md:w-1/3">
-            <Input type="text" className="" placeholder="Search course" />
+            <Input
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+              }}
+              type="text"
+              className=""
+              placeholder="Search course"
+            />
             <span className="text-xl top-2 text-main cursor-pointer right-2 absolute">
               <FaMagnifyingGlass />
             </span>
@@ -244,58 +122,77 @@ const Project = () => {
                 </tr>
               </thead>
               <tbody className="relative">
-                {currentData.map((person, index) => (
-                  <>
-                    <tr key={index}>
-                      <td
-                        //   onClick={() => handleCardClick(person.id)}
-                        className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
-                      >
-                        {person.courseTitle}
-                      </td>
-                      <td className="md:py-4 md:text-base text-xs py-1">
-                        {person.deadLine}
-                      </td>
-                      <td className="md:py-4 md:text-base text-xs py-1">
-                        {!person.DateSubmitted ? "-" : person.DateSubmitted}
-                      </td>
-                      <td
-                        className={`md:py-4 md:text-base text-xs py-1 capitalize ${
-                          !person.status
-                            ? "text-gray-600"
-                            : person.status === "Pending"
-                            ? "text-orange-500"
-                            : person.status === "Reviewed"
-                            ? "text-green-500"
-                            : "text-gray-600"
-                        }`}
-                      >
-                        {!person.status ? "No Submission" : person.status}
-                      </td>
-                      <td className="md:py-4 md:text-base text-xs py-1 text-main">
-                        {!person.status ? (
-                          "-"
-                        ) : person.status === "Pending" ? (
-                          <p
-                            onClick={() => handleModal(person)}
-                            className="bg-[#F8F9FF] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
-                          >
-                            Submit
-                          </p>
-                        ) : person.status === "Reviewed" ? (
-                          <p
-                            onClick={() => handleModalApproved()}
-                            className="bg-white border border-[#EEEEFB] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
-                          >
-                            View
-                          </p>
-                        ) : (
-                          ""
-                        )}
-                      </td>
-                    </tr>
-                  </>
-                ))}
+                {loading ? (
+                  <tr>
+                    <td colSpan={6} className="py-4">
+                      <span className="flex items-center justify-center">
+                        <Loader2Icon className="animate-spin" />
+                        <p>Loading</p>
+                      </span>
+                    </td>
+                  </tr>
+                ) : currentData && currentData.length > 0 ? (
+                  currentData?.map((person: any, index: number) => (
+                    <>
+                      <tr key={index}>
+                        <td
+                          //   onClick={() => handleCardClick(person.id)}
+                          className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
+                        >
+                          {person.course_title}
+                        </td>
+                        <td className="md:py-4 md:text-base text-xs py-1">
+                          {formatDate(person.deadline)}
+                        </td>
+
+                        <td className="md:py-4 text-center md:text-base text-xs py-1">
+                          {!person.date_submitted ? "-" : formatDate(person.date_submitted)}
+                          {/* {person.date_submitted} */}
+                        </td>
+                        <td
+                          className={`md:py-4 md:text-base text-center text-xs py-1 capitalize ${
+                            !person.status
+                              ? "text-gray-600"
+                              : person.status === "Pending"
+                              ? "text-orange-500"
+                              : person.status === "Reviewed"
+                              ? "text-green-500"
+                              : "text-gray-600"
+                          }`}
+                        >
+                          {!person.status ? "No Submission" : person.status}
+                        </td>
+                        <td className="md:py-4 md:text-base text-xs py-1 text-main">
+                          {!person.status ? (
+                            "-"
+                          ) : person.status === "Pending" ? (
+                            <p
+                              onClick={() => handleModal(person)}
+                              className="bg-[#F8F9FF] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
+                            >
+                              Submit
+                            </p>
+                          ) : person.status === "Reviewed" ? (
+                            <p
+                              // onClick={() => handleModalApproved(person)}
+                              className="bg-white border border-[#EEEEFB] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
+                            >
+                              View
+                            </p>
+                          ) : (
+                            ""
+                          )}
+                        </td>
+                      </tr>
+                    </>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={6} className="py-4">
+                      No data available.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
 
