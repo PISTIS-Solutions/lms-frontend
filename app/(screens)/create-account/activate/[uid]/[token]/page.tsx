@@ -53,7 +53,6 @@ const Verify_SignUp = () => {
             theme: "dark",
           });
           setLoading(false);
-          console.log(response.data.user_id, "vri");
           localStorage.setItem("user_id", response.data.user_id);
           router.replace("/create-account/success");
         } else if (response.status === 403) {

@@ -4,10 +4,12 @@ import React from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 
+import Cookies from "js-cookie";
+
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const PricingCard = ({bool}:any) => {
+const PricingCard = ({ bool }: any) => {
   const services = [
     { serv: "1 one-on-one mentoring session" },
     { serv: "30 days access" },
@@ -26,6 +28,7 @@ const PricingCard = ({bool}:any) => {
       theme: "dark",
     });
   };
+  const plan = Cookies.get("plan");
 
   return (
     <div className="border-2 relative border-[A5ACBA] rounded-[4px] max-w-[310px] w-full h-[444px]">
@@ -34,7 +37,7 @@ const PricingCard = ({bool}:any) => {
         <div>
           <h1 className="text-lg text-[#1A1A1A] font-medium">Basic Plan</h1>
           <p className="text-xs text-[#3E3E3E] pb-4 pt-2">
-            Ideal for a student seeking to familiarize themselves with the
+            Ideal for a students seeking to familiarize themselves with the
             application's features
           </p>
         </div>
@@ -55,17 +58,7 @@ const PricingCard = ({bool}:any) => {
         })}
       </div>
       {bool ? (
-          <Link href="/create-account">
-            <Button
-              onClick={() => {
-                freePlan();
-              }}
-              className="bg-sub absolute bottom-4  hover:text-white text-black hover:bg-main w-[90%] mx-4"
-            >
-              Choose Plan
-            </Button>
-          </Link>
-        ) : (
+        <Link href="/create-account">
           <Button
             onClick={() => {
               freePlan();
@@ -74,7 +67,19 @@ const PricingCard = ({bool}:any) => {
           >
             Choose Plan
           </Button>
-        )}
+        </Link>
+      ) : (
+        <Button
+          onClick={plan === "Free" ? undefined : freePlan}
+          className={
+            plan === "Free"
+              ? "bg-sub absolute bottom-4 hover:text-white text-black hover:bg-main w-[90%] mx-4"
+              : "bg-[#DAE0E6] absolute bottom-4 hover:text-white text-black hover:bg-main w-[90%] mx-4"
+          }
+        >
+          Choose Plan
+        </Button>
+      )}
     </div>
   );
 };

@@ -87,7 +87,7 @@ const SideProject = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      setProjectList(response.data.results);
+      setProjectList(response.data);
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
@@ -131,6 +131,7 @@ const SideProject = () => {
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
+      <ToastContainer />
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-between items-center bg-white shadow-md p-4 w-full">
           <ArrowLeft
@@ -172,7 +173,6 @@ const SideProject = () => {
                     ></p>
                     <p className="text-[#3E3E3E]"></p>
                   </div>
-                  <hr />
                 </div>
               </div>
             </div>
@@ -193,6 +193,7 @@ const SideProject = () => {
             bool={true}
             pID2={projectList}
             handleCloseModal={openPendingModal}
+            setPendingModal={setPendingModal}
           />
         </div>
       )}
