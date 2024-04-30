@@ -13,28 +13,27 @@ import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 import { useParams } from "next/navigation";
 
-const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
-  const params = useParams<{ projects: string; project: string }>();
-  const courseID = params.projects;
-  const projectParamId = params.project;
-
-  const [selectedFile, setSelectedFile] = useState<any>(null);
+const GradingPendingModal = ({
+  handleCloseModal,
+  projectReview,
+}: any) => {
   const [link, setLink] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const projectData = pID2?.find((item: any) => item.id === projectParamId);
-  const projectID = pID?.[0]?.id;
-
+  const submissionId = localStorage.getItem("submissionID");
+  const person = projectReview.find(
+    (item: any) => item.submission_id === submissionId
+  );
   const handleSubmit = async () => {
     if (link && comment !== "") {
       try {
         setLoading(true);
         const accessToken = Cookies.get("authToken");
-        const response = await axios.post(
-          `${urls.courses}${cID}/submissions/`,
+        const response = await axios.patch(
+          `${urls.courses}${person?.course?.id}/submissions/${person?.submission_id}/`,
           {
-            project_id: bool ? projectData?.id : projectID,
+            project_id: person?.project?.id,
             submission_link: link,
             student_comments: comment,
           },
@@ -44,8 +43,8 @@ const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
             },
           }
         );
-        if (response.status === 201) {
-          toast.success("Project Submitted Successfully!", {
+        if (response.status === 200) {
+          toast.success("Project Re-submitted Successfully!", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: true,
@@ -55,7 +54,6 @@ const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
             theme: "dark",
           });
           setLoading(false);
-          handleCloseModal();
         }
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
@@ -159,4 +157,4 @@ const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
   );
 };
 
-export default PendingModal;
+export default GradingPendingModal;

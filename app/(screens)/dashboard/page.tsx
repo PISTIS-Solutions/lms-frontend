@@ -210,7 +210,9 @@ const Dashboard = () => {
                         </h1>
                       )
                     )}
-                    <p className="lg:text-base text-xs md:text-sm text-[#00173A]">Total Courses</p>
+                    <p className="lg:text-base text-xs md:text-sm text-[#00173A]">
+                      Total Courses
+                    </p>
                   </div>
                   <span className="bg-[#F8F9FF] rounded-full p-3">
                     <BookOpenText className="text-main" />
@@ -309,8 +311,6 @@ const Dashboard = () => {
                   ) : (
                     <p>No enrolled courses yet</p>
                   )}
-
-               
                 </div>
               </div>
             </div>
@@ -365,7 +365,7 @@ const Dashboard = () => {
                   Project Review
                 </h1>
                 <p className="text-sm text-main underline cursor-pointer">
-                  view all
+                  <Link href="/grading">view all</Link>
                 </p>
               </span>
               <ProjectReview />
@@ -399,7 +399,7 @@ const Dashboard = () => {
               </button>
             </div>
             <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
-              <PricingCard bool={false}/>
+              <PricingCard bool={false} />
               <PaidPricing bool={false} />
             </div>
           </div>

@@ -15,6 +15,8 @@ import { FaMagnifyingGlass } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import usePendingGradeStore from "@/store/project-review";
+import GradingPendingModal from "@/components/side-comp/modal/grading-pending-modal";
+import { useRouter } from "next/router";
 
 const Project = () => {
   const { projectReview, loading, fetchProjectReview } = usePendingGradeStore();
@@ -58,7 +60,7 @@ const Project = () => {
 
   //for approved modal
   const [openModalApproved, setOpenModalApproved] = useState(false);
-  const handleModalApproved = () => {
+  const handleModalApproved = (person: any) => {
     setOpenModalApproved((prev) => !prev);
   };
 
@@ -73,6 +75,12 @@ const Project = () => {
   //   person.course_title.toLowerCase().includes(searchQuery.toLowerCase())
   // );
 
+  // const handleCourseId = (courseID: string, submitId: string) => {
+  //   const currentUrl = window.location.href;
+  //   const newUrl = `${currentUrl}/${courseID}/${submitId}`;
+  //   window.history.pushState({}, "", newUrl);
+  // };
+
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
@@ -81,7 +89,7 @@ const Project = () => {
           <TopNav />
         </div>
         <div className="p-4">
-          <div className="relative w-full md:w-1/3">
+          {/* <div className="relative w-full md:w-1/3">
             <Input
               value={searchQuery}
               onChange={(e) => {
@@ -94,7 +102,7 @@ const Project = () => {
             <span className="text-xl top-2 text-main cursor-pointer right-2 absolute">
               <FaMagnifyingGlass />
             </span>
-          </div>
+          </div> */}
           <div>
             <h1 className="font-semibold text-main py-2 text-xl">
               Project Review
@@ -139,14 +147,16 @@ const Project = () => {
                           //   onClick={() => handleCardClick(person.id)}
                           className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
                         >
-                          {person.course_title}
+                          {person?.course?.title}
                         </td>
                         <td className="md:py-4 md:text-base text-xs py-1">
                           {formatDate(person.deadline)}
                         </td>
 
                         <td className="md:py-4 text-center md:text-base text-xs py-1">
-                          {!person.date_submitted ? "-" : formatDate(person.date_submitted)}
+                          {!person.date_submitted
+                            ? "-"
+                            : formatDate(person.date_submitted)}
                           {/* {person.date_submitted} */}
                         </td>
                         <td
@@ -167,14 +177,26 @@ const Project = () => {
                             "-"
                           ) : person.status === "Pending" ? (
                             <p
-                              onClick={() => handleModal(person)}
+                              onClick={() => {
+                                handleModal(person);
+                                localStorage.setItem(
+                                  "submissionID",
+                                  person?.submission_id
+                                );
+                              }}
                               className="bg-[#F8F9FF] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
                             >
-                              Submit
+                              Re-Submit
                             </p>
                           ) : person.status === "Reviewed" ? (
                             <p
-                              // onClick={() => handleModalApproved(person)}
+                              onClick={() => {
+                                handleModalApproved(person);
+                                localStorage.setItem(
+                                  "submissionID",
+                                  person?.submission_id
+                                );
+                              }}
                               className="bg-white border border-[#EEEEFB] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
                             >
                               View
@@ -237,14 +259,21 @@ const Project = () => {
             <div>
               {openModal && (
                 <div className="bg-slate-200/50 top-0 left-0 absolute flex justify-center items-center w-full h-screen">
-                  <PendingModal handleCloseModal={handleModal} />
+                  <GradingPendingModal
+                    // index={index}
+                    projectReview={projectReview}
+                    handleCloseModal={handleModal}
+                  />
                 </div>
               )}
             </div>
             <div>
               {openModalApproved && (
                 <div className="bg-slate-200/50 top-0 left-0 absolute flex justify-center items-center w-full h-screen">
-                  <ReviewedModal handleReviewModal={handleModalApproved} />
+                  <ReviewedModal
+                    projectReview={projectReview}
+                    handleReviewModal={handleModalApproved}
+                  />
                 </div>
               )}
             </div>

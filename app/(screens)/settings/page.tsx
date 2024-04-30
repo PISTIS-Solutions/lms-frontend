@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import SideNav from "@/components/side-comp/side-nav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -29,6 +29,7 @@ import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
+import useStudentStore from "@/store/fetch-students";
 
 const passwordSchema = z.object({
   currentPassword: z.string(),
@@ -110,6 +111,8 @@ const SettingsPage = () => {
             draggable: false,
             theme: "dark",
           });
+
+          Cookies.remove("authToken");
         }
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
@@ -189,69 +192,85 @@ const SettingsPage = () => {
   const onSubmitGeneral = async (e: any) => {
     e.preventDefault();
 
-    try {
-      setGeneralLoading(true);
-      const token = Cookies.get("authToken");
+    if (fullName && selectedFile) {
+      try {
+        setGeneralLoading(true);
+        const token = Cookies.get("authToken");
 
-      const formData = new FormData();
+        const formData = new FormData();
 
-      // Append string data to FormData
-      formData.append("full_name", fullName);
-      formData.append("email", email);
-      formData.append("phoneNumber", phoneNumber);
+        // Append string data to FormData
+        formData.append("full_name", fullName);
+        formData.append("email", studentData?.email);
+        formData.append("phoneNumber", phoneNumber);
 
-      // Append file (if selected) to FormData
-      if (selectedFile) {
-        formData.append("profile_photo", selectedFile);
-      }
-
-      // Send request with FormData
-      const response = await axios.patch(urls.updateStudentProfile, formData, {
-        headers: {
-          Authorization: "Bearer " + token,
-          "Content-Type": "multipart/form-data", // Set content type to multipart/form-data for file upload
-        },
-      });
-
-      if (response.status === 200) {
-        setGeneralLoading(false);
-        toast.success("General details changed successfully!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-    } catch (error: any) {
-      // Handle errors
-      if (error.response && error.response.status === 401) {
-        // Handle unauthorized error
-        try {
-          await refreshToken();
-          await onSubmitGeneral(e);
-        } catch (refreshError: any) {
-          // Handle refresh token error
+        // Append file (if selected) to FormData
+        if (selectedFile) {
+          formData.append("profile_photo", selectedFile);
         }
-      } else if (error?.message === "Network Error") {
-        // Handle network error
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        // Handle other errors
+
+        // Send request with FormData
+        const response = await axios.patch(
+          urls.updateStudentProfile,
+          formData,
+          {
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "multipart/form-data", // Set content type to multipart/form-data for file upload
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          setGeneralLoading(false);
+          toast.success("General details changed successfully!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
+        }
+      } catch (error: any) {
+        // Handle errors
+        if (error.response && error.response.status === 401) {
+          // Handle unauthorized error
+          try {
+            await refreshToken();
+            await onSubmitGeneral(e);
+          } catch (refreshError: any) {
+            // Handle refresh token error
+          }
+        } else if (error?.message === "Network Error") {
+          // Handle network error
+          toast.error("Check your network!", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
+        } else if (error.response.status === 400) {
+        } else {
+        }
+      } finally {
+        // Reset loading state
+        setGeneralLoading(false);
       }
-    } finally {
-      // Reset loading state
-      setGeneralLoading(false);
+    } else {
+      toast.error("Ensure fields are filled correctly!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     }
   };
 
@@ -321,7 +340,14 @@ const SettingsPage = () => {
     }
   };
 
-  const profile_image = Cookies.get("pfp");
+  // const profile_image = Cookies.get("pfp");
+
+  const { studentData, fetchStudentData } = useStudentStore();
+
+  useEffect(() => {
+    fetchStudentData();
+  }, []);
+
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
@@ -384,7 +410,7 @@ const SettingsPage = () => {
                             <div className="">
                               <Input
                                 className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] w-full rounded-[6px]"
-                                placeholder="John Mark"
+                                placeholder={studentData?.full_name}
                                 value={fullName}
                                 onChange={(e) => {
                                   setFullName(e.target.value);
@@ -405,11 +431,11 @@ const SettingsPage = () => {
                               <Input
                                 type="email"
                                 className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-6"
-                                placeholder="example@gmail.com"
-                                value={email}
-                                onChange={(e) => {
-                                  setEmail(e.target.value);
-                                }}
+                                // placeholder={}
+                                value={studentData?.email}
+                                // onChange={(e) => {
+                                //   setEmail(e.target.value);
+                                // }}
                               />
                             </div>
                           </div>
@@ -426,7 +452,7 @@ const SettingsPage = () => {
                               <Input
                                 type="phoneNumber"
                                 className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-6"
-                                placeholder="445-892-5312"
+                                placeholder={studentData?.phone_number}
                                 value={phoneNumber}
                                 onChange={(e) => {
                                   setPhoneNumber(e.target.value);

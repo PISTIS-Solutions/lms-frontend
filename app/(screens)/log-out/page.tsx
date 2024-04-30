@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import TopNav from "@/components/side-comp/topNav";
+import Link from "next/link";
 
 const LogOut = () => {
   const router = useRouter();
@@ -23,7 +24,7 @@ const LogOut = () => {
       <SideNav />
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
-          <TopNav/>
+          <TopNav />
         </div>
         <div className="h-screen flex justify-center items-center ">
           <div className="lg:w-[642px] w-5/6 flex justify-center flex-col gap-y-5 p-4 items-center h-auto bg-white shadow-md rounded-[8px]">
@@ -33,7 +34,7 @@ const LogOut = () => {
             </p>
             <div className="flex flex-col md:flex-row gap-2 ">
               <Button className="bg-white rounded-[8px] py-4 px-6 text-sm border-2 border-solid border-[#3c9] hover:bg-main hover:text-white text-black">
-                Stay Logged In
+                <Link href="/dashboard">Stay Logged In</Link>
               </Button>
               <Button
                 onClick={onlogOut}

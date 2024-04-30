@@ -157,6 +157,19 @@ cardProps) => {
           draggable: false,
           theme: "dark",
         });
+      } else if (
+        error?.response?.data?.message ===
+        "Please complete previous course before enrolling in another."
+      ) {
+        toast.error(error?.response?.data?.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
       } else {
         toast.error(error?.response?.data?.detail, {
           position: "top-right",

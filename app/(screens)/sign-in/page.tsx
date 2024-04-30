@@ -45,7 +45,7 @@ const SignIn = () => {
           draggable: false,
           theme: "dark",
         });
-        console.log(response.data.access, "rac")
+        // console.log(response.data.access, "rac")
         Cookies.set("authToken", response.data.access);
         Cookies.set("refreshToken", response.data.refresh);
         Cookies.set("fullName", response.data.user.full_name);
