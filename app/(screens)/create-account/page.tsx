@@ -42,7 +42,7 @@ const SignUp = () => {
             re_password: formStore.confirm,
           }),
         });
-        console.log(response, "signup");
+
         if (response.ok) {
           // setModal(true);
           // router.push("/create-account/activate/[uid]");

@@ -36,7 +36,7 @@ const SingleProject = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      setProject(response.data.results);
+      setProject(response.data);
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
@@ -142,6 +142,7 @@ const SingleProject = () => {
             bool={false}
             pID={project}
             handleCloseModal={openPendingModal}
+            setPendingModal={setPendingModal}
           />
         </div>
       )}

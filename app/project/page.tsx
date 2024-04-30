@@ -32,7 +32,7 @@ const Project = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      setCourses(response.data.results);
+      setCourses(response.data);
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
@@ -102,7 +102,7 @@ const Project = () => {
                   <ProjectCard
                     id={project.id}
                     handleCardClick={handleCardClick}
-                    // img={project.img}
+                    img={project.course_image}
                     title={project.title}
                     paragraph={project.paragraph}
                     module={project.module}

@@ -60,7 +60,7 @@ const Content = () => {
           ) : (
             <div>
               <h1 className=" px-4 text-[#1A1A1A] text-lg md:text-2xl my-4 font-medium">
-                {moduleData?.module_title}
+                {courseRead?.title}
               </h1>
               <div className="md:grid flex flex-col-reverse gap-x-2 grid-cols-10">
                 <span className="relative col-span-7">
@@ -102,7 +102,7 @@ const Content = () => {
               <div className="bg-white shadow-md p-4 my-5 md:my-0 ">
                 <div className="">
                   <h1 className="md:text-2xl text-lg font-medium">
-                    Module 1: {moduleData?.module_title}
+                    Module: {moduleData?.module_title}
                   </h1>
                 </div>
                 <div>
