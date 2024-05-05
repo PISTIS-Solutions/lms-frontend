@@ -64,7 +64,7 @@ cardProps) => {
     getModuleCount();
   }, []);
 
-  const imageUrl = img?.replace("image/upload/", "");
+  // const imageUrl = img?.replace("image/upload/", "");
   return (
     <div className="relative">
       <div
@@ -76,7 +76,7 @@ cardProps) => {
         } h-auto shadow-md rounded-[8px] bg-[#FFF]`}
       >
         <Image
-          src={imageUrl}
+          src={img}
           width={100}
           height={100}
           alt={title}

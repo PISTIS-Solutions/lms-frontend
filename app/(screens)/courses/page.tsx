@@ -103,7 +103,7 @@ const Courses = () => {
                     id={course.id}
                     handleCardClick={handleCardClick}
                     // handleOpen={handleOpen}
-                    img={course.course_image}
+                    img={course.course_image_url}
                     title={course.title}
                     paragraph={course.paragraph}
                     duration={course.course_duration}

@@ -158,12 +158,12 @@ const Dashboard = () => {
         <div className="">
           <div className="grid grid-cols-1 lg:grid-cols-10 p-4">
             <div className=" col-span-1 lg:col-span-7">
-              <div className="w-[98%] rounded-[8px] relative bg-white h-[133px] flex justify-between lg:pl-5 pl-2 lg:p-0 p-2 shadow-md lg:mr-5 mr-2 lg:mb-2 mb-4">
+              <div className="md:w-[98%] w-full rounded-[8px] relative bg-white h-auto md:h-[133px] flex justify-between lg:pl-5 pl-2 lg:p-0 p-2 shadow-md lg:mr-5 mr-2 lg:mb-2 mb-4">
                 <div className="md:mt-[38px] mt-[30px]">
-                  <h1 className="sm:text-2xl text-xs md:text-lg font-medium">
+                  <h1 className="sm:text-2xl z-20 relative md:text-lg font-medium">
                     Welcome, {userName}
                   </h1>
-                  <p className="md:text-base text-sm pr-4 z-20 relative">
+                  <p className="md:text-base text-sm pr-0 md:pr-4 z-20 relative">
                     {plan === "Free"
                       ? "You are using the free version, upgrade now to complete more courses"
                       : "Complete your course and take a step further💪"}
@@ -198,7 +198,7 @@ const Dashboard = () => {
                   <></>
                 )}
               </div>
-              <div className="lg:flex block justify-between gap-0 md:gap-5 pr-4">
+              <div className="lg:flex block justify-between gap-0 md:gap-5 pr-0 md:pr-4">
                 <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-sub flex items-center justify-between px-5">
                   <div>
                     {loading ? (
@@ -270,10 +270,11 @@ const Dashboard = () => {
                   {stuData?.enrolled_courses &&
                   stuData.enrolled_courses.length > 0 ? (
                     stuData.enrolled_courses.slice(0, 3).map((data: any) => {
-                      const imageUrl = data.course_image?.replace(
-                        "image/upload/",
-                        ""
-                      );
+                      // const imageUrl = data.course_image?.replace(
+                      //   "image/upload/",
+                      //   ""
+                      // );
+                      console.log(data)
                       return (
                         <div
                           key={data.id}
@@ -282,7 +283,7 @@ const Dashboard = () => {
                           <div className="">
                             <Image
                               className=" object-cover w-full h-[140px]"
-                              src={imageUrl}
+                              src={data.course_image_url}
                               width={100}
                               height={100}
                               alt={data.title}
@@ -350,7 +351,7 @@ const Dashboard = () => {
                   </ScrollArea>
                 </div>
               </div>
-              <div className="border-md bg-white rounded-[8px] p-2 h-auto shadow-xl max-w-[300px] w-auto mt-2">
+              <div className="border-md bg-white rounded-[8px] p-2 h-auto shadow-xl md:w-full w-auto mt-2">
                 <h1 className="lg:text-2xl text-base md:text-lg font-medium  mt-4">
                   Progress Report
                 </h1>
@@ -375,9 +376,9 @@ const Dashboard = () => {
       </div>
       {openModal && (
         <div className="w-full h-screen bg-black/25 absolute top-0 flex justify-center items-center left-0">
-          <div className="rounded-[8px] relative bg-white border-t-2 overflow-y-scroll w-[95vw] md:w-3/4 h-[85vh] md:auto border-t-main ">
+          <div className="rounded-[8px] relative bg-white border-t-2 overflow-y-scroll w-[95vw] md:w-3/4 h-[85vh] z-[99] md:auto border-t-main ">
             <div className="text-center text-black flex justify-center items-center flex-col py-5">
-              <h1 className="font-semibold pb-5 text-xl sm:text-xl md:text-4xl">
+              <h1 className="font-semibold pb-2 md:pb-5 text-xl sm:text-xl md:text-4xl">
                 Find the right plan for you
               </h1>
               <p className="md:max-w-[60vw] max-w-full md:text-base sm:text-sm text-xs ">
