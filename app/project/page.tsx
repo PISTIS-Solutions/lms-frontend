@@ -102,7 +102,7 @@ const Project = () => {
                   <ProjectCard
                     id={project.id}
                     handleCardClick={handleCardClick}
-                    img={project.course_image}
+                    img={project.course_image_url}
                     title={project.title}
                     paragraph={project.paragraph}
                     module={project.module}

@@ -186,7 +186,8 @@ cardProps) => {
     }
   };
 
-  const imageUrl = img?.replace("image/upload/", "");
+  // const imageUrl = img?.replace("image/upload/", "");
+// console.log(img)
 
   return (
     <motion.div
@@ -213,7 +214,7 @@ cardProps) => {
         }
       >
         <Image
-          src={imageUrl}
+          src={img}
           width={100}
           height={100}
           alt={title}

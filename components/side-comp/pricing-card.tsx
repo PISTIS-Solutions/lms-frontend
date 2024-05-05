@@ -70,10 +70,10 @@ const PricingCard = ({ bool }: any) => {
         </Link>
       ) : (
         <Button
-          onClick={plan === "Free" ? undefined : freePlan}
+          onClick={plan == "Free" ? undefined : freePlan}
           className={
-            plan === "Free"
-              ? "bg-sub absolute bottom-4 hover:text-white text-black hover:bg-main w-[90%] mx-4"
+            plan == "Free"
+              ? "bg-sub absolute bottom-4  text-black w-[90%] mx-4"
               : "bg-[#DAE0E6] absolute bottom-4 hover:text-white text-black hover:bg-main w-[90%] mx-4"
           }
         >

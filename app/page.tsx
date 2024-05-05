@@ -286,9 +286,11 @@ export default function Home() {
             world of knowledge are swinging wide open, and it's time for you to
             step through
           </p>
-          <Button className="bg-sub text-black px-16 hover:text-white font-semibold">
-            Get Started
-          </Button>
+          <Link href="/create-account">
+            <Button className="bg-sub text-black px-16 hover:text-white font-semibold">
+              Get Started
+            </Button>
+          </Link>
         </div>
       </footer>
     </main>

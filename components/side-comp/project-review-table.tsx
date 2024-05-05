@@ -122,7 +122,7 @@ const ProjectReview = () => {
                             person?.submission_id
                           );
                         }}
-                        className="bg-[#F8F9FF] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
+                        className="bg-[#F8F9FF] rounded-[24px] text-center p-1 w-full md:w-[107px] cursor-pointer"
                       >
                         Submit
                       </p>
@@ -135,7 +135,7 @@ const ProjectReview = () => {
                             person?.submission_id
                           );
                         }}
-                        className="bg-white border border-[#EEEEFB] rounded-[24px] text-center p-1 w-[107px] cursor-pointer"
+                        className="bg-white border border-[#EEEEFB] rounded-[24px] text-center p-1 w-full md:w-[107px] cursor-pointer"
                       >
                         View
                       </p>
