@@ -17,7 +17,6 @@ const Module = () => {
 
   const { courseRead, fetchCourseRead, loading } = useCourseRead();
 
-
   const handleItemClick = (moduleId: any) => {
     setSelectedIndex(moduleId === selectedIndex ? null : moduleId);
     router.replace(`/courses/${courseID}/${moduleId}`);
@@ -54,7 +53,9 @@ const Module = () => {
             </span>
             <div className="lg:grid flex flex-col-reverse grid-cols-10 gap-x-2 my-2 ">
               <div className="bg-white col-span-7 p-2 rounded-[8px] shadow-sm">
-                <h1 className="md:text-2xl text-xl text-main py-2">{courseRead?.title}</h1>
+                <h1 className="md:text-2xl text-xl text-main py-2">
+                  {courseRead?.title}
+                </h1>
                 <p
                   dangerouslySetInnerHTML={{ __html: courseRead?.overview }}
                   className="text-[#3E3E3E] text-justify md:text-base text-sm"

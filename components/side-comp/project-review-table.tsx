@@ -92,13 +92,13 @@ const ProjectReview = () => {
                     {formatDate(person.deadline)}
                   </td>
 
-                  <td className="md:py-4 text-center md:text-base text-xs py-1">
+                  <td className="md:py-4 text-left md:text-base text-xs py-1">
                     {!person.date_submitted
                       ? "-"
                       : formatDate(person.date_submitted)}
                   </td>
                   <td
-                    className={`md:py-4 md:text-base text-center text-xs py-1 capitalize ${
+                    className={`md:py-4 md:text-base text-left text-xs py-1 capitalize ${
                       !person.status
                         ? "text-gray-600"
                         : person.status === "Pending"
@@ -124,7 +124,7 @@ const ProjectReview = () => {
                         }}
                         className="bg-[#F8F9FF] rounded-[24px] text-center p-1 w-full md:w-[107px] cursor-pointer"
                       >
-                        Submit
+                        Re-submit
                       </p>
                     ) : person.status === "Reviewed" ? (
                       <p

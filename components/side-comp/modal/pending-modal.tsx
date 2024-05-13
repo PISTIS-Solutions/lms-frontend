@@ -55,7 +55,7 @@ const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
             theme: "dark",
           });
           setLoading(false);
-          handleCloseModal();
+          // handleCloseModal();
         }
       } catch (error: any) {
         if (error.response && error.response.status === 401) {

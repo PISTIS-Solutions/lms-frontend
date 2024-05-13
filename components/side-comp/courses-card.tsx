@@ -131,6 +131,7 @@ cardProps) => {
         });
       }
     } catch (error: any) {
+      // console.log(error.response.data.message, "error")
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
         await handleEnroll(id);
@@ -170,7 +171,18 @@ cardProps) => {
           draggable: false,
           theme: "dark",
         });
-      } else {
+      }else if(error.response.data.message === "User currently enrolled in another course."){
+        toast.error("Complete present course before you can enroll on another!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } 
+      else {
         toast.error(error?.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
@@ -219,7 +231,7 @@ cardProps) => {
           height={100}
           alt={title}
           priority
-          className="rounded-tr-[4px] max-w-[357px] max-h-[191px] object-contain w-full rounded-tl-[4px]"
+          className="rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px]"
         />
         <div className="p-2">
           <div className="md:mb-14 mb-5">

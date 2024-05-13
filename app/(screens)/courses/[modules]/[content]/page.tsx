@@ -69,7 +69,7 @@ const Content = () => {
                     width="100%"
                     height="100%"
                     autoplay={true}
-                    url={moduleData?.module_url}
+                    url={moduleData?.module_video_link}
                     className="md:h-[428px] md:my-0 my-4"
                     config={{
                       youtube: {
@@ -80,8 +80,8 @@ const Content = () => {
                       },
                     }}
                   />
-                  <div className=" bg-transparent cursor-not-allowed w-full h-14 absolute top-0"/>
-                  <div className=" bg-transparent cursor-not-allowed w-full h-14 absolute bottom-0"/>
+                  {/* <div className=" bg-transparent cursor-not-allowed w-full h-14 absolute top-0"/>
+                  <div className=" bg-transparent cursor-not-allowed w-full h-14 absolute bottom-0"/> */}
                 </span>
 
                 <ScrollArea className="md:h-[428px] h-auto col-span-3 rounded-[8px] shadow-md my-2 md:my-0 bg-white">

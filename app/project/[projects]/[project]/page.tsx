@@ -169,9 +169,17 @@ const SideProject = () => {
                       dangerouslySetInnerHTML={{
                         __html: project?.project_description,
                       }}
-                      className="font-normal py-2 text-[#3E3E3E] text-base md:text-xl"
+                      className="font-normal text-justify py-2 text-[#3E3E3E] text-base md:text-xl"
                     ></p>
-                    <p className="text-[#3E3E3E]"></p>
+                     <span>
+                      <p>Hint: </p>
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: project?.project_hint,
+                        }}
+                        className="font-normal py-2 text-[#3E3E3E] text-base md:text-xl"
+                      ></p>
+                    </span>
                   </div>
                 </div>
               </div>

@@ -30,6 +30,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 import useStudentStore from "@/store/fetch-students";
+import { useRouter } from "next/navigation";
 
 const passwordSchema = z.object({
   currentPassword: z.string(),
@@ -287,16 +288,23 @@ const SettingsPage = () => {
     setShowConfirmPassword((prev) => !prev);
   };
 
+  const router = useRouter()
   const [loading, setLoading] = useState(false);
   const DeactivateStudent = async () => {
     try {
       setLoading(true);
       const accessToken = Cookies.get("authToken");
-      const response = await axios.delete(urls.deleteStudent, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
+      const response = await axios.post(
+        urls.deleteStudent,
+        {
+          confirm_deactivation: true,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       if (response.status === 200) {
         toast.success("Account Deactivated!", {
@@ -308,6 +316,8 @@ const SettingsPage = () => {
           draggable: false,
           theme: "dark",
         });
+        Cookies.remove("authToken");
+        router.replace("/")
       }
     } catch (error: any) {
       setLoading(false);

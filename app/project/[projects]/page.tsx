@@ -120,8 +120,17 @@ const SingleProject = () => {
                       dangerouslySetInnerHTML={{
                         __html: project?.[0]?.project_description,
                       }}
-                      className="font-normal py-2 text-[#3E3E3E] text-base md:text-xl"
+                      className="font-normal text-justify py-2 text-[#3E3E3E] text-base md:text-xl"
                     ></p>
+                     <span>
+                      <p>Hint: </p>
+                      <p
+                        dangerouslySetInnerHTML={{
+                          __html: project?.[0]?.project_hint,
+                        }}
+                        className="font-normal py-2 text-[#3E3E3E] text-base md:text-xl"
+                      ></p>
+                    </span>
                   </div>
                 </div>
               </div>

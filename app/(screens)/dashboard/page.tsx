@@ -132,7 +132,7 @@ const Dashboard = () => {
     datasets: [
       {
         label: "Courses",
-        data: [stuData?.courses_completed, notStarted],
+        data: [notStarted, stuData?.courses_completed],
         backgroundColor: ["#C36", "#3C9"],
         borderWidth: 1,
       },
@@ -160,7 +160,7 @@ const Dashboard = () => {
             <div className=" col-span-1 lg:col-span-7">
               <div className="md:w-[98%] w-full rounded-[8px] relative bg-white h-auto md:h-[133px] flex justify-between lg:pl-5 pl-2 lg:p-0 p-2 shadow-md lg:mr-5 mr-2 lg:mb-2 mb-4">
                 <div className="md:mt-[38px] mt-[30px]">
-                  <h1 className="sm:text-2xl z-20 relative md:text-lg font-medium">
+                  <h1 className="z-20 relative text-lg md:text-2xl font-medium">
                     Welcome, {userName}
                   </h1>
                   <p className="md:text-base text-sm pr-0 md:pr-4 z-20 relative">
@@ -266,7 +266,7 @@ const Dashboard = () => {
                     <Link href="/courses">View all</Link>
                   </p>
                 </div>
-                <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4 my-5">
+                <div className="flex gap-2 flex-wrap">
                   {stuData?.enrolled_courses &&
                   stuData.enrolled_courses.length > 0 ? (
                     stuData.enrolled_courses.slice(0, 3).map((data: any) => {
@@ -274,7 +274,7 @@ const Dashboard = () => {
                       //   "image/upload/",
                       //   ""
                       // );
-                      console.log(data)
+                      // console.log(data)
                       return (
                         <div
                           key={data.id}
