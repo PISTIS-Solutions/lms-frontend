@@ -93,15 +93,6 @@ const SingleProject = () => {
           />
           <TopNav />
         </div>
-        {/* <div>
-          <div className=" px-4 mt-3 text-xs md;text-sm font-medium flex items-center">
-            <p className="text-[#000066]">Course Content</p>
-            <ChevronRight className="text-[#000066]" />
-            <p className="text-[#000066]"> {project?.[0]?.course}</p>
-            <ChevronRight className="text-[#000066]" />
-            <p className="text-[#000066]"> {project?.[0]?.project_title}</p>
-          </div>
-        </div> */}
         {loading ? (
           <div className="w-[100%] flex items-center justify-center h-screen">
             <Loader2 className=" w-8 h-8 animate-spin" />
@@ -122,7 +113,7 @@ const SingleProject = () => {
                       }}
                       className="font-normal text-justify py-2 text-[#3E3E3E] text-base md:text-xl"
                     ></p>
-                     <span>
+                    <span>
                       <p>Hint: </p>
                       <p
                         dangerouslySetInnerHTML={{
@@ -149,6 +140,7 @@ const SingleProject = () => {
           <PendingModal
             cID={courseID}
             bool={false}
+            projectTitle={project?.[0]?.project_title}
             pID={project}
             handleCloseModal={openPendingModal}
             setPendingModal={setPendingModal}

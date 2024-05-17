@@ -142,15 +142,7 @@ const SideProject = () => {
           />
           <TopNav />
         </div>
-        {/* <div>
-          <div className=" px-4 mt-3 text-xs md;text-sm font-medium flex items-center">
-            <p className="text-[#000066]">Course Content</p>
-            <ChevronRight className="text-[#000066]" />
-            <p className="text-[#000066]"> {project?.course}</p>
-            <ChevronRight className="text-[#000066]" />
-            <p className="text-[#000066]"> {project?.project_title}</p>
-          </div>
-        </div> */}
+        
         {loading ? (
           <div className="w-[100%] flex items-center justify-center h-screen">
             <Loader2 className=" w-8 h-8 animate-spin" />
@@ -200,6 +192,7 @@ const SideProject = () => {
             cID={courseID}
             bool={true}
             pID2={projectList}
+            projectsTitles = {project?.project_title}
             handleCloseModal={openPendingModal}
             setPendingModal={setPendingModal}
           />

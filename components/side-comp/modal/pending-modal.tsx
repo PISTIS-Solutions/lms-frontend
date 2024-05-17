@@ -13,12 +13,19 @@ import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 import { useParams } from "next/navigation";
 
-const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
+const PendingModal = ({
+  handleCloseModal,
+  cID,
+  pID,
+  bool,
+  pID2,
+  projectTitle,
+  projectsTitles,
+}: any) => {
   const params = useParams<{ projects: string; project: string }>();
   const courseID = params.projects;
   const projectParamId = params.project;
 
-  const [selectedFile, setSelectedFile] = useState<any>(null);
   const [link, setLink] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -103,7 +110,9 @@ const PendingModal = ({ handleCloseModal, cID, pID, bool, pID2 }: any) => {
       <div>
         <ToastContainer />
         <div className="flex justify-between items-center">
-          <h1 className="md:text-2xl text-lg font-medium">Terraform</h1>
+          <h1 className="md:text-2xl text-lg font-medium">
+            {bool ? projectsTitles : projectTitle}
+          </h1>
           <span
             onClick={handleCloseModal}
             className="border-2 cursor-pointer border-main p-2 rounded-sm w-[32px] h-[32px] flex justify-center items-center"
