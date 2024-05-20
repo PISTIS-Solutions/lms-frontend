@@ -2,7 +2,13 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
 import img from "@/public/assets/course/ansible.png";
-import { BookText, Hourglass, LucideLoader2, Trash2 } from "lucide-react";
+import {
+  BookText,
+  Hourglass,
+  LucideLoader2,
+  LucideLockKeyhole,
+  Trash2,
+} from "lucide-react";
 import useCourseRead from "@/store/course-read";
 import axios from "axios";
 import { urls } from "@/utils/config";
@@ -45,7 +51,7 @@ cardProps) => {
             Authorization: `Bearer ${accessToken}`,
           },
         });
-        
+
         if (response.status === 200) {
           setModuleCount(response.data.length);
           setLoading(false);
@@ -103,6 +109,11 @@ cardProps) => {
           </div>
         </div>
       </div>
+      {!isEnrolled && (
+        <div className="p-2 bg-white cursor-pointer rounded-full w-[35px] h-[35px] flex justify-center items-center absolute top-2 right-2 hover:bg-red-500 duration-150 ease-in-out text-red-500 hover:text-white">
+          <LucideLockKeyhole />
+        </div>
+      )}
     </div>
   );
 };

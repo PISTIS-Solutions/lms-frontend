@@ -73,7 +73,7 @@ const PricingCard = ({ bool }: any) => {
           onClick={plan == "Free" ? undefined : freePlan}
           className={
             plan == "Free"
-              ? "bg-sub absolute bottom-4  text-black w-[90%] mx-4"
+              ? "bg-sub/50 absolute bottom-4  text-black w-[90%] mx-4 cursor-not-allowed"
               : "bg-[#DAE0E6] absolute bottom-4 hover:text-white text-black hover:bg-main w-[90%] mx-4"
           }
         >

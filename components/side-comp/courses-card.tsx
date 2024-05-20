@@ -100,7 +100,7 @@ cardProps) => {
   const plan = Cookies.get("plan");
   const isFreePlan = plan === "Free";
 
-  const isLocked = isFreePlan && index > 2;
+  const isLocked = isFreePlan && index > 3;
   const isLockedDisabled = isLocked;
 
   const handleEnroll = async (id: string) => {
@@ -213,7 +213,7 @@ cardProps) => {
         aria-disabled={isLockedDisabled || !isEnrolled}
         className={`w-full h-auto shadow-md rounded-[8px] bg-[#FFF] ${
           isLockedDisabled || !isEnrolled
-            ? "cursor-not-allowed"
+            ? "cursor-not-allowed "
             : "cursor-pointer"
         }`}
         onClick={
@@ -231,7 +231,7 @@ cardProps) => {
           height={100}
           alt={title}
           priority
-          className="rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px]"
+          className={`rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px] ${isEnrolled? " ": " blur-sm"}`}
         />
         <div className="p-2">
           <div className="md:mb-14 mb-5">
@@ -270,7 +270,7 @@ cardProps) => {
           </button>
         </div>
       </div>
-      {isFreePlan && index > 2 && (
+      {isFreePlan && index > 3 && (
         <div className="p-2 bg-white cursor-pointer rounded-full w-[35px] h-[35px] flex justify-center items-center absolute top-2 right-2 hover:bg-red-500 duration-150 ease-in-out text-red-500 hover:text-white">
           <LucideLockKeyhole />
         </div>
