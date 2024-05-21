@@ -46,11 +46,11 @@ const SignIn = () => {
           theme: "dark",
         });
         // console.log(response.data.access, "rac")
-        Cookies.set("authToken", response.data.access, {sameSite: "Strict"});
-        Cookies.set("refreshToken", response.data.refresh, {sameSite: "Strict"});
-        Cookies.set("fullName", response.data.user.full_name, {sameSite: "Strict"});
-        Cookies.set("plan", response.data.user.plan, {sameSite: "Strict"});
-        Cookies.set("pfp", response.data.user.profile_photo, {sameSite: "Strict"})
+        Cookies.set("authToken", response.data.access, {sameSite: "None"});
+        Cookies.set("refreshToken", response.data.refresh, {sameSite: "None"});
+        Cookies.set("fullName", response.data.user.full_name, {sameSite: "None"});
+        Cookies.set("plan", response.data.user.plan, {sameSite: "None"});
+        Cookies.set("pfp", response.data.user.profile_photo, {sameSite: "None"})
         route.replace("/dashboard");
       }
     } catch (error: any) {
