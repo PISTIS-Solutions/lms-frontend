@@ -78,7 +78,7 @@ const Dashboard = () => {
 
   const route = useRouter();
   //fetch dashboard data with acceess token and use refresh token to refresh expired token
-  const { stuData, loading, fetchStuData } = useStudentStore();
+  const { stuData, loading, fetchStuData, enrolled_courses } = useStudentStore();
 
   //activities endpoint
   const [activity, setActivities] = useState<any>([]);
@@ -206,7 +206,7 @@ const Dashboard = () => {
                     ) : (
                       stuData && (
                         <h1 className="text-2xl text-[#5D5B5B] font-medium">
-                          {stuData.total_courses}
+                          {stuData?.total_courses}
                         </h1>
                       )
                     )}
@@ -225,7 +225,7 @@ const Dashboard = () => {
                     ) : (
                       stuData && (
                         <h1 className="text-2xl text-[#5D5B5B] font-medium">
-                          {stuData.courses_completed}
+                          {stuData?.courses_completed}
                         </h1>
                       )
                     )}
@@ -244,7 +244,7 @@ const Dashboard = () => {
                     ) : (
                       stuData && (
                         <h1 className="text-2xl text-[#5D5B5B] font-medium">
-                          {stuData.projects_completed}
+                          {stuData?.projects_completed}
                         </h1>
                       )
                     )}
@@ -267,35 +267,30 @@ const Dashboard = () => {
                   </p>
                 </div>
                 <div className="flex gap-2 flex-wrap">
-                  {stuData?.enrolled_courses &&
-                  stuData.enrolled_courses.length > 0 ? (
-                    stuData.enrolled_courses.slice(0, 3).map((data: any) => {
-                      // const imageUrl = data.course_image?.replace(
-                      //   "image/upload/",
-                      //   ""
-                      // );
-                      // console.log(data)
+                  {enrolled_courses &&
+                  enrolled_courses?.length > 0 ? (
+                    enrolled_courses.slice(0, 3).map((data: any) => {
                       return (
                         <div
                           key={data.id}
                           className="rounded-[8px] mr-[12px] my-2 lg:my-0 relative bg-[#F8F9FF] sm:w-[242px] w-full h-[234px]"
                         >
                           <div className="">
-                            <Image
+                            {/* <Image
                               className=" object-cover w-full h-[140px]"
-                              src={data.course_image_url}
+                              src={data?.course_image_url}
                               width={100}
                               height={100}
-                              alt={data.title}
-                            />
+                              alt={data?.title}
+                            /> */}
                           </div>
                           <div className="p-2">
                             <h3 className="text-xl capitalize font-medium">
-                              {data.title}
+                              {data?.title}
                             </h3>
                             <p className="absolute bottom-0 cursor-pointer right-2 capitalize text-[#3E3E3E] font-medium flex items-center gap-1">
-                              {data.condition}{" "}
-                              {data.condition === "completed" ? (
+                              {data?.condition}{" "}
+                              {data?.condition === "completed" ? (
                                 <span className="text-main">
                                   <IoIosCheckmarkCircleOutline />
                                 </span>

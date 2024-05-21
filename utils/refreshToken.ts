@@ -8,11 +8,10 @@ const refreshAdminToken = async (): Promise<void> => {
       refresh: Cookies.get("refreshToken"),
       access: Cookies.get("authToken"),
     };
-    const refreshResponse = await axios.post(
-      urls.adminRefreshToken,
-      tokens
-    );
-    Cookies.set("authToken", refreshResponse.data.access);
+    const refreshResponse = await axios.post(urls.adminRefreshToken, tokens);
+    Cookies.set("authToken", refreshResponse.data.access, {
+      sameSite: "Strict",
+    });
   } catch (refreshError: any) {
     console.error("Error refreshing token:", refreshError.message);
     Cookies.remove("authToken");

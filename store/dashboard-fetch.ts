@@ -28,8 +28,8 @@ const useStudentStore = create<stuData>((set, get) => ({
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      set({ stuData: response.data });
-      set({enrolled_courses : response.data.enrolled_courses})
+      set({ stuData: response?.data });
+      set({enrolled_courses : response?.data?.enrolled_courses})
     } catch (error:any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
