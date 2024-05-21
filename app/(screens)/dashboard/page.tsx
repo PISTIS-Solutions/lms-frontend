@@ -276,13 +276,13 @@ const Dashboard = () => {
                           className="rounded-[8px] mr-[12px] my-2 lg:my-0 relative bg-[#F8F9FF] sm:w-[242px] w-full h-[234px]"
                         >
                           <div className="">
-                            {/* <Image
+                            <Image
                               className=" object-cover w-full h-[140px]"
                               src={data?.course_image_url}
                               width={100}
                               height={100}
                               alt={data?.title}
-                            /> */}
+                            />
                           </div>
                           <div className="p-2">
                             <h3 className="text-xl capitalize font-medium">
