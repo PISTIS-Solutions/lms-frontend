@@ -17,6 +17,7 @@ const protectedRoutes = [
 
 export default function middleware(req: NextRequest) {
   const tokenPresent = cookies().get("authToken")?.value;
+  console.log(tokenPresent, "middleware tk")
   const isAuthenticated = tokenPresent !== undefined ? true : false;
   if (
     !isAuthenticated &&

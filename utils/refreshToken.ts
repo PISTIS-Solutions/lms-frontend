@@ -11,6 +11,7 @@ const refreshAdminToken = async (): Promise<void> => {
     const refreshResponse = await axios.post(urls.adminRefreshToken, tokens);
     Cookies.set("authToken", refreshResponse.data.access, {
       sameSite: "None",
+      secure: true,
     });
   } catch (refreshError: any) {
     console.error("Error refreshing token:", refreshError.message);
