@@ -81,14 +81,14 @@ cardProps) => {
           !isEnrolled ? "cursor-not-allowed" : "cursor-pointer"
         } h-auto shadow-md rounded-[8px] bg-[#FFF]`}
       >
-        <Image
+        {/* <Image
           src={img}
           width={100}
           height={100}
           alt={title}
           priority
           className="rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px]"
-        />
+        /> */}
         <div className="p-2">
           <div className="md:mb-14 mb-5">
             <h1 className="md:text-xl text-sm font-medium">{title}</h1>
