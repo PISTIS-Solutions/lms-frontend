@@ -211,7 +211,7 @@ cardProps) => {
       <ToastContainer />
       <div
         aria-disabled={isLockedDisabled || !isEnrolled}
-        className={`w-full h-auto shadow-md rounded-[8px] bg-[#FFF] ${
+        className={`w-full h-[374px] shadow-md rounded-[8px]  bg-[#FFF] ${
           isLockedDisabled || !isEnrolled
             ? "cursor-not-allowed "
             : "cursor-pointer"
@@ -234,8 +234,8 @@ cardProps) => {
           className={`rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px] ${isEnrolled? " ": " blur-sm"}`}
         />
         <div className="p-2">
-          <div className="md:mb-14 mb-5">
-            <h1 className="md:text-xl text-sm font-medium">{title}</h1>
+          <div className="md:mb-10 mb-5">
+            <h1 className="md:text-xl text-base font-medium">{title}</h1>
             <p className="md:text-lg text-xs text-[#3E3E3E]">{paragraph}</p>
           </div>
           <div className="flex items-center gap-x-4 mt-4">
@@ -258,7 +258,7 @@ cardProps) => {
               handleEnroll(id);
             }}
             disabled={isLockedDisabled || isEnrolled}
-            className={`w-full text-black py-1 rounded-[4px] ${
+            className={`w-[95%] text-black absolute bottom-1 py-1 rounded-[4px] ${
               isLockedDisabled
                 ? "cursor-not-allowed border text-white bg-[#DAE0E6]/50 text-sm md:text-lg my-2"
                 : isEnrolled

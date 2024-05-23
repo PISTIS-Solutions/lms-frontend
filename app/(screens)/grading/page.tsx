@@ -113,7 +113,7 @@ const Project = () => {
               <thead className="text-main">
                 <tr className="bg-[#F8F9FF] py-1 w-full">
                   <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
-                    Course Title
+                    Project Title
                   </th>
                   <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
                     Deadline
@@ -147,7 +147,7 @@ const Project = () => {
                           //   onClick={() => handleCardClick(person.id)}
                           className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
                         >
-                          {person?.course?.title}
+                          {person?.project?.title}
                         </td>
                         <td className="md:py-4 md:text-base text-xs py-1">
                           {formatDate(person.deadline)}

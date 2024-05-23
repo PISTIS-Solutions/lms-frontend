@@ -77,9 +77,9 @@ cardProps) => {
         key={id}
         aria-disabled={!isEnrolled}
         onClick={isEnrolled ? () => handleCardClick(id) : undefined}
-        className={` w-full ${
+        className={` w-full h-[374px]  ${
           !isEnrolled ? "cursor-not-allowed" : "cursor-pointer"
-        } h-auto shadow-md rounded-[8px] bg-[#FFF]`}
+        } shadow-md rounded-[8px] bg-[#FFF]`}
       >
         <Image
           src={img}
@@ -87,14 +87,14 @@ cardProps) => {
           height={100}
           alt={title}
           priority
-          className="rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px]"
+          className={`rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px] ${isEnrolled? " ": " blur-sm"}`}
         />
         <div className="p-2">
           <div className="md:mb-14 mb-5">
-            <h1 className="md:text-xl text-sm font-medium">{title}</h1>
+            <h1 className="md:text-xl text-base font-medium">{title}</h1>
             <p className="md:text-lg text-xs text-[#3E3E3E]">{paragraph}</p>
           </div>
-          <div className="flex items-center gap-x-4 mt-4">
+          <div className="flex items-center gap-x-4 mt-4 absolute bottom-3">
             <div className="flex md:text-base text-xs items-center gap-x-1">
               <BookText className="text-main" />
               {loading ? (
