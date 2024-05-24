@@ -17,6 +17,7 @@ import refreshAdminToken from "@/utils/refreshToken";
 import { Input } from "@/components/ui/input";
 import SideProjects from "@/components/side-comp/side-projects";
 import PendingModal from "@/components/side-comp/modal/pending-modal";
+import Markdown from "react-markdown";
 
 const SingleProject = () => {
   const router = useRouter();
@@ -114,13 +115,16 @@ const SingleProject = () => {
                       className="font-normal text-justify py-2 text-[#3E3E3E] text-base md:text-xl"
                     ></p>
                     <span>
-                      <p>Hint: </p>
-                      <p
+                      <p className="text-main font-semibold">Hint: </p>
+                      {/* <p
                         dangerouslySetInnerHTML={{
                           __html: project?.[0]?.project_hint,
                         }}
                         className="font-normal py-2 text-[#3E3E3E] text-base md:text-xl"
-                      ></p>
+                      ></p> */}
+                      <Markdown className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl">
+                        {project?.[0]?.project_hint}
+                      </Markdown>
                     </span>
                   </div>
                 </div>

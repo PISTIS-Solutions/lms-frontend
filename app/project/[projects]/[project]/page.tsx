@@ -16,6 +16,7 @@ import refreshAdminToken from "@/utils/refreshToken";
 import SideProjects from "@/components/side-comp/side-projects";
 import { Input } from "@/components/ui/input";
 import PendingModal from "@/components/side-comp/modal/pending-modal";
+import ReactMarkdown from "react-markdown";
 
 const SideProject = () => {
   const router = useRouter();
@@ -142,7 +143,7 @@ const SideProject = () => {
           />
           <TopNav />
         </div>
-        
+
         {loading ? (
           <div className="w-[100%] flex items-center justify-center h-screen">
             <Loader2 className=" w-8 h-8 animate-spin" />
@@ -163,14 +164,11 @@ const SideProject = () => {
                       }}
                       className="font-normal text-justify py-2 text-[#3E3E3E] text-base md:text-xl"
                     ></p>
-                     <span>
-                      <p>Hint: </p>
-                      <p
-                        dangerouslySetInnerHTML={{
-                          __html: project?.project_hint,
-                        }}
-                        className="font-normal py-2 text-[#3E3E3E] text-base md:text-xl"
-                      ></p>
+                    <span>
+                      <p className="text-main font-semibold">Hint: </p>
+                      <ReactMarkdown className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl">
+                        {project?.project_hint}
+                      </ReactMarkdown>
                     </span>
                   </div>
                 </div>
@@ -192,7 +190,7 @@ const SideProject = () => {
             cID={courseID}
             bool={true}
             pID2={projectList}
-            projectsTitles = {project?.project_title}
+            projectsTitles={project?.project_title}
             handleCloseModal={openPendingModal}
             setPendingModal={setPendingModal}
           />

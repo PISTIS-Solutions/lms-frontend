@@ -8,6 +8,7 @@ import TopNav from "@/components/side-comp/topNav";
 import useCourseRead from "@/store/course-read";
 import "react-toastify/dist/ReactToastify.css";
 import SideModules from "@/components/side-comp/side-modules";
+import ReactMarkdown from "react-markdown";
 
 const Module = () => {
   const router = useRouter();
@@ -56,10 +57,11 @@ const Module = () => {
                 <h1 className="md:text-2xl text-xl text-main py-2">
                   {courseRead?.title}
                 </h1>
-                <p
+                {/* <p
                   dangerouslySetInnerHTML={{ __html: courseRead?.overview }}
                   className="text-[#3E3E3E] text-justify md:text-base text-sm"
-                ></p>
+                ></p> */}
+                <ReactMarkdown>{courseRead?.overview}</ReactMarkdown>
               </div>
 
               <SideModules

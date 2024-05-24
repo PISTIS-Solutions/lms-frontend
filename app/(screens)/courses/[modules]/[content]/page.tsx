@@ -11,6 +11,7 @@ import TopNav from "@/components/side-comp/topNav";
 import useModuleRead from "@/store/module-read";
 import SideModules from "@/components/side-comp/side-modules";
 import useCourseRead from "@/store/course-read";
+import ReactMarkdown from "react-markdown";
 
 const Content = () => {
   const router = useRouter();
@@ -106,12 +107,15 @@ const Content = () => {
                   </h1>
                 </div>
                 <div>
-                  <p
+                  {/* <p
                     dangerouslySetInnerHTML={{
                       __html: moduleData?.description,
                     }}
                     className="py-4 text-[#3E3E3E]"
-                  ></p>
+                  ></p> */}
+                  <ReactMarkdown>
+                    {moduleData?.description}
+                  </ReactMarkdown>
                 </div>
               </div>
             </div>
