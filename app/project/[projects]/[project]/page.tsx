@@ -18,6 +18,21 @@ import { Input } from "@/components/ui/input";
 import PendingModal from "@/components/side-comp/modal/pending-modal";
 import ReactMarkdown from "react-markdown";
 
+import remarkGfm from "remark-gfm";
+
+import {
+  CustomH2,
+  code,
+  customH3,
+  customOL,
+  customP,
+  customTD,
+  customTH,
+  customUL,
+  strong,
+} from "@/utils/markdown";
+import Markdown from "react-markdown";
+
 const SideProject = () => {
   const router = useRouter();
   //   const [showList, setShowList] = useState(false);
@@ -158,15 +173,45 @@ const SideProject = () => {
                     <h2 className="font-medium text-lg md:text-2xl text-main">
                       {project?.project_title}
                     </h2>
-                    <p
+                    {/* <p
                       dangerouslySetInnerHTML={{
                         __html: project?.project_description,
                       }}
                       className="font-normal text-justify py-2 text-[#3E3E3E] text-base md:text-xl"
-                    ></p>
+                    ></p> */}
+                      <Markdown
+                      className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl"
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        h2: CustomH2,
+                        h3: customH3,
+                        ol: customOL,
+                        p: customP,
+                        ul: customUL,
+                        th: customTH,
+                        td: customTD,
+                        strong: strong,
+                        code: code
+                      }}
+                    >
+                      {project?.project_description}
+                    </Markdown>
                     <span>
                       <p className="text-main font-semibold">Hint: </p>
-                      <ReactMarkdown className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl">
+                      <ReactMarkdown
+                        className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl"
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          h2: CustomH2,
+                          h3: customH3,
+                          ol: customOL,
+                          p: customP,
+                          ul: customUL,
+                          th: customTH,
+                          td: customTD,
+                          strong: strong,
+                        }}
+                      >
                         {project?.project_hint}
                       </ReactMarkdown>
                     </span>

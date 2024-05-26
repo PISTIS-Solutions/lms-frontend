@@ -14,10 +14,23 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 
-import { Input } from "@/components/ui/input";
 import SideProjects from "@/components/side-comp/side-projects";
 import PendingModal from "@/components/side-comp/modal/pending-modal";
 import Markdown from "react-markdown";
+
+import remarkGfm from "remark-gfm";
+
+import {
+  CustomH2,
+  code,
+  customH3,
+  customOL,
+  customP,
+  customTD,
+  customTH,
+  customUL,
+  strong,
+} from "@/utils/markdown";
 
 const SingleProject = () => {
   const router = useRouter();
@@ -108,12 +121,29 @@ const SingleProject = () => {
                     <h2 className="font-medium text-lg md:text-2xl text-main">
                       {project?.[0]?.project_title}
                     </h2>
-                    <p
+                    {/* <p
                       dangerouslySetInnerHTML={{
                         __html: project?.[0]?.project_description,
                       }}
                       className="font-normal text-justify py-2 text-[#3E3E3E] text-base md:text-xl"
-                    ></p>
+                    ></p> */}
+                     <Markdown
+                      className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl"
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        h2: CustomH2,
+                        h3: customH3,
+                        ol: customOL,
+                        p: customP,
+                        ul: customUL,
+                        th: customTH,
+                        td: customTD,
+                        strong: strong,
+                        code: code
+                      }}
+                    >
+                      {project?.[0]?.project_description}
+                    </Markdown>
                     <span>
                       <p className="text-main font-semibold">Hint: </p>
                       {/* <p
@@ -122,7 +152,20 @@ const SingleProject = () => {
                         }}
                         className="font-normal py-2 text-[#3E3E3E] text-base md:text-xl"
                       ></p> */}
-                      <Markdown className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl">
+                          <Markdown
+                        className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl"
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          h2: CustomH2,
+                          h3: customH3,
+                          ol: customOL,
+                          p: customP,
+                          ul: customUL,
+                          th: customTH,
+                          td: customTD,
+                          strong: strong,
+                        }}
+                      >
                         {project?.[0]?.project_hint}
                       </Markdown>
                     </span>

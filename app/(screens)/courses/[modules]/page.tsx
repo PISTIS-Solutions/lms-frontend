@@ -10,6 +10,20 @@ import "react-toastify/dist/ReactToastify.css";
 import SideModules from "@/components/side-comp/side-modules";
 import ReactMarkdown from "react-markdown";
 
+import remarkGfm from "remark-gfm";
+
+import {
+  CustomH2,
+  code,
+  customH3,
+  customOL,
+  customP,
+  customTD,
+  customTH,
+  customUL,
+  strong,
+} from "@/utils/markdown";
+
 const Module = () => {
   const router = useRouter();
   const params = useParams<{ modules: string }>();
@@ -61,7 +75,23 @@ const Module = () => {
                   dangerouslySetInnerHTML={{ __html: courseRead?.overview }}
                   className="text-[#3E3E3E] text-justify md:text-base text-sm"
                 ></p> */}
-                <ReactMarkdown>{courseRead?.overview}</ReactMarkdown>
+                 <ReactMarkdown
+                  className="py-4 text-[#3E3E3E]"
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    h2: CustomH2,
+                    h3: customH3,
+                    ol: customOL,
+                    p: customP,
+                    ul: customUL,
+                    th: customTH,
+                    td: customTD,
+                    strong: strong,
+                    code:code
+                  }}
+                >
+                  {courseRead?.overview}
+                </ReactMarkdown>
               </div>
 
               <SideModules

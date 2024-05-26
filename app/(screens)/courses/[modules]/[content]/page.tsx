@@ -12,6 +12,19 @@ import useModuleRead from "@/store/module-read";
 import SideModules from "@/components/side-comp/side-modules";
 import useCourseRead from "@/store/course-read";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+import {
+  CustomH2,
+  code,
+  customH3,
+  customOL,
+  customP,
+  customTD,
+  customTH,
+  customUL,
+  strong,
+} from "@/utils/markdown";
 
 const Content = () => {
   const router = useRouter();
@@ -66,16 +79,16 @@ const Content = () => {
               <div className="md:grid flex flex-col-reverse gap-x-2 grid-cols-10">
                 <span className="relative col-span-7">
                   <ReactPlayer
-                    controls={false}
+                    controls={true}
                     width="100%"
                     height="100%"
-                    autoplay={true}
+                    playing={true}
                     url={moduleData?.module_video_link}
                     className="md:h-[428px] md:my-0 my-4"
                     config={{
                       youtube: {
                         playerVars: {
-                          controls: 0,
+                          controls: 1,
                           modestbranding: 1,
                         },
                       },
@@ -113,7 +126,21 @@ const Content = () => {
                     }}
                     className="py-4 text-[#3E3E3E]"
                   ></p> */}
-                  <ReactMarkdown>
+                   <ReactMarkdown
+                    className="py-4 text-[#3E3E3E]"
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      h2: CustomH2,
+                      h3: customH3,
+                      ol: customOL,
+                      p: customP,
+                      ul: customUL,
+                      th: customTH,
+                      td: customTD,
+                      strong: strong,
+                      code: code
+                    }}
+                  >
                     {moduleData?.description}
                   </ReactMarkdown>
                 </div>
