@@ -71,7 +71,7 @@ const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
       <div>
         <ToastContainer />
         <div className="flex justify-between items-center">
-          <h1 className="md:text-2xl text-lg font-medium">Terraform</h1>
+        <h1 className="md:text-2xl text-lg font-medium">{person?.project?.title}</h1>
           <span
             onClick={handleReviewModal}
             className="border-2 cursor-pointer border-main p-2 rounded-sm w-[32px] h-[32px] flex justify-center items-center"

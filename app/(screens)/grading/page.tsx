@@ -113,6 +113,9 @@ const Project = () => {
               <thead className="text-main">
                 <tr className="bg-[#F8F9FF] py-1 w-full">
                   <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+                    Course Title
+                  </th>
+                  <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
                     Project Title
                   </th>
                   <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
@@ -143,6 +146,12 @@ const Project = () => {
                   currentData?.map((person: any, index: number) => (
                     <>
                       <tr key={index}>
+                        <td
+                          //   onClick={() => handleCardClick(person.id)}
+                          className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
+                        >
+                          {person?.course?.title}
+                        </td>
                         <td
                           //   onClick={() => handleCardClick(person.id)}
                           className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"

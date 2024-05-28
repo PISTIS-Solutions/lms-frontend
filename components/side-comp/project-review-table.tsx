@@ -55,6 +55,9 @@ const ProjectReview = () => {
               Course Title
             </th>
             <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+              Project Title
+            </th>
+            <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
               Deadline
             </th>
             <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
@@ -88,6 +91,13 @@ const ProjectReview = () => {
                   >
                     {person?.course?.title}
                   </td>
+                  <td
+                    //   onClick={() => handleCardClick(person.id)}
+                    className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
+                  >
+                    {person?.project?.title}
+                  </td>
+
                   <td className="md:py-4 md:text-base text-xs py-1">
                     {formatDate(person.deadline)}
                   </td>
