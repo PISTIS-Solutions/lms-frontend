@@ -78,7 +78,8 @@ const Dashboard = () => {
 
   const route = useRouter();
   //fetch dashboard data with acceess token and use refresh token to refresh expired token
-  const { stuData, loading, fetchStuData, enrolled_courses } = useStudentStore();
+  const { stuData, loading, fetchStuData, enrolled_courses } =
+    useStudentStore();
 
   //activities endpoint
   const [activity, setActivities] = useState<any>([]);
@@ -267,8 +268,7 @@ const Dashboard = () => {
                   </p>
                 </div>
                 <div className="flex gap-2 flex-wrap">
-                  {enrolled_courses &&
-                  enrolled_courses?.length > 0 ? (
+                  {enrolled_courses && enrolled_courses?.length > 0 ? (
                     enrolled_courses.slice(0, 3).map((data: any) => {
                       return (
                         <div
