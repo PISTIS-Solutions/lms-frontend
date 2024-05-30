@@ -27,7 +27,6 @@ const useStudentStore = create<readStudent>((set, get) => ({
         },
       });
       set({ studentData: response.data });
-      console.log(response.data, "rD")
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();

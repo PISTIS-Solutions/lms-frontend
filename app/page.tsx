@@ -29,6 +29,10 @@ import {
 import { Button } from "@/components/ui/button";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import useCourseStore from "@/store/fetch-courses";
+import { useEffect, useState } from "react";
+import { Loader2Icon } from "lucide-react";
+import useStudentsStore from "@/store/fetch-students-landing";
 
 export default function Home() {
   const responsive = {
@@ -49,6 +53,15 @@ export default function Home() {
       slidesToSlide: 1,
     },
   };
+
+  const { courses, fetchStuCourses, loading } = useCourseStore();
+  const { students, fetchStudents } = useStudentsStore();
+
+  useEffect(() => {
+    fetchStuCourses();
+    fetchStudents();
+  }, []);
+
   return (
     <main className="relative">
       <div>
@@ -82,13 +95,13 @@ export default function Home() {
       <section className=" flex items-center px-5 md:px-6 lg:px-10 justify-between bg-mid-back h-[117px] bg-no-repeat bg-cover">
         <div className="flex w-full md:justify-evenly justify-center divide-x-[4px]">
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium pr-4 md:pr-20 lg:pr-36">
-            30+ Students
+            {students===0 ? "20+ Students": students + " students"}
           </p>
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium px-4 md:px-20 lg:px-36">
             Expert Mentors
           </p>
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium pl-4 md:pl-20 lg:pl-36">
-            20+ courses
+            {courses.length === 0? "20+ courses" : courses.length + " courses"}
           </p>
         </div>
       </section>
@@ -233,13 +246,29 @@ export default function Home() {
 
         <div className=" w-full flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center lg:w-[65vw] w-full gap-[16px]">
-            <Coursecard
-              image={ansible}
-              header="Ansible"
-              title="Simplifying automation"
-              modules={2}
-            />
-            <Coursecard
+            {loading ? (
+              <span className="flex text-center justify-center items-center">
+                <Loader2Icon className="animate-spin" />
+                Loading...
+              </span>
+            ) : courses && courses.length > 0 ? (
+              courses.slice(1, 7).map((course: any, index: number) => {
+                return (
+                  <Coursecard
+                    key={course.id}
+                    id={course.id}
+                    index={index}
+                    image={course.course_image_url}
+                    header={course.title}
+                  />
+                );
+              })
+            ) : (
+              <p className="text-center lg:text-base text-sm">
+                No courses available.
+              </p>
+            )}
+            {/* <Coursecard
               image={cicd}
               header="CI/CD"
               title="Continous Intergration and Development"
@@ -263,15 +292,17 @@ export default function Home() {
               header="GITOPS"
               title="Building a strong operational framework"
               modules={2}
-            />
+            /> */}
           </div>
         </div>
 
         <div className="flex justify-center">
           <div className="lg:w-[65vw] w-full flex justify-end">
-            <Button className="py-[18px] px-[20px] mt-8 hover:text-white bg-sub text-black text-lg md:text-2xl">
-              Find Out More
-            </Button>
+            <Link href="/create-account">
+              <Button className="py-[18px] px-[20px] mt-8 hover:text-white bg-sub text-black text-lg md:text-2xl">
+                Find Out More
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

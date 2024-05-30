@@ -51,22 +51,22 @@ const ProjectReview = () => {
       <table className="w-full mt-2 text-left">
         <thead className="text-main">
           <tr className="bg-[#F8F9FF] py-1 w-full">
-            <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
               Course Title
             </th>
-            <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
               Project Title
             </th>
-            <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
               Deadline
             </th>
-            <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
               Date Submitted
             </th>
-            <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
               Status
             </th>
-            <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
               Link
             </th>
           </tr>

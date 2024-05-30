@@ -112,22 +112,22 @@ const Project = () => {
             <table className="w-full mt-2 text-left">
               <thead className="text-main">
                 <tr className="bg-[#F8F9FF] py-1 w-full">
-                  <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+                  <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
                     Course Title
                   </th>
-                  <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+                  <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
                     Project Title
                   </th>
-                  <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+                  <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
                     Deadline
                   </th>
-                  <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+                  <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
                     Date Submitted
                   </th>
-                  <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+                  <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
                     Status
                   </th>
-                  <th className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1">
+                  <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
                     Link
                   </th>
                 </tr>
@@ -148,28 +148,28 @@ const Project = () => {
                       <tr key={index}>
                         <td
                           //   onClick={() => handleCardClick(person.id)}
-                          className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
+                          className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1 capitalize"
                         >
                           {person?.course?.title}
                         </td>
                         <td
                           //   onClick={() => handleCardClick(person.id)}
-                          className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
+                          className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1 capitalize"
                         >
                           {person?.project?.title}
                         </td>
-                        <td className="md:py-4 md:text-base text-xs py-1">
+                        <td className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1 capitalize">
                           {formatDate(person.deadline)}
                         </td>
 
-                        <td className="md:py-4 text-center md:text-base text-xs py-1">
+                        <td className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1 capitalize">
                           {!person.date_submitted
                             ? "-"
                             : formatDate(person.date_submitted)}
                           {/* {person.date_submitted} */}
                         </td>
                         <td
-                          className={`md:py-4 md:text-base text-center text-xs py-1 capitalize ${
+                          className={`md:py-4 px-4 md:px-2 md:text-base text-xs py-1 capitalize" ${
                             !person.status
                               ? "text-gray-600"
                               : person.status === "Pending"

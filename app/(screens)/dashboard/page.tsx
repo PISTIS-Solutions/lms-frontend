@@ -37,6 +37,7 @@ import { Button } from "@/components/ui/button";
 import Pricing from "../pricing/page";
 import PricingCard from "@/components/side-comp/pricing-card";
 import PaidPricing from "@/components/side-comp/paid-pricing";
+import useCourseStore from "@/store/fetch-courses";
 
 const formatDate = (isoDateString: any) => {
   const date = new Date(isoDateString);
@@ -93,6 +94,7 @@ const Dashboard = () => {
       });
       if (response.status === 200) {
         setActivities(response.data);
+        console.log(response.data);
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
@@ -147,7 +149,6 @@ const Dashboard = () => {
   const handleModal = () => {
     setOpenModal((prev) => !prev);
   };
-
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
