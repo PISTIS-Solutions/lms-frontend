@@ -12,27 +12,33 @@ interface StudentsStore {
 }
 
 const useStudentsStore = create<StudentsStore>((set, get) => ({
-  students: 0,
+  students: {},
   loading: false,
 
   fetchStudents: async () => {
     try {
       set({ loading: true });
-      const adminAccessToken = Cookies.get("authToken");
-      const response = await axios.get(urls.getStudents, {
-        headers: {
-          Authorization: `Bearer ${adminAccessToken}`,
-        },
-      });
+      // const adminAccessToken = Cookies.get("authToken");
+      const response = await axios.get(urls.getStudents);
       if (response.status === 200) {
-        set({ students: response.data.count });
+        set({ students: response.data });
+        console.log(response.data, "resdat");
       }
     } catch (error: any) {
-      console.error("Error fetching courses:", error.message);
-      if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await get().fetchStudents();
-      }
+      
+      toast.error(`Error fetching courses: ${error.message}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
+      // if (error.response && error.response.status === 401) {
+      //   await refreshAdminToken();
+      //   await get().fetchStudents();
+      // }
       //   else if (error?.message === "Network Error") {
       //     toast.error("Check your network!", {
       //       position: "top-right",

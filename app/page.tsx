@@ -19,17 +19,20 @@ import {
   git,
   gitops,
   TestimonialCard,
-  avatar,
   ansible,
   Coursecard,
   LandingCard,
   NavigationBar,
+  tochukwu,
+  olayinka,
+  oyedokun,
+  tolulope,
+  avatar,
 } from "./index";
 
 import { Button } from "@/components/ui/button";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import useCourseStore from "@/store/fetch-courses";
 import { useEffect, useState } from "react";
 import { Loader2Icon } from "lucide-react";
 import useStudentsStore from "@/store/fetch-students-landing";
@@ -38,14 +41,13 @@ export default function Home() {
   const responsive = {
     desktop: {
       breakpoint: { max: 3000, min: 1024 },
-      items: 3,
-      slidesToSlide: 3,
+      items: 2,
+      slidesToSlide: 1,
     },
     tablet: {
       breakpoint: { max: 800, min: 464 },
       items: 1,
       slidesToSlide: 1,
-      partialVisibilityGutter: 30,
     },
     mobile: {
       breakpoint: { max: 464, min: 0 },
@@ -54,11 +56,9 @@ export default function Home() {
     },
   };
 
-  const { courses, fetchStuCourses, loading } = useCourseStore();
-  const { students, fetchStudents } = useStudentsStore();
+  const { students, fetchStudents, loading } = useStudentsStore();
 
   useEffect(() => {
-    fetchStuCourses();
     fetchStudents();
   }, []);
 
@@ -95,13 +95,17 @@ export default function Home() {
       <section className=" flex items-center px-5 md:px-6 lg:px-10 justify-between bg-mid-back h-[117px] bg-no-repeat bg-cover">
         <div className="flex w-full md:justify-evenly justify-center divide-x-[4px]">
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium pr-4 md:pr-20 lg:pr-36">
-            {students===0 ? "20+ Students": students + " students"}
+            {students?.number_of_students == 0
+              ? "20+ Students"
+              : students?.number_of_students + " students"}
           </p>
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium px-4 md:px-20 lg:px-36">
             Expert Mentors
           </p>
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium pl-4 md:pl-20 lg:pl-36">
-            {courses.length === 0? "20+ courses" : courses.length + " courses"}
+            {students?.number_of_courses == 0
+              ? "20+ courses"
+              : students?.number_of_courses + " courses"}
           </p>
         </div>
       </section>
@@ -209,32 +213,42 @@ export default function Home() {
             What Our Students Say
           </h1>
         </div>
-        <div className="py-16">
+        <div className=" px-5 relative">
           <Carousel
-            className="lg:px-10 md:px-0 px-5 md:h-[40vh] h-[30vh] lg:h-[60vh]"
-            containerClass=""
+            containerClass="py-7"
+            className=""
             responsive={responsive}
             infinite={true}
             autoPlay={true}
-            showDots={false}
+            showDots={true}
             swipeable={true}
-            autoPlaySpeed={2000}
-            removeArrowOnDeviceType={["tablet", "mobile"]}
+            autoPlaySpeed={3000}
+            removeArrowOnDeviceType={["desktop"]}
           >
             <TestimonialCard
-              avatar={avatar}
-              name="Sylvia Okoro"
-              quote="I can access my courses at any time, which means I can fit learning into my busy schedule"
+              avatar={tochukwu}
+              name="Tochukwu Odeme"
+              quote="Pistis provides you a unique personal experience on your path to becoming a cloud DevOps engineer. This program offers one-on-one mentorship sessions and various practical applications, covering all potential scenarios you may encounter when applying your skills to cloud-related challenges. Highly recommended for anyone serious about advancing in this field."
+            />
+            <TestimonialCard
+              avatar={olayinka}
+              name="Olayinka Olaiya"
+              quote="My experience with the DevOps training at Pistis Tech Academy has been outstanding. The comprehensive and practical modules, responsive instructors, and supportive community have significantly enhanced my skills and enriched my learning experience. I highly recommend this training to anyone passionate about gaining DevOps skills or advancing their knowledge, regardless of prior tech experience. Students are trained step-by-step from basic to advanced stages, making it suitable for everyone. Engage actively, utilize the community, and manage your time effectively to get the most out of this excellent program."
+            />
+            <TestimonialCard
+              avatar={oyedokun}
+              name="Oyedokun Damilare"
+              quote="The decision of learning from pistis-tech has been the very best for me. They make complicated software skills  so simple because of their expertise. Available to help are skilled mentors, resourceful materials and in depth critical thinking projects that will expose you to the field of your course. I can guarantee you that learning software skills from pistis-tech will make your hand so strong in any of the fields you pick."
             />
             <TestimonialCard
               avatar={avatar}
-              name="Bayo Adegboyega"
-              quote="I've been using Pistis LMS for the past six months, and I can confidently say that it has transformed my learning experience"
+              name="Abayomi Omiwale"
+              quote="The timely help from the mentors has really made my learning easy and effective."
             />
             <TestimonialCard
-              avatar={avatar}
-              name="David Gilbert"
-              quote="I've been using Pistis LMS for the past six months, and I can confidently say that it has transformed my learning experience."
+              avatar={tolulope}
+              name="Tolulope"
+              quote="A hub of well seasoned mentors, flexible learning, prompt response to issues. Pistis is a place where you can learn irrespective of what your schedule looks like."
             />
           </Carousel>
         </div>
@@ -251,8 +265,9 @@ export default function Home() {
                 <Loader2Icon className="animate-spin" />
                 Loading...
               </span>
-            ) : courses && courses.length > 0 ? (
-              courses.slice(1, 7).map((course: any, index: number) => {
+            ) : students?.course_details
+            && students?.course_details.length > 0 ? (
+              students?.course_details.slice(1, 7).map((course: any, index: number) => {
                 return (
                   <Coursecard
                     key={course.id}

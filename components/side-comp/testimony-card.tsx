@@ -1,6 +1,6 @@
-import { Star } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { FaStar } from "react-icons/fa6";
 
 
 
@@ -12,25 +12,25 @@ interface Componentprops {
 
 const TestimonialCard = ({ avatar, name, quote }: Componentprops) => {
   return (
-    <main className="lg:w-[409px] md:w-full w-[345px] md:h-[276px] shadow-md relative rounded-[16px] p-4 bg-white">
+    <main className="w-[98%] h-[276px]  shadow-md relative rounded-[16px] p-4 bg-white">
       <Image
         src={avatar}
         alt="avatar"
         priority
-        className="md:w-[108px] w-[80px] h-[80px] md:h-[108px] absolute right-5 -top-5"
+        className="absolute right-5 object-fill rounded-full -top-7 md:w-[108px] w-[80px] h-[80px] md:h-[108px]"
       />
       <div>
         <h3 className="md:text-xl sm:text-lg text-sm font-semibold">{name}</h3>
         <div className="flex gap-x-1 text-main">
-          <Star />
-          <Star />
-          <Star />
-          <Star />
-          <Star />
+        <FaStar/>
+        <FaStar/>
+        <FaStar/>
+        <FaStar/>
+        <FaStar/>
         </div>
       </div>
-      <div>
-        <p className="md:text-lg text-xs sm:text-base mt-10 text-[#3E3E3E]">“{quote}”</p>
+      <div className="h-[80%] overflow-y-scroll">
+        <p className="md:text-lg text-xs text-justify sm:text-base pt-6 text-[#3E3E3E]">“{quote}”</p>
       </div>
     </main>
   );
