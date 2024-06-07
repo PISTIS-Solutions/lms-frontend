@@ -18,7 +18,6 @@ const useStudentsStore = create<StudentsStore>((set, get) => ({
   fetchStudents: async () => {
     try {
       set({ loading: true });
-      // const adminAccessToken = Cookies.get("authToken");
       const response = await axios.get(urls.getStudents);
       if (response.status === 200) {
         set({ students: response.data });

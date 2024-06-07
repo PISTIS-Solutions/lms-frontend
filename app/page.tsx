@@ -95,7 +95,7 @@ export default function Home() {
       <section className=" flex items-center px-5 md:px-6 lg:px-10 justify-between bg-mid-back h-[117px] bg-no-repeat bg-cover">
         <div className="flex w-full md:justify-evenly justify-center divide-x-[4px]">
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium pr-4 md:pr-20 lg:pr-36">
-            {students?.number_of_students == 0
+            {loading
               ? "20+ Students"
               : students?.number_of_students + " students"}
           </p>
@@ -103,7 +103,7 @@ export default function Home() {
             Expert Mentors
           </p>
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium pl-4 md:pl-20 lg:pl-36">
-            {students?.number_of_courses == 0
+            {loading
               ? "20+ courses"
               : students?.number_of_courses + " courses"}
           </p>
@@ -265,19 +265,22 @@ export default function Home() {
                 <Loader2Icon className="animate-spin" />
                 Loading...
               </span>
-            ) : students?.course_details
-            && students?.course_details.length > 0 ? (
-              students?.course_details.slice(1, 7).map((course: any, index: number) => {
-                return (
-                  <Coursecard
-                    key={course.id}
-                    id={course.id}
-                    index={index}
-                    image={course.course_image_url}
-                    header={course.title}
-                  />
-                );
-              })
+            ) : students?.course_details &&
+              students?.course_details.length > 0 ? (
+              students?.course_details
+                .slice(1, 7)
+                .map((course: any, index: number) => {
+                  return (
+                    <Coursecard
+                      key={course.id}
+                      id={course.id}
+                      index={index}
+                      image={course.course_image_url}
+                      header={course.title}
+                      moduleCount={course.module_count}
+                    />
+                  );
+                })
             ) : (
               <p className="text-center lg:text-base text-sm">
                 No courses available.
