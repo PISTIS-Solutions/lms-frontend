@@ -18,7 +18,7 @@ const NavigationBar = () => {
         <Image src={pistis} className="md:w-auto w-5/6" alt="pistis" priority />
       </div>
       <div className=" md:flex hidden items-center gap-x-5">
-        <Link href="/sign-in">
+        {/* <Link href="/sign-in">
           <Button className="bg-sub py-[13px] hover:text-white px-[20px] text-lg text-black font-medium">
             Sign In
           </Button>
@@ -28,6 +28,11 @@ const NavigationBar = () => {
           <p className="text-lg hover:text-gray-200 text-white font-medium cursor-pointer">
             Create Account
           </p>
+        </Link> */}
+        <Link href="/waitlist">
+          <Button className="bg-sub py-[13px] hover:text-white px-[20px] text-lg text-black font-medium">
+            Join Waitist
+          </Button>
         </Link>
       </div>
       <div className="md:hidden block" onClick={handleOpen}>
@@ -40,7 +45,7 @@ const NavigationBar = () => {
             <span onClick={handleOpen} className="flex justify-center pb-4">
               <X className="text-red-500 border border-main rounded-[8px]" />
             </span>
-            <Link href="/sign-in">
+            {/* <Link href="/sign-in">
               <Button className="bg-main text-sm w-full">Sign In</Button>
             </Link>
 
@@ -48,6 +53,12 @@ const NavigationBar = () => {
               <p className=" text-sm text-center font-medium py-4">
                 Create Account
               </p>
+            </Link> */}
+            <Link
+              className=" text-sm text-center font-medium py-4"
+              href="/waitlist"
+            >
+              <p>Join Waitist</p>
             </Link>
           </div>
         </div>

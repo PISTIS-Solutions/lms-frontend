@@ -21,7 +21,8 @@ module.exports = {
         "hero-back" : "url('/assets/hero-background.png')",
         "mid-back" : "url('/assets/mid.png')",
         "footer-back" : "url('/assets/footer-back.png')",
-        "pricingBack": "url('/assets/pricingBack.png')"
+        "pricingBack": "url('/assets/pricingBack.png')",
+        "waitBack" : "url('/assets/wait-back.png')"
       },
       colors: {
         main: "#000066",
