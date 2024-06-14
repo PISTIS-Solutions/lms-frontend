@@ -24,7 +24,6 @@ const SignIn = () => {
   const handleOverlay = () => {
     setOverlay((prev) => !prev);
   };
-  console.log(checkbox, "ch");
   const [loading, setLoading] = useState<boolean>(false);
 
   const onsubmitLogin = async (e: any) => {
@@ -208,7 +207,7 @@ const SignIn = () => {
             <button
               disabled={loading || !checkbox}
               type="submit"
-              className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] disabled:bg-sub/30 font-medium text-lg md:text-2xl text-black hover:text-white"
+              className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] disabled:bg-sub/30 disabled:text-black/30 font-medium text-lg md:text-2xl text-black hover:text-white"
             >
               {loading ? (
                 <Loader2 className="animate-spin text-white" />
