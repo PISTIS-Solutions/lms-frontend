@@ -30,6 +30,7 @@ import {
   customTH,
   customUL,
   strong,
+  customLink
 } from "@/utils/markdown";
 import Markdown from "react-markdown";
 
@@ -191,7 +192,8 @@ const SideProject = () => {
                         th: customTH,
                         td: customTD,
                         strong: strong,
-                        code: code
+                        code: code,
+                        a:customLink
                       }}
                     >
                       {project?.project_description}
@@ -210,6 +212,8 @@ const SideProject = () => {
                           th: customTH,
                           td: customTD,
                           strong: strong,
+                          code: code,
+                          a:customLink
                         }}
                       >
                         {project?.project_hint}

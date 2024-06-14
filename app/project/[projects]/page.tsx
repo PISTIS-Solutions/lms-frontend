@@ -30,6 +30,7 @@ import {
   customTH,
   customUL,
   strong,
+  customLink
 } from "@/utils/markdown";
 
 const SingleProject = () => {
@@ -139,7 +140,8 @@ const SingleProject = () => {
                         th: customTH,
                         td: customTD,
                         strong: strong,
-                        code: code
+                        code: code,
+                        a:customLink
                       }}
                     >
                       {project?.[0]?.project_description}
@@ -164,6 +166,8 @@ const SingleProject = () => {
                           th: customTH,
                           td: customTD,
                           strong: strong,
+                          code: code,
+                          a:customLink
                         }}
                       >
                         {project?.[0]?.project_hint}

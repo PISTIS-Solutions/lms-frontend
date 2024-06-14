@@ -14,11 +14,18 @@ import Cookies from "js-cookie";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Terms from "@/components/side-comp/terms";
 
 const SignIn = () => {
   const formStore = useLoginFormStore();
   const route = useRouter();
-  const [loading, setLoading] = useState<boolean>();
+  const [checkbox, setCheckbox] = useState(false);
+  const [overlay, setOverlay] = useState(false);
+  const handleOverlay = () => {
+    setOverlay((prev) => !prev);
+  };
+  console.log(checkbox, "ch");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onsubmitLogin = async (e: any) => {
     e.preventDefault();
@@ -92,8 +99,7 @@ const SignIn = () => {
           draggable: false,
           theme: "dark",
         });
-      }
-       else {
+      } else {
         toast.error(error?.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
@@ -174,6 +180,23 @@ const SignIn = () => {
                 />
               </div>
             </div>
+            <div className="flex items-center gap-x-1">
+              <input
+                type="checkbox"
+                checked={checkbox}
+                onChange={(e) => setCheckbox(e.target.checked)}
+              />
+              <p className="md:text-base text-sm">
+                Read and accept{" "}
+                <span
+                  onClick={handleOverlay}
+                  className="text-main cursor-pointer font-semibold"
+                >
+                  terms and conditions
+                </span>
+              </p>
+            </div>
+
             <p className="text-[#3E3E3E] text-xs md:text-sm lg:text-base text-right">
               <Link href="/sign-in/forgot-password">Forgot Password?</Link>
             </p>
@@ -183,9 +206,9 @@ const SignIn = () => {
               </p>
             )}
             <button
-              disabled={loading}
+              disabled={loading || !checkbox}
               type="submit"
-              className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
+              className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] disabled:bg-sub/30 font-medium text-lg md:text-2xl text-black hover:text-white"
             >
               {loading ? (
                 <Loader2 className="animate-spin text-white" />
@@ -196,7 +219,7 @@ const SignIn = () => {
           </form>
         </div>
         <div>
-          <p className="text-center font-medium text-sm md:text-xl lg:text-2xl">
+          <p className="text-center font-medium text-sm md:text-xl">
             Don't have an account?{" "}
             <Link className="text-main font-semibold" href="/pricing">
               Create Account
@@ -204,6 +227,11 @@ const SignIn = () => {
           </p>
         </div>
       </div>
+      {overlay && (
+        <div className="absolute flex justify-center items-center h-screen w-full bg-slate-200/25 top-0 right-0">
+          <Terms handleOverlay={handleOverlay} />
+        </div>
+      )}
     </main>
   );
 };

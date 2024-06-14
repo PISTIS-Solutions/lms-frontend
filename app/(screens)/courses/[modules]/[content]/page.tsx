@@ -24,6 +24,7 @@ import {
   customTH,
   customUL,
   strong,
+  customLink
 } from "@/utils/markdown";
 
 const Content = () => {
@@ -138,7 +139,8 @@ const Content = () => {
                       th: customTH,
                       td: customTD,
                       strong: strong,
-                      code: code
+                      code: code,
+                      a:customLink
                     }}
                   >
                     {moduleData?.description}
