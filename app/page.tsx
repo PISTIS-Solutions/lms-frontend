@@ -1,7 +1,8 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import Link from "next/link";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   cap,
@@ -64,6 +65,7 @@ export default function Home() {
 
   return (
     <main className="relative">
+      <ToastContainer />
       <div>
         <NavigationBar />
       </div>
@@ -97,6 +99,8 @@ export default function Home() {
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium pr-4 md:pr-20 lg:pr-36">
             {loading
               ? "20+ Students"
+              : students?.number_of_students === undefined
+              ? "20+ Students"
               : students?.number_of_students + " students"}
           </p>
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium px-4 md:px-20 lg:px-36">
@@ -104,6 +108,8 @@ export default function Home() {
           </p>
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium pl-4 md:pl-20 lg:pl-36">
             {loading
+              ? "20+ courses"
+              : students?.number_of_courses === undefined
               ? "20+ courses"
               : students?.number_of_courses + " courses"}
           </p>

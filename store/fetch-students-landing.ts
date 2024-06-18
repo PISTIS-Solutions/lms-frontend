@@ -24,41 +24,27 @@ const useStudentsStore = create<StudentsStore>((set, get) => ({
         console.log(response.data, "resdat");
       }
     } catch (error: any) {
-      
-      toast.error(`Error fetching courses: ${error.message}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "dark",
-      });
-      // if (error.response && error.response.status === 401) {
-      //   await refreshAdminToken();
-      //   await get().fetchStudents();
-      // }
-      //   else if (error?.message === "Network Error") {
-      //     toast.error("Check your network!", {
-      //       position: "top-right",
-      //       autoClose: 5000,
-      //       hideProgressBar: true,
-      //       closeOnClick: true,
-      //       pauseOnHover: false,
-      //       draggable: false,
-      //       theme: "dark",
-      //     });
-      //   } else {
-      //     toast.error(error?.response?.data?.detail, {
-      //       position: "top-right",
-      //       autoClose: 5000,
-      //       hideProgressBar: true,
-      //       closeOnClick: true,
-      //       pauseOnHover: false,
-      //       draggable: false,
-      //       theme: "dark",
-      //     });
-      //   }
+      if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
     } finally {
       set({ loading: false });
     }
