@@ -125,7 +125,10 @@ const Waitlist = () => {
               <Image src={insta} alt="x" />
             </div>
           </a>
-          <a href="" target="_blank">
+          <a
+            href="https://www.linkedin.com/in/pistis-solutions-163049314/"
+            target="_blank"
+          >
             <div className="w-[48px] h-[48px] p-1 flex flex-col justify-center items-center bg-[#FFFFFF33] backdrop-blur-md bg-opacity-60 border border-white rounded-[8px] relative">
               <Image src={link} alt="x" />
             </div>

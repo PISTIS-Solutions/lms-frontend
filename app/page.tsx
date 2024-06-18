@@ -85,11 +85,11 @@ export default function Home() {
             Comprehensive curriculum designed to equip students <br />
             with the latest technological skills
           </p>
-          <Link href="/sign-in">
+          {/* <Link href="/sign-in">
             <Button className="bg-sub w-full md:w-1/2 text-black hover:text-white text-sm md:text-xl font-medium py-[25px] px-[40px] mt-20">
               Start Learning
             </Button>
-          </Link>
+          </Link> */}
         </div>
       </section>
       <section className=" flex items-center px-5 md:px-6 lg:px-10 justify-between bg-mid-back h-[117px] bg-no-repeat bg-cover">
@@ -316,11 +316,11 @@ export default function Home() {
 
         <div className="flex justify-center">
           <div className="lg:w-[65vw] w-full flex justify-end">
-            <Link href="/create-account">
+            {/* <Link href="/create-account">
               <Button className="py-[18px] px-[20px] mt-8 hover:text-white bg-sub text-black text-lg md:text-2xl">
                 Find Out More
               </Button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>
@@ -335,11 +335,11 @@ export default function Home() {
             world of knowledge are swinging wide open, and it's time for you to
             step through
           </p>
-          <Link href="/create-account">
+          {/* <Link href="/create-account">
             <Button className="bg-sub text-black px-16 hover:text-white font-semibold">
               Get Started
             </Button>
-          </Link>
+          </Link> */}
         </div>
       </footer>
     </main>
