@@ -82,7 +82,7 @@ const Coursecard = ({
       initial={{ opacity: 0, scale: 0.5 }}
       whileInView={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="md:w-[325px] w-auto max-w-[340px] cursor-pointer hover:scale-100 md:hover:scale-105 duration-75 ease-in-out shadow-md h-auto md:h-[351px] rounded-[16px] bg-white"
+      className="w-[325px] md:w-full cursor-pointer hover:scale-100 md:hover:scale-105 duration-75 ease-in-out shadow-md h-auto md:h-[351px] rounded-[16px] bg-white"
     >
       <div key={id}>
         <Image
