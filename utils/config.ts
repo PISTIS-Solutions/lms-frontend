@@ -15,6 +15,6 @@ export const urls = {
   activities: `${baseURL}/activities/`,
   resendToken: `${baseURL}/users/student/resend_activation/`,
   projectReview: `${baseURL}/users/student/project-review/`,
-  getStudents: `${baseURL}/users/student/`,
+  getStudents: `${baseURL}/courses-and-students/`,
   waitList: `${baseURL}/waitlist/join_waitlist/`
 };
