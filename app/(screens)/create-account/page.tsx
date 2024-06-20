@@ -14,12 +14,18 @@ import { urls } from "@/utils/config";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Terms from "@/components/side-comp/terms";
 
 const SignUp = () => {
   const formStore = useFormStore();
   const [specialCharacterErr, setSpecialCharacterErr] = useState();
   const [loading, setLoading] = useState<boolean>();
-  const [modal, setModal] = useState<boolean>(false);
+  const [checkbox, setCheckbox] = useState(false);
+  const [overlay, setOverlay] = useState(false);
+  const handleOverlay = () => {
+    setOverlay((prev) => !prev);
+  };
+  // const [modal, setModal] = useState<boolean>(false);
   const router = useRouter();
   //submit function
   const onSubmit = async (e: React.FormEvent) => {
@@ -28,7 +34,7 @@ const SignUp = () => {
     try {
       if (formStore.password === formStore.confirm) {
         if (!containsSpecialCharacters(formStore.password)) {
-          throw new Error("Password must contain special characters");
+          throw new Error("Password does not have special characters");
         }
         setLoading(true);
         const response = await fetch(urls.signup, {
@@ -180,15 +186,30 @@ const SignUp = () => {
                 />
               </div>
             </div>
-
+            <div className="flex items-center gap-x-1">
+              <input
+                type="checkbox"
+                checked={checkbox}
+                onChange={(e) => setCheckbox(e.target.checked)}
+              />
+              <p className="md:text-base text-sm">
+                Read and accept{" "}
+                <span
+                  onClick={handleOverlay}
+                  className="text-main cursor-pointer font-semibold"
+                >
+                  terms and conditions
+                </span>
+              </p>
+            </div>
             <p className="text-red-500 text-xs md:text-sm lg:text-base text-center">
               Password must contain special characters
             </p>
 
             <button
-              disabled={loading}
+              disabled={loading || !checkbox}
               type="submit"
-              className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
+              className="w-full bg-[#33CC99] disabled:cursor-not-allowed disabled:bg-sub/30 disabled:text-black/30 py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
             >
               {loading ? (
                 <Loader2 className="animate-spin text-white" />
@@ -196,21 +217,8 @@ const SignUp = () => {
                 <>Submit</>
               )}
             </button>
-            {/* {modal && (
-              // <div className="w-full h-full absolute bg-red-500 top-0">
-              <div className="flex rounded-md flex-col items-center absolute w-1/2 h-36 bg-white top-[30%] left-[25%] justify-center text-green-500 shadow-md">
-                <div className="flex">
-                  <p className="text-xl">Success</p>
-                  <Check />
-                </div>
-                <p className="text-center pt-5 w-full">
-                  Check your email address for validation
-                </p>
-              </div>
-              // </div>
-            )} */}
             <p className="text-red-500 text-center">{specialCharacterErr}</p>
-            {formStore.password != formStore.confirm ? (
+            {formStore.password !== formStore.confirm ? (
               <p className="text-red-500 text-xs md:text-sm lg:text-base text-center">
                 Password and Confirm password contains different characters
               </p>
@@ -220,11 +228,16 @@ const SignUp = () => {
           </form>
         </div>
         <div>
-          <p className="text-center font-medium text-sm md:text-xl lg:text-2xl">
-            Already have an account? <Link href="/sign-in">Sign In</Link>
+          <p className="text-center font-medium text-sm md:text-lg lg:text-xl">
+            Already have an account? <Link className="text-main" href="/sign-in">Sign In</Link>
           </p>
         </div>
       </div>
+      {overlay && (
+        <div className="absolute flex justify-center items-center h-screen w-full bg-slate-200/25 top-0 right-0">
+          <Terms handleOverlay={handleOverlay} />
+        </div>
+      )}
     </main>
   );
 };

@@ -19,11 +19,7 @@ import Terms from "@/components/side-comp/terms";
 const SignIn = () => {
   const formStore = useLoginFormStore();
   const route = useRouter();
-  const [checkbox, setCheckbox] = useState(false);
-  const [overlay, setOverlay] = useState(false);
-  const handleOverlay = () => {
-    setOverlay((prev) => !prev);
-  };
+
   const [loading, setLoading] = useState<boolean>(false);
 
   const onsubmitLogin = async (e: any) => {
@@ -179,22 +175,6 @@ const SignIn = () => {
                 />
               </div>
             </div>
-            <div className="flex items-center gap-x-1">
-              <input
-                type="checkbox"
-                checked={checkbox}
-                onChange={(e) => setCheckbox(e.target.checked)}
-              />
-              <p className="md:text-base text-sm">
-                Read and accept{" "}
-                <span
-                  onClick={handleOverlay}
-                  className="text-main cursor-pointer font-semibold"
-                >
-                  terms and conditions
-                </span>
-              </p>
-            </div>
 
             <p className="text-[#3E3E3E] text-xs md:text-sm lg:text-base text-right">
               <Link href="/sign-in/forgot-password">Forgot Password?</Link>
@@ -205,7 +185,7 @@ const SignIn = () => {
               </p>
             )}
             <button
-              disabled={loading || !checkbox}
+              disabled={loading}
               type="submit"
               className="w-full bg-[#33CC99] py-4 flex justify-center items-center rounded-[8px] disabled:bg-sub/30 disabled:text-black/30 font-medium text-lg md:text-2xl text-black hover:text-white"
             >
@@ -226,11 +206,6 @@ const SignIn = () => {
           </p>
         </div>
       </div>
-      {overlay && (
-        <div className="absolute flex justify-center items-center h-screen w-full bg-slate-200/25 top-0 right-0">
-          <Terms handleOverlay={handleOverlay} />
-        </div>
-      )}
     </main>
   );
 };
