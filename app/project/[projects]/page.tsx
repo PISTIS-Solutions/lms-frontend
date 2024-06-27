@@ -52,7 +52,7 @@ const SingleProject = () => {
         },
       });
       setProject(response.data);
-      console.log(response.data, "projects")
+      // console.log(response.data, "projects")
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();

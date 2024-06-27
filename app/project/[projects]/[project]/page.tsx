@@ -58,7 +58,7 @@ const SideProject = () => {
         }
       );
       setProject(response.data);
-      console.log(response.data, "project");
+      // console.log(response.data, "project");
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();

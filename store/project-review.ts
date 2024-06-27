@@ -25,7 +25,7 @@ const usePendingGradeStore = create<pendingGrading>((set, get) => ({
       if (response.status === 200) {
         set({ projectReview: response.data });
         set({ loading: false });
-        console.log(response, "res")
+        // console.log(response, "res")
       }
     }catch (error: any) {
         if (error.response && error.response.status === 401) {

@@ -34,7 +34,7 @@ const Courses = () => {
           },
         });
         setCourses(response.data);
-        console.log(response.data, "cd")
+        // console.log(response.data, "cd")
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
           await refreshAdminToken();

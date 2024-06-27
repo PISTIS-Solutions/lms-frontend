@@ -94,7 +94,7 @@ const Dashboard = () => {
       });
       if (response.status === 200) {
         setActivities(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {

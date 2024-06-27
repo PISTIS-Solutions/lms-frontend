@@ -21,7 +21,7 @@ const useStudentsStore = create<StudentsStore>((set, get) => ({
       const response = await axios.get(urls.getStudents);
       if (response.status === 200) {
         set({ students: response.data });
-        console.log(response.data, "resdat");
+        // console.log(response.data, "resdat");
       }
     } catch (error: any) {
       
