@@ -24,8 +24,9 @@ import {
   customTH,
   customUL,
   strong,
-  customLink
+  customLink,
 } from "@/utils/markdown";
+import Link from "next/link";
 
 const Content = () => {
   const router = useRouter();
@@ -61,9 +62,13 @@ const Content = () => {
         </div>
         <div className="">
           <div className=" px-4 mt-3 text-xs md;text-sm font-medium flex items-center">
-            <p className="text-[#000066]">Course Content</p>
+            <Link href="/courses">
+              <p className="text-[#000066]">Course Content</p>
+            </Link>
             <ChevronRight className="text-[#000066]" />
-            <p className="text-[#000066]">Modules</p>
+            <Link href={`/courses/${moduleID}`}>
+              <p className="text-[#000066]">Modules</p>
+            </Link>
             <ChevronRight className="text-[#000066]" />
             <p className="text-[#000066]"> {moduleData?.module_title}</p>
           </div>
@@ -83,7 +88,7 @@ const Content = () => {
                     controls={true}
                     width="100%"
                     height="100%"
-                    playing={true}
+                    playing={false}
                     url={moduleData?.module_video_link}
                     className="md:h-[428px] md:my-0 my-4"
                     config={{
@@ -127,7 +132,7 @@ const Content = () => {
                     }}
                     className="py-4 text-[#3E3E3E]"
                   ></p> */}
-                   <ReactMarkdown
+                  <ReactMarkdown
                     className="py-4 text-[#3E3E3E]"
                     remarkPlugins={[remarkGfm]}
                     components={{
@@ -140,7 +145,7 @@ const Content = () => {
                       td: customTD,
                       strong: strong,
                       code: code,
-                      a:customLink
+                      a: customLink,
                     }}
                   >
                     {moduleData?.description}

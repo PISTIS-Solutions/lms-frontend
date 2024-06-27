@@ -30,7 +30,7 @@ import {
   customTH,
   customUL,
   strong,
-  customLink
+  customLink,
 } from "@/utils/markdown";
 
 const SingleProject = () => {
@@ -52,6 +52,7 @@ const SingleProject = () => {
         },
       });
       setProject(response.data);
+      console.log(response.data, "projects")
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
@@ -128,7 +129,7 @@ const SingleProject = () => {
                       }}
                       className="font-normal text-justify py-2 text-[#3E3E3E] text-base md:text-xl"
                     ></p> */}
-                     <Markdown
+                    <Markdown
                       className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl"
                       remarkPlugins={[remarkGfm]}
                       components={{
@@ -141,7 +142,7 @@ const SingleProject = () => {
                         td: customTD,
                         strong: strong,
                         code: code,
-                        a:customLink
+                        a: customLink,
                       }}
                     >
                       {project?.[0]?.project_description}
@@ -154,7 +155,7 @@ const SingleProject = () => {
                         }}
                         className="font-normal py-2 text-[#3E3E3E] text-base md:text-xl"
                       ></p> */}
-                          <Markdown
+                      <Markdown
                         className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl"
                         remarkPlugins={[remarkGfm]}
                         components={{
@@ -167,7 +168,7 @@ const SingleProject = () => {
                           td: customTD,
                           strong: strong,
                           code: code,
-                          a:customLink
+                          a: customLink,
                         }}
                       >
                         {project?.[0]?.project_hint}

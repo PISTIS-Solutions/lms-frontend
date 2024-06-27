@@ -22,8 +22,9 @@ import {
   customTH,
   customUL,
   strong,
-  customLink
+  customLink,
 } from "@/utils/markdown";
+import Link from "next/link";
 
 const Module = () => {
   const router = useRouter();
@@ -62,8 +63,10 @@ const Module = () => {
           </div>
         ) : (
           <div className="p-4">
-            <span className="flex gap-1 items-center">
-              <p className="text-sm text-main">Course Content</p>{" "}
+            <span className="flex gap-0.5 items-center">
+              <Link href="/courses">
+                <p className="text-sm text-main">Course Content</p>
+              </Link>
               <ChevronRight className="text-main" />{" "}
               <p className="text-sm text-[#9C9C9C]">{courseRead?.title}</p>{" "}
             </span>
@@ -76,7 +79,7 @@ const Module = () => {
                   dangerouslySetInnerHTML={{ __html: courseRead?.overview }}
                   className="text-[#3E3E3E] text-justify md:text-base text-sm"
                 ></p> */}
-                 <ReactMarkdown
+                <ReactMarkdown
                   className="py-4 text-[#3E3E3E]"
                   remarkPlugins={[remarkGfm]}
                   components={{
@@ -88,8 +91,8 @@ const Module = () => {
                     th: customTH,
                     td: customTD,
                     strong: strong,
-                    code:code,
-                    a: customLink
+                    code: code,
+                    a: customLink,
                   }}
                 >
                   {courseRead?.overview}

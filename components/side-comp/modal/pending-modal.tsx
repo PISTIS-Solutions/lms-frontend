@@ -21,6 +21,7 @@ const PendingModal = ({
   pID2,
   projectTitle,
   projectsTitles,
+  status,
 }: any) => {
   const params = useParams<{ projects: string; project: string }>();
   const courseID = params.projects;
@@ -120,9 +121,13 @@ const PendingModal = ({
             <X className="text-main" />
           </span>
         </div>
-        <div className="md:px-2.5 px-1 py-1 my-2 bg-[#FFF3E5] text-[#EE7E00] rounded-[16px] w-[110px] text-center">
-          <p className="md:text-base text-sm">Pending</p>
-        </div>
+        {/* <div
+          className={`md:px-2.5 px-1 py-1 my-2 bg-[#FFF3E5]  rounded-[16px] w-[110px] text-center`}
+        >
+          <p className="md:text-base text-sm">
+            {!bool ? pID[0]?.submission_status : status}
+          </p>
+        </div> */}
       </div>
       <div>
         <div>

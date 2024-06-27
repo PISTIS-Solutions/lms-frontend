@@ -13,10 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 import { useParams } from "next/navigation";
 
-const GradingPendingModal = ({
-  handleCloseModal,
-  projectReview,
-}: any) => {
+const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
   const [link, setLink] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
@@ -101,7 +98,9 @@ const GradingPendingModal = ({
       <div>
         <ToastContainer />
         <div className="flex justify-between items-center">
-          <h1 className="md:text-2xl text-lg font-medium">{person?.project?.title}</h1>
+          <h1 className="md:text-2xl text-lg font-medium">
+            {person?.project?.title}
+          </h1>
           <span
             onClick={handleCloseModal}
             className="border-2 cursor-pointer border-main p-2 rounded-sm w-[32px] h-[32px] flex justify-center items-center"

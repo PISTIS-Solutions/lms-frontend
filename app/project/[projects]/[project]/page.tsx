@@ -30,7 +30,7 @@ import {
   customTH,
   customUL,
   strong,
-  customLink
+  customLink,
 } from "@/utils/markdown";
 import Markdown from "react-markdown";
 
@@ -58,6 +58,7 @@ const SideProject = () => {
         }
       );
       setProject(response.data);
+      console.log(response.data, "project");
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
@@ -180,7 +181,7 @@ const SideProject = () => {
                       }}
                       className="font-normal text-justify py-2 text-[#3E3E3E] text-base md:text-xl"
                     ></p> */}
-                      <Markdown
+                    <Markdown
                       className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl"
                       remarkPlugins={[remarkGfm]}
                       components={{
@@ -193,7 +194,7 @@ const SideProject = () => {
                         td: customTD,
                         strong: strong,
                         code: code,
-                        a:customLink
+                        a: customLink,
                       }}
                     >
                       {project?.project_description}
@@ -213,7 +214,7 @@ const SideProject = () => {
                           td: customTD,
                           strong: strong,
                           code: code,
-                          a:customLink
+                          a: customLink,
                         }}
                       >
                         {project?.project_hint}
@@ -239,6 +240,7 @@ const SideProject = () => {
             cID={courseID}
             bool={true}
             pID2={projectList}
+            status={project?.submission_status}
             projectsTitles={project?.project_title}
             handleCloseModal={openPendingModal}
             setPendingModal={setPendingModal}

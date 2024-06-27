@@ -174,7 +174,7 @@ const Dashboard = () => {
                 {plan === "Free" ? (
                   <></>
                 ) : (
-                  <div className="">
+                  <div className="hidden md:block">
                     <Image
                       src={vectorg}
                       alt=""

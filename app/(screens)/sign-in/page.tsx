@@ -38,15 +38,6 @@ const SignIn = () => {
       });
 
       if (response.status === 200) {
-        toast.success("Successfully Logged in!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
         Cookies.set("authToken", response.data.access, {
           sameSite: "None",
           secure: true,
@@ -67,6 +58,15 @@ const SignIn = () => {
         Cookies.set("pfp", response.data.user.profile_photo, {
           sameSite: "None",
           secure: true,
+        });
+        toast.success("Email and password accepted!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
         });
         route.replace("/dashboard");
       }
