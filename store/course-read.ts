@@ -41,7 +41,7 @@ const useCourseRead = create<readStudent>((set, get) => ({
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,
@@ -51,7 +51,7 @@ const useCourseRead = create<readStudent>((set, get) => ({
         toast.error(error.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,

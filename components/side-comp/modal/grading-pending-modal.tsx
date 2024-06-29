@@ -44,7 +44,7 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
           toast.success("Project Re-submitted Successfully!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -60,7 +60,7 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
           toast.error("Check your network!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -70,7 +70,7 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
           toast.error(error?.response?.data[0], {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -80,7 +80,7 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
           toast.error(error?.response?.data?.detail, {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,

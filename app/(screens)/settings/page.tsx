@@ -106,7 +106,7 @@ const SettingsPage = () => {
           toast.success("Password changed successfully!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -127,7 +127,7 @@ const SettingsPage = () => {
           toast.error("Check your network!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -142,7 +142,7 @@ const SettingsPage = () => {
           toast.error("Password is too similar to name", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -154,7 +154,7 @@ const SettingsPage = () => {
           toast.error("Invalid current password!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -227,7 +227,7 @@ const SettingsPage = () => {
           toast.success("General details changed successfully!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -249,7 +249,7 @@ const SettingsPage = () => {
           toast.error("Check your network!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -266,7 +266,7 @@ const SettingsPage = () => {
       toast.error("Ensure fields are filled correctly!", {
         position: "top-right",
         autoClose: 5000,
-        hideProgressBar: true,
+        hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: false,
@@ -310,7 +310,7 @@ const SettingsPage = () => {
         toast.success("Account Deactivated!", {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,
@@ -328,7 +328,7 @@ const SettingsPage = () => {
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,
@@ -338,7 +338,7 @@ const SettingsPage = () => {
         toast.error(error?.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,

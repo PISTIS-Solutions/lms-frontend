@@ -46,7 +46,7 @@ const Verify_SignUp = () => {
           toast.success("Email Verified!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -59,7 +59,7 @@ const Verify_SignUp = () => {
           toast.error("Email already used!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -71,7 +71,7 @@ const Verify_SignUp = () => {
           toast.error("Check your network!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -81,7 +81,7 @@ const Verify_SignUp = () => {
           toast.error(error?.response?.data?.detail, {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,

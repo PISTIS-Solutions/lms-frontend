@@ -21,7 +21,7 @@ const PricingCard = ({ bool }: any) => {
     toast.success("Free Plan Selected!", {
       position: "top-right",
       autoClose: 5000,
-      hideProgressBar: true,
+      hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: false,

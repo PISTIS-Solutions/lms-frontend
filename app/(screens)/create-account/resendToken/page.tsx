@@ -47,7 +47,7 @@ const ResendToken = () => {
           toast.success("Check email for new tokeen", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -60,7 +60,7 @@ const ResendToken = () => {
           toast.error("Check your network!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -70,7 +70,7 @@ const ResendToken = () => {
           toast.error("Email address is invalid", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -80,7 +80,7 @@ const ResendToken = () => {
           toast.error(error?.response?.data?.detail, {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -94,7 +94,7 @@ const ResendToken = () => {
       toast.error("Input email address", {
         position: "top-right",
         autoClose: 5000,
-        hideProgressBar: true,
+        hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: false,
         draggable: false,

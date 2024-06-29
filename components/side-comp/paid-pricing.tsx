@@ -22,7 +22,7 @@ const PaidPricing = ({ bool }: any) => {
     toast.success("Paid Plan Selected!", {
       position: "top-right",
       autoClose: 5000,
-      hideProgressBar: true,
+      hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: false,
       draggable: false,

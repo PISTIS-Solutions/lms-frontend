@@ -62,7 +62,7 @@ const SignIn = () => {
         toast.success("Email and password accepted!", {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,
@@ -75,7 +75,7 @@ const SignIn = () => {
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,
@@ -88,7 +88,7 @@ const SignIn = () => {
         toast.error("Incorrect password or email!", {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,
@@ -98,7 +98,7 @@ const SignIn = () => {
         toast.error(error?.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,

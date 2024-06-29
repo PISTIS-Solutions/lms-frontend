@@ -45,7 +45,7 @@ const NewPassword = () => {
           toast.success("Password changed Successfully!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,

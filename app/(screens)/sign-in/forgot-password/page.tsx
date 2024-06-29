@@ -59,7 +59,7 @@ const ForgotPassword = () => {
         toast.error("Email address is invalid", {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,
@@ -69,7 +69,7 @@ const ForgotPassword = () => {
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,
-          hideProgressBar: true,
+          hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: false,
           draggable: false,

@@ -56,7 +56,7 @@ const PendingModal = ({
           toast.success("Project Submitted Successfully!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -73,7 +73,7 @@ const PendingModal = ({
           toast.error("Check your network!", {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -83,7 +83,7 @@ const PendingModal = ({
           toast.error(error?.response?.data[0], {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
@@ -93,7 +93,7 @@ const PendingModal = ({
           toast.error(error?.response?.data?.detail, {
             position: "top-right",
             autoClose: 5000,
-            hideProgressBar: true,
+            hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
             draggable: false,
