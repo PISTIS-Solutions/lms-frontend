@@ -7,7 +7,6 @@ import TopNav from "@/components/side-comp/topNav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { projectData } from "@/data/projectData";
 import { ArrowLeft, ArrowRight, Loader2Icon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
