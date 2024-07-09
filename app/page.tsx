@@ -62,6 +62,8 @@ export default function Home() {
     fetchStudents();
   }, []);
 
+  console.log(students.course_details, "stu")
+
   return (
     <main className="relative">
       <div>
@@ -259,16 +261,16 @@ export default function Home() {
         </h1>
 
         <div className=" w-full flex justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-items-center lg:w-[65vw] w-full gap-[16px]">
+          <div className="grid grid-cols-1 md:grid-cols-2 relative lg:grid-cols-3 justify-items-center lg:w-[65vw] w-full gap-[16px]">
             {loading ? (
-              <span className="flex text-center justify-center items-center">
+              <span className="flex text-center justify-center items-center w-full lg:text-xl font-semibold absolute text-main">
                 <Loader2Icon className="animate-spin" />
                 Loading...
               </span>
             ) : students?.course_details &&
               students?.course_details.length > 0 ? (
               students?.course_details
-                .slice(1, 7)
+                .slice(0, 7)
                 .map((course: any, index: number) => {
                   return (
                     <Coursecard
@@ -282,8 +284,8 @@ export default function Home() {
                   );
                 })
             ) : (
-              <p className="text-center lg:text-base text-sm">
-                No courses available.
+              <p className="text-center lg:text-xl font-semibold absolute text-main text-sm">
+                No course available yet!
               </p>
             )}
             {/* <Coursecard

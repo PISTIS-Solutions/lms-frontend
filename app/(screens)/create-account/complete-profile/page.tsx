@@ -32,7 +32,7 @@ const Completeprofile = () => {
         return;
       }
 
-      const url = `https://s3tq3grix3.us-east-1.awsapprunner.com/api/v1/auth/users/student/${user_id}/complete_profile/`;
+      const url = ` http://backend.dev.pististechub.io/api/v1/auth/users/student/${user_id}/complete_profile/`;
 
       setLoading(true);
       // Make the API request
