@@ -36,6 +36,7 @@ import "react-multi-carousel/lib/styles.css";
 import { useEffect, useState } from "react";
 import { Loader2Icon } from "lucide-react";
 import useStudentsStore from "@/store/fetch-students-landing";
+import { ToastContainer } from "react-toastify";
 
 export default function Home() {
   const responsive = {
@@ -66,6 +67,7 @@ export default function Home() {
 
   return (
     <main className="relative">
+      <ToastContainer/>
       <div>
         <NavigationBar />
       </div>
