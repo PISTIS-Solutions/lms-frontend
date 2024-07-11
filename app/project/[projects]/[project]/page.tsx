@@ -201,7 +201,7 @@ const SideProject = () => {
                     </Markdown>
                     <span>
                       <p className="text-main font-semibold">Hint: </p>
-                      <ReactMarkdown
+                      <Markdown
                         className="font-normal py-2 text-justify text-[#3E3E3E] text-base md:text-xl"
                         remarkPlugins={[remarkGfm]}
                         components={{
@@ -218,7 +218,7 @@ const SideProject = () => {
                         }}
                       >
                         {project?.project_hint}
-                      </ReactMarkdown>
+                      </Markdown>
                     </span>
                   </div>
                 </div>

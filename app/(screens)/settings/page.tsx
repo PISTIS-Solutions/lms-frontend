@@ -193,7 +193,7 @@ const SettingsPage = () => {
   const onSubmitGeneral = async (e: any) => {
     e.preventDefault();
 
-    if (fullName && selectedFile) {
+    if (fullName) {
       try {
         setGeneralLoading(true);
         const token = Cookies.get("authToken");

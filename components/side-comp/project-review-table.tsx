@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { ArrowLeft, ArrowRight, Loader2Icon } from "lucide-react";
-import { projectData } from "@/data/projectData";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -111,7 +110,7 @@ const ProjectReview = () => {
                     className={`md:py-4 md:text-base text-left text-xs py-1 capitalize ${
                       !person.status
                         ? "text-gray-600"
-                        : person.status === "Pending"
+                        : person.status === "Submitted"
                         ? "text-orange-500"
                         : person.status === "Reviewed"
                         ? "text-green-500"
@@ -123,7 +122,7 @@ const ProjectReview = () => {
                   <td className="md:py-4 md:text-base text-xs py-1 text-main">
                     {!person.status ? (
                       "-"
-                    ) : person.status === "Pending" ? (
+                    ) : person.status === "Submitted" ? (
                       <p
                         onClick={() => {
                           handleModal(person);

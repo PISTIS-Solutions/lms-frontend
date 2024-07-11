@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
-import Favicon from '../public/favicon.ico';
+import Favicon from "../public/favicon.ico";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const montserrat = Montserrat({ subsets: ["latin"]});
+const montserrat = Montserrat({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Pistis Student",
-  icons: [{ rel: 'icon', url: Favicon.src }],
+  icons: [{ rel: "icon", url: Favicon.src }],
 };
 
 export default function RootLayout({
@@ -17,7 +19,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={montserrat.className}>{children}</body>
+      <body className={montserrat.className}>
+        {/* <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick={true}
+          pauseOnHover={false}
+          draggable={false}
+          theme="dark"
+        /> */}
+        {children}
+      </body>
     </html>
   );
 }

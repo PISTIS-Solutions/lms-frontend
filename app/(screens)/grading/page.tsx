@@ -7,7 +7,6 @@ import TopNav from "@/components/side-comp/topNav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { projectData } from "@/data/projectData";
 import { ArrowLeft, ArrowRight, Loader2Icon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { FaMagnifyingGlass } from "react-icons/fa6";
@@ -172,7 +171,7 @@ const Project = () => {
                           className={`md:py-4 px-4 md:px-2 md:text-base text-xs py-1 capitalize" ${
                             !person.status
                               ? "text-gray-600"
-                              : person.status === "Pending"
+                              : person.status === "Submitted"
                               ? "text-orange-500"
                               : person.status === "Reviewed"
                               ? "text-green-500"
@@ -184,7 +183,7 @@ const Project = () => {
                         <td className="md:py-4 md:text-base text-xs py-1 text-main">
                           {!person.status ? (
                             "-"
-                          ) : person.status === "Pending" ? (
+                          ) : person.status === "Submitted" ? (
                             <p
                               onClick={() => {
                                 handleModal(person);
