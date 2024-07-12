@@ -1,6 +1,6 @@
 // index.js
 import cap from "@/public/assets/svg/teacher.svg";
-import user from "@/public/assets/svg/user.svg";
+import user from "@/public/assets/avatar.jpg";
 import book from "@/public/assets/svg/book.svg";
 import girl from "@/public/assets/girl.png";
 import boy from "@/public/assets/boy.png";

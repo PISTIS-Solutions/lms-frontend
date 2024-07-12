@@ -37,6 +37,7 @@ import { useEffect, useState } from "react";
 import { Loader2Icon } from "lucide-react";
 import useStudentsStore from "@/store/fetch-students-landing";
 import { ToastContainer } from "react-toastify";
+// import user from "@/public/assets/avatar.jpg";
 
 export default function Home() {
   const responsive = {
@@ -245,7 +246,7 @@ export default function Home() {
               quote="The decision of learning from pistis-tech has been the very best for me. They make complicated software skills  so simple because of their expertise. Available to help are skilled mentors, resourceful materials and in depth critical thinking projects that will expose you to the field of your course. I can guarantee you that learning software skills from pistis-tech will make your hand so strong in any of the fields you pick."
             />
             <TestimonialCard
-              avatar={avatar}
+              avatar={user}
               name="Abayomi Omiwale"
               quote="The timely help from the mentors has really made my learning easy and effective."
             />
