@@ -27,7 +27,7 @@ const ResendToken = () => {
 
   const resendToken = async (e: any) => {
     e.preventDefault();
-    if (email === "") {
+    if (email) {
       try {
         setLoading(true);
         const response = await axios.post(
