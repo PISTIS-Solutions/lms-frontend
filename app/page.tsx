@@ -89,7 +89,7 @@ export default function Home() {
             Comprehensive curriculum designed to equip students <br />
             with the latest technological skills
           </p>
-          <Link href="/sign-in">
+          <Link href="/pricing">
             <Button className="bg-sub w-full md:w-1/2 text-black hover:text-white text-sm md:text-xl font-medium py-[25px] px-[40px] mt-20">
               Start Learning
             </Button>
@@ -320,7 +320,7 @@ export default function Home() {
 
         <div className="flex justify-center">
           <div className="lg:w-[65vw] w-full flex justify-end">
-            <Link href="/create-account">
+          <Link href="/pricing">
               <Button className="py-[18px] px-[20px] mt-8 hover:text-white bg-sub text-black text-lg md:text-2xl">
                 Find Out More
               </Button>
@@ -339,7 +339,7 @@ export default function Home() {
             world of knowledge are swinging wide open, and it's time for you to
             step through
           </p>
-          <Link href="/create-account">
+          <Link href="/pricing">
             <Button className="bg-sub text-black px-16 hover:text-white font-semibold">
               Get Started
             </Button>
