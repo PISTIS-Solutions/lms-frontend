@@ -384,7 +384,7 @@ const Dashboard = () => {
                 </span>
                 , send an email with payment receipt, full name and registered
                 email address to{" "}
-                <span className="font-semibold">learning@pistis.solution</span>{" "}
+                <span className="font-semibold">learning@pististechub.io</span>{" "}
                 for payment confirmation. Upon confirmation, your account will
                 be upgraded in 10 minutes.
               </p>

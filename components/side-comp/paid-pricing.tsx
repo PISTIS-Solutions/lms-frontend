@@ -11,7 +11,7 @@ import Cookies from "js-cookie";
 const PaidPricing = ({ bool }: any) => {
   const services = [
     { serv: "4 one-on-one mentoring sessions per month" },
-    { serv: "6months free access" },
+    { serv: "6months unlimited access" },
     { serv: "15 courses" },
     { serv: "15 projects" },
     { serv: "Group blocker sessions" },
