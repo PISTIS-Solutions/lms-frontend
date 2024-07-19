@@ -37,7 +37,7 @@ const PricingCard = ({ bool }: any) => {
         <div>
           <h1 className="text-lg text-[#1A1A1A] font-medium">Basic Plan</h1>
           <p className="text-xs text-[#3E3E3E] pb-4 pt-2">
-            Ideal for a students seeking to familiarize themselves with the
+            Ideal for students seeking to familiarize themselves with the
             application's features
           </p>
         </div>

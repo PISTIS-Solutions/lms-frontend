@@ -37,7 +37,7 @@ const PaidPricing = ({ bool }: any) => {
         <div>
           <h1 className="text-lg text-[#1A1A1A] font-medium">Paid Plan</h1>
           <p className="text-xs text-[#3E3E3E] pb-4 pt-2">
-            Ideal for a students seeking to explore the complete functionality
+            Ideal for students seeking to explore the complete functionality
             of the web app
           </p>
         </div>

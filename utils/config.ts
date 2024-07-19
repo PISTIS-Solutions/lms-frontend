@@ -1,4 +1,4 @@
-export const baseURL = "https://backend.pististechub.io/api/v1/auth";
+export const baseURL = "https://backend.dev.pististechub.io/api/v1/auth";
 
 export const urls = {
   signup: `${baseURL}/users/student/`,
