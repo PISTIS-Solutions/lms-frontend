@@ -90,6 +90,16 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
       } finally {
         setLoading(false);
       }
+    } else {
+      toast.error("Check form fields and add missing values!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     }
   };
 
