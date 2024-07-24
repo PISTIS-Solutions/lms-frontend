@@ -64,7 +64,7 @@ export default function Home() {
     fetchStudents();
   }, []);
 
-  console.log(students.course_details, "stu")
+  // console.log(students.course_details, "stu")
 
   return (
     <main className="relative">

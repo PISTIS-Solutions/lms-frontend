@@ -60,6 +60,7 @@ const SettingsPage = () => {
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const router = useRouter();
 
   const passwordForm = useForm<z.infer<typeof passwordSchema>>({
     resolver: zodResolver(passwordSchema),
@@ -114,6 +115,7 @@ const SettingsPage = () => {
           });
 
           Cookies.remove("authToken");
+          router.replace("/sign-in");
         }
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
@@ -288,7 +290,6 @@ const SettingsPage = () => {
     setShowConfirmPassword((prev) => !prev);
   };
 
-  const router = useRouter()
   const [loading, setLoading] = useState(false);
   const DeactivateStudent = async () => {
     try {
@@ -317,7 +318,7 @@ const SettingsPage = () => {
           theme: "dark",
         });
         Cookies.remove("authToken");
-        router.replace("/")
+        router.replace("/");
       }
     } catch (error: any) {
       setLoading(false);
