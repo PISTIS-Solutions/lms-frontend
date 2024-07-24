@@ -32,9 +32,7 @@ const Completeprofile = () => {
         console.error("User ID not found in local storage.");
         return;
       }
-
       const url = `${baseURL}/users/student/${user_id}/complete_profile/`;
-
       setLoading(true);
       // Make the API request
       const response = await axios.patch(url, {
