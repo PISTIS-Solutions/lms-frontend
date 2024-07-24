@@ -14,6 +14,7 @@ import { Loader2 } from "lucide-react";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { baseURL } from "@/utils/config";
 
 const Completeprofile = () => {
   const formStore = useFormStore();
@@ -32,7 +33,7 @@ const Completeprofile = () => {
         return;
       }
 
-      const url = `https://backend.dev.pististechub.io/api/v1/auth/users/student/${user_id}/complete_profile/`;
+      const url = `${baseURL}/users/student/${user_id}/complete_profile/`;
 
       setLoading(true);
       // Make the API request
