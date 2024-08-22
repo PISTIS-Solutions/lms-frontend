@@ -2,7 +2,7 @@
   "name": "pistis",
   "version": "0.1.0",
   "private": true,
-"scripts": {
+  "scripts": {
     "build": "npm install",
     "start": "next build && next start -p 80"
   },
