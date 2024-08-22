@@ -14,6 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import TopNav from "@/components/side-comp/topNav";
 import refreshAdminToken from "@/utils/refreshToken";
 import useStudentStore from "@/store/dashboard-fetch";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Project = () => {
   const router = useRouter();
@@ -62,7 +63,7 @@ const Project = () => {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchCourses();
   }, []);
@@ -88,13 +89,18 @@ const Project = () => {
           <TopNav />
         </div>
         <div className="py-2 px-2 md:px-7">
-          <div className="flex justify-end">
-          </div>
+          <div className="flex justify-end"></div>
           <div className="my-5 grid md:grid-cols-2 grid-cols-1 lg:grid-cols-3 gap-2 md:gap-5">
             {loading ? (
-              <div className="w-[100%] flex items-center justify-center h-screen">
-                <Loader2 className=" w-8 h-8 animate-spin" />
-                <p>Loading Projects</p>
+              <div className="flex flex-col justify-center items-center">
+                <div className="flex flex-col space-y-3 shadow-md p-4 w-full">
+                  <Skeleton className="h-[125px]  rounded-xl" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px]" />
+                    <Skeleton className="h-4 w-[200px]" />
+                  </div>
+                </div>
+                <p className="text-xl text-main font-bold my-4">Loading...</p>
               </div>
             ) : projects && projects.length > 0 ? (
               projects.map((project: any) => (
