@@ -175,6 +175,8 @@ const Project = () => {
                               ? "text-orange-500"
                               : person.status === "Reviewed"
                               ? "text-green-500"
+                              : person.status === "Rejected"
+                              ? "text-red-500"
                               : "text-gray-600"
                           }`}
                         >
@@ -183,7 +185,7 @@ const Project = () => {
                         <td className="md:py-4 md:text-base text-xs py-1 text-main">
                           {!person.status ? (
                             "-"
-                          ) : person.status === "Submitted" ? (
+                          ) : person.status === "Submitted" || person.status === "Rejected" ? (
                             <p
                               onClick={() => {
                                 handleModal(person);

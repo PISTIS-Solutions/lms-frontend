@@ -3,10 +3,12 @@ import Cookies from "js-cookie";
 import { urls } from "./config";
 
 const refreshAdminToken = async (): Promise<void> => {
+  const refresh = Cookies.get("refreshToken");
+  const access = Cookies.get("authToken");
   try {
     const tokens = {
-      refresh: Cookies.get("refreshToken"),
-      access: Cookies.get("authToken"),
+      refresh: refresh,
+      access: access,
     };
     const refreshResponse = await axios.post(urls.adminRefreshToken, tokens);
     if (refreshResponse.status === 201) {

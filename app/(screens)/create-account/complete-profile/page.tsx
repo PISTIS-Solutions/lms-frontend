@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import logo from "../../../../public/assets/pistis_logo.png";
+import logo from "@/public/assets/pistis_logo.png";
 import Link from "next/link";
 import { nigerianStates } from "@/data";
 

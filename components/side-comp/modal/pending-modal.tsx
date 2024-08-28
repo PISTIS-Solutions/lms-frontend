@@ -45,6 +45,7 @@ const PendingModal = ({
             project_id: bool ? projectData?.id : projectID,
             submission_link: link,
             student_comments: comment,
+            status: "Submitted"
           },
           {
             headers: {
@@ -65,11 +66,47 @@ const PendingModal = ({
           setLoading(false);
           // handleCloseModal();
         }
-      } catch (error: any) {
-        if (error.response && error.response.status === 401) {
-          await refreshAdminToken();
-          await handleSubmit();
-        } else if (error?.message === "Network Error") {
+      } 
+      catch (error: any) {
+        if (error.response) {
+          const status = error.response.status;
+          const data = error.response.data;
+      
+          if (status === 401) {
+            await refreshAdminToken();
+            await handleSubmit();
+          } else if (status === 400 && data[0]) {
+            toast.error(data[0], {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            });
+          } else if (status === 400 && data.submission_link?.[0] == "Enter a valid URL.") {
+            toast.error(data.submission_link[0], {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            });
+          } else {
+            toast.error(data?.detail || "An error occurred", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            });
+          }
+        } else if (error.message === "Network Error") {
           toast.error("Check your network!", {
             position: "top-right",
             autoClose: 5000,
@@ -79,18 +116,8 @@ const PendingModal = ({
             draggable: false,
             theme: "dark",
           });
-        } else if (error?.response?.status === 400) {
-          toast.error(error?.response?.data[0], {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
         } else {
-          toast.error(error?.response?.data?.detail, {
+          toast.error("An unexpected error occurred", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -100,10 +127,12 @@ const PendingModal = ({
             theme: "dark",
           });
         }
-      } finally {
+      }
+       
+      finally {
         setLoading(false);
       }
-    } else{
+    } else {
       toast.error("Check form fields and add missing values!", {
         position: "top-right",
         autoClose: 5000,
