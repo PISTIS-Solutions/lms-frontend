@@ -36,7 +36,7 @@ const SignIn = () => {
         email: formStore.email,
         password: formStore.password,
       });
-
+      console.log(response.data);
       if (response.status === 200) {
         Cookies.set("authToken", response.data.access, {
           sameSite: "None",
@@ -51,7 +51,7 @@ const SignIn = () => {
           sameSite: "None",
           secure: true,
         });
-        Cookies.set("plan", response.data.user.plan, {
+        Cookies.set("plan", response.data.user.status, {
           sameSite: "None",
           secure: true,
         });
