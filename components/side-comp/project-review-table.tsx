@@ -22,7 +22,34 @@ const ProjectReview = () => {
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentData = projectReview?.slice(indexOfFirstItem, indexOfLastItem);
-
+  // console.log(currentData);
+  // const currentData = [
+  //   {
+  //     course: {
+  //       id: "31da6aaf-b4d8-4ed6-b415-61ed2c201436",
+  //       title: "Onboarding-new",
+  //     },
+  //     date_submitted: null,
+  //     deadline: "2024-08-30T06:10:30",
+  //     project: {
+  //       id: "2b88b8ac-2142-4a2c-9dec-97e00f769681",
+  //       title: "Getting Started",
+  //     },
+  //     status: "Reviewed",
+  //     submission_id: null,
+  //   },
+  //   {
+  //     course: {
+  //       id: "31da6aaf-b4d8-4ed6-b415-61ed2c201436",
+  //       title: "Onboarding-new",
+  //     },
+  //     date_submitted: null,
+  //     deadline: "2024-08-30T06:10:30",
+  //     project: { id: "372b6f2f-e266-43b6-940f-dfe017fa1bdd", title: "testing" },
+  //     status: "-",
+  //     submission_id: null,
+  //   },
+  // ];
   const totalPages = Math.ceil(projectReview?.length / itemsPerPage);
 
   const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
@@ -40,32 +67,35 @@ const ProjectReview = () => {
   };
   const formatDate = (dateString: any) => {
     const date = new Date(dateString);
-    const month = date.toLocaleString("default", { month: "long" });
+    const month = date.toLocaleString("default", { month: "short" });
     const day = date.getDate();
     return `${month} ${day}`;
   };
 
+  {
+    /* TODO:change the text family */
+  }
   return (
     <div className="overflow-x-scroll md:overflow-x-auto">
       <table className="w-full mt-2 text-left">
         <thead className="text-main">
-          <tr className="bg-[#F8F9FF] py-1 w-full">
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+          <tr className="bg-[#E6F6FF] w-full">
+            <th className="md:py-4 px-4  md:text-base text-sm py-3 font-medium text-center md:!p-[10px] rounded-l-[10px]">
               Course Title
             </th>
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-sm py-3 font-medium text-center md:!p-[10px]">
               Project Title
             </th>
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-sm py-3 font-medium text-center md:!p-[10px]">
               Deadline
             </th>
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-sm py-3 font-medium text-center md:!p-[10px]">
               Date Submitted
             </th>
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-sm py-3 font-medium text-center md:!p-[10px]">
               Status
             </th>
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-sm py-3 font-medium text-center md:!p-[10px] rounded-r-[10px]">
               Link
             </th>
           </tr>
@@ -86,28 +116,28 @@ const ProjectReview = () => {
                 <tr key={index}>
                   <td
                     //   onClick={() => handleCardClick(person.id)}
-                    className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
+                    className="md:py-4 px-2 md:px-0 md:text-base text-sm py-1 capitalize cursor-pointer"
                   >
                     {person?.course?.title}
                   </td>
                   <td
                     //   onClick={() => handleCardClick(person.id)}
-                    className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
+                    className="md:py-4 px-2 md:px-0 md:text-base text-sm py-1 capitalize cursor-pointer"
                   >
                     {person?.project?.title}
                   </td>
 
-                  <td className="md:py-4 md:text-base text-xs py-1">
+                  <td className="md:py-4 md:text-base text-sm py-1">
                     {formatDate(person.deadline)}
                   </td>
 
-                  <td className="md:py-4 text-left md:text-base text-xs py-1">
+                  <td className="md:py-4 text-left md:text-base text-sm py-1">
                     {!person.date_submitted
                       ? "-"
                       : formatDate(person.date_submitted)}
                   </td>
                   <td
-                    className={`md:py-4 md:text-base text-left text-xs py-1 capitalize ${
+                    className={`md:py-4 md:text-base text-left text-sm py-1 capitalize ${
                       !person.status
                         ? "text-gray-600"
                         : person.status === "Submitted"
@@ -121,10 +151,11 @@ const ProjectReview = () => {
                   >
                     {!person.status ? "No Submission" : person.status}
                   </td>
-                  <td className="md:py-4 md:text-base text-xs py-1 text-main">
+                  <td className="md:py-4 md:text-base text-sm py-1 text-main">
                     {!person.status ? (
                       "-"
-                    ) : person.status === "Submitted" || person.status === "Rejected" ? (
+                    ) : person.status === "Submitted" ||
+                      person.status === "Rejected" ? (
                       <p
                         onClick={() => {
                           handleModal(person);
@@ -159,7 +190,7 @@ const ProjectReview = () => {
             ))
           ) : (
             <tr>
-              <td colSpan={6} className="py-4">
+              <td colSpan={6} className="py-4 text-center">
                 No data available.
               </td>
             </tr>
