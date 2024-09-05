@@ -97,7 +97,7 @@ cardProps) => {
     getModuleCount();
   }, []);
 
-  const plan = Cookies.get("plan");
+  const plan = Cookies.get("subscription_status");
   const isFreePlan = plan === "Free";
 
   const isLocked = isFreePlan && index > 3;
@@ -171,18 +171,23 @@ cardProps) => {
           draggable: false,
           theme: "dark",
         });
-      }else if(error.response.data.message === "User currently enrolled in another course."){
-        toast.error("Complete present course before you can enroll on another!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } 
-      else {
+      } else if (
+        error.response.data.message ===
+        "User currently enrolled in another course."
+      ) {
+        toast.error(
+          "Complete present course before you can enroll on another!",
+          {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          }
+        );
+      } else {
         toast.error(error?.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
@@ -199,7 +204,7 @@ cardProps) => {
   };
 
   // const imageUrl = img?.replace("image/upload/", "");
-// console.log(img)
+  // console.log(img)
 
   return (
     <motion.div
@@ -231,7 +236,9 @@ cardProps) => {
           height={100}
           alt={title}
           priority
-          className={`rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px] ${isEnrolled? " ": " blur-sm"}`}
+          className={`rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px] ${
+            isEnrolled ? " " : " blur-sm"
+          }`}
         />
         <div className="p-2">
           <div className="md:mb-10 mb-5">
