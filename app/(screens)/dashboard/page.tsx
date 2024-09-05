@@ -143,7 +143,7 @@ const Dashboard = () => {
   };
 
   const userName = Cookies.get("fullName");
-  const plan = Cookies.get("plan");
+  const subscriptionStatus = Cookies.get("subscription_status");
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const handleModal = () => {
@@ -166,12 +166,12 @@ const Dashboard = () => {
                     Welcome, {userName}
                   </h1>
                   <p className="md:text-base text-sm pr-0 md:pr-4 z-20 relative">
-                    {plan === "Free"
+                    {subscriptionStatus === "Free"
                       ? "You are using the free version, upgrade now to complete more courses"
                       : "Complete your course and take a step further💪"}
                   </p>
                 </div>
-                {plan === "Free" ? (
+                {subscriptionStatus === "Free" ? (
                   <></>
                 ) : (
                   <div className="hidden md:block">
@@ -189,7 +189,7 @@ const Dashboard = () => {
                     />
                   </div>
                 )}
-                {plan === "Free" ? (
+                {subscriptionStatus === "Free" ? (
                   <Button
                     onClick={handleModal}
                     className="bg-sub rounded-[8px] text-black w-full md:w-auto hover:text-white hover:bg-main font-medium m-4"
