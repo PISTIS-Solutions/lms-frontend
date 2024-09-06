@@ -97,10 +97,10 @@ cardProps) => {
     getModuleCount();
   }, []);
 
-  const plan = Cookies.get("subscription_status");
-  const isFreePlan = plan === "Free";
+  const subscriptionStatus = Cookies.get("subscription_status");
+  const isFreeSubscription = subscriptionStatus === "Free";
 
-  const isLocked = isFreePlan && index > 3;
+  const isLocked = isFreeSubscription && index > 3;
   const isLockedDisabled = isLocked;
 
   const handleEnroll = async (id: string) => {
@@ -277,7 +277,7 @@ cardProps) => {
           </button>
         </div>
       </div>
-      {isFreePlan && index > 3 && (
+      {isFreeSubscription && index > 3 && (
         <div className="p-2 bg-white cursor-pointer rounded-full w-[35px] h-[35px] flex justify-center items-center absolute top-2 right-2 hover:bg-red-500 duration-150 ease-in-out text-red-500 hover:text-white">
           <LucideLockKeyhole />
         </div>

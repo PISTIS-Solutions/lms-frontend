@@ -29,7 +29,7 @@ const PaidPricing = ({ bool }: any) => {
       theme: "dark",
     });
   };
-  const plan = Cookies.get("subscription_status");
+  const subscriptionStatus = Cookies.get("subscription_status");
   return (
     <div className="border-2 relative border-[A5ACBA] rounded-[4px] max-w-[310px] w-full h-[444px]">
       <ToastContainer />
@@ -70,9 +70,9 @@ const PaidPricing = ({ bool }: any) => {
           </Link>
         ) : (
           <Button
-            onClick={plan == "Paid" ? undefined : paidFunct}
+            onClick={subscriptionStatus == "Paid" ? undefined : paidFunct}
             className={
-              plan == "Paid"
+              subscriptionStatus == "Paid"
                 ? "bg-sub absolute bottom-4 text-black w-[90%] mx-4"
                 : "bg-[#DAE0E6] absolute bottom-4 hover:text-white text-black hover:bg-main w-[90%] mx-4"
             }
