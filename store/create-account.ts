@@ -2,6 +2,8 @@
 import { create } from "zustand";
 
 interface FormStore {
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   confirm: string;
@@ -16,6 +18,8 @@ interface FormStore {
 }
 
 const useFormStore = create<FormStore>((set) => ({
+  firstName: "",
+  lastName: "",
   email: "",
   password: "",
   confirm: "",

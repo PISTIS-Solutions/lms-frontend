@@ -51,6 +51,10 @@ const SignIn = () => {
           sameSite: "None",
           secure: true,
         });
+        Cookies.set("userId", response.data.user.id, {
+          sameSite: "None",
+          secure: true,
+        });
         Cookies.set("subscription_status", response.data.user.status, {
           sameSite: "None",
           secure: true,

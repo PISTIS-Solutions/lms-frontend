@@ -1,47 +1,80 @@
-import React from "react";
-import Image from "next/image";
+"use client";
+import IntermediateCard from "@/components/side-comp/pricing/IntermediateCard";
+import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
+import AdvanceCard from "@/components/side-comp/pricing/AdvanceCard";
+import { ChevronLeft } from "lucide-react";
+import PlanNav from "@/components/side-comp/pricing/PlanNav";
+import { useEffect, useState } from "react";
+import { usePlanStore } from "@/store/plan-store";
+import { useRouter } from "next/navigation";
 
-import logo from "../../../public/assets/pistis_logo.png";
-import PricingCard from "@/components/side-comp/pricing-card";
-import PaidPricing from "@/components/side-comp/paid-pricing";
+const page = () => {
+  const { fetchPlans, isLoading } = usePlanStore();
+  const [paymentDuration, setPaymentDuration] = useState(0);
+  const router = useRouter();
 
-const Pricing = () => {
+  useEffect(() => {
+    fetchPlans();
+  }, [fetchPlans]);
+
   return (
-    <main className="h-screen">
-      <div className="h-[35vh] bg-cover bg-no-repeat relative bg-pricingBack w-full">
-        <Image
-          alt="pistis-logo"
-          src={logo}
-          className="absolute md:top-3 top-0 right-0 md:right-3"
-        />
-        <div className="text-center text-white flex justify-center items-center flex-col h-[35vh]">
-          <h1 className="font-semibold pb-5 text-xl sm:text-xl md:text-4xl">
-            Find the right plan for you
+    <div className="w-full min-h-screen bg-white flex justify-center items-center flex-col">
+      <PlanNav />
+      <div className="max-w-screen-xl px-6 mt-6">
+        <button
+          className="flex items-center outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
+          onClick={() => router.back()}
+        >
+          <ChevronLeft size={24} /> Pricing Plan
+        </button>
+        <section className="text-center text-black flex justify-center items-center flex-col pt-5 pb-10 mx-auto mt-6">
+          <span className="bg-[#E6F6FF] rounded-full py-2 px-6 text-main mb-8">
+            Vertical draft ellipse connection draft
+          </span>
+          <h1 className="font-semibold pb-2 md:pb-5 text-xl sm:text-xl md:text-5xl">
+            We’ve got a plan that’s perfect for you.
           </h1>
-          <p className="md:max-w-[60vw] max-w-full md:text-base sm:text-sm text-xs ">
-            Make payment into{" "}
-            <span className="  font-semibold">
-              THE PISTIS TECH HUB (6366146872, MONIEPOINT MFB)
-            </span>
-            ,send an email with payment receipt, full name and registered email
-            address to{" "}
-            <span className="font-semibold">learning@pististechub.io</span> for
-            payment confirmation. Upon confirmation, your account will be
-            activated within 5 minutes.
+          <p className="md:max-w-[65vw] max-w-full md:text-lg sm:text-sm text-xs text-[#484848]">
+            Find the perfect plan that fits your learning journey. Whether
+            you're just starting out or looking to deepen your skills, we've got
+            a plan designed to meet your needs. Invest in yourself and unlock
+            unlimited potential.
           </p>
+        </section>
+
+        <section className="flex border rounded-[10px] p-[6px] w-fit items-center border-[#DADADA] mx-auto mb-14">
+          <button
+            className={
+              "py-4 text-sm lg:text-base rounded-[10px] transition-all duration-300 ease-in-out  " +
+              (paymentDuration === 0
+                ? "bg-[#2FBC8D] px-[37px] font-semibold text-white shadow-[0px_0px_10px_0px_#00000040]"
+                : "text-[#666666] font-medium px-4")
+            }
+            onClick={() => setPaymentDuration(0)}
+          >
+            Monthly Billing
+          </button>
+          <button
+            className={
+              "py-4 text-sm lg:text-base rounded-[10px] transition-all duration-300 ease-in-out  " +
+              (paymentDuration === 1
+                ? "bg-[#2FBC8D] px-[37px] font-semibold text-white shadow-[0px_0px_10px_0px_#00000040]"
+                : "text-[#666666] font-medium px-4")
+            }
+            onClick={() => setPaymentDuration(1)}
+          >
+            Yearly (save up to 40%)
+          </button>
+        </section>
+
+        <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:justify-between">
+          <BeginnerCard />
+          <IntermediateCard />
+          <AdvanceCard />
         </div>
       </div>
-      <div className="w-full h-[42px] bg-main">
-        <p className="text-center text-white md:pt-3 pt-1 text-xs md:text-base font-medium">
-          Send a mail to learning@pististechub.io for installmental payment plan
-        </p>
-      </div>
-      <div className="flex flex-wrap mt-4 md:mt-0 gap-y-4 md:gap-y-0 items-center justify-center gap-x-10 h-[80vh]">
-        <PricingCard bool={true} />
-        <PaidPricing bool={true} />
-      </div>
-    </main>
+    </div>
   );
 };
 
-export default Pricing;
+export default page;

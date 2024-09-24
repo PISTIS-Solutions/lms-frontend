@@ -17,11 +17,13 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
+        // TODO: delete this
         "form-back": "url('/assets/account_background.png')",
-        "hero-back" : "url('/assets/hero-background.png')",
-        "mid-back" : "url('/assets/mid.png')",
-        "footer-back" : "url('/assets/footer-back.png')",
-        "pricingBack": "url('/assets/pricingBack.png')"
+        "hero-back": "url('/assets/hero-background.png')",
+        "mid-back": "url('/assets/mid.png')",
+        "footer-back": "url('/assets/footer-back.png')",
+        pricingBack: "url('/assets/pricingBack.png')",
+        advanceCardBg: "url('/assets/advance_card_background.webp')",
       },
       colors: {
         main: "#000066",

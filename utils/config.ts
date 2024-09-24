@@ -16,4 +16,7 @@ export const urls = {
   resendToken: `${baseURL}/users/student/resend_activation/`,
   projectReview: `${baseURL}/users/student/project-review/`,
   getStudents: `${baseURL}/courses-and-students/`,
+  plans: `${baseURL}/users/subscription/payment-plans/`,
+  makeBeginnerPayment: `${baseURL}/users/subscription/make-payment-beginner/`,
+  makeIntermediatePayment: `${baseURL}/users/subscription/make-payment-intermidiate/`,
 };

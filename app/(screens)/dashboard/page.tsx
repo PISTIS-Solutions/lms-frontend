@@ -35,8 +35,8 @@ import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
 import { Button } from "@/components/ui/button";
 import Pricing from "../pricing/page";
-import PricingCard from "@/components/side-comp/pricing-card";
-import PaidPricing from "@/components/side-comp/paid-pricing";
+import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
+import IntermediateCard from "@/components/side-comp/pricing/IntermediateCard";
 import useCourseStore from "@/store/fetch-courses";
 
 const formatDate = (isoDateString: any) => {
@@ -396,8 +396,8 @@ const Dashboard = () => {
               </button>
             </div>
             <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
-              <PricingCard bool={false} />
-              <PaidPricing bool={false} />
+              <BeginnerCard bool={false} />
+              <IntermediateCard bool={false} />
             </div>
           </div>
         </div>
