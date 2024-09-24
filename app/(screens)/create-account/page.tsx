@@ -5,82 +5,99 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import logo from "../../../public/assets/pistis_logo.png";
-import { Mail, KeyRound, Eye, EyeOff, Loader2, Check } from "lucide-react";
+import {
+  Mail,
+  KeyRound,
+  Eye,
+  EyeOff,
+  Loader2,
+  Check,
+  Info,
+} from "lucide-react";
 import Link from "next/link";
 import useFormStore from "../../../store/create-account";
 
 import Fulllogo from "@/public/assets/full-logo.png";
+import bg from "@/public/assets/auth_bg.webp";
+import google from "@/public/assets/svg/google.svg";
 import { urls } from "@/utils/config";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
 
+const containsSpecialChars = "Password must contain special characters";
+const differentPassword =
+  "Password and Confirm password contains different characters";
+
 const SignUp = () => {
   const formStore = useFormStore();
   const [specialCharacterErr, setSpecialCharacterErr] = useState();
   const [loading, setLoading] = useState<boolean>();
-  const [checkbox, setCheckbox] = useState(false);
+  const [error, setError] = useState<string | undefined>(undefined);
   const [overlay, setOverlay] = useState(false);
   const handleOverlay = () => {
     setOverlay((prev) => !prev);
   };
+  console.log(error);
   // const [modal, setModal] = useState<boolean>(false);
   const router = useRouter();
   //submit function
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      if (formStore.password === formStore.confirm) {
-        if (!containsSpecialCharacters(formStore.password)) {
-          throw new Error("Password does not have special characters");
-        }
-        setLoading(true);
-        const response = await fetch(urls.signup, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: formStore.email,
-            password: formStore.password,
-            re_password: formStore.confirm,
-          }),
-        });
+    if (formStore.password === formStore.confirm) {
+      if (!containsSpecialCharacters(formStore.password)) {
+        setError(containsSpecialChars);
+        throw new Error("Password does not have special characters");
+      } else {
+        try {
+          setLoading(true);
+          const response = await fetch(urls.signup, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: formStore.email,
+              password: formStore.password,
+              re_password: formStore.confirm,
+            }),
+          });
 
-        if (response.ok) {
-          // setModal(true);
-          // router.push("/create-account/activate/[uid]");
-          localStorage.setItem("email", formStore.email);
-          toast.success("Check email for validation!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
-        } else {
-          toast.error("This email address has been registered!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
+          if (response.ok) {
+            // setModal(true);
+            // router.push("/create-account/activate/[uid]");
+            localStorage.setItem("email", formStore.email);
+            toast.success("Check email for validation!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            });
+          } else {
+            toast.error("This email address has been registered!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            });
+          }
+        } catch (error: any) {
+          if (error.message === containsSpecialChars) {
+            setError(error.message);
+          }
+        } finally {
+          setLoading(false);
         }
       }
-    } catch (error: any) {
-      if (error.message === "Password must contain special characters") {
-        setSpecialCharacterErr(error.message);
-      }
-    } finally {
-      setLoading(false);
-    }
+    } else setError(differentPassword);
   };
 
   function containsSpecialCharacters(str: string): boolean {
@@ -88,13 +105,31 @@ const SignUp = () => {
     return specialCharacters.test(str);
   }
 
+  function checkPasswordEquality(value1: string, value2: string) {
+    if (error) {
+      if (value1 === value2) {
+        if (containsSpecialCharacters(formStore.password)) setError(undefined);
+        else setError(containsSpecialChars);
+      } else setError(differentPassword);
+    }
+  }
+
   return (
-    <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-5  md:px-6 lg:px-10">
-        <div className="h-auto block md:hidden w-full bg-main p-2">
+    <>
+      <ToastContainer />
+      <div className="lg:max-w-[75.4%] flex flex-col lg:my-6 w-full gap-y-6">
+        <div className="block md:hidden w-full bg-main p-2">
           <Image src={Fulllogo} alt="logo" />
         </div>
-        <div className="flex justify-end">
+
+        <div className="flex justify-between items-center gap-y-6 px-5">
+          <div className="px-2 my-10 md:my-0 md:px-0">
+            <h1 className="md:text-[32px] sm:text-2xl text-xl font-bold text-main">
+              Create Account
+            </h1>
+            {/* TODO: change font */}
+            <h3 className="text-[#828282]">Let’s get you started!</h3>
+          </div>
           <Image
             src={logo}
             alt="pistis_logo"
@@ -102,146 +137,203 @@ const SignUp = () => {
             priority
           />
         </div>
-        <div className="px-2 my-10 md:my-0 md:px-0">
-          <h1 className="md:text-4xl sm:text-2xl text-xl font-semibold">
-            Create Account
-          </h1>
-          <h3 className="md:text-2xl sm:text-lg text-base">
-            Let’s get you started!
-          </h3>
-        </div>
-        <ToastContainer />
-        <div className="px-2 md:px-0">
-          <form onSubmit={onSubmit} className="space-y-3">
-            <div>
-              <label className="text-[#3E3E3E] md:text-xl sm:text-base text-sm">
-                Email Address
-              </label>
-              <div className="relative">
-                <Mail className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
+
+        {/* change font */}
+        <button className="h-[50px] flex items-center justify-center outline-none rounded-lg border border-[#DADADA] bg-[#FAFAFA] text-[#666666] font-medium gap-x-2">
+          <Image src={google} alt="google icon" />
+          Continue with Google
+        </button>
+
+        <span className="before:absolute relative before:h-[1px] before:w-[45%] before:-left-0 text-center before:bg-[#BDBDBD] before:top-[45%] font-medium text-[#666666] after:absolute after:h-[1px] after:w-[45%] after:-right-0 after:bg-[#BDBDBD] after:top-[45%]">
+          {/* TODO: change font */}
+          or
+        </span>
+
+        {/* TODO: change font */}
+        <form onSubmit={onSubmit} className="space-y-3 px-2 md:px-0">
+          <div className="flex justify-between">
+            <div className="w-[49%]">
+              <label className="text-[#2E2E2E] mb-1 ">First Name</label>
+              <div className="h-[50px] flex items-center bg-[#FAFAFA] px-[14px] gap-3 rounded-[6px] border border-[#DADADA]">
                 <input
-                  type="email"
-                  className="py-4 bg-[#FAFAFA] w-full text-xs md:text-base placeholder:text-[#4F5B67] rounded-[6px] indent-9"
-                  placeholder="example@gmail.com"
-                  value={formStore.email}
-                  onChange={(e) => formStore.setField("email", e.target.value)}
+                  type="text"
+                  name=""
+                  id=""
+                  className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
+                  placeholder="Enter your first name"
+                  value={formStore.firstName}
+                  onChange={(e) =>
+                    formStore.setField("firstName", e.target.value)
+                  }
                 />
               </div>
             </div>
+            <div className="w-[49%]">
+              <label className="text-[#2E2E2E] mb-1 ">Last Name</label>
+              <div className="h-[50px] flex items-center bg-[#FAFAFA] px-[14px] gap-3 rounded-[6px] border border-[#DADADA]">
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
+                  placeholder="Enter your last name"
+                  value={formStore.lastName}
+                  onChange={(e) =>
+                    formStore.setField("lastName", e.target.value)
+                  }
+                />
+              </div>
+            </div>
+          </div>
 
-            <div>
-              <label className="text-[#3E3E3E] md:text-xl text-base sm:text-sm">
-                Create Password
-              </label>
-              <div className="relative">
-                <KeyRound className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
+          <div>
+            <label className="text-[#2E2E2E] mb-1 ">Email Address</label>
+            <div className="h-[50px] flex items-center bg-[#FAFAFA] px-[14px] gap-3 rounded-[6px] border border-[#DADADA]">
+              <div className="border-[#DADADA] h-[70%] border-r-[1.5px] pr-3 items-center flex">
+                <Mail className=" text-[#9F9F9F] h-5 w-5" />
+              </div>
+              <input
+                type="email"
+                name=""
+                id=""
+                className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
+                placeholder="example@gmail.com"
+                value={formStore.email}
+                onChange={(e) => formStore.setField("email", e.target.value)}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-[#2E2E2E] mb-1 ">Phone Number</label>
+            <div className="h-[50px] flex items-center bg-[#FAFAFA] px-[14px] gap-3 rounded-[6px] border border-[#DADADA]">
+              <div className="border-[#DADADA] h-[70%] border-r-[1.5px] pr-3 items-center flex">
+                <Mail className=" text-[#9F9F9F] h-5 w-5" />
+              </div>
+              <input
+                type="number"
+                name=""
+                id=""
+                className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
+                placeholder="123 456 7890"
+                value={formStore.email}
+                onChange={(e) => formStore.setField("email", e.target.value)}
+              />
+            </div>
+            <span className="text-xs text-[#9F9F9F] flex items-center gap-x-[6px] mt-1">
+              <Info className="text-[#9F9F9F] rotate-180 w-[14px] h-[14px]" />
+              This number should be active on WhatsApp
+            </span>
+          </div>
+
+          <div>
+            <label className="text-[#2E2E2E] mb-1 ">Password</label>
+            <div className="h-[50px] flex items-center bg-[#FAFAFA] px-[14px] gap-3 rounded-[6px] border border-[#DADADA]">
+              <div className="border-[#DADADA] h-[70%] border-r-[1.5px] pr-3 items-center flex">
+                <KeyRound className=" text-[#666666] h-5 w-5" />
+              </div>
+
+              <input
+                type={formStore.showPassword ? "text" : "password"}
+                placeholder="Password"
+                value={formStore.password}
+                onChange={(e) => {
+                  formStore.setField("password", e.target.value);
+                  checkPasswordEquality(e.target.value, formStore.confirm);
+                }}
+                className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
+              />
+
+              <div className="hover:cursor-pointer">
                 {formStore.showPassword ? (
                   <Eye
                     onClick={formStore.togglePassword}
-                    className="ml-2 absolute cursor-pointer md:top-4 top-3 text-[#4F5B67] right-3 h-5 w-5"
+                    className=" text-[#666666] h-5 w-5"
                   />
                 ) : (
                   <EyeOff
                     onClick={formStore.togglePassword}
-                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+                    className=" text-[#666666] h-5 w-5"
                   />
                 )}
-                <input
-                  type={formStore.showPassword ? "text" : "password"}
-                  className="py-4 bg-[#FAFAFA] text-xs md:text-base  placeholder:text-[#4F5B67] rounded-[6px] indent-9 w-full"
-                  placeholder="Password"
-                  value={formStore.password}
-                  onChange={(e) =>
-                    formStore.setField("password", e.target.value)
-                  }
-                />
               </div>
             </div>
+          </div>
 
-            <div>
-              <label className="text-[#3E3E3E] md:text-xl text-base sm:text-sm">
-                Confirm Password
-              </label>
-              <div className="relative">
-                <KeyRound className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
+          <div>
+            <label className="text-[#2E2E2E] mb-1 ">Confirm Password</label>
+            <div className="h-[50px] flex items-center bg-[#FAFAFA] px-[14px] gap-3 rounded-[6px] border border-[#DADADA]">
+              <div className="border-[#DADADA] h-[70%] border-r-[1.5px] pr-3 items-center flex">
+                <KeyRound className=" text-[#666666] h-5 w-5" />
+              </div>
+
+              <input
+                type={formStore.showConfirmPassword ? "text" : "password"}
+                className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
+                placeholder="Confirm Password"
+                value={formStore.confirm}
+                onChange={(e) => {
+                  formStore.setField("confirm", e.target.value);
+                  checkPasswordEquality(e.target.value, formStore.password);
+                }}
+              />
+              <div className="hover:cursor-pointer">
                 {formStore.showConfirmPassword ? (
                   <Eye
                     onClick={formStore.toggleConfirmPassword}
-                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+                    className=" text-[#666666] h-5 w-5"
                   />
                 ) : (
                   <EyeOff
                     onClick={formStore.toggleConfirmPassword}
-                    className="ml-2 absolute cursor-pointer top-4 text-[#4F5B67] right-3 h-5 w-5"
+                    className=" text-[#666666] h-5 w-5"
                   />
                 )}
-                <input
-                  type={formStore.showConfirmPassword ? "text" : "password"}
-                  className="py-4 bg-[#FAFAFA] text-xs md:text-base  placeholder:text-[#4F5B67] rounded-[6px] indent-9 w-full"
-                  placeholder="Confirm Password"
-                  value={formStore.confirm}
-                  onChange={(e) =>
-                    formStore.setField("confirm", e.target.value)
-                  }
-                />
               </div>
             </div>
-            <div className="flex items-center gap-x-1">
-              <input
-                type="checkbox"
-                checked={checkbox}
-                onChange={(e) => setCheckbox(e.target.checked)}
-              />
-              <p className="md:text-base text-sm">
-                Read and accept{" "}
-                <span
-                  onClick={handleOverlay}
-                  className="text-main cursor-pointer font-semibold"
-                >
-                  terms and conditions
-                </span>
-              </p>
-            </div>
-            <p className="text-red-500 text-xs md:text-sm lg:text-base text-center">
-              Password must contain special characters
-            </p>
+            <span className="text-xs text-[#9F9F9F] flex items-center gap-x-[6px] mt-1">
+              <Info className="text-[#9F9F9F] rotate-180 w-[14px] h-[14px]" />
+              Password must contain special character
+            </span>
+          </div>
 
+          {/* <p className="text-red-500 text-xs md:text-sm lg:text-base text-center">
+              Password must contain special characters
+            </p> */}
+          <div className="relative !mt-0 pt-10">
+            {error && (
+              <p className="text-red-500 text-center absolute top-[12%] text-xs font-semibold">
+                {error}
+              </p>
+            )}
             <button
-              disabled={loading || !checkbox}
+              disabled={loading}
               type="submit"
-              className="w-full bg-[#33CC99] disabled:cursor-not-allowed disabled:bg-sub/30 disabled:text-black/30 py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
+              className="w-full  bg-main disabled:cursor-not-allowed disabled:bg-main/30 disabled:text-black/30 py-4 flex justify-center items-center rounded-[8px] font-medium hover:text-white h-[50px] text-white"
             >
               {loading ? (
                 <Loader2 className="animate-spin text-white" />
               ) : (
-                <>Submit</>
+                <>Sign Up</>
               )}
             </button>
-            <p className="text-red-500 text-center">{specialCharacterErr}</p>
-            {formStore.password !== formStore.confirm ? (
-              <p className="text-red-500 text-xs md:text-sm lg:text-base text-center">
-                Password and Confirm password contains different characters
-              </p>
-            ) : (
-              <></>
-            )}
-          </form>
-        </div>
-        <div>
-          <p className="text-center font-medium text-sm md:text-lg lg:text-xl">
-            Already have an account?{" "}
-            <Link className="text-main" href="/sign-in">
-              Sign In
-            </Link>
-          </p>
-        </div>
+          </div>
+        </form>
+
+        <p className="text-center font-medium text-sm md:text-base text-[#9F9F9F]">
+          Already have an account?{" "}
+          <Link className="text-main" href="/sign-in">
+            Sign In
+          </Link>
+        </p>
       </div>
+
       {overlay && (
         <div className="absolute flex justify-center items-center h-screen w-full bg-slate-200/25 top-0 right-0">
           <Terms handleOverlay={handleOverlay} />
         </div>
       )}
-    </main>
+    </>
   );
 };
 

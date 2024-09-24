@@ -99,9 +99,9 @@ const Verify_SignUp = () => {
   const formStore = useFormStore();
 
   return (
-    <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
+    <>
       <ToastContainer />
-      <div className="bg-white w-full lg:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 block md:flex flex-col  px-0 md:px-10">
+      <div className="lg:max-w-[75.4%] flex flex-col lg:my-6 w-full gap-y-6">
         <div className="h-auto block md:hidden w-full bg-main p-2">
           <Image src={Fulllogo} alt="logo" />
         </div>
@@ -145,7 +145,7 @@ const Verify_SignUp = () => {
           </Link>
         </div>
       </div>
-    </main>
+    </>
   );
 };
 

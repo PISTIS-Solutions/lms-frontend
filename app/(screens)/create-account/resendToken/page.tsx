@@ -104,9 +104,9 @@ const ResendToken = () => {
   };
 
   return (
-    <main className="bg-form-back h-screen w-full bg-no-repeat bg-cover relative">
+    <>
       <ToastContainer />
-      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-5  md:px-6 lg:px-10">
+      <div className="lg:max-w-[75.4%] flex flex-col lg:my-6 w-full gap-y-6">
         <div className="flex justify-end">
           <Image src={logo} alt="pistis_logo" className="" priority />
         </div>
@@ -153,7 +153,7 @@ const ResendToken = () => {
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 };
 
