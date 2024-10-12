@@ -22,6 +22,7 @@ const data = [
 const IntermediateCardModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { plans } = usePlanStore();
+  console.log(plans, "plans")
   const modal = useRef<HTMLDivElement>(null);
   const authToken = Cookies.get("authToken");
 

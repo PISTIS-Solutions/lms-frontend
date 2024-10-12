@@ -61,7 +61,7 @@ const SideNav = () => {
                 <Link href={`/${nav.link}`} key={index} className="">
                   <div
                     className={`link ${
-                      pathname === `/${nav.link}`
+                      pathname.includes(`/${nav.link}`)
                         ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
                         : "text-white"
                     } flex items-center pl-5 gap-3 text-center hover:bg-sub hover:border-r-2 hover:border-r-[#6E6EF7] duration-150 ease-in-out cursor-pointer my-1 py-3`}
