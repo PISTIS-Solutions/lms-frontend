@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import logo from "../../../public/assets/pistis_logo.png";
@@ -25,6 +25,7 @@ import { urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
+import { countriesWithPhoneCodes } from "@/data";
 
 const containsSpecialChars = "Password must contain special characters";
 const differentPassword =
@@ -35,11 +36,7 @@ const SignUp = () => {
   const [specialCharacterErr, setSpecialCharacterErr] = useState();
   const [loading, setLoading] = useState<boolean>();
   const [error, setError] = useState<string | undefined>(undefined);
-  const [overlay, setOverlay] = useState(false);
-  const handleOverlay = () => {
-    setOverlay((prev) => !prev);
-  };
-  console.log(error);
+
   // const [modal, setModal] = useState<boolean>(false);
   const router = useRouter();
   //submit function
@@ -114,6 +111,19 @@ const SignUp = () => {
     }
   }
 
+  const handleCountryChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+
+    // Find the phone code based on the selected country
+    const countryData = countriesWithPhoneCodes.find(
+      (item) => item.country === value || item.phoneCode === value
+    );
+
+    // Update the state with the selected country and its phone code
+
+    if (countryData) formStore.setField("selectedCountry", countryData);
+  };
+
   return (
     <>
       <ToastContainer />
@@ -122,8 +132,8 @@ const SignUp = () => {
           <Image src={Fulllogo} alt="logo" />
         </div>
 
-        <div className="flex justify-between items-center gap-y-6 px-5">
-          <div className="px-2 my-10 md:my-0 md:px-0">
+        <div className="flex justify-between items-center gap-y-6 mx-4 lg:mx-0">
+          <div className="my-2 md:my-0">
             <h1 className="md:text-[32px] sm:text-2xl text-xl font-bold text-main">
               Create Account
             </h1>
@@ -138,21 +148,24 @@ const SignUp = () => {
           />
         </div>
 
-        {/* change font */}
-        <button className="h-[50px] flex items-center justify-center outline-none rounded-lg border border-[#DADADA] bg-[#FAFAFA] text-[#666666] font-medium gap-x-2">
+        {/*TODO: change font */}
+        <button className="h-[50px] flex items-center justify-center outline-none rounded-lg border border-[#DADADA] bg-[#FAFAFA] hover:bg-[#E0E0E0] text-[#666666] font-medium gap-x-2 mx-4 lg:mx-0">
           <Image src={google} alt="google icon" />
           Continue with Google
         </button>
 
-        <span className="before:absolute relative before:h-[1px] before:w-[45%] before:-left-0 text-center before:bg-[#BDBDBD] before:top-[45%] font-medium text-[#666666] after:absolute after:h-[1px] after:w-[45%] after:-right-0 after:bg-[#BDBDBD] after:top-[45%]">
+        <span className="before:absolute relative before:h-[1px] before:w-[45%] before:-left-0 text-center before:bg-[#BDBDBD] before:top-[45%] font-medium text-[#666666] after:absolute after:h-[1px] after:w-[45%] after:-right-0 after:bg-[#BDBDBD] after:top-[45%] mx-4 lg:mx-0">
           {/* TODO: change font */}
           or
         </span>
 
         {/* TODO: change font */}
-        <form onSubmit={onSubmit} className="space-y-3 px-2 md:px-0">
-          <div className="flex justify-between">
-            <div className="w-[49%]">
+        <form
+          onSubmit={onSubmit}
+          className="space-y-3 px-2 md:px-0 mx-4 lg:mx-0"
+        >
+          <div className="flex justify-between flex-col lg:flex-row gap-y-3">
+            <div className="lg:w-[49%]">
               <label className="text-[#2E2E2E] mb-1 ">First Name</label>
               <div className="h-[50px] flex items-center bg-[#FAFAFA] px-[14px] gap-3 rounded-[6px] border border-[#DADADA]">
                 <input
@@ -168,7 +181,7 @@ const SignUp = () => {
                 />
               </div>
             </div>
-            <div className="w-[49%]">
+            <div className="lg:w-[49%]">
               <label className="text-[#2E2E2E] mb-1 ">Last Name</label>
               <div className="h-[50px] flex items-center bg-[#FAFAFA] px-[14px] gap-3 rounded-[6px] border border-[#DADADA]">
                 <input
@@ -208,7 +221,17 @@ const SignUp = () => {
             <label className="text-[#2E2E2E] mb-1 ">Phone Number</label>
             <div className="h-[50px] flex items-center bg-[#FAFAFA] px-[14px] gap-3 rounded-[6px] border border-[#DADADA]">
               <div className="border-[#DADADA] h-[70%] border-r-[1.5px] pr-3 items-center flex">
-                <Mail className=" text-[#9F9F9F] h-5 w-5" />
+                <select
+                  className="placeholder:text-[#9F9F9F] outline-none bg-transparent"
+                  value={formStore.selectedCountry?.phoneCode}
+                  onChange={handleCountryChange}
+                >
+                  {countriesWithPhoneCodes.map((country, index) => (
+                    <option key={index} value={country.phoneCode}>
+                      {country.phoneCode}
+                    </option>
+                  ))}
+                </select>
               </div>
               <input
                 type="number"
@@ -224,6 +247,26 @@ const SignUp = () => {
               <Info className="text-[#9F9F9F] rotate-180 w-[14px] h-[14px]" />
               This number should be active on WhatsApp
             </span>
+          </div>
+
+          <div>
+            <label className="text-[#2E2E2E] mb-1 ">Country</label>
+            <div className="h-[50px] flex items-center bg-[#FAFAFA] px-[14px] rounded-[6px] border border-[#DADADA]">
+              <select
+                className="placeholder:text-[#9F9F9F] outline-none bg-transparent w-full"
+                value={formStore.selectedCountry?.country}
+                onChange={handleCountryChange}
+              >
+                <option value="" disabled>
+                  Select Location
+                </option>
+                {countriesWithPhoneCodes.map((country, index) => (
+                  <option key={index} value={country.country}>
+                    {country.country}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <div>
@@ -326,13 +369,9 @@ const SignUp = () => {
             Sign In
           </Link>
         </p>
-      </div>
 
-      {overlay && (
-        <div className="absolute flex justify-center items-center h-screen w-full bg-slate-200/25 top-0 right-0">
-          <Terms handleOverlay={handleOverlay} />
-        </div>
-      )}
+        <Terms />
+      </div>
     </>
   );
 };
