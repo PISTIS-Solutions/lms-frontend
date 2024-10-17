@@ -40,32 +40,30 @@ const ProjectReview = () => {
   };
   const formatDate = (dateString: any) => {
     const date = new Date(dateString);
-    const month = date.toLocaleString("default", { month: "long" });
+    const month = date.toLocaleString("default", { month: "short" });
     const day = date.getDate();
     return `${month} ${day}`;
   };
 
   return (
     <div className="overflow-x-scroll md:overflow-x-auto">
-      <table className="w-full mt-2 text-left">
-        <thead className="text-main">
-          <tr className="bg-[#F8F9FF] py-1 w-full">
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+      <table className="w-full mt-2 text-left font-sfProDisplay">
+        <thead className="text-main font-sfProDisplay font-medium">
+          <tr className="bg-[#E6F6FF] w-full">
+            <th className="md:py-4 px-4  md:text-base text-sm py-3 font-medium md:!p-[10px] rounded-l-[10px] lg:w-[40%]">
               Course Title
             </th>
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
-              Project Title
-            </th>
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-sm py-3 font-medium text-center md:!p-[10px]">
               Deadline
             </th>
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+
+            <th className="md:py-4 px-4 md:px-2 md:text-base text-sm py-3 font-medium text-center md:!p-[10px]">
               Date Submitted
             </th>
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+            <th className="md:py-4 px-4 md:text-base text-sm py-3 font-medium md:!p-[10px]  md:!px-0">
               Status
             </th>
-            <th className="md:py-4 px-4 md:px-2 md:text-base text-xs py-1">
+            <th className="md:py-4 md:px-2 md:text-base text-sm py-3 font-medium md:!p-[10px] rounded-r-[10px] px-5">
               Link
             </th>
           </tr>
@@ -86,28 +84,22 @@ const ProjectReview = () => {
                 <tr key={index}>
                   <td
                     //   onClick={() => handleCardClick(person.id)}
-                    className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
+                    className="md:py-4 px-2  md:text-base text-sm py-1 capitalize cursor-pointer"
                   >
                     {person?.course?.title}
                   </td>
-                  <td
-                    //   onClick={() => handleCardClick(person.id)}
-                    className="md:py-4 px-2 md:px-0 md:text-base text-xs py-1 capitalize cursor-pointer"
-                  >
-                    {person?.project?.title}
-                  </td>
 
-                  <td className="md:py-4 md:text-base text-xs py-1">
+                  <td className="md:py-4 md:text-base text-sm py-1 text-center md:px-2 text-[#666666]">
                     {formatDate(person.deadline)}
                   </td>
 
-                  <td className="md:py-4 text-left md:text-base text-xs py-1">
+                  <td className="md:py-4  md:text-base text-sm py-1 text-center text-[#666666]">
                     {!person.date_submitted
                       ? "-"
                       : formatDate(person.date_submitted)}
                   </td>
                   <td
-                    className={`md:py-4 md:text-base text-left text-xs py-1 capitalize ${
+                    className={`md:py-4 md:text-base text-sm py-1 capitalize ${
                       !person.status
                         ? "text-gray-600"
                         : person.status === "Submitted"
@@ -119,12 +111,29 @@ const ProjectReview = () => {
                         : "text-gray-600"
                     }`}
                   >
-                    {!person.status ? "No Submission" : person.status}
+                    <div className="flex gap-x-2 items-center">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          !person.status
+                            ? "bg-gray-600"
+                            : person.status === "Submitted"
+                            ? "bg-orange-500"
+                            : person.status === "Reviewed"
+                            ? "bg-green-500"
+                            : person.status === "Rejected"
+                            ? "bg-red-500"
+                            : "bg-gray-600"
+                        }`}
+                      ></div>
+
+                      {!person.status ? "No Submission" : person.status}
+                    </div>
                   </td>
-                  <td className="md:py-4 md:text-base text-xs py-1 text-main">
+                  <td className="md:py-2 md:text-base text-sm py-1 text-main pl-4 pr-[30px] md:px-0">
                     {!person.status ? (
                       "-"
-                    ) : person.status === "Submitted" || person.status === "Rejected" ? (
+                    ) : person.status == "Submitted" ||
+                      person.status == "Rejected" ? (
                       <p
                         onClick={() => {
                           handleModal(person);
@@ -133,9 +142,9 @@ const ProjectReview = () => {
                             person?.submission_id
                           );
                         }}
-                        className="bg-[#F8F9FF] rounded-[24px] text-center p-1 w-full md:w-[107px] cursor-pointer"
+                        className="bg-[#C2E8FF] rounded-[6px] text-[#014873] font-medium text-center px-3 md:p-1 py-2 w-full md:w-[107px] cursor-pointer text-xs md:text-sm h-full"
                       >
-                        Re-submit
+                        Submit
                       </p>
                     ) : person.status === "Reviewed" ? (
                       <p
@@ -146,7 +155,7 @@ const ProjectReview = () => {
                             person?.submission_id
                           );
                         }}
-                        className="bg-white border border-[#EEEEFB] rounded-[24px] text-center p-1 w-full md:w-[107px] cursor-pointer"
+                        className="bg-transparent text-[#014873] border border-[#014873] rounded-[6px] text-center p-1 w-full md:w-[107px] cursor-pointer text-xs md:text-sm"
                       >
                         View
                       </p>
@@ -159,7 +168,7 @@ const ProjectReview = () => {
             ))
           ) : (
             <tr>
-              <td colSpan={6} className="py-4">
+              <td colSpan={6} className="py-4 text-center">
                 No data available.
               </td>
             </tr>

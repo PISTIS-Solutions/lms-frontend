@@ -16,4 +16,6 @@ export const urls = {
   resendToken: `${baseURL}/users/student/resend_activation/`,
   projectReview: `${baseURL}/users/student/project-review/`,
   getStudents: `${baseURL}/courses-and-students/`,
+  bookings: `${baseURL}/users/booking/`,
+  getSessions: `${baseURL}/users/booking/get_count/`,
 };
