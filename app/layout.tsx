@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-const sp = localFont({
+const SFProDisplay = localFont({
   src: [
     {
       path: "../public/fonts/FontsFree-Net-SFProDisplay-Regular.ttf",
@@ -23,6 +23,16 @@ const sp = localFont({
   ],
   variable: "--font-sf-pro-display",
 });
+const digitalNumbers = localFont({
+  src: [
+    {
+      path: "../public/fonts/DigitalNumbers-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-DigitalNumbers",
+});
 
 export const metadata: Metadata = {
   title: "Pistis Student",
@@ -36,7 +46,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${sp.variable} ${montserrat.className}`}>
+      <body
+        className={`${SFProDisplay.variable} ${digitalNumbers.variable} ${montserrat.className}`}
+      >
         {/* <ToastContainer
           position="top-right"
           autoClose={5000}

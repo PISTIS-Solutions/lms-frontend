@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import logo from "@/public/assets/full-logo.png";
 import {
@@ -11,12 +11,16 @@ import {
   LayoutDashboard,
   ListTodo,
   LogOut,
+  MoreVertical,
   Settings,
 } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import MobileNav from "./mobile-nav";
+import useFetchStudentSessionStore from "@/store/fetch-student-session";
+import CountDownText from "./CountDownText";
+import UpcomingModal from "./modal/upcoming-modal";
 
 const SideNav = () => {
   const navTexts = [
@@ -50,6 +54,15 @@ const SideNav = () => {
 
   const pathname = usePathname();
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleModal = () => setIsOpen(!isOpen);
+  const { fetchSession, loading, data } = useFetchStudentSessionStore();
+
+  useEffect(() => {
+    fetchSession();
+  }, []);
+
   return (
     <div>
       <nav className="w-64 hidden lg:block bg-main h-screen absolute top-0">
@@ -73,6 +86,36 @@ const SideNav = () => {
               );
             })}
           </div>
+
+          {/* countdown */}
+          {!loading && data && (
+            <>
+              <div className=" p-3 rounded-lg max-w-sm">
+                <div className="space-y-4 p-4 bg-main backdrop-blur-sm bg-white/10">
+                  {/* Header */}
+                  <div className="flex justify-between items-center mb-4 font-sfProDisplay">
+                    <h2 className="text-white text-base font-medium">
+                      Upcoming Section
+                    </h2>
+                    <button className="text-white">
+                      <MoreVertical size={20} />
+                    </button>
+                  </div>
+
+                  <CountDownText isSmall />
+
+                  <button
+                    className="w-full h-[46px] justify-center items-center font-sfProDisplay bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors rounded-[6px] text-[#FF0000] text-xs lg:text-base cancel-button"
+                    onClick={toggleModal}
+                  >
+                    Cancel Private Session
+                  </button>
+                </div>
+              </div>
+              <UpcomingModal toggleModal={toggleModal} isOpen={isOpen} />
+            </>
+          )}
+
           <div>
             <div className="">
               <Link href={"/settings"} className="">

@@ -78,7 +78,7 @@ const NotificationModal = ({
             >
               Notification{" "}
               <span className="font-sfProDisplay text-xs text-[#9F9F9F]  relative top-[-4px]">
-                (25 Unread)
+                ({activity.length} Unread)
               </span>
             </h3>
             <X

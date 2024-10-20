@@ -11,7 +11,7 @@ import useStudentStore from "@/store/fetch-students";
 import { Loader } from "lucide-react";
 
 const BookASessionCard = () => {
-  const [sessionsLeft, setSessionsLeft] = useState();
+  const [sessionsLeft, setSessionsLeft] = useState<undefined | number>();
   const [fetchingSession, setFetchingSession] = useState(false);
 
   const fetchAvailableSession = async () => {
@@ -91,7 +91,7 @@ const BookASessionCard = () => {
           ) : (
             <>
               <p className="text-lg  font-medium">{userName}</p>
-              {sessionsLeft! >= 0 && (
+              {sessionsLeft !== undefined && (
                 <div className="flex p-[2px_6px] justify-center items-center gap-[6px] bg-[#2E2E82] rounded-[6px]">
                   <Image src={coin} alt="" className="bg-cover " />
                   <p className="text-xs font-sfProDisplay font-normal">

@@ -98,3 +98,8 @@ body::-webkit-scrollbar-thumb {
 th {
   text-wrap: nowrap;
 }
+
+.cancel-button {
+  color: #ff0000;
+  background: white;
+}

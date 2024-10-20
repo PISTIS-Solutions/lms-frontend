@@ -144,7 +144,7 @@ const ProjectReview = () => {
                         }}
                         className="bg-[#C2E8FF] rounded-[6px] text-[#014873] font-medium text-center px-3 md:p-1 py-2 w-full md:w-[107px] cursor-pointer text-xs md:text-sm h-full"
                       >
-                        Submit
+                        Re Submit
                       </p>
                     ) : person.status === "Reviewed" ? (
                       <p

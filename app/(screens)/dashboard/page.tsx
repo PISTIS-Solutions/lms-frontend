@@ -159,7 +159,7 @@ const Dashboard = () => {
                 {subscriptionStatus === "Free" && (
                   <button
                     className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
-                    onClick={() => route.push("/pricing")}
+                    onClick={handleModal}
                   >
                     Upgrade Plan
                   </button>

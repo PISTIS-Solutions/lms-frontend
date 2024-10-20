@@ -6,6 +6,7 @@ import axios from "axios";
 import { urls } from "@/utils/config";
 import { toast } from "react-toastify";
 import useFetchStudentSessionStore from "@/store/fetch-student-session";
+import CountDownText from "../CountDownText";
 
 const timeRangeData = [
   { name: "15 Min", value: 15 },
@@ -32,11 +33,11 @@ const getISODateTime = (date: string, time: string): string => {
   return isoDate;
 };
 
-interface BookASessionModalProp {
-  isDisabled: boolean;
+interface RescheduleASessionModalProps {
+  onClick: () => void;
 }
 
-const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
+const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
   const [duration, setDuration] = useState(15);
   const [isOpen, setIsOpen] = useState(false);
   const [topic, setTopic] = useState("");
@@ -50,8 +51,10 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
 
   const { fetchSession } = useFetchStudentSessionStore();
 
-  const toggleModal = () => setIsOpen(!isOpen);
-
+  const toggleModal = () => {
+    setIsOpen((isOpen) => !isOpen);
+    onClick();
+  };
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -61,17 +64,16 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
     if (validateAllInputs()) {
       const data = {
         topic,
-        note,
-        preferred_date,
-        alternative_date,
+
+        new_preferred_date: preferred_date,
         duration,
       };
 
-      const createASession = async () => {
+      const rescheduleSession = async () => {
         try {
           setLoading(true);
           const accessToken = Cookies.get("authToken");
-          await axios.post(urls.bookings, data, {
+          await axios.post(urls.rescheduleSession, data, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -90,7 +92,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
           console.log(error.response.data.error[0]);
           if (error.response && error.response.status === 401) {
             await refreshAdminToken();
-            await createASession();
+            await rescheduleSession();
           } else if (error?.message === "Network Error") {
             toast.error("Check your network!", {
               position: "top-right",
@@ -128,11 +130,8 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
         } finally {
           setLoading(false);
           setTopic("");
-          setNote("");
           setPreferredDateStr("");
           setPreferredTimeStr("");
-          setAltDateStr("");
-          setAltTimeStr("");
           setDuration(15);
 
           toggleModal();
@@ -140,7 +139,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
         }
       };
 
-      createASession();
+      rescheduleSession();
     }
   };
 
@@ -153,18 +152,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
       setError("Invalid preferred time format. Use HH:MM AM/PM, e.g 09:01 AM");
       return false;
     }
-    if (!validateDate(altDateStr)) {
-      setError(
-        "Invalid alternative date format. Use DD-MM-YYYY. e.g 01-12-2024"
-      );
-      return false;
-    }
-    if (!validateTime(altTimeStr)) {
-      setError(
-        "Invalid alternative time format. Use HH:MM AM/PM, e.g 09:01 AM"
-      );
-      return false;
-    }
+
     setError(""); // Clear error if all inputs are valid
     return true;
   };
@@ -185,20 +173,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
           setError("");
         }
         break;
-      case "altDate":
-        if (!validateDate(altDateStr)) {
-          setError("Invalid alternative date format. Use DD-MM-YYYY.");
-        } else {
-          setError("");
-        }
-        break;
-      case "altTime":
-        if (!validateTime(altTimeStr)) {
-          setError("Invalid alternative time format. Use HH:MM.");
-        } else {
-          setError("");
-        }
-        break;
+
       default:
         break;
     }
@@ -207,11 +182,10 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
   return (
     <>
       <button
-        className="z-[1] font-medium font-sfProDisplay text-main h-[46px] p-1 px-4 flex justify-center items-center bg-white self-stretch rounded-lg"
-        onClick={toggleModal}
-        disabled={isDisabled}
+        className="border border-[#9F9F9F] h-[50px] flex justify-center items-center rounded-[8px] w-full   text-xs lg:text-base"
+        onClick={() => setIsOpen((isOpen) => !isOpen)}
       >
-        Book a private session
+        Reschedule Session
       </button>
 
       <div
@@ -224,12 +198,12 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
         onClick={toggleModal}
       >
         <div
-          className="max-w-[522px] w-full p-6 bg-white rounded-lg shadow-[0px_0px_40px_0px_#00000033] h-fit mx-4 "
+          className="max-w-[522px] w-full p-6 bg-white rounded-[10px] shadow-[0px_0px_40px_0px_#00000033] h-fit mx-4 "
           onClick={(e) => e.stopPropagation()}
         >
           <span className="flex items-center justify-between">
             <p className="text-2xl text-[#2E2E2E] font-medium">
-              Book a Private Session
+              Reschedule Session
             </p>
             <X
               color="#666666"
@@ -243,6 +217,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
             {error && <strong className="text-sm">!</strong> && " " && error}
           </p>
           <form className="space-y-2 font-sfProDisplay" onSubmit={handleSubmit}>
+            <CountDownText />
             <div>
               <label htmlFor="topic" className="text-[#666666]">
                 Topic
@@ -260,19 +235,6 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
               />
             </div>
             <div>
-              <label htmlFor="additional_name" className="text-[#666666] ">
-                Additional Note
-              </label>
-              <textarea
-                placeholder="Enter your proposed session topic"
-                className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md w-full h-[104px] outline-none mt-1"
-                id="additional_name"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
-            </div>
-
-            <div className="">
               <label htmlFor="preferred-date-time" className="text-[#666666]">
                 Preferred Date & Time
               </label>
@@ -301,37 +263,10 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                 />
               </div>
             </div>
-            <div>
-              <label htmlFor="alt-date-time" className="text-[#666666]">
-                Alternative Date & Time
-              </label>
-              <div className="flex justify-between mt-1">
-                <input
-                  type="text"
-                  className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md outline-none w-[48%]"
-                  id="alt-date-time"
-                  placeholder="DD-MM-YYY"
-                  value={altDateStr}
-                  onChange={(e) => setAltDateStr(e.target.value)}
-                  pattern="^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$"
-                  onBlur={() => handleBlur("altDate")}
-                />
-                <input
-                  type="text"
-                  className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md outline-none  w-[48%] "
-                  id="alt-time-input"
-                  onChange={(e) => setAltTimeStr(e.target.value)}
-                  value={altTimeStr}
-                  placeholder="09:00 AM"
-                  onBlur={() => handleBlur("altTime")}
-                  pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
-                />
-              </div>
-            </div>
 
             <div>
               <label htmlFor="date&time" className="text-[#666666] ">
-                Session Duration
+                Reset Session Duration
               </label>
               <div className="flex gap-x-4 mt-2">
                 {timeRangeData.map((itm) => (
@@ -390,20 +325,20 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
               </label>
             </div>
             <button
-              className="bg-[#2FBC8D] disabled:bg-opacity-80 hover:bg-opacity-90 h-[50px] rounded-[8px] flex items-center justify-center text-[#F8F9FF] w-full font-medium !mt-6"
+              className="bg-[#2FBC8D] disabled:bg-opacity-80 hover:bg-opacity-90 h-[50px] rounded-[8px] flex items-center justify-center text-[#C4C4C4] w-full font-medium !mt-6"
               disabled={loading}
             >
               {loading ? (
                 <Loader2 className="animate-spin text-white" />
               ) : (
-                "Request Private Session"
+                "Reschedule Session"
               )}
             </button>
           </form>
           <p className="text-xs text-center text-[#666666] mt-6 font-sfProDisplay">
             You’ll soon receive an email from your mentor with the confirmed
-            date and time for your private session. Stay tuned to ensure you
-            don't miss any important details!
+            date and time for your r|escheduled session. Stay tuned to ensure
+            you don't miss any important details!
           </p>
         </div>
       </div>
@@ -411,4 +346,4 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
   );
 };
 
-export default BookASessionModal;
+export default RescheduleASessionModal;

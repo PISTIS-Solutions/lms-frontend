@@ -64,9 +64,6 @@ const sliceThicknessPlugin = {
     const { data } = chart;
     const sortedIndexedChart = sortData(data);
 
-    console.log(sortedIndexedChart[1].index);
-    console.log(sortedIndexedChart);
-
     chart.getDatasetMeta(0).data[sortedIndexedChart[1].index].outerRadius =
       (chart.chartArea.width / (chart.chartArea.width * 1.8)) * 100;
     chart.getDatasetMeta(0).data[sortedIndexedChart[2].index].outerRadius =
@@ -92,7 +89,7 @@ const PieChart = ({
     if (percentageResult) {
       const doughnutData = [
         {
-          label: "completed",
+          label: "Completed",
           data: percentageResult.completed,
           color: "rgba(182, 229, 255, 0.9)",
         },

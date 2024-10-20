@@ -102,6 +102,7 @@ module.exports = {
       },
       fontFamily: {
         sfProDisplay: ["var(--font-sf-pro-display)"],
+        digitalNumbers: ["var(--font-DigitalNumbers)"],
       },
     },
   },

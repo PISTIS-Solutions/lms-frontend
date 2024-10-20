@@ -68,7 +68,7 @@ export default function Home() {
 
   return (
     <main className="relative">
-      <ToastContainer/>
+      <ToastContainer />
       <div>
         <NavigationBar />
       </div>
@@ -108,9 +108,7 @@ export default function Home() {
             Expert Mentors
           </p>
           <p className="text-white text-xs md:text-lg lg:text-2xl font-medium pl-4 md:pl-20 lg:pl-36">
-            {loading
-              ? "20+ courses"
-              : students?.number_of_courses + " courses"}
+            {loading ? "20+ courses" : students?.number_of_courses + " courses"}
           </p>
         </div>
       </section>
@@ -321,7 +319,7 @@ export default function Home() {
 
         <div className="flex justify-center">
           <div className="lg:w-[65vw] w-full flex justify-end">
-          <Link href="/pricing">
+            <Link href="/pricing">
               <Button className="py-[18px] px-[20px] mt-8 hover:text-white bg-sub text-black text-lg md:text-2xl">
                 Find Out More
               </Button>
