@@ -7,6 +7,7 @@ import { FaXTwitter } from "react-icons/fa6";
 import { LuFacebook } from "react-icons/lu";
 import { BiLogoInstagram } from "react-icons/bi";
 import { SlSocialLinkedin } from "react-icons/sl";
+import Link from "next/link";
 
 const Footer = () => {
   const socials = [
@@ -27,6 +28,30 @@ const Footer = () => {
       href: "https://www.linkedin.com/in/pistis-solutions-163049314/",
     },
   ];
+
+  const navLinks = [
+    {
+      name: "home",
+      link: "/",
+    },
+    {
+      name: "courses",
+      link: "/landing-courses",
+    },
+    {
+      name: "About us",
+      link: "/about-us",
+    },
+    {
+      name: "Blog",
+      link: "/blog",
+    },
+    {
+      name: "FAQ",
+      link: "#faq",
+    },
+  ];
+
   return (
     <div className="bg-main bg-backdrop h-[788px] p-20">
       <div className="flex flex-col items-center justify-center gap-[26px]">
@@ -47,13 +72,14 @@ const Footer = () => {
       <div className="flex flex-col items-center gap-10 justify-center pt-24">
         <Image alt="logo" src={whiteLogo} />
         <div>
-          <ul className="flex items-center gap-10 text-base font-normal font-sf-pro-display text-white">
-            <li>Home</li>
-            <li>Courses</li>
-            <li>About Us</li>
-            <li>Contact</li>
-            <li>Blog</li>
-            <li>FAQ</li>
+          <ul className="flex capitalize items-center gap-10 text-base font-normal font-sf-pro-display text-white">
+            {navLinks.map((nav, index) => {
+              return (
+                <Link key={index} href={nav.link}>
+                  <li>{nav.name}</li>
+                </Link>
+              );
+            })}
           </ul>
         </div>
         <div className="flex items-center gap-4">

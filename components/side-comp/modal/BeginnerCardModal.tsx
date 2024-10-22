@@ -75,12 +75,14 @@ const BeginnerCardModal = () => {
   return (
     <>
       <button
-        className="bg-main rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
+        disabled
+        className="bg-main disabled:bg-main/50 disabled:cursor-not-allowed rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
         onClick={() =>
           authToken ? setIsOpen(true) : router.push("/create-account")
         }
       >
-        Join our upcoming bootcamp
+        {/* Join our upcoming bootcamp */}
+        Coming Soon
       </button>
       <div
         className={

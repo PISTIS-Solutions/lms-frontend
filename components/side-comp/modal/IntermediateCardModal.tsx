@@ -99,9 +99,8 @@ const IntermediateCardModal = () => {
     <>
       <button
         className="bg-main rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
-        onClick={() =>
-          authToken ? toggleModal() : router.push("/create-account")
-        }
+        // onClick={() => (authToken ? toggleModal() : router.push("/pricing"))}
+        onClick={() => router.push("/pricing")}
       >
         Select Plan
       </button>

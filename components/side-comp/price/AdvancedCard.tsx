@@ -49,8 +49,8 @@ const AdvanceCard = () => {
             })}
           </section>
         </div>
-        <button className="bg-white rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-main">
-          Purchase a Preferred Course
+        <button disabled className="bg-white disabled:bg-white/50 disabled:cursor-not-allowed  rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-main">
+          Coming Soon
         </button>
       </div>
     </div>

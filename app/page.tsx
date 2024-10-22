@@ -324,135 +324,27 @@
 // }
 
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import landingBck from "@/public/assets/landingBck.png";
-import book from "@/public/assets/book.png";
-import star from "@/public/assets/star.png";
-import rocket from "@/public/assets/rocket.png";
-import gram from "@/public/assets/gram.png";
 import boy from "@/public/assets/boy.png";
-import { tochukwu, olayinka, oyedokun, tolulope, avatar } from "./index";
-import cube from "@/public/assets/cube.png";
-import print from "@/public/assets/print.png";
-import game from "@/public/assets/game.png";
 import guy from "@/public/assets/guy.png";
 
 import { MdOutlineLaunch } from "react-icons/md";
 import { CiCirclePlus } from "react-icons/ci";
-import Carousel from "@/components/side-comp/carousel";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { CiCircleMinus } from "react-icons/ci";
 
-import BeginnerCard from "@/components/side-comp/price/BeginnerCard";
-import IntermediateCard from "@/components/side-comp/price/IntermediateCard";
-import AdvanceCard from "@/components/side-comp/price/AdvancedCard";
 import Footer from "@/components/side-comp/landing/footer";
 import NavigationBar from "@/components/side-comp/nav";
 import { motion } from "framer-motion";
+import LandingPayment from "@/components/side-comp/landing/payment";
+import Benefits from "@/components/side-comp/landing/benefits";
+import Slides from "@/components/side-comp/landing/slides";
+import Learning from "@/components/side-comp/landing/learning";
 
 const HomePage = () => {
-  //carousel
-  const [currentIndex, setCurrentIndex] = useState<any>(0);
-
-  const handleNext = () => {
-    setCurrentIndex((prevIndex: any) =>
-      prevIndex + 1 === images.length ? 0 : prevIndex + 1
-    );
-  };
-  const handlePrevious = () => {
-    setCurrentIndex((prevIndex: any) =>
-      prevIndex - 1 < 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
-
-  const images = [
-    {
-      name: "Tochukwu Odeme",
-      quote:
-        "Pistis provides you a unique personal experience on your path to becoming a cloud DevOps engineer. This program offers one-on-one mentorship sessions and various practical applications, covering all potential scenarios you may encounter when applying your skills to cloud-related challenges. Highly recommended for anyone serious about advancing in this field.",
-      image: tochukwu,
-    },
-
-    {
-      name: "Olayinka Olaiya",
-      quote:
-        "My experience with the DevOps training at Pistis Tech Academy has been outstanding. The comprehensive and practical modules, responsive instructors, and supportive community have significantly enhanced my skills and enriched my learning experience. I highly recommend this training to anyone passionate about gaining DevOps skills or advancing their knowledge, regardless of prior tech experience. Students are trained step-by-step from basic to advanced stages, making it suitable for everyone. Engage actively, utilize the community, and manage your time effectively to get the most out of this excellent program.",
-      image: olayinka,
-    },
-
-    {
-      name: "Oyedokun Damilare",
-      quote:
-        "The decision of learning from pistis-tech has been the very best for me. They make complicated software skills  so simple because of their expertise. Available to help are skilled mentors, resourceful materials and in depth critical thinking projects that will expose you to the field of your course. I can guarantee you that learning software skills from pistis-tech will make your hand so strong in any of the fields you pick.",
-      image: oyedokun,
-    },
-
-    {
-      name: "Abayomi Omiwale",
-      quote:
-        "The timely help from the mentors has really made my learning easy and effective.",
-      image: avatar,
-    },
-
-    {
-      name: "Tolulope",
-      quote:
-        "A hub of well seasoned mentors, flexible learning, prompt response to issues. Pistis is a place where you can learn irrespective of what your schedule looks like.",
-      image: tolulope,
-    },
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex: number) => (prevIndex + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  const cardData = [
-    {
-      icon: book,
-      head: "Hands-On Learning",
-      p: "Engage in real-world projects that replicate industry challenges, building essential DevOps skills. These practical exercises prepare you to solve complex problems and implement cutting-edge solutions.",
-    },
-    {
-      icon: star,
-      head: "Expert Mentors",
-      p: "Receive personalized guidance from experienced DevOps professionals who have spent years mastering their craft. Their insights will help you navigate your learning journey and achieve your goals.",
-    },
-    {
-      icon: rocket,
-      head: "Career Support",
-      p: "Benefit from dedicated career coaching, including resume reviews and interview preparation tailored to the DevOps field. Our job placement assistance will connect you with top employers.",
-    },
-    {
-      icon: gram,
-      head: "Flexible Learning Paths",
-      p: "Choose from a wide range of courses, bootcamps, and self-paced modules tailored to your learning style. Whether you're a beginner or an advanced learner, you'll progress at your own pace and convenience.",
-    },
-  ];
-
-  const learnData = [
-    {
-      image: cube,
-      head: "Peer-to-Peer Learning",
-      para: "Join study groups and collaborate with fellow learners to deepen your DevOps understanding. This interactive environment fosters knowledge sharing and makes challenges more enjoyable.",
-    },
-    {
-      image: print,
-      head: "Mentorship Access",
-      para: "Receive personalized feedback and guidance from experienced mentors dedicated to your success. They’ll help you navigate topics and achieve your learning goals.",
-    },
-    {
-      image: game,
-      head: "Gamified Learning",
-      para: "Earn badges, rewards, and recognition as you progress, adding fun to your journey. This gamified approach keeps you engaged while celebrating your achievements!",
-    },
-  ];
   //faq
-  // const FAQ = true;
   const [selectedIndex, setSelectedIndex] = useState(null);
 
   const handleOpenFAQ = (index: any) => {
@@ -462,11 +354,11 @@ const HomePage = () => {
   const faqs = [
     {
       ques: "What is DevOps, and why is it important?",
-      ans: "Ans 1",
+      ans: "DevOps is a set of practices that combines software development (Dev) and IT operations (Ops) to improve collaboration, automate processes, and deliver software faster and more reliably. It’s important because it helps teams release better products more efficiently.",
     },
     {
       ques: "Do I need programming experience to take a DevOps course?",
-      ans: "Ans 2",
+      ans: "Some basic knowledge of programming is helpful but not required. We offer beginner courses that start from the basics, as well as advanced courses for more experienced developers.",
     },
     {
       ques: "What tools and technologies will I learn in these DevOps courses?",
@@ -474,23 +366,23 @@ const HomePage = () => {
     },
     {
       ques: "Are your DevOps courses hands-on?",
-      ans: "Ans 4",
+      ans: "Yes! We emphasize practical learning through hands-on projects and labs where you can apply DevOps tools and practices in real-world scenarios.",
     },
     {
       ques: "What career opportunities can I pursue after completing a DevOps course?",
-      ans: "Ans 5",
+      ans: "With DevOps skills, you can pursue roles like DevOps Engineer, Site Reliability Engineer (SRE), Automation Engineer, or Cloud Infrastructure Engineer, among others.",
     },
     {
       ques: "How long does it take to complete a DevOps course?",
-      ans: "Ans 6",
+      ans: "Course durations vary. Some can be completed in a few weeks, while others may take a few months, depending on the depth of the material and your pace.",
     },
     {
       ques: "Will I get a certification after completing a DevOps course?",
-      ans: "Ans 7",
+      ans: "Yes, you will receive a certificate upon successful completion of any DevOps course, which can be added to your resume or professional profile.",
     },
     {
       ques: "What if I have questions or need help during the course?",
-      ans: "Ans 8 ",
+      ans: "You’ll have access to our support team and instructor-led discussions, as well as peer forums where you can connect with other learners and get assistance. ",
     },
   ];
 
@@ -534,49 +426,7 @@ const HomePage = () => {
           </button>
         </motion.div>
       </div>
-      <div className="bg-white p-20 ">
-        <div className="flex flex-col items-center gap-y-2">
-          <motion.p
-            initial={{ y: -100, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 100 }}
-            transition={{ duration: 0.5 }}
-            className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-base font-normal text-[#FF1053] inline-block text-center "
-          >
-            Key Benefits
-          </motion.p>
-          <motion.h1
-            initial={{ y: -100, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 100 }}
-            transition={{ duration: 0.7 }}
-            className="text-main font-semibold text-[32px] "
-          >
-            Why Choose Our DevOps Program?
-          </motion.h1>
-        </div>
-        <div className="grid grid-cols-2 gap-8 my-10">
-          {cardData.map((data, index) => {
-            return (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                key={index}
-                className="rounded-[10px] bg-white shadow-[0_0_20px_rgba(0,0,0,0.2)] flex p-6 gap-x-6 items-center"
-              >
-                <Image alt="icon" src={data.icon} />
-                <div>
-                  <p className="text-main font-semibold text-2xl">
-                    {data.head}
-                  </p>
-                  <p className="text-[#666666] font-normal text-base font-sf-pro-display pt-2">
-                    {data.p}
-                  </p>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
+      <Benefits />
       <div className=" overflow-x-hidden flex items-center justify-between gap-x-20 p-20 bg-main bg-curve bg-bottom bg-contain bg-no-repeat">
         <motion.div
           initial={{ x: -100, opacity: 0 }}
@@ -630,123 +480,10 @@ const HomePage = () => {
           </div>
         </motion.div>
       </div>
-      <div className="bg-white flex overflow-x-hidden items-center gap-x-20 justify-between p-20 ">
-        <motion.div
-          initial={{ x: -100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 100 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-[45%]"
-        >
-          <h1 className="text-main font-medium text-5xl ">
-            Real Stories, Real Success
-          </h1>
-          <p className="text-base max-w-[472px] py-4 font font-sf-pro-display">
-            See how our DevOps program has transformed careers and empowered
-            professionals to achieve their goals.
-          </p>
-          <div className="flex items-center my-4 gap-x-8">
-            <button
-              className=" w-14 disabled:text-[#BDBDBD] text-main h-14 rounded-full bg-white flex justify-center items-center cursor-pointer shadow-[0_0_12px_rgba(0,0,0,0.1)]"
-              onClick={handlePrevious}
-              disabled={currentIndex === 0}
-            >
-              <ArrowLeft />
-            </button>
-            <button
-              className=" w-14 h-14 rounded-full text-main disabled:text-[#BDBDBD] bg-white flex justify-center items-center cursor-pointer shadow-[0_0_12px_rgba(0,0,0,0.1)]"
-              onClick={handleNext}
-              disabled={currentIndex === 4}
-            >
-              <ArrowRight />
-            </button>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ x: 100, opacity: 0 }}
-          whileInView={{ x: 0, opacity: 100 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-[48%] relative"
-        >
-          <Carousel
-            images={images[currentIndex].image}
-            name={images[currentIndex].name}
-            quote={images[currentIndex].quote}
-            currentIndex={currentIndex}
-          />
-        </motion.div>
-      </div>
-      <div className="p-[0_5rem_5rem_5rem] bg-white">
-        <div className="flex flex-col items-center gap-y-2">
-          <motion.p
-            initial={{ y: -100, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 100 }}
-            transition={{ duration: 0.5 }}
-            className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-base font-normal text-[#FF1053] inline-block text-center "
-          >
-            Learning Experience
-          </motion.p>
-          <motion.h1
-            initial={{ y: -100, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 100 }}
-            transition={{ duration: 0.7 }}
-            className="text-main font-semibold text-[32px] "
-          >
-            Enhance Your Learning Experience
-          </motion.h1>
-        </div>
-        <div className="flex items-center justify-between gap-8 my-10">
-          {learnData.map((learn, index) => {
-            return (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                key={index}
-                className="bg-white shadow-[0_0_20px_rgba(0,0,0,0.2)] flex flex-col items-center justify-between rounded-[16px] py-8 px-6"
-              >
-                <div className="flex flex-col gap-y-2">
-                  <p className="text-main font-medium text-2xl">{learn.head}</p>
-                  <p className="font-normal text base font-sf-pro-display">
-                    {learn.para}
-                  </p>
-                </div>
-                <Image alt="card-img" className="p-4" src={learn.image} />
-              </motion.div>
-            );
-          })}
-        </div>
-      </div>
-      <div className="bg-white p-[0_5rem_5rem_5rem]">
-        <div className="flex flex-col items-center gap-y-2">
-          <motion.p
-            initial={{ y: -100, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 100 }}
-            transition={{ duration: 0.5 }}
-            className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-base font-normal text-[#FF1053] inline-block text-center "
-          >
-            Pricing and Enrollment
-          </motion.p>
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.5 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7 }}
-            className="text-main font-semibold text-[32px] "
-          >
-            Flexible Pricing for Everyone
-          </motion.h1>
-        </div>
-        <motion.div
-          initial={{ y: -100, opacity: 0 }}
-          whileInView={{ y: 0, opacity: 100 }}
-          transition={{ duration: 0.5 }}
-          className="flex overflow-x-hidden flex-wrap items-center justify-between gap-6 my-10"
-        >
-          <BeginnerCard />
-          <IntermediateCard />
-          <AdvanceCard />
-        </motion.div>
-      </div>
-      <div className="bg-white p-[0_5rem_5rem_5rem]">
+      <Slides />
+      <Learning />
+      <LandingPayment />
+      <div id="faq" className="bg-white scroll-smooth p-[0_5rem_5rem_5rem]">
         <div className="flex flex-col items-center gap-y-2">
           <motion.p
             initial={{ y: -100, opacity: 0 }}
