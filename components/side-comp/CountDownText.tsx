@@ -1,11 +1,15 @@
-import { Calendar, Users } from "lucide-react";
+import { Calendar } from "lucide-react";
 import Image from "next/image";
 import teamSlice from "@/public/assets/svg/teamSlice.svg";
 import { useEffect, useState } from "react";
 import useFetchStudentSessionStore from "@/store/fetch-student-session";
 import time from "@/public/assets/svg/time.svg";
-import topicGray from "@/public/assets/svg/topic-gray.svg";
-import timeGray from "@/public/assets/svg/time-gray.svg";
+import topicWhite from "@/public/assets/svg/topicWhite.svg";
+import timeWhite from "@/public/assets/svg/timeWhite.svg";
+import userCard from "@/public/assets/svg/userCard.svg";
+import userCardWhite from "@/public/assets/svg/userCardWhite.svg";
+import calendar from "@/public/assets/svg/calendar.svg";
+import calendarWhite from "@/public/assets/svg/calendarWhite.svg";
 
 interface TimeRemaining {
   days: null | number;
@@ -58,10 +62,15 @@ const CountDownText = ({ isSmall = false }) => {
   const { data } = useFetchStudentSessionStore();
 
   useEffect(() => {
-    if (data && data.preferred_date) {
+    if (data && (data.preferred_date || data.alternative_date)) {
+      const targetDate =
+        new Date(data.preferred_date).getTime() > Date.now()
+          ? new Date(data.preferred_date).getTime()
+          : new Date(data.alternative_date).getTime();
+
       const countdownInterval = setInterval(() => {
         const now = new Date().getTime();
-        const timeDifference = new Date(data.preferred_date).getTime() - now;
+        const timeDifference = targetDate - now;
 
         if (timeDifference < 0) {
           clearInterval(countdownInterval);
@@ -78,7 +87,6 @@ const CountDownText = ({ isSmall = false }) => {
           const minutes = Math.floor(
             (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
           );
-          //   const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
 
           setTimeRemaining({ days, hours, minutes });
         }
@@ -86,39 +94,47 @@ const CountDownText = ({ isSmall = false }) => {
 
       return () => clearInterval(countdownInterval);
     }
-  }, [data?.preferred_date]);
+  }, [data?.preferred_date, data?.alternative_date]);
 
-  const date = data && formatDateTime(data?.preferred_date);
+  if (!data) return;
+
+  const targetDate =
+    new Date(data?.preferred_date).getTime() > Date.now()
+      ? data?.preferred_date
+      : data?.alternative_date;
+
+  const date = formatDateTime(targetDate);
 
   return (
     <>
       <div className="space-y-[6px] font-sfProDisplay text-sm mb-6">
         <div
           className={
-            "flex items-center gap-2  " +
+            "flex items-center gap-1 md:gap-2  " +
             (isSmall ? "text-white" : "text-[#666666]")
           }
         >
-          <Users size={18} />
+          <Image src={isSmall ? userCardWhite : userCard} alt="team slice" />
+
           <span
             className={`text-ellipsis overflow-hidden w-[inherit] whitespace-nowrap ${
-              isSmall ? "text-sm" : "text-base"
+              isSmall ? "text-xs md:text-sm" : "text-base"
             }`}
           >
-            Adanna Oluwasun Adewale
+            Pistis TechHub faculty
           </span>
         </div>
         <div
           className={
-            "flex items-center gap-2  " +
+            "flex items-center gap-1 md:gap-2  " +
             (isSmall ? "text-white" : "text-[#666666]")
           }
         >
-          <Image src={isSmall ? teamSlice : topicGray} alt="team slice" />
+          <Image src={isSmall ? teamSlice : topicWhite} alt="topic" />
 
           <span
             className={`text-ellipsis overflow-hidden w-[inherit] whitespace-nowrap ${
-              isSmall ? "text-sm" : "text-base"
+              isSmall ? "text-xs md:text-sm" : "text-base"
             }`}
           >
             {data?.topic}
@@ -126,24 +142,24 @@ const CountDownText = ({ isSmall = false }) => {
         </div>
         <div
           className={
-            "flex items-center gap-2  " +
+            "flex items-center gap-1 md:gap-2  " +
             (isSmall ? "text-white" : "text-[#666666]")
           }
         >
-          <Calendar size={18} />
+          <Image src={isSmall ? calendarWhite : calendar} alt="date" />
 
-          <span className={isSmall ? "text-sm" : "text-base"}>
+          <span className={isSmall ? "text-xs md:text-sm" : "text-base"}>
             {date?.date} • {date?.time}
           </span>
         </div>
         <div
           className={
-            "flex items-center gap-2  " +
+            "flex items-center gap-1 md:gap-2  " +
             (isSmall ? "text-white" : "text-[#666666]")
           }
         >
-          <Image src={isSmall ? time : timeGray} alt="duration" />
-          <span className={isSmall ? "text-sm" : "text-base"}>
+          <Image src={isSmall ? time : timeWhite} alt="duration" />
+          <span className={isSmall ? "text-xs md:text-sm" : "text-base"}>
             {data?.duration} Min
           </span>
         </div>
@@ -152,7 +168,7 @@ const CountDownText = ({ isSmall = false }) => {
       <div
         className={
           "flex items-center  " +
-          (isSmall ? "justify-between" : "mb-6 justify-center gap-2")
+          (isSmall ? "justify-between" : "mb-6 justify-center gap-1 md:gap-2")
         }
       >
         {/* Days */}
@@ -160,15 +176,19 @@ const CountDownText = ({ isSmall = false }) => {
           <div
             className={
               " font-digital tracking-wider font-digitalNumbers   " +
-              (isSmall ? "text-3xl text-white" : "text-5xl text-[#484848]")
+              (isSmall
+                ? "text-xl md:text-3xl text-white"
+                : "text-5xl text-[#484848]")
             }
           >
             {timeRemaining.days}
           </div>
           <div
             className={
-              "text-sm font-sfProDisplay " +
-              (isSmall ? "mt-1 text-white" : "mt-2 text-gray-600")
+              "md:text-sm font-sfProDisplay " +
+              (isSmall
+                ? "mt-1 text-white text-xs md:text-sm"
+                : "text-sm mt-2 text-gray-600")
             }
           >
             Days
@@ -192,15 +212,19 @@ const CountDownText = ({ isSmall = false }) => {
           <div
             className={
               "tracking-wider font-digitalNumbers  " +
-              (isSmall ? "text-3xl text-white" : "text-5xl text-[#484848]")
+              (isSmall
+                ? "text-xl md:text-3xl text-white"
+                : "text-5xl text-[#484848]")
             }
           >
             {timeRemaining.hours}
           </div>
           <div
             className={
-              "text-sm font-sfProDisplay " +
-              (isSmall ? "mt-1 text-white" : "mt-2 text-gray-600")
+              " font-sfProDisplay " +
+              (isSmall
+                ? "mt-1 text-white text-xs md:text-sm"
+                : "text-sm mt-2 text-gray-600")
             }
           >
             Hours
@@ -224,15 +248,19 @@ const CountDownText = ({ isSmall = false }) => {
           <div
             className={
               "tracking-wider font-digitalNumbers " +
-              (isSmall ? "text-3xl text-white" : "text-5xl text-[#484848]")
+              (isSmall
+                ? "text-xl md:text-3xl text-white"
+                : "text-5xl text-[#484848]")
             }
           >
             {timeRemaining.minutes}
           </div>
           <div
             className={
-              "text-sm font-sfProDisplay " +
-              (isSmall ? "mt-1 text-white" : "mt-2 text-gray-600")
+              " font-sfProDisplay " +
+              (isSmall
+                ? "mt-1 text-white text-xs md:text-sm"
+                : "mt-2 text-gray-600 text-sm")
             }
           >
             Minutes

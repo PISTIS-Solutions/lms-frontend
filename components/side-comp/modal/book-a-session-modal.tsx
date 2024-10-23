@@ -32,9 +32,36 @@ const getISODateTime = (date: string, time: string): string => {
   return isoDate;
 };
 
+const isDateTimeInPast = (dateStr: string, timeStr: string): boolean => {
+  const [day, month, year] = dateStr.split("-").map(Number);
+  const [hour, minute] = timeStr.split(":").map(Number);
+
+  const inputDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+  const currentDate = new Date();
+
+  return inputDate < currentDate;
+};
+
 interface BookASessionModalProp {
   isDisabled: boolean;
 }
+
+interface NotDateErrorProps {
+  preferredDateStr: boolean | null;
+  preferredTimeStr: boolean | null;
+  altDateStr: boolean | null;
+  altTimeStr: boolean | null;
+  topic: boolean | null;
+}
+
+const preferredDateError =
+  "Invalid preferred date format. Use DD-MM-YYYY (e.g., 01-02-2024).";
+const preferredTimeError =
+  "Invalid preferred time format. Use HH:MM (e.g., 05:01).";
+const altDateError =
+  "Invalid alternative date format. Use DD-MM-YYYY (e.g., 01-02-2024).";
+const altTimeError =
+  "Invalid alternative time format. Use HH:MM (e.g., 05:01).";
 
 const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
   const [duration, setDuration] = useState(15);
@@ -47,6 +74,13 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
   const [altTimeStr, setAltTimeStr] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [notDateError, setNotDateError] = useState<NotDateErrorProps>({
+    preferredDateStr: null,
+    preferredTimeStr: null,
+    altDateStr: null,
+    altTimeStr: null,
+    topic: null,
+  });
 
   const { fetchSession } = useFetchStudentSessionStore();
 
@@ -144,66 +178,79 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
     }
   };
 
-  const validateAllInputs = (): boolean => {
-    if (!validateDate(preferredDateStr)) {
-      setError("Invalid preferred date format. Use DD-MM-YYYY. e.g 01-12-2024");
+  const updateErrorState = (key: string, isValid: boolean) => {
+    setNotDateError((prev) => ({ ...prev, [key]: isValid }));
+  };
+
+  const validateInput = (
+    validationFn: (value: string) => boolean,
+    value: string,
+    errorMsg: string,
+    key: string
+  ) => {
+    if (!validationFn(value)) {
+      setError(errorMsg);
+      updateErrorState(key, false);
+      return false;
+    } else {
+      updateErrorState(key, true);
+      return true;
+    }
+  };
+
+  const validateAllInputs = () => {
+    if (
+      !validateInput(
+        validateDate,
+        preferredDateStr,
+        preferredDateError,
+        "preferredDateStr"
+      )
+    )
+      return false;
+    if (
+      !validateInput(
+        validateTime,
+        preferredTimeStr,
+        preferredTimeError,
+        "preferredTimeStr"
+      )
+    )
+      return false;
+    if (!validateInput(validateDate, altDateStr, altDateError, "altDateStr"))
+      return false;
+    if (!validateInput(validateTime, altTimeStr, altTimeError, "altTimeStr"))
+      return false;
+
+    // Check for future dates
+    if (isDateTimeInPast(preferredDateStr, preferredTimeStr)) {
+      setError("Please select a future preferred date and time.");
+      updateErrorState("preferredDateStr", false);
+      updateErrorState("preferredTimeStr", false);
       return false;
     }
-    if (!validateTime(preferredTimeStr)) {
-      setError("Invalid preferred time format. Use HH:MM AM/PM, e.g 09:01 AM");
+
+    if (isDateTimeInPast(altDateStr, altTimeStr)) {
+      setError("Please select a future alternate date and time.");
+      updateErrorState("altDateStr", false);
+      updateErrorState("altTimeStr", false);
       return false;
     }
-    if (!validateDate(altDateStr)) {
-      setError(
-        "Invalid alternative date format. Use DD-MM-YYYY. e.g 01-12-2024"
-      );
+
+    // Check for topic
+    if (!topic) {
+      setError("Topic is required.");
+      updateErrorState("topic", false);
       return false;
+    } else {
+      updateErrorState("topic", true);
     }
-    if (!validateTime(altTimeStr)) {
-      setError(
-        "Invalid alternative time format. Use HH:MM AM/PM, e.g 09:01 AM"
-      );
-      return false;
-    }
-    setError(""); // Clear error if all inputs are valid
+
+    setError(""); // Clear error if everything is valid
     return true;
   };
 
-  const handleBlur = (field: string) => {
-    switch (field) {
-      case "preferredDate":
-        if (!validateDate(preferredDateStr)) {
-          setError("Invalid preferred date format. Use DD-MM-YYYY.");
-        } else {
-          setError("");
-        }
-        break;
-      case "preferredTime":
-        if (!validateTime(preferredTimeStr)) {
-          setError("Invalid preferred time format. Use HH:MM.");
-        } else {
-          setError("");
-        }
-        break;
-      case "altDate":
-        if (!validateDate(altDateStr)) {
-          setError("Invalid alternative date format. Use DD-MM-YYYY.");
-        } else {
-          setError("");
-        }
-        break;
-      case "altTime":
-        if (!validateTime(altTimeStr)) {
-          setError("Invalid alternative time format. Use HH:MM.");
-        } else {
-          setError("");
-        }
-        break;
-      default:
-        break;
-    }
-  };
-
+  console.log(notDateError);
   return (
     <>
       <button
@@ -216,195 +263,260 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
 
       <div
         className={
-          "bg-white/10 fixed flex justify-center items-center w-full min-h-screen inset-0 z-20 backdrop-blur-sm cursor-pointer " +
+          "bg-white/10 fixed flex justify-center items-start w-full h-full inset-0 backdrop-blur-sm cursor-pointer overflow-y-auto z-[100000] " +
           (isOpen
             ? "opacity-100 animate-fade-in "
             : "opacity-0 hidden animate-fade-out")
         }
         onClick={toggleModal}
       >
-        <div
-          className="max-w-[522px] w-full p-6 bg-white rounded-lg shadow-[0px_0px_40px_0px_#00000033] h-fit mx-4 "
-          onClick={(e) => e.stopPropagation()}
-        >
-          <span className="flex items-center justify-between">
-            <p className="text-2xl text-[#2E2E2E] font-medium">
-              Book a Private Session
+        <div className="min-h-screen py-8 px-4 w-full flex items-center justify-center">
+          <div
+            className="md:max-w-[522px] w-fit sm:w-full p-6 bg-white rounded-lg shadow-[0px_0px_40px_0px_#00000033] h-fit mx-4 "
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="flex items-center justify-between">
+              <p className="text-2xl text-[#2E2E2E] font-medium">
+                Book a Private Session
+              </p>
+              <X
+                color="#666666"
+                size={24}
+                strokeWidth={2}
+                onClick={toggleModal}
+                className="hover:scale-110 hover:cursor-pointer"
+              />
+            </span>
+            <p className="h-8 md:h-6 text-red-600 text-xs md:text-sm font-medium">
+              {error !== "" && error}
             </p>
-            <X
-              color="#666666"
-              size={24}
-              strokeWidth={2}
-              onClick={toggleModal}
-              className="hover:scale-105 hover:cursor-pointer"
-            />
-          </span>
-          <p className="h-6 text-red-600 text-xs font-semibold">
-            {error && <strong className="text-sm">!</strong> && " " && error}
-          </p>
-          <form className="space-y-2 font-sfProDisplay" onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="topic" className="text-[#666666]">
-                Topic
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your proposed session topic"
-                className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md w-full mt-1"
-                id="topic"
-                required
-                min={1}
-                maxLength={10}
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="additional_name" className="text-[#666666] ">
-                Additional Note
-              </label>
-              <textarea
-                placeholder="Enter your proposed session topic"
-                className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md w-full h-[104px] outline-none mt-1"
-                id="additional_name"
-                value={note}
-                onChange={(e) => setNote(e.target.value)}
-              />
-            </div>
-
-            <div className="">
-              <label htmlFor="preferred-date-time" className="text-[#666666]">
-                Preferred Date & Time
-              </label>
-              <div className="flex justify-between mt-1">
+            <form
+              className="space-y-2 font-sfProDisplay"
+              onSubmit={handleSubmit}
+            >
+              <div>
+                <label htmlFor="topic" className="text-[#666666]">
+                  Topic
+                </label>
                 <input
                   type="text"
-                  className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md outline-none w-[48%]"
-                  id="preferred-date-time"
-                  placeholder="DD-MM-YYY"
+                  placeholder="Enter your proposed session topic"
+                  className={`p-3 border  bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md w-full mt-1 outline-none ${
+                    notDateError.topic === false
+                      ? "border-red-600"
+                      : topic
+                      ? "border-[#2FBC8D]"
+                      : "border-[#DADADA]"
+                  }`}
+                  id="topic"
                   required
-                  value={preferredDateStr}
-                  onChange={(e) => setPreferredDateStr(e.target.value)}
-                  pattern="^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$"
-                  onBlur={() => handleBlur("preferredDate")}
-                />
-                <input
-                  type="text"
-                  className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md outline-none  w-[48%]"
-                  id="preferred-time-input"
-                  required
-                  value={preferredTimeStr}
-                  onChange={(e) => setPreferredTimeStr(e.target.value)}
-                  placeholder="09:00 AM"
-                  onBlur={() => handleBlur("preferredTime")}
-                  pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
+                  min={1}
+                  maxLength={255}
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
                 />
               </div>
-            </div>
-            <div>
-              <label htmlFor="alt-date-time" className="text-[#666666]">
-                Alternative Date & Time
-              </label>
-              <div className="flex justify-between mt-1">
-                <input
-                  type="text"
-                  className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md outline-none w-[48%]"
-                  id="alt-date-time"
-                  placeholder="DD-MM-YYY"
-                  value={altDateStr}
-                  onChange={(e) => setAltDateStr(e.target.value)}
-                  pattern="^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$"
-                  onBlur={() => handleBlur("altDate")}
-                />
-                <input
-                  type="text"
-                  className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md outline-none  w-[48%] "
-                  id="alt-time-input"
-                  onChange={(e) => setAltTimeStr(e.target.value)}
-                  value={altTimeStr}
-                  placeholder="09:00 AM"
-                  onBlur={() => handleBlur("altTime")}
-                  pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
+              <div>
+                <label htmlFor="additional_name" className="text-[#666666] ">
+                  Additional Note
+                </label>
+                <textarea
+                  placeholder="Enter your proposed session topic"
+                  className={`p-3 border bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md w-full h-[104px] outline-none mt-1 ${
+                    note ? "border-[#2FBC8D]" : "border-[#DADADA]"
+                  }`}
+                  id="additional_name"
+                  value={note}
+                  onChange={(e) => setNote(e.target.value)}
                 />
               </div>
-            </div>
 
-            <div>
-              <label htmlFor="date&time" className="text-[#666666] ">
-                Session Duration
-              </label>
-              <div className="flex gap-x-4 mt-2">
-                {timeRangeData.map((itm) => (
-                  <button
-                    className={
-                      "group rounded-[6px] flex gap-x-2 items-center py-1 px-2 border outline-none w-[96.92px] self-stretch transition-all duration-300 ease-in-out " +
-                      (duration == itm.value
-                        ? "border-[#2FBC8D] text-[#2FBC8D]"
-                        : "border-[#9F9F9F] text-[#9F9F9F]")
+              <div className="">
+                <label htmlFor="preferred-date-time" className="text-[#666666]">
+                  Preferred Date & Time
+                </label>
+                <div className="flex justify-between mt-1">
+                  <input
+                    type="text"
+                    className={`p-3 border rounded-md outline-none w-[48%] ${
+                      notDateError.preferredDateStr === false
+                        ? "border-red-600"
+                        : notDateError.preferredDateStr == true
+                        ? "border-[#2FBC8D]"
+                        : "border-[#DADADA]"
+                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                    id="preferred-date-time"
+                    placeholder="DD-MM-YYY"
+                    required
+                    value={preferredDateStr}
+                    onChange={(e) => setPreferredDateStr(e.target.value.trim())}
+                    pattern="^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$"
+                    onBlur={() =>
+                      validateInput(
+                        validateDate,
+                        preferredDateStr,
+                        preferredDateError,
+                        "preferredDateStr"
+                      )
                     }
-                    type="button"
-                    key={itm.name}
-                    onClick={() => setDuration(itm.value)}
-                  >
+                  />
+                  <input
+                    type="text"
+                    className={`p-3 border rounded-md outline-none w-[48%] ${
+                      notDateError.preferredTimeStr === false
+                        ? "border-red-600"
+                        : notDateError.preferredTimeStr === true
+                        ? "border-[#2FBC8D]"
+                        : "border-[#DADADA]"
+                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                    id="preferred-time-input"
+                    required
+                    value={preferredTimeStr}
+                    onChange={(e) => setPreferredTimeStr(e.target.value.trim())}
+                    placeholder="09:00"
+                    onBlur={() =>
+                      validateInput(
+                        validateTime,
+                        preferredTimeStr,
+                        preferredTimeError,
+                        "preferredTimeStr"
+                      )
+                    }
+                    pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="alt-date-time" className="text-[#666666]">
+                  Alternative Date & Time
+                </label>
+                <div className="flex justify-between mt-1">
+                  <input
+                    type="text"
+                    className={`p-3 border rounded-md outline-none w-[48%] ${
+                      notDateError.altDateStr === false
+                        ? "border-red-600"
+                        : notDateError.altDateStr === true
+                        ? "border-[#2FBC8D]"
+                        : "border-[#DADADA]"
+                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                    id="alt-date-time"
+                    placeholder="DD-MM-YYY"
+                    value={altDateStr}
+                    onChange={(e) => setAltDateStr(e.target.value.trim())}
+                    pattern="^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$"
+                    onBlur={() =>
+                      validateInput(
+                        validateDate,
+                        altDateStr,
+                        altDateError,
+                        "altDateStr"
+                      )
+                    }
+                  />
+                  <input
+                    type="text"
+                    className={`p-3 border rounded-md outline-none w-[48%] ${
+                      notDateError.altTimeStr === false
+                        ? "border-red-600"
+                        : notDateError.altTimeStr === true
+                        ? "border-[#2FBC8D]"
+                        : "border-[#DADADA]"
+                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                    id="alt-time-input"
+                    onChange={(e) => setAltTimeStr(e.target.value.trim())}
+                    value={altTimeStr}
+                    placeholder="09:00"
+                    onBlur={() =>
+                      validateInput(
+                        validateTime,
+                        altTimeStr,
+                        altTimeError,
+                        "altTimeStr"
+                      )
+                    }
+                    pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label htmlFor="date&time" className="text-[#666666] ">
+                  Session Duration
+                </label>
+                <div className="flex gap-x-4 mt-2">
+                  {timeRangeData.map((itm) => (
                     <button
                       className={
-                        "w-4 h-4 border rounded-full flex items-center justify-center   " +
+                        "group rounded-[6px] flex gap-x-2 items-center py-1 px-2 border outline-none w-[96.92px] self-stretch transition-all duration-300 ease-in-out " +
                         (duration == itm.value
-                          ? "border-[#2FBC8D] bg-[#2FBC8D]"
-                          : "border-[#9F9F9F]")
+                          ? "border-[#2FBC8D] text-[#2FBC8D]"
+                          : "border-[#9F9F9F] text-[#9F9F9F]")
                       }
                       type="button"
+                      key={itm.name}
+                      onClick={() => setDuration(itm.value)}
                     >
-                      <div
+                      <button
                         className={
-                          "w-2 h-2 rounded-full bg-secondary transition-all duration-300 " +
+                          "w-4 h-4 border rounded-full flex items-center justify-center   " +
                           (duration == itm.value
-                            ? "opacity-100  "
-                            : "opacity-0 ")
+                            ? "border-[#2FBC8D] bg-[#2FBC8D]"
+                            : "border-[#9F9F9F]")
                         }
-                      />
+                        type="button"
+                      >
+                        <div
+                          className={
+                            "w-2 h-2 rounded-full bg-secondary transition-all duration-300 " +
+                            (duration == itm.value
+                              ? "opacity-100  "
+                              : "opacity-0 ")
+                          }
+                        />
+                      </button>
+                      <p>{itm.name}</p>
                     </button>
-                    <p>{itm.name}</p>
-                  </button>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="flex gap-x-2 items-center">
-              <input
-                type="checkbox"
-                id="confirm-request"
-                className="relative w-[16px] h-[16px] bg-white border-[1.23px] border-[#D0D5DD] rounded-[3px] appearance-none peer shrink-0 focus:outline-none focus:ring-offset-0 focus:ring-1 focus:ring-blue-100 checked:bg-[#2FBC8D] checked:border-0 disabled:border-steel-400 disabled:bg-steel-400 hover:cursor-pointer"
-                required
-              />
-              <Check
-                size={7}
-                className="absolute hidden w-[9px] h-[9px] mt-[1.3px] ml-[3.5px] outline-none pointer-events-none peer-checked:block stroke-white "
-                strokeWidth={4}
-              />
-              <label
-                htmlFor="confirm-request"
-                className="text-xs text-[#666666] "
+              <div className="flex gap-x-2 items-center">
+                <input
+                  type="checkbox"
+                  id="confirm-request"
+                  className="relative w-[16px] h-[16px] bg-white border-[1.23px] border-[#D0D5DD] rounded-[3px] appearance-none peer shrink-0 focus:outline-none focus:ring-offset-0 focus:ring-1 focus:ring-blue-100 checked:bg-[#2FBC8D] checked:border-0 disabled:border-steel-400 disabled:bg-steel-400 hover:cursor-pointer"
+                  required
+                />
+                <Check
+                  size={7}
+                  className="absolute hidden w-[9px] h-[9px] mt-[1.3px] ml-[3.5px] outline-none pointer-events-none peer-checked:block stroke-white "
+                  strokeWidth={4}
+                />
+                <label
+                  htmlFor="confirm-request"
+                  className="text-xs text-[#666666]  cursor-pointer"
+                >
+                  I understand that my session request will be confirmed based
+                  on mentor availability.
+                </label>
+              </div>
+              <button
+                className="bg-[#2FBC8D] disabled:bg-opacity-80 hover:bg-opacity-90 h-[50px] rounded-[8px] flex items-center justify-center text-[#F8F9FF] w-full font-medium !mt-6"
+                disabled={loading}
               >
-                I understand that my session request will be confirmed based on
-                mentor availability.
-              </label>
-            </div>
-            <button
-              className="bg-[#2FBC8D] disabled:bg-opacity-80 hover:bg-opacity-90 h-[50px] rounded-[8px] flex items-center justify-center text-[#F8F9FF] w-full font-medium !mt-6"
-              disabled={loading}
-            >
-              {loading ? (
-                <Loader2 className="animate-spin text-white" />
-              ) : (
-                "Request Private Session"
-              )}
-            </button>
-          </form>
-          <p className="text-xs text-center text-[#666666] mt-6 font-sfProDisplay">
-            You’ll soon receive an email from your mentor with the confirmed
-            date and time for your private session. Stay tuned to ensure you
-            don't miss any important details!
-          </p>
+                {loading ? (
+                  <Loader2 className="animate-spin text-white" />
+                ) : (
+                  "Request Private Session"
+                )}
+              </button>
+            </form>
+            <p className="text-xs text-center text-[#666666] mt-6 font-sfProDisplay">
+              You’ll soon receive an email from your mentor with the confirmed
+              date and time for your private session. Stay tuned to ensure you
+              don't miss any important details!
+            </p>
+          </div>
         </div>
       </div>
     </>

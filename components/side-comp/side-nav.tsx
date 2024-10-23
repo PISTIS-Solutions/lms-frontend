@@ -90,17 +90,12 @@ const SideNav = () => {
           {/* countdown */}
           {!loading && data && (
             <>
-              <div className=" p-3 rounded-lg max-w-sm">
-                <div className="space-y-4 p-4 bg-main backdrop-blur-sm bg-white/10">
+              <div className=" p-3 rounded-lg max-w-sm ">
+                <div className="space-y-4 p-4 bg-main backdrop-blur-sm bg-white/10 rounded-[8px]">
                   {/* Header */}
-                  <div className="flex justify-between items-center mb-4 font-sfProDisplay">
-                    <h2 className="text-white text-base font-medium">
-                      Upcoming Section
-                    </h2>
-                    <button className="text-white">
-                      <MoreVertical size={20} />
-                    </button>
-                  </div>
+                  <h2 className="text-white text-base font-medium mb-4 font-sfProDisplay">
+                    Upcoming Section
+                  </h2>
 
                   <CountDownText isSmall />
 

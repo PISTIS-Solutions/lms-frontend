@@ -33,35 +33,12 @@ import "react-multi-carousel/lib/styles.css";
 import CourseOverviewCard from "@/components/side-comp/course-overview-card";
 import PieChart from "@/components/side-comp/pie-chart";
 import BookASessionCard from "@/components/side-comp/book-a-session-card";
-import CourseCompleted from "@/public/assets/svg/course-completion.svg";
-import CourseEnrollMent from "@/public/assets/svg/course-enrollment.svg";
+import CourseEnrollMent from "@/public/assets/svg/courseEnrollment.svg";
+import ProjectSubmitted from "@/public/assets/svg/projectSubmitted.svg";
+import ProjectReviewNotification from "@/public/assets/svg/projectReview.svg";
+import ProjectRejected from "@/public/assets/svg/projectRejected.svg";
+import subscriptionRenewalReminder from "@/public/assets/svg/subscriptionRenewalReminder.svg";
 import NotificationModal from "@/components/side-comp/modal/notification-modal";
-
-function calculateTimeAgo(dateString: string): string {
-  const givenDate: Date = new Date(dateString);
-  const currentDate: Date = new Date();
-
-  if (isNaN(givenDate.getTime())) {
-    throw new Error("Invalid date string provided");
-  }
-
-  const differenceInMs: number = currentDate.getTime() - givenDate.getTime();
-
-  // Convert to minutes, hours, and days
-  const minutes: number = Math.floor(differenceInMs / (1000 * 60));
-  const hours: number = Math.floor(minutes / 60);
-  const days: number = Math.floor(hours / 24);
-
-  if (days > 0) {
-    return `${days} day${days > 1 ? "s" : ""} ago`;
-  } else if (hours > 0) {
-    return `${hours} hour${hours > 1 ? "s" : ""} ago`;
-  } else if (minutes > 0) {
-    return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-  } else {
-    return "Just now";
-  }
-}
 
 const responsive = {
   tablet: {
@@ -74,6 +51,21 @@ const responsive = {
     items: 1,
     slidesToSlide: 1,
   },
+};
+
+const getActivityIcon = (activityType: string) => {
+  switch (activityType) {
+    case "Course Enrollment Confirmation":
+      return CourseEnrollMent;
+    case "Project Submitted":
+      return ProjectSubmitted;
+    case "Project Review Notification":
+      return ProjectReviewNotification;
+    case "Project Rejected":
+      return ProjectRejected;
+    default:
+      return subscriptionRenewalReminder;
+  }
 };
 
 const Dashboard = () => {
@@ -383,21 +375,17 @@ const Dashboard = () => {
                           >
                             <div className="flex items-center gap-x-2">
                               <Image
-                                src={
-                                  tag?.message.includes("You started")
-                                    ? CourseEnrollMent
-                                    : CourseCompleted
-                                }
-                                alt="status icon"
+                                src={getActivityIcon(tag?.activity_type)}
+                                alt="activity icon"
                                 className="w-7 h-7 "
                               />
 
                               <div className="w-full">
                                 <p className="text-sm  text-ellipsis whitespace-nowrap max-w-[71vw] lg:w-[15vw] xl:w-[17vw] 2xl:w-[19.8vw] overflow-hidden font-medium">
-                                  {tag?.message}
+                                  {`${tag?.activity_type}: ${tag?.message}`}
                                 </p>
                                 <span className="text-[#999999] text-xs flex items-center gap-x-1 ">
-                                  <p>{calculateTimeAgo(tag?.activity_date)}</p>
+                                  <p>{tag?.time_since}</p>
                                 </span>
                               </div>
                             </div>

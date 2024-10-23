@@ -16,7 +16,7 @@ interface StoreState {
   data: dataProps | null; // Define this more specifically based on your API response
   loading: boolean;
   error: string | null;
-  sessionCount: number | null;
+  sessionLeft: number | null;
   fetchSession: () => Promise<void>;
 }
 
@@ -30,7 +30,7 @@ interface dataProps {
   duration: number;
 }
 
-function getClosestItem(items: dataProps[]): dataProps | null {
+function getClosestUpcomingSession(items: dataProps[]): dataProps | null {
   const now = new Date();
   let closestItem: dataProps | null = null;
   let closestTime: number | null = null;
@@ -55,7 +55,7 @@ const useFetchStudentSessionStore = create<StoreState>((set, get) => ({
   data: null,
   loading: false,
   error: null,
-  sessionCount: null,
+  sessionLeft: null,
 
   fetchSession: async () => {
     set({ loading: true, error: null });
@@ -68,7 +68,7 @@ const useFetchStudentSessionStore = create<StoreState>((set, get) => ({
       });
       const data: dataProps[] = await response.data;
 
-      const nearestSession = getClosestItem(data);
+      const nearestSession = getClosestUpcomingSession(data);
       // const nearestSession = {
       //   id: "6f7g8h9i-0123-f012-2345-6789abcdef01",
       //   user: "user-06",
@@ -83,9 +83,8 @@ const useFetchStudentSessionStore = create<StoreState>((set, get) => ({
         set({
           data: nearestSession,
           loading: false,
-          sessionCount: data.length,
+          sessionLeft: 4 - data.length,
         });
-        // nearestSession && get().startCountdown(nearestSession.preferred_date);
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {

@@ -1,38 +1,15 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronsRight, X } from "lucide-react";
 import { Montserrat } from "next/font/google";
-import CourseCompleted from "@/public/assets/svg/course-completion.svg";
-import CourseEnrollMent from "@/public/assets/svg/course-enrollment.svg";
+import CourseEnrollMent from "@/public/assets/svg/courseEnrollment.svg";
+import ProjectSubmitted from "@/public/assets/svg/projectSubmitted.svg";
+import ProjectReviewNotification from "@/public/assets/svg/projectReview.svg";
+import ProjectRejected from "@/public/assets/svg/projectRejected.svg";
+import subscriptionRenewalReminder from "@/public/assets/svg/subscriptionRenewalReminder.svg";
 import Image from "next/image";
 import { useState } from "react";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
-
-function calculateTimeAgo(dateString: string): string {
-  const givenDate: Date = new Date(dateString);
-  const currentDate: Date = new Date();
-
-  if (isNaN(givenDate.getTime())) {
-    throw new Error("Invalid date string provided");
-  }
-
-  const differenceInMs: number = currentDate.getTime() - givenDate.getTime();
-
-  // Convert to minutes, hours, and days
-  const minutes: number = Math.floor(differenceInMs / (1000 * 60));
-  const hours: number = Math.floor(minutes / 60);
-  const days: number = Math.floor(hours / 24);
-
-  if (days > 0) {
-    return `${days} day${days > 1 ? "s" : ""} ago`;
-  } else if (hours > 0) {
-    return `${hours} hour${hours > 1 ? "s" : ""} ago`;
-  } else if (minutes > 0) {
-    return `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
-  } else {
-    return "Just now";
-  }
-}
 
 interface NotificationModalProps {
   id: string;
@@ -48,6 +25,22 @@ const NotificationModal = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => setIsOpen(!isOpen);
+
+  const getActivityIcon = (activityType: string) => {
+    switch (activityType) {
+      case "Course Enrollment Confirmation":
+        return CourseEnrollMent;
+      case "Project Submitted":
+        return ProjectSubmitted;
+      case "Project Review Notification":
+        return ProjectReviewNotification;
+      case "Project Rejected":
+        return ProjectRejected;
+      default:
+        return subscriptionRenewalReminder;
+    }
+  };
+
   return (
     <>
       <p
@@ -74,7 +67,7 @@ const NotificationModal = ({
         >
           <span className="flex justify-between items-center mb-6 sticky top-0 pt-10 lg:p-0">
             <h3
-              className={`text-main text-2xl font-medium ${montserrat.className} `}
+              className={`text-[#014873] text-2xl font-medium ${montserrat.className} `}
             >
               Notification{" "}
               <span className="font-sfProDisplay text-xs text-[#9F9F9F]  relative top-[-4px]">
@@ -100,20 +93,21 @@ const NotificationModal = ({
                   >
                     <div className="flex items-start gap-x-4 w-full">
                       <Image
-                        src={
-                          tag?.message.includes("You started")
-                            ? CourseEnrollMent
-                            : CourseCompleted
-                        }
-                        alt="status icon"
+                        src={getActivityIcon(tag?.activity_type)}
+                        alt="activity icon"
                         className="w-10 h-10"
                       />
                       <div className="flex gap-x-4 w-full justify-between flex-wrap lg:flex-nowrap">
-                        <p className="text-sm text-ellipsis overflow-hidden font-medium text-main">
-                          {tag?.message}
-                        </p>
+                        <span>
+                          <p className="text-ellipsis overflow-hidden font-medium text-[#014873]">
+                            {tag?.activity_type}
+                          </p>
+                          <p className="text-xs text-ellipsis overflow-hidden  text-[#666666]">
+                            {tag?.message}
+                          </p>
+                        </span>
                         <span className="text-[#999999] text-xs flex items-center gap-x-1  whitespace-nowrap self-start">
-                          <p>{calculateTimeAgo(tag?.activity_date)}</p>
+                          <p>{tag?.time_since}</p>
                           <div className="w-[5px] h-[5px] rounded-full bg-[#FF1053]" />
                         </span>
                       </div>

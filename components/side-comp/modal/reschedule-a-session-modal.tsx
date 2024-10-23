@@ -1,6 +1,6 @@
 import refreshAdminToken from "@/utils/refreshToken";
 import { Check, Loader2, X } from "lucide-react";
-import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { urls } from "@/utils/config";
@@ -33,39 +33,79 @@ const getISODateTime = (date: string, time: string): string => {
   return isoDate;
 };
 
+const reverseISODateTime = (
+  isoString: string
+): { date: string; time: string } => {
+  // Create a Date object from ISO string
+  const date = new Date(isoString);
+
+  // Get UTC components
+  const year = date.getUTCFullYear();
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Add 1 because months are 0-indexed
+  const day = date.getUTCDate().toString().padStart(2, "0");
+  const hours = date.getUTCHours().toString().padStart(2, "0");
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+
+  // Format back to original format
+  const dateStr = `${day}-${month}-${year}`; // DD-MM-YYYY
+  const timeStr = `${hours}:${minutes}`; // HH:MM
+
+  return {
+    date: dateStr,
+    time: timeStr,
+  };
+};
+
 interface RescheduleASessionModalProps {
   onClick: () => void;
 }
 
+const preferredDateError =
+  "Invalid preferred date format. Use DD-MM-YYYY (e.g., 01-02-2024).";
+const preferredTimeError =
+  "Invalid preferred time format. Use HH:MM (e.g., 05:01).";
+
+const isDateTimeInPast = (dateStr: string, timeStr: string): boolean => {
+  const [day, month, year] = dateStr.split("-").map(Number);
+  const [hour, minute] = timeStr.split(":").map(Number);
+
+  const inputDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+  const currentDate = new Date();
+
+  return inputDate < currentDate;
+};
+
 const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
+  const { fetchSession, data: sessionData } = useFetchStudentSessionStore();
+
   const [duration, setDuration] = useState(15);
   const [isOpen, setIsOpen] = useState(false);
-  const [topic, setTopic] = useState("");
-  const [note, setNote] = useState("");
-  const [preferredDateStr, setPreferredDateStr] = useState("");
-  const [preferredTimeStr, setPreferredTimeStr] = useState("");
-  const [altDateStr, setAltDateStr] = useState("");
-  const [altTimeStr, setAltTimeStr] = useState("");
+  const [topic, setTopic] = useState(sessionData?.topic);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const { fetchSession } = useFetchStudentSessionStore();
+  const [notDateError, setNotDateError] = useState({
+    preferredDateStr: true,
+    preferredTimeStr: true,
+    topic: true,
+  });
+  const time = sessionData && reverseISODateTime(sessionData?.preferred_date);
+  const [preferredDateStr, setPreferredDateStr] = useState(time?.date ?? "");
+  const [preferredTimeStr, setPreferredTimeStr] = useState(time?.time ?? "");
 
   const toggleModal = () => {
     setIsOpen((isOpen) => !isOpen);
     onClick();
   };
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const preferred_date = getISODateTime(preferredDateStr, preferredTimeStr);
-    const alternative_date = getISODateTime(altDateStr, altTimeStr);
 
     if (validateAllInputs()) {
       const data = {
         topic,
-
-        new_preferred_date: preferred_date,
+        preferred_date,
         duration,
       };
 
@@ -73,11 +113,15 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
         try {
           setLoading(true);
           const accessToken = Cookies.get("authToken");
-          await axios.post(urls.rescheduleSession, data, {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          });
+          await axios.put(
+            `${urls.bookings}${sessionData?.id}/reschedule/`,
+            data,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          );
 
           toast.success("Your session has been successfully scheduled!", {
             position: "top-right",
@@ -143,46 +187,79 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
     }
   };
 
-  const validateAllInputs = (): boolean => {
-    if (!validateDate(preferredDateStr)) {
-      setError("Invalid preferred date format. Use DD-MM-YYYY. e.g 01-12-2024");
+  const updateErrorState = (key: string, isValid: boolean) => {
+    setNotDateError((prev) => ({ ...prev, [key]: isValid }));
+  };
+
+  const validateInput = (
+    validationFn: (value: string) => boolean,
+    value: string,
+    errorMsg: string,
+    key: string
+  ) => {
+    if (!validationFn(value)) {
+      setError(errorMsg);
+      updateErrorState(key, false);
       return false;
+    } else {
+      updateErrorState(key, true);
+      return true;
     }
-    if (!validateTime(preferredTimeStr)) {
-      setError("Invalid preferred time format. Use HH:MM AM/PM, e.g 09:01 AM");
+  };
+
+  const validateAllInputs = () => {
+    if (
+      !validateInput(
+        validateDate,
+        preferredDateStr,
+        preferredDateError,
+        "preferredDateStr"
+      )
+    )
+      return false;
+    if (
+      !validateInput(
+        validateTime,
+        preferredTimeStr,
+        preferredTimeError,
+        "preferredTimeStr"
+      )
+    )
+      return false;
+
+    // Check for future dates
+    if (isDateTimeInPast(preferredDateStr, preferredTimeStr)) {
+      setError("Please select a future preferred date and time.");
+      updateErrorState("preferredDateStr", false);
+      updateErrorState("preferredTimeStr", false);
       return false;
     }
 
-    setError(""); // Clear error if all inputs are valid
+    // Check for topic
+    if (!topic) {
+      setError("Topic is required.");
+      updateErrorState("topic", false);
+      return false;
+    } else {
+      updateErrorState("topic", true);
+    }
+    setError("");
     return true;
   };
 
-  const handleBlur = (field: string) => {
-    switch (field) {
-      case "preferredDate":
-        if (!validateDate(preferredDateStr)) {
-          setError("Invalid preferred date format. Use DD-MM-YYYY.");
-        } else {
-          setError("");
-        }
-        break;
-      case "preferredTime":
-        if (!validateTime(preferredTimeStr)) {
-          setError("Invalid preferred time format. Use HH:MM.");
-        } else {
-          setError("");
-        }
-        break;
-
-      default:
-        break;
+  useEffect(() => {
+    if (sessionData) {
+      setTopic(sessionData.topic);
+      const time = reverseISODateTime(sessionData.preferred_date);
+      setPreferredDateStr(time.date);
+      setPreferredTimeStr(time.time);
     }
-  };
+  }, [sessionData]);
 
   return (
     <>
       <button
-        className="border border-[#9F9F9F] h-[50px] flex justify-center items-center rounded-[8px] w-full   text-xs lg:text-base"
+        className="border border-[#9F9F9F] h-[50px] flex justify-center items-center rounded-[8px] w-full   text-sm lg:text-base"
         onClick={() => setIsOpen((isOpen) => !isOpen)}
       >
         Reschedule Session
@@ -190,156 +267,180 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
 
       <div
         className={
-          "bg-white/10 fixed flex justify-center items-center w-full min-h-screen inset-0 z-20 backdrop-blur-sm cursor-pointer " +
+          "bg-white/10 fixed flex justify-center items-start w-full h-full inset-0 backdrop-blur-sm cursor-pointer overflow-y-auto z-[100000] " +
           (isOpen
-            ? "opacity-100 animate-fade-in "
+            ? "opacity-100 animate-fade-in"
             : "opacity-0 hidden animate-fade-out")
         }
         onClick={toggleModal}
       >
-        <div
-          className="max-w-[522px] w-full p-6 bg-white rounded-[10px] shadow-[0px_0px_40px_0px_#00000033] h-fit mx-4 "
-          onClick={(e) => e.stopPropagation()}
-        >
-          <span className="flex items-center justify-between">
-            <p className="text-2xl text-[#2E2E2E] font-medium">
-              Reschedule Session
-            </p>
-            <X
-              color="#666666"
-              size={24}
-              strokeWidth={2}
-              onClick={toggleModal}
-              className="hover:scale-105 hover:cursor-pointer"
-            />
-          </span>
-          <p className="h-6 text-red-600 text-xs font-semibold">
-            {error && <strong className="text-sm">!</strong> && " " && error}
-          </p>
-          <form className="space-y-2 font-sfProDisplay" onSubmit={handleSubmit}>
-            <CountDownText />
-            <div>
-              <label htmlFor="topic" className="text-[#666666]">
-                Topic
-              </label>
-              <input
-                type="text"
-                placeholder="Enter your proposed session topic"
-                className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md w-full mt-1"
-                id="topic"
-                required
-                min={1}
-                maxLength={10}
-                value={topic}
-                onChange={(e) => setTopic(e.target.value)}
+        {" "}
+        <div className="min-h-screen py-8 px-4 w-full flex items-center justify-center">
+          <div
+            className="max-w-[522px] w-full p-6 bg-white rounded-[10px] shadow-[0px_0px_40px_0px_#00000033] h-fit mx-4 "
+            onClick={(e) => e.stopPropagation()}
+          >
+            <span className="flex items-center justify-between">
+              <p className="text-2xl text-[#2E2E2E] font-medium">
+                Reschedule Session
+              </p>
+              <X
+                color="#666666"
+                size={24}
+                strokeWidth={2}
+                onClick={toggleModal}
+                className="hover:scale-110 hover:cursor-pointer"
               />
-            </div>
-            <div>
-              <label htmlFor="preferred-date-time" className="text-[#666666]">
-                Preferred Date & Time
-              </label>
-              <div className="flex justify-between mt-1">
+            </span>
+            <p className="h-8 md:h-6 text-red-600 text-xs md:text-sm font-medium">
+              {error !== "" && error}
+            </p>
+            <form
+              className="space-y-2 font-sfProDisplay"
+              onSubmit={handleSubmit}
+            >
+              <CountDownText />
+              <div>
+                <label htmlFor="topic" className="text-[#666666]">
+                  Change Topic
+                </label>
                 <input
                   type="text"
-                  className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md outline-none w-[48%]"
-                  id="preferred-date-time"
-                  placeholder="DD-MM-YYY"
+                  placeholder="Enter your proposed session topic"
+                  className={`p-3 border  bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md w-full mt-1 outline-none ${
+                    notDateError.topic === false
+                      ? "border-red-600"
+                      : topic
+                      ? "border-[#2FBC8D]"
+                      : "border-[#DADADA]"
+                  }`}
+                  id="topic"
                   required
-                  value={preferredDateStr}
-                  onChange={(e) => setPreferredDateStr(e.target.value)}
-                  pattern="^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$"
-                  onBlur={() => handleBlur("preferredDate")}
-                />
-                <input
-                  type="text"
-                  className="p-3 border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] rounded-md outline-none  w-[48%]"
-                  id="preferred-time-input"
-                  required
-                  value={preferredTimeStr}
-                  onChange={(e) => setPreferredTimeStr(e.target.value)}
-                  placeholder="09:00 AM"
-                  onBlur={() => handleBlur("preferredTime")}
-                  pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
+                  min={1}
+                  maxLength={255}
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
                 />
               </div>
-            </div>
+              <div>
+                <label htmlFor="preferred-date-time" className="text-[#666666]">
+                  Preferred Date & Time
+                </label>
+                <div className="flex justify-between mt-1">
+                  <input
+                    type="text"
+                    className={`p-3 border rounded-md outline-none w-[48%] ${
+                      notDateError.preferredDateStr === false
+                        ? "border-red-600"
+                        : notDateError.preferredDateStr == true
+                        ? "border-[#2FBC8D]"
+                        : "border-[#DADADA]"
+                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                    id="preferred-date-time"
+                    placeholder="DD-MM-YYY"
+                    required
+                    value={preferredDateStr}
+                    onChange={(e) => setPreferredDateStr(e.target.value.trim())}
+                    pattern="^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$"
+                    onBlur={() => validateAllInputs()}
+                  />
+                  <input
+                    type="text"
+                    className={`p-3 border rounded-md outline-none w-[48%] ${
+                      notDateError.preferredTimeStr === false
+                        ? "border-red-600"
+                        : notDateError.preferredTimeStr === true
+                        ? "border-[#2FBC8D]"
+                        : "border-[#DADADA]"
+                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                    id="preferred-time-input"
+                    required
+                    value={preferredTimeStr}
+                    onChange={(e) => setPreferredTimeStr(e.target.value.trim())}
+                    placeholder="09:00"
+                    onBlur={() => validateAllInputs()}
+                    pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
+                  />
+                </div>
+              </div>
 
-            <div>
-              <label htmlFor="date&time" className="text-[#666666] ">
-                Reset Session Duration
-              </label>
-              <div className="flex gap-x-4 mt-2">
-                {timeRangeData.map((itm) => (
-                  <button
-                    className={
-                      "group rounded-[6px] flex gap-x-2 items-center py-1 px-2 border outline-none w-[96.92px] self-stretch transition-all duration-300 ease-in-out " +
-                      (duration == itm.value
-                        ? "border-[#2FBC8D] text-[#2FBC8D]"
-                        : "border-[#9F9F9F] text-[#9F9F9F]")
-                    }
-                    type="button"
-                    key={itm.name}
-                    onClick={() => setDuration(itm.value)}
-                  >
+              <div>
+                <label htmlFor="date&time" className="text-[#666666] ">
+                  Reset Session Duration
+                </label>
+                <div className="flex gap-x-4 mt-2">
+                  {timeRangeData.map((itm) => (
                     <button
                       className={
-                        "w-4 h-4 border rounded-full flex items-center justify-center   " +
+                        "group rounded-[6px] flex gap-x-2 items-center py-1 px-2 border outline-none w-[96.92px] self-stretch transition-all duration-300 ease-in-out " +
                         (duration == itm.value
-                          ? "border-[#2FBC8D] bg-[#2FBC8D]"
-                          : "border-[#9F9F9F]")
+                          ? "border-[#2FBC8D] text-[#2FBC8D]"
+                          : "border-[#9F9F9F] text-[#9F9F9F]")
                       }
                       type="button"
+                      key={itm.name}
+                      onClick={() => setDuration(itm.value)}
                     >
-                      <div
+                      <button
                         className={
-                          "w-2 h-2 rounded-full bg-secondary transition-all duration-300 " +
+                          "w-4 h-4 border rounded-full flex items-center justify-center   " +
                           (duration == itm.value
-                            ? "opacity-100  "
-                            : "opacity-0 ")
+                            ? "border-[#2FBC8D] bg-[#2FBC8D]"
+                            : "border-[#9F9F9F]")
                         }
-                      />
+                        type="button"
+                      >
+                        <div
+                          className={
+                            "w-2 h-2 rounded-full bg-secondary transition-all duration-300 " +
+                            (duration == itm.value
+                              ? "opacity-100  "
+                              : "opacity-0 ")
+                          }
+                        />
+                      </button>
+                      <p>{itm.name}</p>
                     </button>
-                    <p>{itm.name}</p>
-                  </button>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-            <div className="flex gap-x-2 items-center">
-              <input
-                type="checkbox"
-                id="confirm-request"
-                className="relative w-[16px] h-[16px] bg-white border-[1.23px] border-[#D0D5DD] rounded-[3px] appearance-none peer shrink-0 focus:outline-none focus:ring-offset-0 focus:ring-1 focus:ring-blue-100 checked:bg-[#2FBC8D] checked:border-0 disabled:border-steel-400 disabled:bg-steel-400 hover:cursor-pointer"
-                required
-              />
-              <Check
-                size={7}
-                className="absolute hidden w-[9px] h-[9px] mt-[1.3px] ml-[3.5px] outline-none pointer-events-none peer-checked:block stroke-white "
-                strokeWidth={4}
-              />
-              <label
-                htmlFor="confirm-request"
-                className="text-xs text-[#666666] "
+              <div className="flex gap-x-2 items-center">
+                <input
+                  type="checkbox"
+                  id="confirm-request"
+                  className="relative w-[16px] h-[16px] bg-white border-[1.23px] border-[#D0D5DD] rounded-[3px] appearance-none peer shrink-0 focus:outline-none focus:ring-offset-0 focus:ring-1 focus:ring-blue-100 checked:bg-[#2FBC8D] checked:border-0 disabled:border-steel-400 disabled:bg-steel-400 hover:cursor-pointer"
+                  required
+                />
+                <Check
+                  size={7}
+                  className="absolute hidden w-[9px] h-[9px] mt-[1.3px] ml-[3.5px] outline-none pointer-events-none peer-checked:block stroke-white "
+                  strokeWidth={4}
+                />
+                <label
+                  htmlFor="confirm-request"
+                  className="text-xs text-[#666666] cursor-pointer"
+                >
+                  I understand that my session request will be confirmed based
+                  on mentor availability.
+                </label>
+              </div>
+              <button
+                className="bg-[#2FBC8D] disabled:bg-opacity-80 hover:bg-opacity-90 h-[50px] rounded-[8px] flex items-center justify-center text-[#C4C4C4] w-full font-medium !mt-6"
+                disabled={loading}
               >
-                I understand that my session request will be confirmed based on
-                mentor availability.
-              </label>
-            </div>
-            <button
-              className="bg-[#2FBC8D] disabled:bg-opacity-80 hover:bg-opacity-90 h-[50px] rounded-[8px] flex items-center justify-center text-[#C4C4C4] w-full font-medium !mt-6"
-              disabled={loading}
-            >
-              {loading ? (
-                <Loader2 className="animate-spin text-white" />
-              ) : (
-                "Reschedule Session"
-              )}
-            </button>
-          </form>
-          <p className="text-xs text-center text-[#666666] mt-6 font-sfProDisplay">
-            You’ll soon receive an email from your mentor with the confirmed
-            date and time for your r|escheduled session. Stay tuned to ensure
-            you don't miss any important details!
-          </p>
+                {loading ? (
+                  <Loader2 className="animate-spin text-white" />
+                ) : (
+                  "Reschedule Session"
+                )}
+              </button>
+            </form>
+            <p className="text-xs text-center text-[#666666] mt-6 font-sfProDisplay">
+              You’ll soon receive an email from your mentor with the confirmed
+              date and time for your r|escheduled session. Stay tuned to ensure
+              you don't miss any important details!
+            </p>
+          </div>
         </div>
       </div>
     </>

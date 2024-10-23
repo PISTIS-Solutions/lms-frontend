@@ -1,7 +1,5 @@
-import { Calendar, Loader2, MoreVertical, Users } from "lucide-react";
-import Image from "next/image";
+import { Loader2, X } from "lucide-react";
 import React, { useState } from "react";
-import teamSlice from "@/public/assets/svg/teamSlice.svg";
 import { toast } from "react-toastify";
 import refreshAdminToken from "@/utils/refreshToken";
 import Cookies from "js-cookie";
@@ -18,13 +16,13 @@ interface UpcomingModal {
 
 const UpcomingModal = ({ toggleModal, isOpen }: UpcomingModal) => {
   const [loading, setLoading] = useState(false);
-  const { data } = useFetchStudentSessionStore();
+  const { data, fetchSession } = useFetchStudentSessionStore();
 
   const deleteSession = async () => {
     try {
       setLoading(true);
       const accessToken = Cookies.get("authToken");
-      await axios.delete(`${urls.bookings}${data?.id}`, {
+      await axios.delete(`${urls.bookings}${data?.id}/revoke`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -68,6 +66,7 @@ const UpcomingModal = ({ toggleModal, isOpen }: UpcomingModal) => {
       }
     } finally {
       setLoading(false);
+      fetchSession();
       toggleModal();
     }
   };
@@ -84,7 +83,7 @@ const UpcomingModal = ({ toggleModal, isOpen }: UpcomingModal) => {
         onClick={toggleModal}
       >
         <div
-          className="w-[428px] p-6 bg-white rounded-lg shadow-[0px_0px_80px_0px_#00000066] h-fit mx-4 "
+          className="w-[428px] p-6 bg-white rounded-lg shadow-[0px_0px_80px_0px_#00000066] h-fit mx-4 cursor-default"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex justify-between items-center mb-4">
@@ -92,7 +91,13 @@ const UpcomingModal = ({ toggleModal, isOpen }: UpcomingModal) => {
               Upcoming Session
             </p>
 
-            <MoreVertical />
+            <X
+              color="#666666"
+              size={24}
+              strokeWidth={2}
+              onClick={toggleModal}
+              className="hover:scale-110 hover:cursor-pointer"
+            />
           </div>
 
           <CountDownText />
@@ -100,7 +105,7 @@ const UpcomingModal = ({ toggleModal, isOpen }: UpcomingModal) => {
           <div className="flex gap-[10px] font-sfProDisplay font-medium">
             <RescheduleASessionModal onClick={toggleModal} />
             <button
-              className="border bg-[#FF0000] text-[#c4c4c4] h-[50px] flex justify-center items-center rounded-[8px] w-full text-xs lg:text-base"
+              className="border bg-[#FF0000] text-[#c4c4c4] h-[50px] flex justify-center items-center rounded-[8px] w-full text-sm lg:text-base"
               disabled={loading}
               onClick={deleteSession}
             >
