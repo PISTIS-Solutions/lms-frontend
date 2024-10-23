@@ -389,49 +389,50 @@ const HomePage = () => {
   return (
     <div className="bg-white">
       <NavigationBar />
-      <div className=" mx-14 relative">
+      <div className=" mx-3 md:bg-none bg-cover md:rounded-none rounded-[32px] bg-landingBck md:mx-7 lg:mx-14 relative">
         <Image
           src={landingBck}
           alt="landing background"
           priority
-          className="w-full"
+          className="w-full hidden md:block"
         />
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="absolute ml-6 my-14 p-10 left-0 top-0"
+          className="md:absolute static  ml-0 lg:ml-6 my-0 lg:my-14 p-4 lg:p-10 left-0 top-0"
         >
-          <div className="rounded-[6px] text-white bg-white/20 inline-block px-4 py-2 font-medium text-lg">
+          <div className="rounded-[6px] text-white bg-white/20 inline-block px-4 py-1 lg:py-2 font-medium text-sm md:text-base lg:text-lg">
             🚀 Automate and Innovate
           </div>
 
-          <h1 className="text-5xl font-normal py-4 text-white">
+          <h1 className="lg:text-5xl text-2xl md:text-4xl font-normal py-2 lg:py-4 text-white sm:text-left text-center">
             Become a <br />{" "}
-            <span className="font-medium text-6xl relative underline-custom">
+            <span className="font-medium text-3xl md:text-5xl lg:text-6xl relative underline-custom">
               DevOps Engineer
             </span>{" "}
             <br /> Faster Than You Think
           </h1>
-          <p className="text-base font-normal max-w-[581px] pb-4 text-white">
+          <p className="lg:text-base text-xs sm:text-left text-center md:text-sm font-normal max-w-[581px] pb-2 lg:pb-4 text-white">
             Learn from top industry experts, work on real-world projects, and
             join a supportive community.Learn from top industry experts, work on
             real-world projects, and join a supportive community.Learn from top
             industry experts, work on real-world projects, and join a supportive
             community.
           </p>
-          <button className="bg-main rounded-[8px] hover:text-main hover:border hover:border-main transition-all ease-in duration-150 hover:bg-white font-medium text-base py-4 px-6 text-white flex items-center justify-between gap-2 cursoe-pointeer">
+          <button className="bg-main rounded-[8px] hover:text-main hover:border hover:border-main transition-all ease-in duration-150 hover:bg-white font-medium text-xs md:text-sm lg:text-base py-2 lg:py-4 sm:w-auto w-full px-3 lg:px-6 text-white flex items-center justify-center sm:justify-between gap-2 cursor-pointer">
             Start Your Learning Journey Today{" "}
-            <MdOutlineLaunch className="w-6 h-6" />
+            <MdOutlineLaunch className="sm:w-6 w-4 h-4 sm:h-6" />
           </button>
         </motion.div>
       </div>
       <Benefits />
-      <div className=" overflow-x-hidden flex items-center justify-between gap-x-20 p-20 bg-main bg-curve bg-bottom bg-contain bg-no-repeat">
+      <div className=" overflow-x-hidden block lg:flex items-center justify-center lg:justify-between gap-10 md:gap-20 p-4 md:p-20 bg-main bg-curve bg-bottom bg-contain bg-no-repeat">
         <motion.div
           initial={{ x: -100, opacity: 0 }}
           whileInView={{ x: 0, opacity: 100 }}
           transition={{ duration: 0.5 }}
+          className="hidden md:block w-[500px] max-w-[570px]"
         >
           <Image alt="boy" src={boy} />
         </motion.div>
@@ -439,18 +440,18 @@ const HomePage = () => {
           initial={{ x: 100, opacity: 0 }}
           whileInView={{ x: 0, opacity: 100 }}
           transition={{ duration: 0.5 }}
-          className="max-w-[550px]"
+          className="md:max-w-[550px] max-w-full py-0 md:py-4"
         >
-          <p className="bg-transparent border border-white rounded-[6px] py-2 px-4 text-base font-medium inline-block text-white">
+          <p className="bg-transparent border border-white rounded-[6px] py-2 px-2 md:px-4 text-xs md:text-base font-medium inline-block text-white">
             Optimize Software Delivery
           </p>
-          <h1 className="font-medium text-5xl my-5 text-white">
+          <h1 className="font-medium md:text-left text-center text-4xl md:text-5xl my-5 text-white">
             <span className="font-semibold relative underline-custom">
               Master the Future
             </span>{" "}
             of IT with DevOps
           </h1>
-          <p className="text-base mb-5 text-white font-sf-pro-display">
+          <p className="text-sm md:text-base mb-5 text-white md:text-left text-center font-sf-pro-display">
             Join the next generation of DevOps engineers and acquire the
             expertise to revolutionize how businesses build, test, and deploy
             software. Whether you're just starting out or looking to advance
@@ -458,23 +459,23 @@ const HomePage = () => {
             processes, enhance efficiency, and lead in a fast-paced, high-demand
             field.
           </p>
-          <div className="flex flex-wrap gap-3">
-            <p className="font-medium text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
+          <div className="flex flex-wrap md:justify-normal justify-center gap-2  md:gap-3">
+            <p className="font-medium text-xs sm:text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
               Transform Your DevOps Skills
             </p>
-            <p className="font-medium text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
+            <p className="font-medium text-xs sm:text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
               Boost Your Career in Tech
             </p>
-            <p className="font-medium text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
+            <p className="font-medium text-xs sm:text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
               Hands-On DevOps Training
             </p>
-            <p className="font-medium text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
+            <p className="font-medium text-xs sm:text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
               Master CI/CD and Cloud
             </p>
-            <p className="font-medium text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
+            <p className="font-medium text-xs sm:text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
               Learn from DevOps Experts
             </p>
-            <p className="font-medium text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
+            <p className="font-medium text-xs sm:text-sm text-white rounded-[6px] bg-[#FFFFFF29] inline-block py-2 px-4">
               Real-World DevOps Projects
             </p>
           </div>
@@ -483,13 +484,16 @@ const HomePage = () => {
       <Slides />
       <Learning />
       <LandingPayment />
-      <div id="faq" className="bg-white scroll-smooth p-[0_5rem_5rem_5rem]">
+      <div
+        id="faq"
+        className="bg-white scroll-smooth md:p-[0_5rem_5rem_5rem] p-[0_6px_6px_6px] sm:p-[0_3rem_3rem_3rem]"
+      >
         <div className="flex flex-col items-center gap-y-2">
           <motion.p
             initial={{ y: -100, opacity: 0 }}
             whileInView={{ y: 0, opacity: 100 }}
             transition={{ duration: 0.5 }}
-            className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-base font-normal text-[#FF1053] inline-block text-center "
+            className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-xs sm:text-base font-normal text-[#FF1053] inline-block text-center "
           >
             FAQ
           </motion.p>
@@ -497,7 +501,7 @@ const HomePage = () => {
             initial={{ y: -100, opacity: 0 }}
             whileInView={{ y: 0, opacity: 100 }}
             transition={{ duration: 0.7 }}
-            className="text-main font-semibold text-[32px] "
+            className="text-main font-semibold text-center text-[28px] md:text-[32px] "
           >
             Frequently Asked Questions
           </motion.h1>
@@ -514,20 +518,20 @@ const HomePage = () => {
                 selectedIndex === index
                   ? "bg-[#FAFAFA] shadow-[0_4px_20px_rgba(0,0,0,0.1)]"
                   : "border border-[#9F9F9F] bg-white"
-              } rounded-[10px] my-4 w-3/5 transition-all duration-300`}
+              } rounded-[10px] my-2 md:my-4 w-full lg:w-3/5 transition-all duration-300`}
             >
-              <div className="flex items-center justify-between p-5">
+              <div className="flex items-center justify-between gap-4 p-3 md:p-5">
                 <p
                   className={`${
                     selectedIndex === index ? "text-main" : "text-[#9F9F9F]"
-                  } text-lg font-semibold transition-colors duration-300`}
+                  } text-base lg:text-lg font-semibold transition-colors duration-300`}
                 >
                   {faq.ques}
                 </p>
                 {selectedIndex === index ? (
-                  <CiCircleMinus className="w-6 h-6 transition-transform duration-300" />
+                  <CiCircleMinus className="w-6  h-6 flex-none text-base md:text-lg transition-transform duration-300" />
                 ) : (
-                  <CiCirclePlus className="w-6 h-6 transition-transform duration-300" />
+                  <CiCirclePlus className="w-6  h-6 flex-none text-base md:text-lg transition-transform duration-300" />
                 )}
               </div>
               <div
@@ -537,7 +541,7 @@ const HomePage = () => {
                     : "max-h-0 opacity-0"
                 }`}
               >
-                <p className="text-[#484848] p-5 font-normal text-base font-sf-pro-display">
+                <p className="text-[#484848] p-2 md:p-5 font-normal text-sm md:text-base font-sf-pro-display">
                   {faq.ans}
                 </p>
               </div>
@@ -545,25 +549,25 @@ const HomePage = () => {
           ))}
         </div>
       </div>
-      <div className="bg-[#000066] flex justify-center items-center h-[788px]  ">
+      <div className="bg-[#000066] md:p-0 p-4 sm:p-10 flex justify-center items-center h-[788px]  ">
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className=" rounded-[40px] flex items-center justify-between bg-[#000066] p-20 relative max-w-[1200px] shadow-[0_0_160px_0_rgba(0,0,0,0.4)]"
+          className=" rounded-[40px] flex items-center justify-between bg-[#000066] p-10 md:p-20 relative max-w-[1200px] shadow-[0_0_160px_0_rgba(0,0,0,0.4)]"
         >
-          <div className="flex flex-col w-1/2 gap-10 mr-10">
-            <h1 className="text-white font-medium text-5xl">
+          <div className="flex flex-col w-full md:w-1/2 gap-10 mr-0 md:mr-10">
+            <h1 className="text-white md:text-left z-10 text-center font-medium text-3xl md:text-5xl">
               Ready to Start Your DevOps Journey?
             </h1>
-            <p className="text-base font-normal text-white">
+            <p className="md:text-base md:text-left text-center z-10 text-sm font-normal text-white">
               Join our vibrant community of aspiring engineers and embark on a
               transformative journey to unlock the skills needed for success in
               the ever-evolving world of DevOps. Together, we’ll equip you with
               the knowledge and practical experience to thrive in a dynamic
               industry!
             </p>
-            <button className="rounded-[8px] bg-sub w-1/2 py-3 font-sf-pro-display cursor-pointer text-white font-medium text-base ">
+            <button className="rounded-[8px] z-10 bg-sub w-full md:w-1/2 py-3 font-sf-pro-display cursor-pointer text-white font-medium text-base ">
               Enroll Today
             </button>
           </div>

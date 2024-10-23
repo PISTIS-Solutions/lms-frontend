@@ -66,30 +66,30 @@ const Slides = () => {
   }, [images.length]);
 
   return (
-    <div className="bg-white flex overflow-x-hidden items-center gap-x-20 justify-between p-20 ">
+    <div className="bg-white block md:flex overflow-x-hidden items-center gap-20 justify-between p-4 sm:p-10 md:p-20 ">
       <motion.div
         initial={{ x: -100, opacity: 0 }}
         whileInView={{ x: 0, opacity: 100 }}
         transition={{ duration: 0.5 }}
-        className="max-w-[45%]"
+        className="max-w-full md:max-w-[45%]"
       >
-        <h1 className="text-main font-medium text-5xl ">
+        <h1 className="text-main font-medium text-4xl text-center md:text-left md:text-5xl ">
           Real Stories, Real Success
         </h1>
-        <p className="text-base max-w-[472px] py-4 font font-sf-pro-display">
+        <p className="md:text-base text-sm md:text-left text-center max-w-full md:max-w-[472px] py-4 font font-sf-pro-display">
           See how our DevOps program has transformed careers and empowered
           professionals to achieve their goals.
         </p>
-        <div className="flex items-center my-4 gap-x-8">
+        <div className="flex justify-center md:justify-normal items-center my-4 gap-x-8">
           <button
-            className=" w-14 disabled:text-[#BDBDBD] text-main h-14 rounded-full bg-white flex justify-center items-center cursor-pointer shadow-[0_0_12px_rgba(0,0,0,0.1)]"
+            className=" md:w-14 w-10 h-10 disabled:text-[#BDBDBD] text-main md:h-14 rounded-full bg-white flex justify-center items-center cursor-pointer shadow-[0_0_12px_rgba(0,0,0,0.1)]"
             onClick={handlePrevious}
             disabled={currentIndex === 0}
           >
             <ArrowLeft />
           </button>
           <button
-            className=" w-14 h-14 rounded-full text-main disabled:text-[#BDBDBD] bg-white flex justify-center items-center cursor-pointer shadow-[0_0_12px_rgba(0,0,0,0.1)]"
+            className=" md:w-14 w-10 h-10 md:h-14 rounded-full text-main disabled:text-[#BDBDBD] bg-white flex justify-center items-center cursor-pointer shadow-[0_0_12px_rgba(0,0,0,0.1)]"
             onClick={handleNext}
             disabled={currentIndex === 4}
           >
@@ -101,7 +101,7 @@ const Slides = () => {
         initial={{ x: 100, opacity: 0 }}
         whileInView={{ x: 0, opacity: 100 }}
         transition={{ duration: 0.5 }}
-        className="max-w-[48%] relative"
+        className="md:max-w-[48%] max-w-full relative"
       >
         <Carousel
           images={images[currentIndex].image}

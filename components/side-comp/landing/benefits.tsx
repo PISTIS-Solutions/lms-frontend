@@ -34,13 +34,13 @@ const Benefits = () => {
   ];
 
   return (
-    <div className="bg-white p-20 ">
+    <div className="bg-white md:p-20 p-3 py-10 md:py-20">
       <div className="flex flex-col items-center gap-y-2">
         <motion.p
           initial={{ y: -100, opacity: 0 }}
           whileInView={{ y: 0, opacity: 100 }}
           transition={{ duration: 0.5 }}
-          className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-base font-normal text-[#FF1053] inline-block text-center "
+          className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-xs sm:text-base font-normal text-[#FF1053] inline-block text-center "
         >
           Key Benefits
         </motion.p>
@@ -48,12 +48,12 @@ const Benefits = () => {
           initial={{ y: -100, opacity: 0 }}
           whileInView={{ y: 0, opacity: 100 }}
           transition={{ duration: 0.7 }}
-          className="text-main font-semibold text-[32px] "
+          className="text-main font-semibold text-center text-[28px] md:text-[32px] "
         >
           Why Choose Our DevOps Program?
         </motion.h1>
       </div>
-      <div className="grid grid-cols-2 gap-8 my-10">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 md:gap-8 my-10">
         {cardData.map((data, index) => {
           return (
             <motion.div
@@ -61,12 +61,12 @@ const Benefits = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
               key={index}
-              className="rounded-[10px] bg-white shadow-[0_0_20px_rgba(0,0,0,0.2)] flex p-6 gap-x-6 items-center"
+              className="rounded-[10px] bg-white shadow-[0_0_20px_rgba(0,0,0,0.2)] flex p-4 md:p-6 gap-x-6 items-center"
             >
               <Image alt="icon" src={data.icon} />
               <div>
-                <p className="text-main font-semibold text-2xl">{data.head}</p>
-                <p className="text-[#666666] font-normal text-base font-sf-pro-display pt-2">
+                <p className="text-main font-semibold text-xl md:text-2xl">{data.head}</p>
+                <p className="text-[#666666] font-normal text-sm md:text-base font-sf-pro-display pt-2">
                   {data.p}
                 </p>
               </div>

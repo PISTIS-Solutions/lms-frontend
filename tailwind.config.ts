@@ -25,6 +25,9 @@ module.exports = {
         backdrop: "url('/assets/backdrop.svg')",
         curve: "url('/assets/curve.png')",
         whtcurve: "url('/assets/white-curve.png')",
+        landingBck: "url('/assets/landingBck.png')",
+        abtImage: "url('/assets/abtImage.png')",
+        blogImg: "url('/assets/blogImg.png')"
       },
       colors: {
         main: "#000066",
