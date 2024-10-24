@@ -2,11 +2,29 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Favicon from "../public/favicon.ico";
+import localFont from "next/font/local";
 import { ToastContainer } from "react-toastify";
 import localFont from "next/font/local";
 import "react-toastify/dist/ReactToastify.css";
+import Head from "next/head";
 
-const montserrat = Montserrat({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"], display: "swap" });
+const sp = localFont({
+  src: [
+    {
+      path: "../public/fonts/SFProDisplay-Regular.woff2",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/SFProDisplay-Medium.woff2",
+      weight: "500",
+      style: "medium",
+    },
+  ],
+  variable: "--font-sf-pro-display",
+  display: "swap",
+});
 
 const SFProDisplay = localFont({
   src: [
@@ -59,6 +77,7 @@ export default function RootLayout({
           theme="dark"
         /> */}
         {children}
+        <ToastContainer />
       </body>
     </html>
   );

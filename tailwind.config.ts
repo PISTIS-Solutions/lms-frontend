@@ -18,10 +18,16 @@ module.exports = {
     extend: {
       backgroundImage: {
         "form-back": "url('/assets/account_background.png')",
-        "hero-back": "url('/assets/hero-background.png')",
+        "hero-back": "url('/assets/landingBck.png')",
         "mid-back": "url('/assets/mid.png')",
         "footer-back": "url('/assets/footer-back.png')",
         pricingBack: "url('/assets/pricingBack.png')",
+        backdrop: "url('/assets/backdrop.svg')",
+        curve: "url('/assets/curve.png')",
+        whtcurve: "url('/assets/white-curve.png')",
+        landingBck: "url('/assets/landingBck.png')",
+        abtImage: "url('/assets/abtImage.png')",
+        blogImg: "url('/assets/blogImg.png')",
         "session-bg": "url('/assets/svg/sessionBg.svg')",
       },
       colors: {
