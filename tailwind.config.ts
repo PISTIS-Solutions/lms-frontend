@@ -27,7 +27,8 @@ module.exports = {
         whtcurve: "url('/assets/white-curve.png')",
         landingBck: "url('/assets/landingBck.png')",
         abtImage: "url('/assets/abtImage.png')",
-        blogImg: "url('/assets/blogImg.png')"
+        blogImg: "url('/assets/blogImg.png')",
+        "session-bg": "url('/assets/svg/sessionBg.svg')",
       },
       colors: {
         main: "#000066",
@@ -80,10 +81,34 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "slide-in": {
+          "0%": { transform: "translateX(100%)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
+        "slide-out": {
+          "0%": { transform: "translateX(0)", opacity: "1" },
+          "100%": { transform: "translateX(100%)", opacity: "0" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "fade-out": {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "slide-in": "slide-in 300ms ease-in-out",
+        "slide-out": "slide-out 300ms ease-in-out",
+        "fade-in": "fade-in 300ms ease-in-out",
+        "fade-out": "fade-out 300ms ease-in-out",
+      },
+      fontFamily: {
+        sfProDisplay: ["var(--font-sf-pro-display)"],
+        digitalNumbers: ["var(--font-DigitalNumbers)"],
       },
     },
   },

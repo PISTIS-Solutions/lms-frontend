@@ -28,7 +28,7 @@ const PricingCard = ({ bool }: any) => {
       theme: "dark",
     });
   };
-  const plan = Cookies.get("plan");
+  const subscriptionStatus = Cookies.get("status");
 
   return (
     <div className="border-2 relative border-[A5ACBA] rounded-[4px] max-w-[310px] w-full h-[444px]">
@@ -70,9 +70,9 @@ const PricingCard = ({ bool }: any) => {
         </Link>
       ) : (
         <Button
-          onClick={plan == "Free" ? undefined : freePlan}
+          onClick={subscriptionStatus == "Free" ? undefined : freePlan}
           className={
-            plan == "Free"
+            subscriptionStatus == "Free"
               ? "bg-sub/50 absolute bottom-4  text-black w-[90%] mx-4 cursor-not-allowed"
               : "bg-[#DAE0E6] absolute bottom-4 hover:text-white text-black hover:bg-main w-[90%] mx-4"
           }

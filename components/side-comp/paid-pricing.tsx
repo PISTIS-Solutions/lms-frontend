@@ -18,7 +18,7 @@ const PaidPricing = ({ bool }: any) => {
   ];
 
   const paidFunct = () => {
-    localStorage.setItem("plan", "Paid");
+    localStorage.setItem("subscription_status", "Paid");
     toast.success("Paid Plan Selected!", {
       position: "top-right",
       autoClose: 5000,
@@ -29,7 +29,7 @@ const PaidPricing = ({ bool }: any) => {
       theme: "dark",
     });
   };
-  const plan = Cookies.get("plan");
+  const subscriptionStatus = Cookies.get("status");
   return (
     <div className="border-2 relative border-[A5ACBA] rounded-[4px] max-w-[310px] w-full h-[444px]">
       <ToastContainer />
@@ -37,8 +37,8 @@ const PaidPricing = ({ bool }: any) => {
         <div>
           <h1 className="text-lg text-[#1A1A1A] font-medium">Paid Plan</h1>
           <p className="text-xs text-[#3E3E3E] pb-4 pt-2">
-            Ideal for students seeking to explore the complete functionality
-            of the web app
+            Ideal for students seeking to explore the complete functionality of
+            the web app
           </p>
         </div>
         <h1 className="text-2xl text-main font-semibold">N400,000</h1>
@@ -70,9 +70,9 @@ const PaidPricing = ({ bool }: any) => {
           </Link>
         ) : (
           <Button
-            onClick={plan == "Paid" ? undefined : paidFunct}
+            onClick={subscriptionStatus == "Paid" ? undefined : paidFunct}
             className={
-              plan == "Paid"
+              subscriptionStatus == "Paid"
                 ? "bg-sub absolute bottom-4 text-black w-[90%] mx-4"
                 : "bg-[#DAE0E6] absolute bottom-4 hover:text-white text-black hover:bg-main w-[90%] mx-4"
             }

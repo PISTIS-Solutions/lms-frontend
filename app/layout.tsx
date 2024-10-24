@@ -4,6 +4,7 @@ import "./globals.css";
 import Favicon from "../public/favicon.ico";
 import localFont from "next/font/local";
 import { ToastContainer } from "react-toastify";
+import localFont from "next/font/local";
 import "react-toastify/dist/ReactToastify.css";
 import Head from "next/head";
 
@@ -25,6 +26,32 @@ const sp = localFont({
   display: "swap",
 });
 
+const SFProDisplay = localFont({
+  src: [
+    {
+      path: "../public/fonts/FontsFree-Net-SFProDisplay-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/FontsFree-Net-SFProDisplay-Medium.ttf",
+      weight: "500",
+      style: "medium",
+    },
+  ],
+  variable: "--font-sf-pro-display",
+});
+const digitalNumbers = localFont({
+  src: [
+    {
+      path: "../public/fonts/DigitalNumbers-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-DigitalNumbers",
+});
+
 export const metadata: Metadata = {
   title: "Pistis Student",
   icons: [{ rel: "icon", url: Favicon.src }],
@@ -37,23 +64,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* <Head>
-        <link
-          rel="preload"
-          href="/fonts/SFProDisplay-Regular.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/fonts/SFProDisplay-Medium.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
-      </Head> */}
-      <body className={`${sp.variable} ${montserrat.className}`}>
+      <body
+        className={`${SFProDisplay.variable} ${digitalNumbers.variable} ${montserrat.className}`}
+      >
+        {/* <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick={true}
+          pauseOnHover={false}
+          draggable={false}
+          theme="dark"
+        /> */}
         {children}
         <ToastContainer />
       </body>
