@@ -8,6 +8,7 @@ import ProjectRejected from "@/public/assets/svg/projectRejected.svg";
 import subscriptionRenewalReminder from "@/public/assets/svg/subscriptionRenewalReminder.svg";
 import Image from "next/image";
 import { useState } from "react";
+import Link from "next/link";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -26,18 +27,18 @@ const NotificationModal = ({
 
   const toggleModal = () => setIsOpen(!isOpen);
 
-  const getActivityIcon = (activityType: string) => {
+  const getActivityIconLink = (activityType: string) => {
     switch (activityType) {
       case "Course Enrollment Confirmation":
-        return CourseEnrollMent;
+        return { img: CourseEnrollMent, link: "/courses" };
       case "Project Submitted":
-        return ProjectSubmitted;
+        return { img: ProjectSubmitted, link: "/grading" };
       case "Project Review Notification":
-        return ProjectReviewNotification;
+        return { img: ProjectReviewNotification, link: "/grading" };
       case "Project Rejected":
-        return ProjectRejected;
+        return { img: ProjectRejected, link: "/grading" };
       default:
-        return subscriptionRenewalReminder;
+        return { img: subscriptionRenewalReminder, link: "/pricing" };
     }
   };
 
@@ -71,7 +72,7 @@ const NotificationModal = ({
             >
               Notification{" "}
               <span className="font-sfProDisplay text-xs text-[#9F9F9F]  relative top-[-4px]">
-                ({activity.length} Unread)
+                ({activity.length})
               </span>
             </h3>
             <X
@@ -86,34 +87,40 @@ const NotificationModal = ({
               {activity?.length == 0 ? (
                 <p className="text-center leading-[160%]">No activity yet</p>
               ) : (
-                activity?.map((tag: any, index: any) => (
-                  <div
-                    key={index}
-                    className="flex items-center gap-3 md:gap-4  cursor-pointer py-[14px] last-of-type:pb-0"
-                  >
-                    <div className="flex items-start gap-x-4 w-full">
-                      <Image
-                        src={getActivityIcon(tag?.activity_type)}
-                        alt="activity icon"
-                        className="w-10 h-10"
-                      />
-                      <div className="flex gap-x-4 w-full justify-between flex-wrap lg:flex-nowrap">
-                        <span>
-                          <p className="text-ellipsis overflow-hidden font-medium text-[#014873]">
-                            {tag?.activity_type}
-                          </p>
-                          <p className="text-xs text-ellipsis overflow-hidden  text-[#666666]">
-                            {tag?.message}
-                          </p>
-                        </span>
-                        <span className="text-[#999999] text-xs flex items-center gap-x-1  whitespace-nowrap self-start">
-                          <p>{tag?.time_since}</p>
-                          <div className="w-[5px] h-[5px] rounded-full bg-[#FF1053]" />
-                        </span>
+                activity?.map((tag: any, index: any) => {
+                  const activityItemLink = getActivityIconLink(
+                    tag?.activity_type
+                  );
+                  return (
+                    <Link
+                      key={index}
+                      className="flex items-center gap-3 md:gap-4  cursor-pointer py-[14px] last-of-type:pb-0"
+                      href={activityItemLink.link}
+                    >
+                      <div className="flex items-start gap-x-4 w-full">
+                        <Image
+                          src={activityItemLink.img}
+                          alt="activity icon"
+                          className="w-10 h-10"
+                        />
+                        <div className="flex gap-x-4 w-full justify-between flex-wrap lg:flex-nowrap">
+                          <span>
+                            <p className="text-ellipsis overflow-hidden font-medium text-[#014873]">
+                              {tag?.activity_type}
+                            </p>
+                            <p className="text-xs text-ellipsis overflow-hidden  text-[#666666]">
+                              {tag?.message}
+                            </p>
+                          </span>
+                          <span className="text-[#999999] text-xs flex items-center gap-x-1  whitespace-nowrap self-start">
+                            <p>{tag?.time_since}</p>
+                            <div className="w-[5px] h-[5px] rounded-full bg-[#FF1053]" />
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                ))
+                    </Link>
+                  );
+                })
               )}
             </div>
           </ScrollArea>

@@ -53,18 +53,18 @@ const responsive = {
   },
 };
 
-const getActivityIcon = (activityType: string) => {
+const getActivityIconLink = (activityType: string) => {
   switch (activityType) {
     case "Course Enrollment Confirmation":
-      return CourseEnrollMent;
+      return { img: CourseEnrollMent, link: "/courses" };
     case "Project Submitted":
-      return ProjectSubmitted;
+      return { img: ProjectSubmitted, link: "/grading" };
     case "Project Review Notification":
-      return ProjectReviewNotification;
+      return { img: ProjectReviewNotification, link: "/grading" };
     case "Project Rejected":
-      return ProjectRejected;
+      return { img: ProjectRejected, link: "/grading" };
     default:
-      return subscriptionRenewalReminder;
+      return { img: subscriptionRenewalReminder, link: "/pricing" };
   }
 };
 
@@ -368,29 +368,35 @@ const Dashboard = () => {
                           No activity yet
                         </p>
                       ) : (
-                        activity?.map((tag: any, index: any) => (
-                          <div
-                            key={index}
-                            className="flex items-center gap-3 md:gap-4 px-1 md:px-2 cursor-pointer py-2 last-of-type:pb-0"
-                          >
-                            <div className="flex items-center gap-x-2">
-                              <Image
-                                src={getActivityIcon(tag?.activity_type)}
-                                alt="activity icon"
-                                className="w-7 h-7 "
-                              />
+                        activity?.map((tag: any, index: any) => {
+                          const activityItemLink = getActivityIconLink(
+                            tag?.activity_type
+                          );
+                          return (
+                            <Link
+                              key={index}
+                              className="flex items-center gap-3 md:gap-4 px-1 md:px-2 cursor-pointer py-2 last-of-type:pb-0"
+                              href={activityItemLink.link}
+                            >
+                              <div className="flex items-center gap-x-2">
+                                <Image
+                                  src={activityItemLink.img}
+                                  alt="activity icon"
+                                  className="w-7 h-7 "
+                                />
 
-                              <div className="w-full">
-                                <p className="text-sm  text-ellipsis whitespace-nowrap max-w-[71vw] lg:w-[15vw] xl:w-[17vw] 2xl:w-[19.8vw] overflow-hidden font-medium">
-                                  {`${tag?.activity_type}: ${tag?.message}`}
-                                </p>
-                                <span className="text-[#999999] text-xs flex items-center gap-x-1 ">
-                                  <p>{tag?.time_since}</p>
-                                </span>
+                                <div className="w-full">
+                                  <p className="text-sm  text-ellipsis whitespace-nowrap max-w-[71vw] lg:w-[15vw] xl:w-[17vw] 2xl:w-[19.8vw] overflow-hidden font-medium">
+                                    {`${tag?.activity_type}: ${tag?.message}`}
+                                  </p>
+                                  <span className="text-[#999999] text-xs flex items-center gap-x-1 ">
+                                    <p>{tag?.time_since}</p>
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          </div>
-                        ))
+                            </Link>
+                          );
+                        })
                       )}
                     </div>
                   </ScrollArea>
