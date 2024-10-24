@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Favicon from "../public/favicon.ico";
-import localFont from "next/font/local";
 import { ToastContainer } from "react-toastify";
 import localFont from "next/font/local";
 import "react-toastify/dist/ReactToastify.css";
