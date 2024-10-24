@@ -97,7 +97,7 @@ cardProps) => {
     getModuleCount();
   }, []);
 
-  const subscriptionStatus = Cookies.get("subscription_status");
+  const subscriptionStatus = Cookies.get("status");
   const isFreeSubscription = subscriptionStatus === "Free";
 
   const isLocked = isFreeSubscription && index > 3;

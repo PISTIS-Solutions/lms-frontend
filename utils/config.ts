@@ -1,4 +1,5 @@
-export const baseURL = "https://backend.dev.pististechub.io/api/v1/auth";
+export const baseURL = process.env.NEXT_PUBLIC_API_URL;
+// export const baseURL = "https://backend.dev.pististechub.io/api/v1/auth";
 
 export const urls = {
   signup: `${baseURL}/users/student/`,
@@ -16,4 +17,7 @@ export const urls = {
   resendToken: `${baseURL}/users/student/resend_activation/`,
   projectReview: `${baseURL}/users/student/project-review/`,
   getStudents: `${baseURL}/courses-and-students/`,
+  bookings: `${baseURL}/users/booking/`,
+  getSessions: `${baseURL}/users/booking/get_count/`,
+  getAllSession: `${baseURL}/users/booking/get_all/`,
 };

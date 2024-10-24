@@ -28,7 +28,7 @@ const PricingCard = ({ bool }: any) => {
       theme: "dark",
     });
   };
-  const subscriptionStatus = Cookies.get("subscription_status");
+  const subscriptionStatus = Cookies.get("status");
 
   return (
     <div className="border-2 relative border-[A5ACBA] rounded-[4px] max-w-[310px] w-full h-[444px]">
