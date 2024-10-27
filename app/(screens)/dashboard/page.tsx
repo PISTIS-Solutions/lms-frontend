@@ -413,11 +413,6 @@ const Dashboard = () => {
                     total_courses={stuData?.total_courses}
                     enrolled_courses={stuData?.enrolled_courses.length}
                   />
-                  // <PieChart
-                  //   courses_completed={2}
-                  //   total_courses={13}
-                  //   enrolled_courses={1}
-                  // />
                 )}
               </div>
             </div>

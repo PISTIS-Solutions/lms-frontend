@@ -120,6 +120,53 @@ const PieChart = ({
     ],
   };
 
+  // const segmentTextPlugins = {
+  //   id: "segmentTextCloud",
+  //   afterDatasetDraw(chart: any) {
+  //     const { ctx, data } = chart;
+
+  //     const xCenter = chart.getDatasetMeta(0).data[0].x;
+  //     const yCenter = chart.getDatasetMeta(0).data[0].y;
+
+  //     const sortedIndexedChart = sortData(data);
+
+  //     chart.getDatasetMeta(0).data.forEach((datapoint: any, index: number) => {
+  //       if (data.datasets[0].data[index] > 0) {
+  //         const outerRadius = chart.getDatasetMeta(0).data[index].outerRadius;
+  //         const startAngle = chart.getDatasetMeta(0).data[index].startAngle;
+  //         const endAngle = chart.getDatasetMeta(0).data[index].endAngle;
+  //         const centerAngle = (startAngle + endAngle) / 2;
+
+  //         const x = chart.getDatasetMeta(0).data[index].tooltipPosition().x;
+  //         const y = chart.getDatasetMeta(0).data[index].tooltipPosition().y;
+
+  //         ctx.save();
+
+  //         // NOTE: for the text position you can either use these
+  //         // ctx.translate(x - 30, y);
+  //         //NOTE: or these
+  //         ctx.translate(xCenter, yCenter);
+  //         ctx.rotate(centerAngle);
+
+  //         // text
+  //         if (index == sortedIndexedChart[0].index) {
+  //           ctx.font = "700 26px Montserrat";
+  //         } else if (index == sortedIndexedChart[1].index) {
+  //           ctx.font = "600 16px Montserrat";
+  //         } else {
+  //           ctx.font = "500 14px var(--font-sf-pro-display)";
+  //         }
+
+  //         index == 0 ? (ctx.fillStyle = "#014873") : (ctx.fillStyle = "white");
+  //         // ctx.font = "bold 15px sans-serif";
+  //         ctx.textAlign = "center";
+  //         ctx.fillText(`${data.datasets[0].data[index]}%`, outerRadius / 2, 0);
+  //         ctx.restore();
+  //       }
+  //     });
+  //   },
+  // };
+
   const segmentTextPlugins = {
     id: "segmentTextCloud",
     afterDatasetDraw(chart: any) {
@@ -137,30 +184,35 @@ const PieChart = ({
           const endAngle = chart.getDatasetMeta(0).data[index].endAngle;
           const centerAngle = (startAngle + endAngle) / 2;
 
-          const x = chart.getDatasetMeta(0).data[index].tooltipPosition().x;
-          const y = chart.getDatasetMeta(0).data[index].tooltipPosition().y;
+          // Calculate text position
+          const x = xCenter + Math.cos(centerAngle) * (outerRadius / 2);
+          const y = yCenter + Math.sin(centerAngle) * (outerRadius / 2);
 
           ctx.save();
+          ctx.translate(x, y);
 
-          // NOTE: for the text position you can either use these
-          // ctx.translate(x - 30, y);
-          //NOTE: or these
-          ctx.translate(xCenter, yCenter);
+          // Rotate text based on the center angle
+          // If the angle is greater than π (180 degrees), we flip the text
           ctx.rotate(centerAngle);
-
-          // text
-          if (index == sortedIndexedChart[0].index) {
-            ctx.font = "700 26px Montserrat";
-          } else if (index == sortedIndexedChart[1].index) {
-            ctx.font = "600 16px Montserrat";
-          } else {
-            ctx.font = "500 14px var(--font-sf-pro-display)";
+          if (centerAngle > Math.PI) {
+            ctx.rotate(Math.PI); // Flip text upside down
           }
 
-          index == 0 ? (ctx.fillStyle = "#014873") : (ctx.fillStyle = "white");
-          // ctx.font = "bold 15px sans-serif";
+          // Set font styles based on the index
+          if (index === sortedIndexedChart[0].index) {
+            ctx.font = "700 26px Montserrat";
+            ctx.fillStyle = "white";
+          } else if (index === sortedIndexedChart[1].index) {
+            ctx.font = "600 16px Montserrat";
+            ctx.fillStyle = "white";
+          } else {
+            ctx.font = "500 14px var(--font-sf-pro-display)";
+            ctx.fillStyle = "#014873";
+          }
+
           ctx.textAlign = "center";
-          ctx.fillText(`${data.datasets[0].data[index]}%`, outerRadius / 2, 0);
+          ctx.fillText(`${data.datasets[0].data[index]}%`, 0, 0); // Draw text at center
+
           ctx.restore();
         }
       });

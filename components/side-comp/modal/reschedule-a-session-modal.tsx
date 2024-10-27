@@ -7,6 +7,8 @@ import { urls } from "@/utils/config";
 import { toast } from "react-toastify";
 import useFetchStudentSessionStore from "@/store/fetch-student-session";
 import CountDownText from "../CountDownText";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const timeRangeData = [
   { name: "15 Min", value: 15 },
@@ -14,44 +16,56 @@ const timeRangeData = [
   { name: "1 hr", value: 60 },
 ];
 
-const validateDate = (value: string): boolean => {
-  return /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$/.test(value);
+const validateDate = (value: Date | null): boolean => {
+  console.log(value);
+  if (value == null) return false;
+  const day = String(value.getDate()).padStart(2, "0");
+  const month = String(value.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const year = value.getFullYear();
+
+  const date = `${day}-${month}-${year}`;
+  return /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$/.test(date);
 };
 
 const validateTime = (value: string): boolean => {
   return /^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/.test(value);
 };
 
-const getISODateTime = (date: string, time: string): string => {
-  const [day, month, year] = date.split("-").map(Number);
+const getISODateTime = (date: Date | null, time: string): string | null => {
+  if (!date) {
+    return null; // Handle null case as needed
+  }
+
   const [hour, minute] = time.split(":").map(Number);
 
-  // Create a Date object in UTC
+  // Create a new Date object in UTC
   const isoDate = new Date(
-    Date.UTC(year, month - 1, day, hour, minute)
+    Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      hour,
+      minute
+    )
   ).toISOString();
+
   return isoDate;
 };
 
 const reverseISODateTime = (
   isoString: string
-): { date: string; time: string } => {
+): { date: Date; time: string } => {
   // Create a Date object from ISO string
   const date = new Date(isoString);
 
-  // Get UTC components
-  const year = date.getUTCFullYear();
-  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0"); // Add 1 because months are 0-indexed
-  const day = date.getUTCDate().toString().padStart(2, "0");
   const hours = date.getUTCHours().toString().padStart(2, "0");
   const minutes = date.getUTCMinutes().toString().padStart(2, "0");
 
   // Format back to original format
-  const dateStr = `${day}-${month}-${year}`; // DD-MM-YYYY
   const timeStr = `${hours}:${minutes}`; // HH:MM
 
   return {
-    date: dateStr,
+    date: date,
     time: timeStr,
   };
 };
@@ -65,11 +79,22 @@ const preferredDateError =
 const preferredTimeError =
   "Invalid preferred time format. Use HH:MM (e.g., 05:01).";
 
-const isDateTimeInPast = (dateStr: string, timeStr: string): boolean => {
-  const [day, month, year] = dateStr.split("-").map(Number);
+const isDateTimeInPast = (date: Date | null, timeStr: string): boolean => {
+  if (!date) {
+    return false;
+  }
+
   const [hour, minute] = timeStr.split(":").map(Number);
 
-  const inputDate = new Date(Date.UTC(year, month - 1, day, hour, minute));
+  const inputDate = new Date(
+    Date.UTC(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      hour,
+      minute
+    )
+  );
   const currentDate = new Date();
 
   return inputDate < currentDate;
@@ -89,7 +114,11 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
     topic: true,
   });
   const time = sessionData && reverseISODateTime(sessionData?.preferred_date);
-  const [preferredDateStr, setPreferredDateStr] = useState(time?.date ?? "");
+  const [preferredDateStr, setPreferredDateStr] = useState<Date | null>(
+    time?.date ?? null
+  );
+
+  // const [preferredDateStr, setPreferredDateStr] = useState(time?.date ?? "");
   const [preferredTimeStr, setPreferredTimeStr] = useState(time?.time ?? "");
 
   const toggleModal = () => {
@@ -174,7 +203,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
         } finally {
           setLoading(false);
           setTopic("");
-          setPreferredDateStr("");
+          setPreferredDateStr(null);
           setPreferredTimeStr("");
           setDuration(15);
 
@@ -192,38 +221,33 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
   };
 
   const validateInput = (
-    validationFn: (value: string) => boolean,
-    value: string,
+    value: string | Date | null,
     errorMsg: string,
     key: string
   ) => {
-    if (!validationFn(value)) {
+    if (typeof value === "string") {
+      if (!validateTime(value)) {
+        setError(errorMsg);
+        updateErrorState(key, false);
+        return false;
+      }
+    } else if (!validateDate(value as Date | null)) {
       setError(errorMsg);
       updateErrorState(key, false);
       return false;
-    } else {
-      updateErrorState(key, true);
-      return true;
     }
+
+    updateErrorState(key, true);
+    return true;
   };
 
   const validateAllInputs = () => {
     if (
-      !validateInput(
-        validateDate,
-        preferredDateStr,
-        preferredDateError,
-        "preferredDateStr"
-      )
+      !validateInput(preferredDateStr, preferredDateError, "preferredDateStr")
     )
       return false;
     if (
-      !validateInput(
-        validateTime,
-        preferredTimeStr,
-        preferredTimeError,
-        "preferredTimeStr"
-      )
+      !validateInput(preferredTimeStr, preferredTimeError, "preferredTimeStr")
     )
       return false;
 
@@ -327,23 +351,29 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
                   Preferred Date & Time
                 </label>
                 <div className="flex justify-between mt-1">
-                  <input
-                    type="text"
-                    className={`p-3 border rounded-md outline-none w-[48%] ${
-                      notDateError.preferredDateStr === false
-                        ? "border-red-600"
-                        : notDateError.preferredDateStr == true
-                        ? "border-[#2FBC8D]"
-                        : "border-[#DADADA]"
-                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                    id="preferred-date-time"
-                    placeholder="DD-MM-YYY"
-                    required
-                    value={preferredDateStr}
-                    onChange={(e) => setPreferredDateStr(e.target.value.trim())}
-                    pattern="^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$"
-                    onBlur={() => validateAllInputs()}
-                  />
+                  <div className="w-[48%]">
+                    <DatePicker
+                      selected={preferredDateStr}
+                      onChange={(date) => setPreferredDateStr(date)}
+                      dateFormat="dd-MM-yyyy"
+                      className={`p-3 border rounded-md outline-none w-full ${
+                        notDateError.preferredDateStr === false
+                          ? "border-red-600"
+                          : notDateError.preferredDateStr == true
+                          ? "border-[#2FBC8D]"
+                          : "border-[#DADADA]"
+                      } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                      id="preferred-date-time"
+                      placeholderText="DD-MM-YYYY"
+                      onBlur={() =>
+                        validateInput(
+                          preferredDateStr,
+                          preferredDateError,
+                          "preferredDateStr"
+                        )
+                      }
+                    />
+                  </div>
                   <input
                     type="text"
                     className={`p-3 border rounded-md outline-none w-[48%] ${
