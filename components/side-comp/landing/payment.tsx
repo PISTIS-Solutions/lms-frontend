@@ -31,7 +31,7 @@ const LandingPayment = () => {
         initial={{ y: -100, opacity: 0 }}
         whileInView={{ y: 0, opacity: 100 }}
         transition={{ duration: 0.5 }}
-        className="flex overflow-x-hidden flex-wrap items-center justify-between gap-4 md:gap-6 my-10"
+        className=" flex flex-col lg:flex-row overflow-x-hidden items-center justify-between gap-4 lg:gap-6 my-10"
       >
         <BeginnerCard />
         <IntermediateCard />
