@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
 
-import { tochukwu, olayinka, oyedokun, tolulope, avatar } from "@/app/index";
+import { tochukwu, olayinka, oyedokun, tolulope, osin } from "@/app/index";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import Carousel from "../carousel";
 
@@ -44,10 +44,10 @@ const Slides = () => {
     },
 
     {
-      name: "Abayomi Omiwale",
+      name: "Osin Toluwani",
       quote:
-        "The timely help from the mentors has really made my learning easy and effective.",
-      image: avatar,
+        "Pistis has been an invaluable learning platform for me, providing both technical knowledge and an incredible community of collaborative minds. As a DevOps educational group, it offers a wealth of practical skills and insights that have greatly enhanced my growth in the field. I’ve enjoyed connecting with others who share my passion, learning alongside talented individuals who constantly inspire and challenge me. The supportive community and hands-on approach makes it a truly transformative experience.",
+      image: osin,
     },
 
     {
