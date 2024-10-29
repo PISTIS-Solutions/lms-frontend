@@ -219,11 +219,31 @@ const PieChart = ({
     },
   };
 
+  const options: any = {
+    plugins: {
+      responsive: true,
+      layout: {
+        padding: 0,
+      },
+      legend: {
+        display: false,
+      },
+    },
+    layout: {
+      padding: {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+      },
+    },
+  };
+
   return (
     <div className="flex justify-between">
       <ul
         id="legend-container"
-        className="self-end font-sfProDisplay font-medium flex flex-wrap gap-2 lg:gap-x-3"
+        className="self-end font-sfProDisplay font-medium  "
       >
         {data?.map((itm, idx) => (
           <li
@@ -245,10 +265,11 @@ const PieChart = ({
         ))}
       </ul>
       {data && (
-        <div className="max-w-[150px]   flex justify-end">
+        <div className="max-w-[150px]  h-[130px] flex justify-end">
           <Pie
             data={pieChartData}
             plugins={[segmentTextPlugins, sliceThicknessPlugin]}
+            options={options}
           />
         </div>
       )}
