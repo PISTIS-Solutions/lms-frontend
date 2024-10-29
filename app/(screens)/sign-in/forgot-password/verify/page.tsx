@@ -5,7 +5,7 @@ import logo from "@/public/assets/pistis_logo.png";
 import enve from "@/public/assets/enve.png";
 import AuthImageContainer from "@/components/side-comp/auth-image-container";
 import avatarImage from "@/public/assets/auth-image/kelsey.webp";
-import createAccount from "@/public/assets/auth-image/create-account.webp";
+import createAccount from "@/public/assets/auth-image/verify.webp";
 
 const verify_ForgotPassword = () => {
   return (

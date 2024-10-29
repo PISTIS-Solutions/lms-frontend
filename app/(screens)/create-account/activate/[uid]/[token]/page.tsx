@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useFormStore from "@/store/create-account";
 import Link from "next/link";
 import AuthImageContainer from "@/components/side-comp/auth-image-container";
-import createAccount from "@/public/assets/auth-image/create-account.webp";
+import createAccount from "@/public/assets/auth-image/verify.webp";
 import avatarImage from "@/public/assets/auth-image/kelsey.webp";
 
 const Verify_SignUp = () => {
