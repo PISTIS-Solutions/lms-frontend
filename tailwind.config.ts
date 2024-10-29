@@ -17,7 +17,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        "form-back": "url('/assets/loginSideImg.png')",
+        "form-back": "url('/assets/account_background.png')",
         "hero-back": "url('/assets/landingBck.png')",
         "mid-back": "url('/assets/mid.png')",
         "footer-back": "url('/assets/footer-back.png')",

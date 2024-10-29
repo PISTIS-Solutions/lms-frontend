@@ -116,8 +116,8 @@ const SignIn = () => {
   }
 
   return (
-    <main className="bg-form-back h-screen w-full bg-no-repeat bg-contain relative">
-      <div className="bg-white w-[100%] overflow-y-scroll lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-5  md:px-6 lg:px-10">
+    <main className="bg-form-back h-screen w-full bg-no-repeat bg-cover relative">
+      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-5  md:px-6 lg:px-10">
         <div className="flex justify-end">
           <Image src={logo} alt="pistis_logo" className="" priority />
         </div>
