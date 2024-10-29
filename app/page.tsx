@@ -215,7 +215,7 @@ const HomePage = () => {
               <div
                 className={`transition-all duration-500 ease-in-out overflow-scroll ${
                   selectedIndex === index
-                    ? "max-h-[500px] opacity-100 py-5"
+                    ? "max-h-[500px] opacity-100 py-4"
                     : "max-h-0 opacity-0"
                 }`}
               >

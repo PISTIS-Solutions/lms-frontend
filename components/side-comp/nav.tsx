@@ -62,16 +62,26 @@ const NavigationBar = () => {
       />
       <div className="md:flex hidden gap-6 items-center">
         {navLinks.map((nav, index) => {
+          const isFaqLink = nav.name.toLowerCase() === "faq";
+          const faqLink = pathname === "/" ? "#faq" : "/#faq";
+
           return (
             <Link
               key={index}
               className="capitalize font-sf-pro-display font-medium text-sm lg:text-base"
-              href={nav.link}
+              href={isFaqLink ? faqLink : nav.link}
             >
               <p
                 className={`cursor-pointer ${
                   pathname === `${nav.link}` ? "text-main" : "text-[#BDBDBD]"
                 } `}
+                onClick={() => {
+                  if (isFaqLink && pathname === "/") {
+                    document
+                      .getElementById("faq")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }
+                }}
               >
                 {nav.name}
               </p>
@@ -117,23 +127,35 @@ const NavigationBar = () => {
               className="text-main text-3xl absolute top-5 right-5"
             />
             <div className="flex flex-col items-center gap-2">
-              {navLinks.map((nav, index) => (
-                <Link
-                  key={index}
-                  className="capitalize font-sf-pro-display font-medium text-sm lg:text-base"
-                  href={nav.link}
-                >
-                  <p
-                    className={`cursor-pointer ${
-                      pathname === `${nav.link}`
-                        ? "text-main"
-                        : "text-[#BDBDBD]"
-                    } `}
+              {navLinks.map((nav, index) => {
+                const isFaqLink = nav.name.toLowerCase() === "faq";
+                const faqLink = pathname === "/" ? "#faq" : "/#faq";
+                return (
+                  <Link
+                    key={index}
+                    className="capitalize font-sf-pro-display font-medium text-sm lg:text-base"
+                    href={isFaqLink ? faqLink : nav.link}
                   >
-                    {nav.name}
-                  </p>
-                </Link>
-              ))}
+                    <p
+                      className={`cursor-pointer ${
+                        pathname === `/${nav.link}`
+                          ? "text-main"
+                          : "text-[#BDBDBD]"
+                      } `}
+                      onClick={(e) => {
+                        if (isFaqLink && pathname === "/") {
+                          e.preventDefault();
+                          document
+                            .getElementById("faq")
+                            ?.scrollIntoView({ behavior: "smooth" });
+                        }
+                      }}
+                    >
+                      {nav.name}
+                    </p>
+                  </Link>
+                );
+              })}
             </div>
             <div className="flex flex-col gap-2">
               <Link href="/sign-in">
