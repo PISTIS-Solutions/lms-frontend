@@ -193,11 +193,11 @@ const PieChart = ({
 
           // Rotate text based on the center angle
           // If the angle is greater than π (180 degrees), we flip the text
-          ctx.rotate(centerAngle);
-          if (centerAngle > Math.PI) {
-            ctx.rotate(Math.PI); // Flip text upside down
+          if (data.datasets[0].data[index] <= 17) {
+            ctx.rotate(centerAngle);
+            console.log("object yes");
           }
-
+          console.log(data.datasets[0].data[index]);
           // Set font styles based on the index
           if (index === sortedIndexedChart[0].index) {
             ctx.font = "700 26px Montserrat";
@@ -219,33 +219,57 @@ const PieChart = ({
     },
   };
 
+  const options: any = {
+    plugins: {
+      responsive: true,
+      layout: {
+        padding: 0,
+      },
+      legend: {
+        display: false,
+      },
+    },
+    layout: {
+      padding: {
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+      },
+    },
+  };
+
   return (
     <div className="flex justify-between">
       <ul
         id="legend-container"
-        className="self-end font-sfProDisplay font-medium"
+        className="self-end font-sfProDisplay font-medium  "
       >
         {data?.map((itm, idx) => (
           <li
-            className={
-              "text-sm  before:absolute before:left-0 before:top-[6px] font-medium relative pl-4 text-[#666]  before:w-2 before:h-2 before: rounded-full before:rounded-full " +
-              (idx == 0
-                ? `before:bg-[#CCEDFF]`
-                : idx == 1
-                ? "before:bg-[#FF1053]"
-                : "before:bg-[#2FBC8D]")
-            }
+            className="text-sm font-medium relative gap-x-2 flex text-[#666] items-center"
             key={idx}
           >
-            {itm.label}
+            <div
+              className={
+                "w-2 h-2 rounded-full " +
+                (idx == 0
+                  ? `bg-[#CCEDFF]`
+                  : idx == 1
+                  ? "bg-[#FF1053]"
+                  : "bg-[#2FBC8D]")
+              }
+            ></div>
+            <p>{itm.label}</p>
           </li>
         ))}
       </ul>
       {data && (
-        <div className="max-w-[150px]   flex justify-end">
+        <div className="max-w-[150px]  h-[130px] flex justify-end">
           <Pie
             data={pieChartData}
             plugins={[segmentTextPlugins, sliceThicknessPlugin]}
+            options={options}
           />
         </div>
       )}

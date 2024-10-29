@@ -9,12 +9,21 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 import Fulllogo from "@/public/assets/full-logo.png";
+import verifyImage from "@/public/assets/auth-image/verification-success.webp";
+import profilePic from "@/public/assets/auth-image/patrick.webp";
+import AuthImageContainer from "@/components/side-comp/auth-image-container";
 
 const VerifySuccess = () => {
   const router = useRouter();
   return (
-    <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-full md:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] absolute right-0 block md:flex flex-col justify-around px-0 md:px-10">
+    <main className=" bg-white h-screen w-full flex">
+      <AuthImageContainer
+        avatarImage={profilePic}
+        avatarName="Patrick Debois"
+        bgImg={verifyImage}
+        quote="“You don’t need to be an expert to start with DevOps. The key is a willingness to learn, collaborate, and emDevOps is a journey, not a destination. The focus should always be on learning, experimenting, and improving with every iteration, no matter where you start.brace automation. Every small step you take towards improving your processes brings you closer to success.”"
+      />
+      <div className="bg-white w-full md:w-[50%] h-screen rounded-tl-[40px] rounded-bl-[40px] block md:flex flex-col justify-around px-0 md:px-10 xl:px-16">
         <div className="h-auto block md:hidden w-full bg-main p-2">
           <Image src={Fulllogo} alt="logo" />
         </div>

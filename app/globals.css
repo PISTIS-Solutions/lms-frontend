@@ -290,3 +290,59 @@ th {
 .react-datepicker__day-names {
   margin-top: 6px;
 }
+
+.upcoming-border-gradient {
+  display: flow-root;
+  position: relative;
+}
+
+.upcoming-border-gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 8px;
+  border: 1px solid transparent;
+
+  background: linear-gradient(
+      141.32deg,
+      rgba(255, 255, 255, 0.7) 0%,
+      rgba(255, 255, 255, 0) 44.5%,
+      #ffffff 153.99%
+    )
+    border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.auth-border_gradient {
+  display: flow-root;
+  position: relative;
+  padding: 1.3rem;
+  background: #66666633;
+  backdrop-filter: blur(6px);
+}
+
+.auth-border_gradient::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background: linear-gradient(
+      241.91deg,
+      rgba(255, 255, 255, 0.05) 25.9%,
+      #ffffff 100%
+    )
+    border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}

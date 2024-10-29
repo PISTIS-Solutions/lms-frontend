@@ -10,6 +10,9 @@ import useForgotPassStore from "@/store/forgot-password";
 import { urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import AuthImageContainer from "@/components/side-comp/auth-image-container";
+import signIn from "@/public/assets/auth-image/sigin-in.webp";
+import gene from "@/public/assets/auth-image/gene.webp";
 
 const NewPassword = () => {
   const passwordStore = useForgotPassStore();
@@ -69,8 +72,14 @@ const NewPassword = () => {
   }
 
   return (
-    <main className="bg-form-back h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-5  md:px-6 lg:px-10">
+    <main className="flex h-screen w-full relative">
+      <AuthImageContainer
+        avatarImage={gene}
+        avatarName="Gene Kim"
+        bgImg={signIn}
+        quote="“The most powerful thing about DevOps is the way it encourages cross-team collaboration and learning. It breaks down silos and enables everyone to contribute to the entire lifecycle of software, from idea to production, fostering a culture of continuous improvement and innovation.”"
+      />
+      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] flex flex-col justify-around px-5  md:px-6 lg:px-10 xl:px-16">
         <div className="flex justify-end">
           <Image src={logo} alt="pistis_logo" className="" priority />
         </div>
@@ -89,7 +98,7 @@ const NewPassword = () => {
               Create Password
             </p>
             <div className="relative">
-            <KeyRound className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
+              <KeyRound className="mr-2 absolute md:top-5 top-4 text-[#4F5B67] left-3 h-5 w-5" />
               {passwordStore.showPassword ? (
                 <Eye
                   onClick={passwordStore.togglePassword}
@@ -142,7 +151,9 @@ const NewPassword = () => {
               Password must contain special characters
             </p>
             <div>
-              <p className="text-red-500 text-sm text-center">{specialCharacterErr}</p>
+              <p className="text-red-500 text-sm text-center">
+                {specialCharacterErr}
+              </p>
               {passwordStore.password != passwordStore.confirm ? (
                 <p className="text-red-500 text-sm text-center">
                   Password and Confirm password contains different characters

@@ -16,6 +16,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
 
+import avatarImage from "@/public/assets/auth-image/kelsey.webp";
+import createAccount from "@/public/assets/auth-image/create-account.webp";
+import AuthImageContainer from "@/components/side-comp/auth-image-container";
+
 const SignUp = () => {
   const formStore = useFormStore();
   const [specialCharacterErr, setSpecialCharacterErr] = useState();
@@ -89,8 +93,14 @@ const SignUp = () => {
   }
 
   return (
-    <main className="md:bg-form-back bg-white h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-5  md:px-6 lg:px-10">
+    <main className=" bg-white h-screen w-full flex relative">
+      <AuthImageContainer
+        avatarImage={avatarImage}
+        avatarName="Kelsey Hightower"
+        bgImg={createAccount}
+        quote="“You don’t need to be an expert to start with DevOps. The key is a willingness to learn, collaborate, and embrace automation. Every small step you take towards improving your processes brings you closer to success.”"
+      />
+      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] flex flex-col justify-around px-5  md:px-6 lg:px-10  xl:px-16">
         <div className="h-auto block md:hidden w-full bg-main p-2">
           <Image src={Fulllogo} alt="logo" />
         </div>
@@ -229,7 +239,10 @@ const SignUp = () => {
         </div>
         <div>
           <p className="text-center font-medium text-sm md:text-lg lg:text-xl">
-            Already have an account? <Link className="text-main" href="/sign-in">Sign In</Link>
+            Already have an account?{" "}
+            <Link className="text-main" href="/sign-in">
+              Sign In
+            </Link>
           </p>
         </div>
       </div>

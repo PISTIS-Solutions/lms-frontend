@@ -139,8 +139,8 @@ const MobileNav = () => {
             {/* countdown */}
             {!loading && data && (
               <>
-                <div className=" p-3 rounded-lg max-w-sm">
-                  <div className="space-y-4 p-3 bg-main backdrop-blur-sm bg-white/10 rounded-[8px] ">
+                <div className=" p-3 rounded-[8px] h-fit max-w-sm">
+                  <div className="space-y-4 p-3 bg-main backdrop-blur-sm bg-white/10 rounded-[8px] upcoming-modal-border_gradient">
                     {/* Header */}
                     <div className="flex justify-between items-center mb-4 font-sfProDisplay">
                       <h2 className="text-white text-base font-medium">

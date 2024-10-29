@@ -135,8 +135,8 @@ const Dashboard = () => {
       <ToastContainer />
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div>
-          <div className="grid grid-cols-1 lg:grid-cols-10 pt-16 lg:pt-10 p-4 pb-0">
-            <div className=" col-span-1 lg:col-span-7">
+          <div className="grid grid-cols-1 lg:grid-cols-10 min-[1440px]:grid-cols-12 pt-16 lg:pt-10 p-4 pb-0">
+            <div className=" col-span-1 lg:col-span-7 min-[1440px]:col-span-9">
               <div className=" mb-6 md:flex  justify-between items-center  px-4 w-full">
                 <div className="md:max-w-[70%]">
                   <h2 className="text-3xl text-main font-semibold">
@@ -245,7 +245,7 @@ const Dashboard = () => {
                       return (
                         <div
                           key={data.id}
-                          className="rounded-[8px]  my-2 lg:my-0 relative bg-white shadow-md sm:w-[242px] lg:w-[calc(33.333%-16px)] w-full h-[218px] p-1 font-sfProDisplay"
+                          className="rounded-[8px]  my-2 lg:my-0 relative bg-white shadow-md sm:w-[242px] lg:w-[calc(33.333%-16px)] w-full min-h-[218px] p-1 font-sfProDisplay"
                         >
                           <div className="rounded-[8px] overflow-hidden h-[120px] relative w-full">
                             <Image
@@ -258,7 +258,7 @@ const Dashboard = () => {
                           </div>
                           <Link
                             href={`/courses/${data.id}`}
-                            className="p-2 flex flex-col h-[87px] justify-between"
+                            className="p-2 flex flex-col min-h-[87px] justify-between"
                           >
                             <h3 className="text-base leading-[160%]">
                               {data?.title}
@@ -346,7 +346,7 @@ const Dashboard = () => {
               </section>
             </div>
 
-            <div className="col-span-3 space-y-4">
+            <div className="col-span-3 space-y-4 ">
               <div className="hidden lg:block">
                 <BookASessionCard />
               </div>
@@ -386,7 +386,7 @@ const Dashboard = () => {
                                 />
 
                                 <div className="w-full">
-                                  <p className="text-sm  text-ellipsis whitespace-nowrap max-w-[71vw] lg:w-[15vw] xl:w-[17vw] 2xl:w-[19.8vw] overflow-hidden font-medium">
+                                  <p className="text-sm  text-ellipsis whitespace-nowrap max-w-[71vw] lg:w-[15vw] xl:w-[17vw]  overflow-hidden font-medium">
                                     {`${tag?.activity_type}: ${tag?.message}`}
                                   </p>
                                   <span className="text-[#999999] text-xs flex items-center gap-x-1 ">
