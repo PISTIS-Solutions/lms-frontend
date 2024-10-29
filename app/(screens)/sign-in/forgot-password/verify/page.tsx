@@ -3,11 +3,20 @@ import Image from "next/image";
 
 import logo from "@/public/assets/pistis_logo.png";
 import enve from "@/public/assets/enve.png";
+import AuthImageContainer from "@/components/side-comp/auth-image-container";
+import avatarImage from "@/public/assets/auth-image/kelsey.webp";
+import createAccount from "@/public/assets/auth-image/create-account.webp";
 
 const verify_ForgotPassword = () => {
   return (
-    <main className="bg-form-back h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 px-10">
+    <main className="h-screen w-full flex relative">
+      <AuthImageContainer
+        avatarImage={avatarImage}
+        avatarName="Kelsey Hightower"
+        bgImg={createAccount}
+        quote="“You don’t need to be an expert to start with DevOps. The key is a willingness to learn, collaborate, and embrace automation. Every small step you take towards improving your processes brings you closer to success.”"
+      />
+      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] px-10">
         <div className="">
           <Image
             src={logo}
