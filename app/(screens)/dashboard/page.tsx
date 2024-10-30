@@ -68,6 +68,19 @@ const getActivityIconLink = (activityType: string) => {
   }
 };
 
+interface Activity {
+  id: string;
+  activity_type: string;
+  message: string;
+  time_since: string;
+  is_read: boolean;
+}
+
+interface NotificationData {
+  "unread messages": number;
+  activities: Activity[];
+}
+
 const Dashboard = () => {
   const route = useRouter();
   //fetch dashboard data with acceess token and use refresh token to refresh expired token
@@ -75,7 +88,7 @@ const Dashboard = () => {
     useStudentStore();
 
   //activities endpoint
-  const [activity, setActivities] = useState<any>([]);
+  const [activity, setActivities] = useState<NotificationData | undefined>();
   const userActivity = async () => {
     try {
       const accessToken = Cookies.get("authToken");
@@ -92,6 +105,50 @@ const Dashboard = () => {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
         await userActivity();
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    }
+  };
+
+  const navigation = useRouter();
+
+  const markAsRead = async (link: string, id: string) => {
+    try {
+      const accessToken = Cookies.get("authToken");
+      axios.put(
+        `${urls.activities}${id}/mark-as-read/`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      await navigation.push(link);
+    } catch (error: any) {
+      console.log(error.response.data.error[0]);
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await markAsRead(link, id);
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
@@ -357,26 +414,29 @@ const Dashboard = () => {
                     Notifications
                   </h1>
 
-                  <NotificationModal activity={activity} />
+                  <NotificationModal activities={activity} />
                 </span>
                 <hr className="mt-2" />
                 <div>
                   <ScrollArea className="w-full rounded-md h-[155px] ">
                     <div className="divide-y-[0.5px] divide-slate-200">
-                      {activity?.length == 0 ? (
+                      {activity === undefined ||
+                      activity?.activities.length == 0 ? (
                         <p className="text-center leading-[160%]">
                           No activity yet
                         </p>
                       ) : (
-                        activity?.map((tag: any, index: any) => {
+                        activity.activities.map((tag, index: any) => {
                           const activityItemLink = getActivityIconLink(
                             tag?.activity_type
                           );
                           return (
-                            <Link
+                            <div
                               key={index}
-                              className="flex items-center gap-3 md:gap-4 px-1 md:px-2 cursor-pointer py-2 last-of-type:pb-0"
-                              href={activityItemLink.link}
+                              className="flex items-center gap-3 md:gap-4 px-1 md:px-2 cursor-pointer py-2 last-of-type:pb-0 hover:bg-gray-100"
+                              onClick={() =>
+                                markAsRead(activityItemLink.link, tag.id)
+                              }
                             >
                               <div className="flex items-center gap-x-2">
                                 <Image
@@ -394,7 +454,7 @@ const Dashboard = () => {
                                   </span>
                                 </div>
                               </div>
-                            </Link>
+                            </div>
                           );
                         })
                       )}

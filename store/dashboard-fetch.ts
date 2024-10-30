@@ -1,18 +1,17 @@
 // studentStore.js
-import {create} from 'zustand';
-import Cookies from 'js-cookie';
-import axios from 'axios';
-import refreshAdminToken from '@/utils/refreshToken';
-import { urls } from '@/utils/config';
+import { create } from "zustand";
+import Cookies from "js-cookie";
+import axios from "axios";
+import refreshAdminToken from "@/utils/refreshToken";
+import { urls } from "@/utils/config";
 import { toast } from "react-toastify";
 
-
 interface stuData {
-    stuData: any;
-    enrolled_courses: any;
-    loading: boolean;
-    fetchStuData: () => Promise<void>;
-  }
+  stuData: any;
+  enrolled_courses: any;
+  loading: boolean;
+  fetchStuData: () => Promise<void>;
+}
 
 const useStudentStore = create<stuData>((set, get) => ({
   stuData: null,
@@ -29,8 +28,8 @@ const useStudentStore = create<stuData>((set, get) => ({
         },
       });
       set({ stuData: response?.data });
-      set({enrolled_courses : response?.data?.enrolled_courses})
-    } catch (error:any) {
+      set({ enrolled_courses: response?.data?.enrolled_courses });
+    } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
         await get().fetchStuData();
