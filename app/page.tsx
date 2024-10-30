@@ -129,7 +129,7 @@ const HomePage = () => {
             </span>{" "}
             of IT with DevOps
           </h1>
-          <p className="text-sm md:text-base mb-5 text-white md:text-left text-center font-sf-pro-display">
+          <p className="text-sm md:text-base mb-5 text-white md:text-left text-center font-sfProDisplay">
             Join the next generation of DevOps engineers and acquire the
             expertise to revolutionize how businesses build, test, and deploy
             software. Whether you're just starting out or looking to advance
@@ -171,7 +171,7 @@ const HomePage = () => {
             initial={{ y: -100, opacity: 0 }}
             whileInView={{ y: 0, opacity: 100 }}
             transition={{ duration: 0.5 }}
-            className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-xs sm:text-base font-normal text-[#FF1053] inline-block text-center "
+            className="rounded-[6px] py-2 px-6 bg-[#FF105314] font-sfProDisplay text-xs sm:text-base font-normal text-[#FF1053] inline-block text-center "
           >
             FAQ
           </motion.p>
@@ -215,11 +215,11 @@ const HomePage = () => {
               <div
                 className={`transition-all duration-500 ease-in-out overflow-scroll ${
                   selectedIndex === index
-                    ? "max-h-[500px] opacity-100 py-4"
+                    ? "max-h-[500px] opacity-100"
                     : "max-h-0 opacity-0"
                 }`}
               >
-                <p className="text-[#484848] p-2 md:p-5 font-normal text-sm md:text-base font-sf-pro-display">
+                <p className="text-[#484848] p-2 md:p-5 font-normal text-sm md:text-base font-sfProDisplay">
                   {faq.ans}
                 </p>
               </div>
@@ -246,7 +246,7 @@ const HomePage = () => {
               industry!
             </p>
             <Link href="/pricing">
-              <button className="rounded-[8px] z-10 bg-sub w-full md:w-1/2 py-3 font-sf-pro-display cursor-pointer text-white font-medium text-base ">
+              <button className="rounded-[8px] z-10 bg-sub w-full md:w-1/2 py-3 font-sfProDisplay cursor-pointer text-white font-medium text-base ">
                 Enroll Today
               </button>
             </Link>

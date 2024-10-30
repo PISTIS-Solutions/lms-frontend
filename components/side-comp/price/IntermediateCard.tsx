@@ -31,15 +31,15 @@ const IntermediateCard = () => {
             </p>
           </div>
           <div>
-            <h1 className="text-2xl text-[#000066] font-medium">
+            <h1 className="text-2xl font-sfProDisplay text-[#000066] font-medium">
               Intermediate
             </h1>
-            <p className="text-sm text-[#3E3E3E] mb-6">
+            <p className="text-sm font-sfProDisplay text-[#3E3E3E] mb-6">
               Expanding on foundational knowledge with practical tools and
               workflows.
             </p>
           </div>
-          <h1 className="text-[40px] h-fit text-main font-medium before:content-['₦'] pl-8 before:left-0 before:top-[6%] before:inline before:text-[26px] before:absolute relative">
+          <h1 className="text-[40px] h-fit font-sfProDisplay text-main font-medium before:content-['₦'] pl-8 before:left-0 before:top-[6%] before:inline before:text-[26px] before:absolute relative">
             400,000
             <span className="text-main inline-flex text-base font-medium">
             / 6 Months
@@ -53,7 +53,7 @@ const IntermediateCard = () => {
               <div key={i} className="flex py-2 items-top gap-x-1">
                 <Image src={stash} alt="double check mark icon" />
 
-                <p className="text-sm text-[#1A1A1A] font-medium">
+                <p className="text-sm font-sfProDisplay text-[#1A1A1A] font-medium">
                   {service.serv}
                 </p>
               </div>

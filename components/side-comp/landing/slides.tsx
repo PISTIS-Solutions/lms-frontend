@@ -76,7 +76,7 @@ const Slides = () => {
         <h1 className="text-main font-medium text-4xl text-center md:text-left md:text-5xl ">
           Real Stories, Real Success
         </h1>
-        <p className="md:text-base text-sm md:text-left text-center max-w-full md:max-w-[472px] py-4 font font-sf-pro-display">
+        <p className="md:text-base text-sm md:text-left text-center max-w-full md:max-w-[472px] py-4 font font-sfProDisplay">
           See how our DevOps program has transformed careers and empowered
           professionals to achieve their goals.
         </p>

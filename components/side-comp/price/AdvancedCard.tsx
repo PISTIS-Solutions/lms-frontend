@@ -28,20 +28,20 @@ const AdvanceCard = () => {
               </p>
             </div>
             <div className="text-white">
-              <h1 className="text-2xl  font-medium">Advance</h1>
-              <p className="text-sm  mb-6">
+              <h1 className="text-2xl font-sfProDisplay font-medium">Advance</h1>
+              <p className="text-sm font-sfProDisplay mb-6">
                 Choose the perfect DevOps course that aligns with your goals and
                 current skill level.
               </p>
             </div>
-            <h1 className="text-[40px] h-fit text-white font-medium">Custom</h1>
+            <h1 className="text-[40px] h-fit font-sfProDisplayfont-sfProDisplay text-white font-medium">Custom</h1>
           </section>
           <section className="mt-10 h-[45%] overflow-y-scroll">
             {services.map((service, i) => {
               return (
                 <div key={i} className="flex py-2 items-top gap-x-1">
                   <Image src={redStash} alt="thunder bolt icon" />
-                  <p className="text-sm text-white font-medium">
+                  <p className="text-sm text-white font-sfProDisplay font-medium">
                     {service.serv}
                   </p>
                 </div>

@@ -40,7 +40,7 @@ const Benefits = () => {
           initial={{ y: -100, opacity: 0 }}
           whileInView={{ y: 0, opacity: 100 }}
           transition={{ duration: 0.5 }}
-          className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-xs sm:text-base font-normal text-[#FF1053] inline-block text-center "
+          className="rounded-[6px] py-2 px-6 bg-[#FF105314] font-sfProDisplay text-xs sm:text-base font-normal text-[#FF1053] inline-block text-center "
         >
           Key Benefits
         </motion.p>
@@ -66,7 +66,7 @@ const Benefits = () => {
               <Image alt="icon" src={data.icon} />
               <div>
                 <p className="text-main font-semibold text-xl md:text-2xl">{data.head}</p>
-                <p className="text-[#666666] font-normal text-sm md:text-base font-sf-pro-display pt-2">
+                <p className="text-[#666666] font-normal text-sm md:text-base font-sfProDisplay pt-2">
                   {data.p}
                 </p>
               </div>

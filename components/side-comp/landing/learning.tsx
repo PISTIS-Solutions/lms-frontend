@@ -34,7 +34,7 @@ const Learning = () => {
           initial={{ y: -100, opacity: 0 }}
           whileInView={{ y: 0, opacity: 100 }}
           transition={{ duration: 0.5 }}
-          className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-xs sm:text-base font-normal text-[#FF1053] inline-block text-center "
+          className="rounded-[6px] py-2 px-6 bg-[#FF105314] font-sfProDisplay text-xs sm:text-base font-normal text-[#FF1053] inline-block text-center "
         >
           Learning Experience
         </motion.p>
@@ -61,7 +61,7 @@ const Learning = () => {
                 <p className="text-main font-medium md:text-left text-center text-xl md:text-2xl">
                   {learn.head}
                 </p>
-                <p className="font-normal text-sm md:text-left text-center md:text-base font-sf-pro-display">
+                <p className="font-normal text-sm md:text-left text-center md:text-base font-sfProDisplay">
                   {learn.para}
                 </p>
               </div>

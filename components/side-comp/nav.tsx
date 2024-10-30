@@ -68,7 +68,7 @@ const NavigationBar = () => {
           return (
             <Link
               key={index}
-              className="capitalize font-sf-pro-display font-medium text-sm lg:text-base"
+              className="capitalize font-sfProDisplay font-medium text-sm lg:text-base"
               href={isFaqLink ? faqLink : nav.link}
             >
               <p
@@ -91,12 +91,12 @@ const NavigationBar = () => {
       </div>
       <div className="md:flex hidden items-center gap-x-2">
         <Link href="/sign-in">
-          <button className="rounded-[8px] py-3 cursor-pointer text-main hover:scale-105 transition-all duration-100 ease-in-out px-6 font-sf-pro-display text-base font-medium border border-main">
+          <button className="rounded-[8px] py-3 cursor-pointer text-main hover:scale-105 transition-all duration-100 ease-in-out px-6 font-sfProDisplay text-base font-medium border border-main">
             Log In
           </button>
         </Link>
         <Link href="/pricing">
-          <button className="rounded-[8px] py-3 cursor-pointer  px-6 font-sf-pro-display hover:scale-105 text-base font-medium transition-all duration-100 ease-in-out bg-main text-white">
+          <button className="rounded-[8px] py-3 cursor-pointer  px-6 font-sfProDisplay hover:scale-105 text-base font-medium transition-all duration-100 ease-in-out bg-main text-white">
             Sign Up
           </button>
         </Link>
@@ -133,7 +133,7 @@ const NavigationBar = () => {
                 return (
                   <Link
                     key={index}
-                    className="capitalize font-sf-pro-display font-medium text-sm lg:text-base"
+                    className="capitalize font-sfProDisplay font-medium text-sm lg:text-base"
                     href={isFaqLink ? faqLink : nav.link}
                   >
                     <p
@@ -159,12 +159,12 @@ const NavigationBar = () => {
             </div>
             <div className="flex flex-col gap-2">
               <Link href="/sign-in">
-                <button className="rounded-[8px] py-3 cursor-pointer w-full text-main hover:scale-105 transition-all duration-100 ease-in-out px-6 font-sf-pro-display text-base font-medium border border-main">
+                <button className="rounded-[8px] py-3 cursor-pointer w-full text-main hover:scale-105 transition-all duration-100 ease-in-out px-6 font-sfProDisplay text-base font-medium border border-main">
                   Log In
                 </button>
               </Link>
               <Link href="/pricing">
-                <button className="rounded-[8px] py-3 cursor-pointer w-full  px-6 font-sf-pro-display hover:scale-105 text-base font-medium transition-all duration-100 ease-in-out bg-main text-white">
+                <button className="rounded-[8px] py-3 cursor-pointer w-full  px-6 font-sfProDisplay hover:scale-105 text-base font-medium transition-all duration-100 ease-in-out bg-main text-white">
                   Sign Up
                 </button>
               </Link>

@@ -46,12 +46,12 @@ const Coursecard = ({
       </div>
       <div className="py-2 ">
         <div>
-          <h3 className="md:text-xl sm:text-lg text-[#2E2E2E] text-sm font-semibold">
+          <h3 className="md:text-base sm:text-lg text-[#2E2E2E] font-sfProDisplay text-sm font-medium">
             {header}
           </h3>
         </div>
         <div className="flex absolute bottom-3 items-center gap-2">
-          <p className="flex items-center rounded-[8px] py-1 px-2 bg-[#E6F6FF] gap-1">
+          <p className="flex items-center font-sfProDisplay text-sm font-normal rounded-[8px] py-1 px-2 bg-[#E6F6FF] gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="11"
@@ -66,7 +66,7 @@ const Coursecard = ({
             </svg>
             {moduleCount} modules
           </p>
-          <p className="flex items-center rounded-[8px] py-1 px-2 bg-[#E6F6FF] gap-1">
+          <p className="flex items-center font-sfProDisplay text-sm font-normal rounded-[8px] py-1 px-2 bg-[#E6F6FF] gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="14"

@@ -28,12 +28,12 @@ const BeginnerCard = () => {
               {/* TODO: add font */}
             </div>
             <div>
-              <h1 className="text-2xl text-[#000066] font-medium">Beginner</h1>
-              <p className="text-sm text-[#3E3E3E] mb-6">
+              <h1 className="text-2xl text-[rgb(0,0,102)] font-sfProDisplay font-medium">Beginner</h1>
+              <p className="text-sm text-[#3E3E3E] font-sfProDisplay mb-6">
                 Introduction to DevOps concepts, tools, and basic practices.
               </p>
             </div>
-            <h1 className="text-[40px] h-fit text-main font-medium before:content-['₦'] pl-8 before:left-0 before:top-[6%] before:inline before:text-[26px] before:absolute relative">
+            <h1 className="text-[40px] h-fit font-sfProDisplay text-main font-medium before:content-['₦'] pl-8 before:left-0 before:top-[6%] before:inline before:text-[26px] before:absolute relative">
               100,000
               <span className="text-main inline-flex text-base font-medium">
                 / 8 Weeks
@@ -45,7 +45,7 @@ const BeginnerCard = () => {
               return (
                 <div key={i} className="flex py-2 items-top gap-x-1">
                   <Image src={stash} alt="double check mark icon" />
-                  <p className="text-sm text-[#1A1A1A] font-medium">
+                  <p className="text-sm font-sfProDisplay text-[#1A1A1A] font-medium">
                     {service.serv}
                   </p>
                 </div>

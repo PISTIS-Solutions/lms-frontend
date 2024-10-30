@@ -14,7 +14,7 @@ const LandingPayment = () => {
           initial={{ y: -100, opacity: 0 }}
           whileInView={{ y: 0, opacity: 100 }}
           transition={{ duration: 0.5 }}
-          className="rounded-[6px] py-2 px-6 bg-[#FF105314] text-xs sm:text-base font-normal text-[#FF1053] inline-block text-center "
+          className="rounded-[6px] py-2 px-6 font-sfProDisplay bg-[#FF105314] text-xs sm:text-base font-normal text-[#FF1053] inline-block text-center "
         >
           Pricing and Enrollment
         </motion.p>

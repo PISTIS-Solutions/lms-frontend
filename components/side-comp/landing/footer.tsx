@@ -61,10 +61,10 @@ const Footer = () => {
         <div className="flex md:flex-row flex-col md:w-auto w-full items-center gap-2">
           <input
             type="text"
-            className="rounded-[8px] p-4 bg-white w-full md:w-[440px] placeholder:text-[#666666] text-sm sm:text-base font-normal font-sf-pro-display"
+            className="rounded-[8px] p-4 bg-white w-full md:w-[440px] placeholder:text-[#666666] text-sm sm:text-base font-normal font-sfProDisplay"
             placeholder="Enter your email address here to subscribe"
           />
-          <button className="bg-sub rounded-[8px] md:w-auto w-full p-4 text-white text-sm sm:text-base font-normal font-sf-pro-display cursor-pointer">
+          <button className="bg-sub rounded-[8px] md:w-auto w-full p-4 text-white text-sm sm:text-base font-normal font-sfProDisplay cursor-pointer">
             Subscribe
           </button>
         </div>
@@ -72,7 +72,7 @@ const Footer = () => {
       <div className="flex flex-col items-center gap-10 justify-center pt-24">
         <Image alt="logo" src={whiteLogo} />
         <div>
-          <ul className="flex flex-wrap capitalize items-center gap-5 md:gap-10 text-sm sm:text-base font-normal font-sf-pro-display text-white">
+          <ul className="flex flex-wrap capitalize items-center gap-5 md:gap-10 text-sm sm:text-base font-normal font-sfProDisplay text-white">
             {navLinks.map((nav, index) => {
               return (
                 <Link key={index} href={nav.link}>
@@ -98,7 +98,7 @@ const Footer = () => {
       </div>
       <hr className="md:my-16 my-10" />
       <div className="flex md:flex-row flex-col items-center justify-center">
-        <ul className="flex items-center gap-10 text-xs sm:text-base font-normal font-sf-pro-display text-white">
+        <ul className="flex items-center gap-10 text-xs sm:text-base font-normal font-sfProDisplay text-white">
           <li className="cursor-pointer">Terms of Service</li>
           <li className="cursor-pointer">Privacy Policy</li>
           <li className="cursor-pointer">Cookies Policy</li>
