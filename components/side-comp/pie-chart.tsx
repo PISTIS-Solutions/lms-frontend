@@ -195,9 +195,7 @@ const PieChart = ({
           // If the angle is greater than π (180 degrees), we flip the text
           if (data.datasets[0].data[index] <= 17) {
             ctx.rotate(centerAngle);
-            console.log("object yes");
           }
-          console.log(data.datasets[0].data[index]);
           // Set font styles based on the index
           if (index === sortedIndexedChart[0].index) {
             ctx.font = "700 26px Montserrat";
