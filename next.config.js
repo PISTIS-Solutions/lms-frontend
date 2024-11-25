@@ -6,6 +6,7 @@ const nextConfig = {
       "cloudinary-2-s3.s3.amazonaws.com",
       "${{%20secrets.aws_storage_bucket_name%20}}.s3.amazonaws.com",
       "images.pexels.com",
+      "cloudinary2.s3.amazonaws.com",
     ],
   },
 };

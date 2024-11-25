@@ -204,7 +204,7 @@ const PieChart = ({
             ctx.font = "600 16px Montserrat";
             ctx.fillStyle = "white";
           } else {
-            ctx.font = "500 14px var(--font-sf-pro-display)";
+            ctx.font = "600 15px Montserrat";
             ctx.fillStyle = "#014873";
           }
 
