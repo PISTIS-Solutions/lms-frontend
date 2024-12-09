@@ -22,7 +22,7 @@ const UpcomingModal = ({ toggleModal, isOpen }: UpcomingModal) => {
     try {
       setLoading(true);
       const accessToken = Cookies.get("authToken");
-      await axios.delete(`${urls.bookings}${data?.id}/revoke`, {
+      await axios.delete(`${urls.bookings}${data?.id}/revoke/`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

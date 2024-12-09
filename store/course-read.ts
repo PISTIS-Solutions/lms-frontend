@@ -22,7 +22,7 @@ const useCourseRead = create<readStudent>((set, get) => ({
       set({ loading: true });
       const accessToken = Cookies.get('authToken');
       // const courseID = localStorage.getItem("courseID");
-      const response = await axios.get(`${urls.courses}${id}`, {
+      const response = await axios.get(`${urls.courses}${id}/`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },

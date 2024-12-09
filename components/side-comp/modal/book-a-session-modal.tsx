@@ -16,7 +16,7 @@ const timeRangeData = [
 ];
 
 const validateDate = (value: Date | null): boolean => {
-  console.log(value);
+  // console.log(value);
   if (value == null) return false;
   const day = String(value.getDate()).padStart(2, "0");
   const month = String(value.getMonth() + 1).padStart(2, "0"); // Months are zero-based
