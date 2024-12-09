@@ -166,7 +166,7 @@ const NotificationModal = ({
                           className="w-10 h-10"
                         />
                         <div className="w-full">
-                          <div className="flex gap-x-4 w-full justify-between flex-col md:flex-row flex-wrap lg:flex-nowrap  w-full">
+                          <div className="flex gap-x-4 w-full justify-between flex-col md:flex-row flex-wrap lg:flex-nowrap">
                             <span>
                               <p className="text-ellipsis overflow-hidden font-medium text-[#014873]">
                                 {tag?.activity_type}
