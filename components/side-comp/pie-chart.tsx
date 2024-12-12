@@ -21,7 +21,7 @@ function calculateCoursePercentages(
 ) {
   // Ensure the inputs are valid
   if (totalCourses <= 0) {
-    throw new Error("Total courses must be greater than zero.");
+    console.error("Total courses must be greater than zero.");
   }
 
   const notStartedCourses = totalCourses - completedCourses - inProgressCourses;
