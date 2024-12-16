@@ -58,12 +58,12 @@ const Slides = () => {
     },
   ];
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex: number) => (prevIndex + 1) % images.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [images.length]);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setCurrentIndex((prevIndex: number) => (prevIndex + 1) % images.length);
+  //   }, 3000);
+  //   return () => clearInterval(interval);
+  // }, [images.length]);
 
   return (
     <div className="bg-white block md:flex overflow-x-hidden items-center gap-20 justify-between p-4 sm:p-10 md:p-20 ">

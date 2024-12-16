@@ -119,7 +119,7 @@ const SideNav = () => {
           {/* countdown */}
           {!loading && data && (
             <>
-              <div className=" p-3 rounded-[8px] max-w-sm  overflow-hidden">
+              <div className=" p-3 rounded-[8px] max-w-sm  overflow-y-scroll ">
                 <div className="space-y-4 p-4 bg-main backdrop-blur-sm bg-white/10 rounded-[8px] upcoming-modal-border_gradient">
                   {/* Header */}
                   <h2 className="text-white text-base font-medium mb-4 font-sfProDisplay">

@@ -25,25 +25,31 @@ const validateDate = (value: Date | null): boolean => {
   const date = `${day}-${month}-${year}`;
   return /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$/.test(date);
 };
+const normalizeInput = (value: any) => value.replace(/\s+/g, " ").trim();
 
 const validateTime = (value: string): boolean => {
-  return /^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/.test(value);
+  return /^(0?[1-9]|1[0-2]):([0-5][0-9])\s?(AM|PM)$/i.test(value);
 };
 
 const getISODateTime = (date: Date | null, time: string): string | null => {
-  if (!date) {
-    return null; // Handle null case as needed
+  if (!date) return null;
+
+  const [timePart, meridian] = time.split(" ");
+  const [hour, minute] = timePart.split(":").map(Number);
+
+  let hourIn24 = hour;
+  if (meridian.toUpperCase() === "PM" && hour !== 12) {
+    hourIn24 += 12;
+  } else if (meridian.toUpperCase() === "AM" && hour === 12) {
+    hourIn24 = 0;
   }
 
-  const [hour, minute] = time.split(":").map(Number);
-
-  // Create a new Date object in UTC
   const isoDate = new Date(
     Date.UTC(
       date.getUTCFullYear(),
       date.getUTCMonth(),
       date.getUTCDate(),
-      hour,
+      hourIn24,
       minute
     )
   ).toISOString();
@@ -86,12 +92,12 @@ interface NotDateErrorProps {
 
 const preferredDateError =
   "Invalid preferred date format. Use DD-MM-YYYY (e.g., 01-02-2024).";
-const preferredTimeError =
-  "Invalid preferred time format. Use HH:MM (e.g., 05:01).";
 const altDateError =
   "Invalid alternative date format. Use DD-MM-YYYY (e.g., 01-02-2024).";
+const preferredTimeError =
+  "Invalid preferred time format. Use HH:MM AM/PM (e.g., 05:01 PM).";
 const altTimeError =
-  "Invalid alternative time format. Use HH:MM (e.g., 05:01).";
+  "Invalid alternative time format. Use HH:MM AM/PM (e.g., 05:01 PM).";
 
 const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
   const [duration, setDuration] = useState(15);
@@ -358,6 +364,28 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                 </label>
                 <div className="flex justify-between mt-1">
                   <div className=" w-[48%]">
+                    {/* <DatePicker
+                      selected={preferredDateStr}
+                      onChange={(date) => setPreferredDateStr(date)}
+                      dateFormat="dd-MM-yyyy"
+                      className={`p-3 border rounded-md outline-none w-full ${
+                        notDateError.preferredDateStr === false
+                          ? "border-red-600"
+                          : notDateError.preferredDateStr == true
+                          ? "border-[#2FBC8D]"
+                          : "border-[#DADADA]"
+                      } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                      id="preferred-date-time"
+                      placeholderText="DD-MM-YYYY"
+                      onBlur={() =>
+                        validateInput(
+                          preferredDateStr,
+                          preferredDateError,
+                          "preferredDateStr"
+                        )
+                      }
+                    /> */}
+
                     <DatePicker
                       selected={preferredDateStr}
                       onChange={(date) => setPreferredDateStr(date)}
@@ -378,10 +406,13 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                           "preferredDateStr"
                         )
                       }
+                      filterDate={(date) =>
+                        date.getDay() !== 0 && date.getDay() !== 6
+                      } // Disable weekends
                     />
                   </div>
 
-                  <input
+                  {/* <input
                     type="text"
                     className={`p-3 border rounded-md outline-none w-[48%] ${
                       notDateError.preferredTimeStr === false
@@ -403,6 +434,32 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                       )
                     }
                     pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
+                  /> */}
+
+                  <input
+                    type="text"
+                    className={`p-3 border rounded-md outline-none w-[48%] ${
+                      notDateError.preferredTimeStr === false
+                        ? "border-red-600"
+                        : notDateError.preferredTimeStr === true
+                        ? "border-[#2FBC8D]"
+                        : "border-[#DADADA]"
+                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                    id="preferred-time-input"
+                    required
+                    value={preferredTimeStr}
+                    onChange={(e) =>
+                      setPreferredTimeStr(normalizeInput(e.target.value))
+                    }
+                    placeholder="09:00 AM"
+                    onBlur={() =>
+                      validateInput(
+                        preferredTimeStr,
+                        preferredTimeError,
+                        "preferredTimeStr"
+                      )
+                    }
+                    pattern="^(0?[1-9]|1[0-2]):([0-5][0-9])( ?)(AM|PM|am|pm)$"
                   />
                 </div>
               </div>
@@ -412,6 +469,24 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                 </label>
                 <div className="flex justify-between mt-1">
                   <div className=" w-[48%]">
+                    {/* <DatePicker
+                      selected={altDateStr}
+                      onChange={(date) => setAltDateStr(date)}
+                      dateFormat="dd-MM-yyyy"
+                      className={`p-3 border rounded-md outline-none w-full ${
+                        notDateError.altDateStr === false
+                          ? "border-red-600"
+                          : notDateError.altDateStr === true
+                          ? "border-[#2FBC8D]"
+                          : "border-[#DADADA]"
+                      } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                      id="alt-date-time"
+                      placeholderText="DD-MM-YYYY"
+                      onBlur={() =>
+                        validateInput(altDateStr, altDateError, "altDateStr")
+                      }
+                    /> */}
+
                     <DatePicker
                       selected={altDateStr}
                       onChange={(date) => setAltDateStr(date)}
@@ -428,9 +503,12 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                       onBlur={() =>
                         validateInput(altDateStr, altDateError, "altDateStr")
                       }
+                      filterDate={(date) =>
+                        date.getDay() !== 0 && date.getDay() !== 6
+                      } // Disable weekends
                     />
                   </div>
-                  <input
+                  {/* <input
                     type="text"
                     className={`p-3 border rounded-md outline-none w-[48%] ${
                       notDateError.altTimeStr === false
@@ -447,6 +525,26 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                       validateInput(altTimeStr, altTimeError, "altTimeStr")
                     }
                     pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
+                  /> */}
+                  <input
+                    type="text"
+                    className={`p-3 border rounded-md outline-none w-[48%] ${
+                      notDateError.altTimeStr === false
+                        ? "border-red-600"
+                        : notDateError.altTimeStr === true
+                        ? "border-[#2FBC8D]"
+                        : "border-[#DADADA]"
+                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                    id="alt-time-input"
+                    onChange={(e) =>
+                      setAltTimeStr(e.target.value.replace(/\s+/g, " ").trim())
+                    }
+                    value={altTimeStr}
+                    placeholder="09:00 AM"
+                    onBlur={() =>
+                      validateInput(altTimeStr, altTimeError, "altTimeStr")
+                    }
+                    pattern="^(0?[1-9]|1[0-2]):([0-5][0-9])( ?)(AM|PM|am|pm)$"
                   />
                 </div>
               </div>
