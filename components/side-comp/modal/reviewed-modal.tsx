@@ -21,7 +21,7 @@ const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
       setLoadSubmit(true);
       const accessToken = Cookies.get("authToken");
       const response = await axios.get(
-        `${urls.courses}${person?.course}/submissions/${person?.submission_id}`,
+        `${urls.courses}${person?.course}/submissions/${person?.submission_id}/`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

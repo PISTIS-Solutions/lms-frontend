@@ -18,20 +18,20 @@ const TopNav = () => {
 
   return (
     <Link href="/settings">
-    <div className="flex cursor-pointer items-center gap-1 md:gap-2">
-      <Avatar>
-        <AvatarImage src={studentData?.profile_photo} />
-        <AvatarFallback>{initials}</AvatarFallback>
-      </Avatar>
-      <div>
-        {loading ? (
-          <Loader className="animate-spin" />
-        ) : (
-          <h1 className="md:text-base text-sm font-medium">{userName}</h1>
-        )}
-        <p className="md:text-sm text-xs text-[#5D5B5B]">Student</p>
+      <div className="flex cursor-pointer items-center gap-1 md:gap-2">
+        <Avatar>
+          <AvatarImage src={studentData?.profile_photo} />
+          <AvatarFallback>{initials}</AvatarFallback>
+        </Avatar>
+        <div>
+          {loading ? (
+            <Loader className="animate-spin" />
+          ) : (
+            <h1 className="md:text-base text-sm font-medium">{userName}</h1>
+          )}
+          <p className="md:text-sm text-xs text-[#5D5B5B]">Student</p>
+        </div>
       </div>
-    </div>
     </Link>
   );
 };

@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "npm install",
-    "start": "next build && next start -p 80"
+    "build": "next build",
+    "start": "next start",
+    "dev": "next dev"
   },
   "dependencies": {
     "@faker-js/faker": "^8.3.1",
@@ -16,18 +17,19 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@types/js-cookie": "^3.0.6",
     "axios": "^1.6.7",
-    "chart.js": "^4.4.0",
+    "chart.js": "^4.4.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cookie": "^0.6.0",
     "cookies-next": "^4.0.0",
-    "framer-motion": "^11.0.28",
+    "framer-motion": "^11.11.9",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.288.0",
     "next": "13.5.6",
     "react": "^18",
     "react-chartjs-2": "^5.2.0",
     "react-cookie": "^7.1.0",
+    "react-datepicker": "^7.5.0",
     "react-dom": "^18",
     "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",

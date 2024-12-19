@@ -25,7 +25,7 @@ const Pricing = () => {
             </span>
             ,send an email with payment receipt, full name and registered email
             address to{" "}
-            <span className="font-semibold">learning@pististechub.io</span> for
+            <span className="font-semibold">learning.pististechub@gmail.com</span> for
             payment confirmation. Upon confirmation, your account will be
             activated within 5 minutes.
           </p>
@@ -33,7 +33,7 @@ const Pricing = () => {
       </div>
       <div className="w-full h-[42px] bg-main">
         <p className="text-center text-white md:pt-3 pt-1 text-xs md:text-base font-medium">
-          Send a mail to learning@pististechub.io for installmental payment plan
+          Send a mail to learning.pististechub@gmail.com for installmental payment plan
         </p>
       </div>
       <div className="flex flex-wrap mt-4 md:mt-0 gap-y-4 md:gap-y-0 items-center justify-center gap-x-10 h-[80vh]">

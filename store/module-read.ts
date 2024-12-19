@@ -23,7 +23,7 @@ const useModuleRead = create<readStudent>((set, get) => ({
       const accessToken = Cookies.get("authToken");
       // const courseID = localStorage.getItem("courseID");
       const response = await axios.get(
-        `${urls.courses}${id}/modules/${moduleID}`,
+        `${urls.courses}${id}/modules/${moduleID}/`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

@@ -3,25 +3,10 @@ import SideNav from "@/components/side-comp/side-nav";
 import React, { useEffect, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
-import {
-  BookOpenText,
-  BookText,
-  ListChecks,
-  Loader2,
-  CalendarDays,
-  X,
-} from "lucide-react";
+import { X, ChevronsRight } from "lucide-react";
 import Image from "next/image";
-
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { FaArrowRight } from "react-icons/fa6";
-
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
-import { Doughnut } from "react-chartjs-2";
 import ProjectReview from "@/components/side-comp/project-review-table";
 
-import { vectorb, vectorg } from "../../index";
-import TopNav from "@/components/side-comp/topNav";
 import { useRouter } from "next/navigation";
 
 import Cookies from "js-cookie";
@@ -30,60 +15,80 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import useStudentStore from "@/store/dashboard-fetch";
+
 import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
-import { Button } from "@/components/ui/button";
-import Pricing from "../pricing/page";
 import PricingCard from "@/components/side-comp/pricing-card";
 import PaidPricing from "@/components/side-comp/paid-pricing";
-import useCourseStore from "@/store/fetch-courses";
 
-const formatDate = (isoDateString: any) => {
-  const date = new Date(isoDateString);
-  const monthNames = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  const month = monthNames[date.getMonth()];
-  let day = date.getDate();
-  let daySuffix;
-  if (day === 1 || day === 21 || day === 31) {
-    daySuffix = "st";
-  } else if (day === 2 || day === 22) {
-    daySuffix = "nd";
-  } else if (day === 3 || day === 23) {
-    daySuffix = "rd";
-  } else {
-    daySuffix = "th";
-  }
+import totalCourseBg from "@/public/assets/svg/TotalCourse.svg";
+import books from "@/public/assets/svg/books.svg";
+import checkMark from "@/public/assets/svg/checkmarkDoneMarkCircle.svg";
+import courseDecorator from "@/public/assets/svg/courseDecorator.svg";
+import roundAssignment from "@/public/assets/svg/roundAssignment.svg";
+import stepForward from "@/public/assets/svg/stepForward.svg";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+import CourseOverviewCard from "@/components/side-comp/course-overview-card";
+import PieChart from "@/components/side-comp/pie-chart";
+import BookASessionCard from "@/components/side-comp/book-a-session-card";
+import CourseEnrollMent from "@/public/assets/svg/courseEnrollment.svg";
+import ProjectSubmitted from "@/public/assets/svg/projectSubmitted.svg";
+import ProjectReviewNotification from "@/public/assets/svg/projectReview.svg";
+import ProjectRejected from "@/public/assets/svg/projectRejected.svg";
+import subscriptionRenewalReminder from "@/public/assets/svg/subscriptionRenewalReminder.svg";
+import NotificationModal from "@/components/side-comp/modal/notification-modal";
 
-  // Year in "2024" format
-  const year = date.getFullYear();
-
-  return `${month} ${day}${daySuffix}, ${year}`;
+const responsive = {
+  tablet: {
+    breakpoint: { max: 800, min: 464 },
+    items: 1,
+    slidesToSlide: 1,
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1,
+    slidesToSlide: 1,
+  },
 };
 
-const Dashboard = () => {
-  ChartJS.register(ArcElement, Tooltip, Legend);
+const getActivityIconLink = (activityType: string) => {
+  switch (activityType) {
+    case "Course Enrollment Confirmation":
+      return { img: CourseEnrollMent, link: "/courses" };
+    case "Project Submitted":
+      return { img: ProjectSubmitted, link: "/grading" };
+    case "Project Review Notification":
+      return { img: ProjectReviewNotification, link: "/grading" };
+    case "Project Rejected":
+      return { img: ProjectRejected, link: "/grading" };
+    default:
+      return { img: subscriptionRenewalReminder, link: "/pricing" };
+  }
+};
 
+interface Activity {
+  id: string;
+  activity_type: string;
+  message: string;
+  time_since: string;
+  is_read: boolean;
+}
+
+interface NotificationData {
+  "unread messages": number;
+  activities: Activity[];
+}
+
+const Dashboard = () => {
   const route = useRouter();
   //fetch dashboard data with acceess token and use refresh token to refresh expired token
   const { stuData, loading, fetchStuData, enrolled_courses } =
     useStudentStore();
 
   //activities endpoint
-  const [activity, setActivities] = useState<any>([]);
+  const [activity, setActivities] = useState<NotificationData | undefined>();
   const userActivity = async () => {
     try {
       const accessToken = Cookies.get("authToken");
@@ -124,249 +129,367 @@ const Dashboard = () => {
     }
   };
 
+  const navigation = useRouter();
+
+  const markAsRead = async (link: string, id: string) => {
+    try {
+      const accessToken = Cookies.get("authToken");
+      axios.put(
+        `${urls.activities}${id}/mark-as-read/`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      await navigation.push(link);
+    } catch (error: any) {
+      // console.log(error.response.data.error[0]);
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await markAsRead(link, id);
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    }
+  };
+
   useEffect(() => {
     fetchStuData();
     userActivity();
   }, []);
 
-  const notStarted = stuData?.total_courses - stuData?.courses_completed;
-  const data = {
-    labels: ["Not Completed", "Completed"],
-    datasets: [
-      {
-        label: "Courses",
-        data: [notStarted, stuData?.courses_completed],
-        backgroundColor: ["#C36", "#3C9"],
-        borderWidth: 1,
-      },
-    ],
-  };
-
   const userName = Cookies.get("fullName");
-  const plan = Cookies.get("plan");
+  const subscriptionStatus = Cookies.get("status");
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const handleModal = () => {
     setOpenModal((prev) => !prev);
   };
+
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
       <ToastContainer />
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
-        <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
-          <TopNav />
-        </div>
-        <div className="">
-          <div className="grid grid-cols-1 lg:grid-cols-10 p-4">
-            <div className=" col-span-1 lg:col-span-7">
-              <div className="md:w-[98%] w-full rounded-[8px] relative bg-white h-auto md:h-[133px] flex justify-between lg:pl-5 pl-2 lg:p-0 p-2 shadow-md lg:mr-5 mr-2 lg:mb-2 mb-4">
-                <div className="md:mt-[38px] mt-[30px]">
-                  <h1 className="z-20 relative text-lg md:text-2xl font-medium">
-                    Welcome, {userName}
-                  </h1>
-                  <p className="md:text-base text-sm pr-0 md:pr-4 z-20 relative">
-                    {plan === "Free"
-                      ? "You are using the free version, upgrade now to complete more courses"
-                      : "Complete your course and take a step further💪"}
+        <div>
+          <div className="grid grid-cols-1 lg:grid-cols-10 min-[1440px]:grid-cols-12 pt-16 lg:pt-10 p-4 pb-0">
+            <div className=" col-span-1 lg:col-span-7 min-[1440px]:col-span-9">
+              <div className=" mb-6 md:flex  justify-between items-center  px-4 w-full">
+                <div className="md:max-w-[70%]">
+                  <h2 className="text-3xl text-main font-semibold">
+                    Hello, {userName}
+                  </h2>
+                  <p className="text-[#666666] font-sfProDisplay">
+                    Track your learning progress here. You almost achieved your
+                    learning goal!{" "}
                   </p>
                 </div>
-                {plan === "Free" ? (
-                  <></>
-                ) : (
-                  <div className="hidden md:block">
-                    <Image
-                      src={vectorg}
-                      alt=""
-                      priority
-                      className="absolute z-10 top-0 right-0"
-                    />
-                    <Image
-                      src={vectorb}
-                      alt=""
-                      priority
-                      className="bottom-0 absolute right-0"
-                    />
-                  </div>
-                )}
-                {plan === "Free" ? (
-                  <Button
+
+                {subscriptionStatus === "Free" && (
+                  <button
+                    className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
                     onClick={handleModal}
-                    className="bg-sub rounded-[8px] text-black w-full md:w-auto hover:text-white hover:bg-main font-medium m-4"
                   >
                     Upgrade Plan
-                  </Button>
-                ) : (
-                  <></>
+                  </button>
                 )}
+                {/* <TopNav /> */}
               </div>
-              <div className="lg:flex block justify-between gap-0 md:gap-5 pr-0 md:pr-4">
-                <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-sub flex items-center justify-between px-5">
-                  <div>
-                    {loading ? (
-                      <Loader2 className="animate-spin text-xl" />
-                    ) : (
-                      stuData && (
-                        <h1 className="text-2xl text-[#5D5B5B] font-medium">
-                          {stuData?.total_courses}
-                        </h1>
-                      )
-                    )}
-                    <p className="lg:text-base text-xs md:text-sm text-[#00173A]">
-                      Total Courses
-                    </p>
-                  </div>
-                  <span className="bg-[#F8F9FF] rounded-full p-3">
-                    <BookOpenText className="text-main" />
-                  </span>
-                </div>
-                <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-main flex items-center justify-between px-5">
-                  <div>
-                    {loading ? (
-                      <Loader2 className="animate-spin text-xl" />
-                    ) : (
-                      stuData && (
-                        <h1 className="text-2xl text-[#5D5B5B] font-medium">
-                          {stuData?.courses_completed}
-                        </h1>
-                      )
-                    )}
-                    <p className="lg:text-base text-xs md:text-sm text-[#00173A]">
-                      Completed Courses
-                    </p>
-                  </div>
-                  <span className="bg-[#F8F9FF] rounded-full p-3">
-                    <BookText className="text-main" />
-                  </span>
-                </div>
-                <div className="w-full h-[128px] rounded-[8px] border-t-4 bg-white border-t-[#CC3366] flex items-center justify-between px-5">
-                  <div>
-                    {loading ? (
-                      <Loader2 className="animate-spin text-xl" />
-                    ) : (
-                      stuData && (
-                        <h1 className="text-2xl text-[#5D5B5B] font-medium">
-                          {stuData?.projects_completed}
-                        </h1>
-                      )
-                    )}
-                    <p className="lg:text-base text-xs md:text-sm text-[#00173A]">
-                      Completed Projects
-                    </p>
-                  </div>
-                  <span className="bg-[#F8F9FF] rounded-full p-3">
-                    <ListChecks className="text-main" />
-                  </span>
-                </div>
-              </div>
-              <div className="w-[98%] bg-white shadow-md rounded-[8px] p-5 mr-5 my-3">
-                <div className="flex justify-between items-end">
+
+              {/* Display cards in a horizontal layout for larger screens (tablet and above)  */}
+              <section className="md:flex flex-wrap items-center self-stretch gap-0 md:gap-5 pr-0 md:pr-4 space-y-4 md:space-y-0 hidden">
+                <CourseOverviewCard
+                  bgImage={totalCourseBg}
+                  title="Total Courses"
+                  loading={loading}
+                  icon={books}
+                  value={stuData?.total_courses}
+                  isBgBlue
+                />
+
+                <CourseOverviewCard
+                  bgImage={courseDecorator}
+                  title="Completed Courses"
+                  loading={loading}
+                  icon={checkMark}
+                  value={stuData?.courses_completed}
+                />
+
+                <CourseOverviewCard
+                  bgImage={courseDecorator}
+                  title="Completed Projects"
+                  loading={loading}
+                  icon={roundAssignment}
+                  value={stuData?.projects_completed}
+                />
+              </section>
+
+              {/* Use carousel layout for mobile devices to improve accessibility and usability */}
+              <section className="md:hidden">
+                <Carousel
+                  containerClass="py-7"
+                  className="peek-carousel"
+                  arrows={false}
+                  responsive={responsive}
+                  infinite={true}
+                  showDots={true}
+                  swipeable={true}
+                >
+                  <CourseOverviewCard
+                    bgImage={totalCourseBg}
+                    title="Total Courses"
+                    loading={loading}
+                    icon={books}
+                    value={stuData?.total_courses}
+                    isBgBlue
+                  />
+                  <CourseOverviewCard
+                    bgImage={courseDecorator}
+                    title="Completed Courses"
+                    loading={loading}
+                    icon={checkMark}
+                    value={stuData?.courses_completed}
+                  />
+                  <CourseOverviewCard
+                    bgImage={courseDecorator}
+                    title="Completed Projects"
+                    loading={loading}
+                    icon={roundAssignment}
+                    value={stuData?.projects_completed}
+                  />
+                </Carousel>
+              </section>
+
+              <section className="mt-6 lg:hidden">
+                <BookASessionCard />
+              </section>
+
+              <section className="w-[98%]  rounded-[8px] px-5 md:px-0 mt-6">
+                <div className="flex justify-between items-end mb-5">
                   <h1 className="text-md md:text-xl font-semibold">
                     My Courses
                   </h1>
-                  <p className="underline text-main text-xs md:text-sm">
+                  <p className="text-[#00173A] text-xs md:text-sm flex capitalize">
                     <Link href="/courses">View all</Link>
+                    <ChevronsRight color="#00173A" size={20} />
                   </p>
                 </div>
-                <div className="flex gap-2 flex-wrap">
+
+                {/* Display courses in a horizontal layout for larger screens (tablet and above)  */}
+                <section className="md:flex gap-4 flex-wrap hidden lg:flex-nowrap lg:justify-between">
                   {enrolled_courses && enrolled_courses?.length > 0 ? (
                     enrolled_courses.slice(0, 3).map((data: any) => {
                       return (
                         <div
                           key={data.id}
-                          className="rounded-[8px] mr-[12px] my-2 lg:my-0 relative bg-[#F8F9FF] sm:w-[242px] w-full h-[234px]"
+                          className="rounded-[8px]  my-2 lg:my-0 relative bg-white shadow-md sm:w-[242px] lg:w-[calc(33.333%-16px)] w-full min-h-[218px] p-1 font-sfProDisplay"
                         >
-                          <div className="">
+                          <div className="rounded-[8px] overflow-hidden h-[120px] relative w-full">
                             <Image
-                              className=" object-cover w-full h-[140px]"
+                              className=" object-cover w-full h-full"
                               src={data?.course_image_url}
-                              width={100}
-                              height={100}
                               alt={data?.title}
+                              layout="fill"
+                              objectFit="cover"
                             />
                           </div>
-                          <div className="p-2">
-                            <h3 className="text-xl capitalize font-medium">
+                          <Link
+                            href={`/courses/${data.id}`}
+                            className="p-2 flex flex-col min-h-[87px] justify-between"
+                          >
+                            <h3 className="text-base leading-[160%]">
                               {data?.title}
                             </h3>
-                            <p className="absolute bottom-0 cursor-pointer right-2 capitalize text-[#3E3E3E] font-medium flex items-center gap-1">
-                              {data?.condition}{" "}
-                              {data?.condition === "completed" ? (
-                                <span className="text-main">
-                                  <IoIosCheckmarkCircleOutline />
-                                </span>
-                              ) : (
-                                <span className="text-main">
-                                  <FaArrowRight />
-                                </span>
-                              )}
-                            </p>
-                          </div>
+                            <div className="flex justify-between self-stretch">
+                              <small className="text-[#666666]">
+                                Module {data?.module_count} &#x2022;{"  "}
+                                {data?.course_duration}
+                              </small>
+                              <p className=" cursor-pointer right-2 capitalize text-[#02A1FF] font-medium flex items-center gap-1 text-xs">
+                                continue
+                                <Image
+                                  src={stepForward}
+                                  alt="step forward icon"
+                                  className="ml-1"
+                                />
+                              </p>
+                            </div>
+                          </Link>
                         </div>
                       );
                     })
                   ) : (
                     <p>No enrolled courses yet</p>
                   )}
-                </div>
-              </div>
-            </div>
-            <div className="col-span-3">
-              <div className="bg-white h-[370px] md:h-[275px] rounded-[8px] p-2 shadow-sm ">
-                <h1 className="lg:text-2xl text-base md:text-lg font-medium  mt-4">
-                  Your Activity
-                </h1>
-                <hr />
-                <div>
-                  <ScrollArea className="w-full h-[300px] md:h-[200px] rounded-md">
-                    <div>
-                      {activity?.length == 0 ? (
-                        <p className="text-center">No activity yet</p>
-                      ) : (
-                        activity?.map((tag: any, index: any) => (
+                </section>
+
+                {/* Use carousel layout for mobile devices to improve accessibility and usability */}
+                <section className="md:hidden">
+                  <Carousel
+                    containerClass="py-7"
+                    className="peek-carousel"
+                    arrows={false}
+                    responsive={responsive}
+                    infinite={true}
+                    showDots={true}
+                    swipeable={true}
+                  >
+                    {enrolled_courses && enrolled_courses?.length > 0 ? (
+                      enrolled_courses.slice(0, 3).map((data: any) => {
+                        return (
                           <div
-                            key={index}
-                            className="flex items-center gap-3 md:gap-4 py-2 md:py-3 px-1 md:px-2 cursor-pointer"
+                            key={data.id}
+                            className="rounded-[8px]  my-2 lg:my-0 relative bg-white shadow-md sm:w-[242px] lg:w-[calc(33.333%-16px)] w-full h-[218px] p-1 font-sfProDisplay"
                           >
-                            <div className="flex items-top gap-x-2">
-                              <div className="w-4 h-4 mt-1 bg-main flex justify-center items-center rounded-full">
-                                <div className=" w-2 h-2 bg-white rounded-full"></div>
-                              </div>
-                              <div>
-                                <p className="text-sm">{tag?.message}</p>
-                                <span className="text-[#999999] text-xs flex items-center gap-x-1">
-                                  <CalendarDays className="w-4 h-4" />{" "}
-                                  <p>{formatDate(tag?.activity_date)}</p>
-                                </span>
+                            <div className="rounded-[8px] overflow-hidden h-[120px] relative w-full">
+                              <Image
+                                className=" object-cover w-full h-full"
+                                src={data?.course_image_url}
+                                alt={data?.title}
+                                layout="fill"
+                                objectFit="cover"
+                              />
+                            </div>
+                            <div
+                              className="p-2 flex flex-col h-[87px] justify-between"
+                              onClick={() => route.push(`courses/${data.id}`)}
+                            >
+                              <h3 className="text-base leading-[160%]">
+                                {data?.title}
+                              </h3>
+                              <div className="flex justify-between self-stretch">
+                                <small className="text-[#666666]">
+                                  Module {data?.module_count} &#x2022;{"  "}
+                                  {data?.course_duration}
+                                </small>
+                                <p className=" cursor-pointer right-2 capitalize text-[#02A1FF] font-medium flex items-center gap-1 text-xs">
+                                  continue
+                                  <Image
+                                    src={stepForward}
+                                    alt="step forward icon"
+                                    className="ml-1"
+                                  />
+                                </p>
                               </div>
                             </div>
                           </div>
-                        ))
+                        );
+                      })
+                    ) : (
+                      <p>No enrolled courses yet</p>
+                    )}
+                  </Carousel>
+                </section>
+              </section>
+            </div>
+
+            <div className="col-span-3 space-y-4 ">
+              <div className="hidden lg:block">
+                <BookASessionCard />
+              </div>
+
+              <div className="bg-white font-sfProDisplay rounded-[8px] text-[#014873] py-2 pb-3 px-4 shadow-[0px_0px_20px_0px_rgba(0,0,0,0.10)] h-fit">
+                <span className="flex justify-between items-center">
+                  <h1 className=" font-medium  leading-[160%]">
+                    Notifications
+                  </h1>
+
+                  <NotificationModal activities={activity} />
+                </span>
+                <hr className="mt-2" />
+                <div>
+                  <ScrollArea className="w-full rounded-md h-[155px] ">
+                    <div className="divide-y-[0.5px] divide-slate-200">
+                      {activity === undefined ||
+                      activity?.activities.length == 0 ? (
+                        <p className="text-center leading-[160%]">
+                          No activity yet
+                        </p>
+                      ) : (
+                        activity.activities.map((tag, index: any) => {
+                          const activityItemLink = getActivityIconLink(
+                            tag?.activity_type
+                          );
+                          return (
+                            <div
+                              key={index}
+                              className="flex items-center gap-3 md:gap-4 px-1 md:px-2 cursor-pointer py-2 last-of-type:pb-0 hover:bg-gray-100"
+                              onClick={() =>
+                                markAsRead(activityItemLink.link, tag.id)
+                              }
+                            >
+                              <div className="flex items-center gap-x-2">
+                                <Image
+                                  src={activityItemLink.img}
+                                  alt="activity icon"
+                                  className="w-7 h-7 "
+                                />
+
+                                <div className="w-full">
+                                  <p className="text-sm  text-ellipsis whitespace-nowrap max-w-[71vw] lg:w-[15vw] xl:w-[17vw]  overflow-hidden font-medium">
+                                    {`${tag?.activity_type}: ${tag?.message}`}
+                                  </p>
+                                  <span className="text-[#999999] text-xs flex items-center gap-x-1 ">
+                                    <p>{tag?.time_since}</p>
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                        })
                       )}
                     </div>
                   </ScrollArea>
                 </div>
               </div>
-              <div className="border-md bg-white rounded-[8px] p-2 h-auto shadow-xl md:w-full w-auto mt-2">
-                <h1 className="lg:text-2xl text-base md:text-lg font-medium  mt-4">
-                  Progress Report
-                </h1>
-                <Doughnut data={data} />
+
+              <div className="border-md min-h-[198px] bg-white rounded-[8px] p-4 px-4 h-auto shadow-xl md:w-full w-auto mt-2">
+                <h1 className=" font-medium">Progress Report</h1>
+                {loading ? (
+                  ""
+                ) : (
+                  <PieChart
+                    courses_completed={stuData?.courses_completed}
+                    total_courses={stuData?.total_courses}
+                    enrolled_courses={stuData?.enrolled_courses.length}
+                  />
+                )}
               </div>
             </div>
           </div>
-          <div className="p-4">
-            <div className="bg-white rounded-[8px] p-2">
-              <span className="flex justify-between items-center">
-                <h1 className="lg:text-2xl text-base md:text-lg font-medium  mt-4">
-                  Project Review
-                </h1>
-                <p className="text-sm text-main underline cursor-pointer">
-                  <Link href="/grading">view all</Link>
-                </p>
-              </span>
-              <ProjectReview />
-            </div>
+        </div>
+        <div className="p-4 bg-white shadow-[0px_0px_20px_0px_rgba(0,0,0,0.10)]  mx-4 rounded-[8px] mt-4">
+          <div className=" ">
+            <span className="flex justify-between items-center">
+              <h1 className=" text-base md:text-lg font-medium">
+                Project Review
+              </h1>
+              <p className="text-[#9F9F9F] text-xs flex capitalize">
+                <Link href="/courses">View all</Link>
+                <ChevronsRight color="#9F9F9F" size={15} />
+              </p>
+            </span>
+            <ProjectReview />
           </div>
         </div>
       </div>
@@ -384,7 +507,7 @@ const Dashboard = () => {
                 </span>
                 , send an email with payment receipt, full name and registered
                 email address to{" "}
-                <span className="font-semibold">learning@pististechub.io</span>{" "}
+                <span className="font-semibold">learning.pististechub@gmail.com</span>{" "}
                 for payment confirmation. Upon confirmation, your account will
                 be upgraded in 10 minutes.
               </p>

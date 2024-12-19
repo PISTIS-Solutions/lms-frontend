@@ -15,6 +15,9 @@ import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
+import signIn from "@/public/assets/auth-image/sigin-in.webp";
+import gene from "@/public/assets/auth-image/gene.webp";
+import AuthImageContainer from "@/components/side-comp/auth-image-container";
 
 const SignIn = () => {
   const formStore = useLoginFormStore();
@@ -51,7 +54,7 @@ const SignIn = () => {
           sameSite: "None",
           secure: true,
         });
-        Cookies.set("plan", response.data.user.plan, {
+        Cookies.set("status", response.data.user.status, {
           sameSite: "None",
           secure: true,
         });
@@ -116,8 +119,14 @@ const SignIn = () => {
   }
 
   return (
-    <main className="bg-form-back h-screen w-full bg-no-repeat bg-cover relative">
-      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] absolute right-0 flex flex-col justify-around px-5  md:px-6 lg:px-10">
+    <main className=" h-screen w-full relative flex ">
+      <AuthImageContainer
+        avatarImage={gene}
+        avatarName="Gene Kim"
+        bgImg={signIn}
+        quote="“The most powerful thing about DevOps is the way it encourages cross-team collaboration and learning. It breaks down silos and enables everyone to contribute to the entire lifecycle of software, from idea to production, fostering a culture of continuous improvement and innovation.”"
+      />
+      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] flex flex-col justify-around px-5  md:px-6 lg:px-10 xl:px-16">
         <div className="flex justify-end">
           <Image src={logo} alt="pistis_logo" className="" priority />
         </div>
