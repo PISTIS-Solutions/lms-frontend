@@ -95,9 +95,9 @@ const preferredDateError =
 const altDateError =
   "Invalid alternative date format. Use DD-MM-YYYY (e.g., 01-02-2024).";
 const preferredTimeError =
-  "Invalid preferred time format. Use HH:MM AM/PM (e.g., 05:01 PM).";
+  "Incomplete preferred time format. Select AM/PM (e.g., 05:01 PM).";
 const altTimeError =
-  "Invalid alternative time format. Use HH:MM AM/PM (e.g., 05:01 PM).";
+  "Incomplete alternative time format. Select AM/PM (e.g., 05:01 PM).";
 
 const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
   const [duration, setDuration] = useState(15);
@@ -105,9 +105,13 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
   const [topic, setTopic] = useState("");
   const [note, setNote] = useState("");
   const [preferredDateStr, setPreferredDateStr] = useState<Date | null>(null);
-  const [preferredTimeStr, setPreferredTimeStr] = useState("");
+  const [preferredTimeStr, setPreferredTimeStr] = useState<any>({
+    time: "",
+    period: "",
+  });
   const [altDateStr, setAltDateStr] = useState<Date | null>(null);
-  const [altTimeStr, setAltTimeStr] = useState("");
+  // const [altTimeStr, setAltTimeStr] = useState("");
+  const [altTimeStr, setAltTimeStr] = useState<any>({ time: "", period: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [notDateError, setNotDateError] = useState<NotDateErrorProps>({
@@ -125,8 +129,14 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const preferred_date = getISODateTime(preferredDateStr, preferredTimeStr);
-    const alternative_date = getISODateTime(altDateStr, altTimeStr);
+    const preferred_date = getISODateTime(
+      preferredDateStr,
+      `${preferredTimeStr.time} ${preferredTimeStr.period}`
+    );
+    const alternative_date = getISODateTime(
+      altDateStr,
+      `${altTimeStr.time} ${altTimeStr.period}`
+    );
 
     if (validateAllInputs()) {
       const data = {
@@ -239,27 +249,83 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
     return true;
   };
 
+  // const validateAllInputs = () => {
+  //   if (
+  //     !validateInput(preferredDateStr, preferredDateError, "preferredDateStr")
+  //   )
+  //     return false;
+  //   if (
+  //     !validateInput(preferredTimeStr, preferredTimeError, "preferredTimeStr")
+  //   )
+  //     return false;
+  //   if (!validateInput(altDateStr, altDateError, "altDateStr")) return false;
+  //   if (!validateInput(altTimeStr, altTimeError, "altTimeStr")) return false;
+
+  //   // Check for future dates
+  //   if (isDateTimeInPast(preferredDateStr, preferredTimeStr)) {
+  //     setError("Please select a future preferred date and time.");
+  //     updateErrorState("preferredDateStr", false);
+  //     updateErrorState("preferredTimeStr", false);
+  //     return false;
+  //   }
+
+  //   if (isDateTimeInPast(altDateStr, altTimeStr)) {
+  //     setError("Please select a future alternate date and time.");
+  //     updateErrorState("altDateStr", false);
+  //     updateErrorState("altTimeStr", false);
+  //     return false;
+  //   }
+
+  //   if (!topic) {
+  //     setError("Topic is required.");
+  //     updateErrorState("topic", false);
+  //     return false;
+  //   } else {
+  //     updateErrorState("topic", true);
+  //   }
+
+  //   setError("");
+  //   return true;
+  // };
   const validateAllInputs = () => {
     if (
       !validateInput(preferredDateStr, preferredDateError, "preferredDateStr")
     )
       return false;
     if (
-      !validateInput(preferredTimeStr, preferredTimeError, "preferredTimeStr")
+      !validateInput(
+        `${preferredTimeStr.time} ${preferredTimeStr.period}`,
+        preferredTimeError,
+        "preferredTimeStr"
+      )
     )
       return false;
     if (!validateInput(altDateStr, altDateError, "altDateStr")) return false;
-    if (!validateInput(altTimeStr, altTimeError, "altTimeStr")) return false;
+    if (
+      !validateInput(
+        `${altTimeStr.time} ${altTimeStr.period}`,
+        altTimeError,
+        "altTimeStr"
+      )
+    )
+      return false;
 
     // Check for future dates
-    if (isDateTimeInPast(preferredDateStr, preferredTimeStr)) {
+    if (
+      isDateTimeInPast(
+        preferredDateStr,
+        `${preferredTimeStr.time} ${preferredTimeStr.period}`
+      )
+    ) {
       setError("Please select a future preferred date and time.");
       updateErrorState("preferredDateStr", false);
       updateErrorState("preferredTimeStr", false);
       return false;
     }
 
-    if (isDateTimeInPast(altDateStr, altTimeStr)) {
+    if (
+      isDateTimeInPast(altDateStr, `${altTimeStr.time} ${altTimeStr.period}`)
+    ) {
       setError("Please select a future alternate date and time.");
       updateErrorState("altDateStr", false);
       updateErrorState("altTimeStr", false);
@@ -364,28 +430,6 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                 </label>
                 <div className="flex justify-between mt-1">
                   <div className=" w-[48%]">
-                    {/* <DatePicker
-                      selected={preferredDateStr}
-                      onChange={(date) => setPreferredDateStr(date)}
-                      dateFormat="dd-MM-yyyy"
-                      className={`p-3 border rounded-md outline-none w-full ${
-                        notDateError.preferredDateStr === false
-                          ? "border-red-600"
-                          : notDateError.preferredDateStr == true
-                          ? "border-[#2FBC8D]"
-                          : "border-[#DADADA]"
-                      } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                      id="preferred-date-time"
-                      placeholderText="DD-MM-YYYY"
-                      onBlur={() =>
-                        validateInput(
-                          preferredDateStr,
-                          preferredDateError,
-                          "preferredDateStr"
-                        )
-                      }
-                    /> */}
-
                     <DatePicker
                       selected={preferredDateStr}
                       onChange={(date) => setPreferredDateStr(date)}
@@ -408,35 +452,10 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                       }
                       filterDate={(date) =>
                         date.getDay() !== 0 && date.getDay() !== 6
-                      } // Disable weekends
+                      }
                     />
                   </div>
-
                   {/* <input
-                    type="text"
-                    className={`p-3 border rounded-md outline-none w-[48%] ${
-                      notDateError.preferredTimeStr === false
-                        ? "border-red-600"
-                        : notDateError.preferredTimeStr === true
-                        ? "border-[#2FBC8D]"
-                        : "border-[#DADADA]"
-                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                    id="preferred-time-input"
-                    required
-                    value={preferredTimeStr}
-                    onChange={(e) => setPreferredTimeStr(e.target.value.trim())}
-                    placeholder="09:00"
-                    onBlur={() =>
-                      validateInput(
-                        preferredTimeStr,
-                        preferredTimeError,
-                        "preferredTimeStr"
-                      )
-                    }
-                    pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
-                  /> */}
-
-                  <input
                     type="text"
                     className={`p-3 border rounded-md outline-none w-[48%] ${
                       notDateError.preferredTimeStr === false
@@ -460,7 +479,69 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                       )
                     }
                     pattern="^(0?[1-9]|1[0-2]):([0-5][0-9])( ?)(AM|PM|am|pm)$"
-                  />
+                  /> */}
+
+                  <div className="flex items-center gap-2 w-full ml-2">
+                    <input
+                      type="text"
+                      className={`p-3 border rounded-md outline-none w-[60%] ${
+                        notDateError.preferredTimeStr === false
+                          ? "border-red-600"
+                          : notDateError.preferredTimeStr === true
+                          ? "border-[#2FBC8D]"
+                          : "border-[#DADADA]"
+                      } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                      id="preferred-time-input"
+                      required
+                      value={preferredTimeStr.time}
+                      onChange={(e) =>
+                        setPreferredTimeStr({
+                          ...preferredTimeStr,
+                          time: e.target.value,
+                        })
+                      }
+                      placeholder="09:00"
+                      onBlur={() =>
+                        validateInput(
+                          `${preferredTimeStr.time} ${preferredTimeStr.period}`,
+                          preferredTimeError,
+                          "preferredTimeStr"
+                        )
+                      }
+                      pattern="^(0?[1-9]|1[0-2]):([0-5][0-9])$"
+                    />
+
+                    <select
+                      className={`p-3 border rounded-md outline-none w-[35%] ${
+                        notDateError.preferredTimeStr === false
+                          ? "border-red-600"
+                          : notDateError.preferredTimeStr === true
+                          ? "border-[#2FBC8D]"
+                          : "border-[#DADADA]"
+                      } bg-[#FAFAFA] text-[#9F9F9F]`}
+                      value={preferredTimeStr.period}
+                      onChange={(e) =>
+                        setPreferredTimeStr({
+                          ...preferredTimeStr,
+                          period: e.target.value,
+                        })
+                      }
+                      onBlur={() =>
+                        validateInput(
+                          `${preferredTimeStr.time} ${preferredTimeStr.period}`,
+                          preferredTimeError,
+                          "preferredTimeStr"
+                        )
+                      }
+                      required
+                    >
+                      <option value="" disabled>
+                        Select
+                      </option>
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div>
@@ -526,7 +607,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                     }
                     pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
                   /> */}
-                  <input
+                  {/* <input
                     type="text"
                     className={`p-3 border rounded-md outline-none w-[48%] ${
                       notDateError.altTimeStr === false
@@ -545,7 +626,66 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                       validateInput(altTimeStr, altTimeError, "altTimeStr")
                     }
                     pattern="^(0?[1-9]|1[0-2]):([0-5][0-9])( ?)(AM|PM|am|pm)$"
-                  />
+                  /> */}
+                  <div className="flex items-center gap-2 w-full ml-2">
+                    {/* Time Input */}
+                    <input
+                      type="text"
+                      className={`p-3 border rounded-md outline-none w-[60%] ${
+                        notDateError.altTimeStr === false
+                          ? "border-red-600"
+                          : notDateError.altTimeStr === true
+                          ? "border-[#2FBC8D]"
+                          : "border-[#DADADA]"
+                      } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                      id="alt-time-input"
+                      onChange={(e) =>
+                        setAltTimeStr({
+                          ...altTimeStr,
+                          time: e.target.value.replace(/\s+/g, " ").trim(),
+                        })
+                      }
+                      value={altTimeStr.time}
+                      placeholder="09:00"
+                      onBlur={() =>
+                        validateInput(
+                          `${altTimeStr.time} ${altTimeStr.period}`,
+                          altTimeError,
+                          "altTimeStr"
+                        )
+                      }
+                      pattern="^(0?[1-9]|1[0-2]):([0-5][0-9])$"
+                    />
+
+                    {/* AM/PM Dropdown */}
+                    <select
+                      className={`p-3 border rounded-md outline-none w-[35%] ${
+                        notDateError.altTimeStr === false
+                          ? "border-red-600"
+                          : notDateError.altTimeStr === true
+                          ? "border-[#2FBC8D]"
+                          : "border-[#DADADA]"
+                      } bg-[#FAFAFA] text-[#9F9F9F]`}
+                      onChange={(e) =>
+                        setAltTimeStr({ ...altTimeStr, period: e.target.value })
+                      }
+                      value={altTimeStr.period}
+                      onBlur={() =>
+                        validateInput(
+                          `${altTimeStr.time} ${altTimeStr.period}`,
+                          altTimeError,
+                          "altTimeStr"
+                        )
+                      }
+                      required
+                    >
+                      <option value="" disabled>
+                        Select
+                      </option>
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
