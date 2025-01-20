@@ -5,7 +5,6 @@ import Favicon from "../public/favicon.ico";
 import localFont from "next/font/local";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Head from "next/head";
 
 const montserrat = Montserrat({ subsets: ["latin"], display: "swap" });
 const SFProDisplay = localFont({
