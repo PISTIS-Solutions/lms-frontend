@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import doubleTick from "@/public/assets/svg/doubletick.svg";
 import loop from "@/public/assets/svg/loop.svg";
 import Image from "next/image";
+import Link from "next/link";
 
 const AdvanceCard = () => {
   const services = [
@@ -50,9 +51,12 @@ const AdvanceCard = () => {
             })}
           </section>
         </div>
-        <button className="bg-white rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-main">
+        <Link
+          href="custom-pricing"
+          className="bg-white rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-main"
+        >
           Purchase a Preferred Course
-        </button>
+        </Link>
       </div>
     </div>
   );
