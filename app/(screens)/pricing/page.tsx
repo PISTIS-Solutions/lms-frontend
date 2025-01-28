@@ -6,7 +6,7 @@ import { ChevronLeft } from "lucide-react";
 import PlanNav from "@/components/side-comp/pricing/PlanNav";
 import { useEffect, useState } from "react";
 import { usePlanStore } from "@/store/plan-store";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
 const page = () => {
   const { fetchPlans, isLoading } = usePlanStore();
@@ -35,10 +35,10 @@ const page = () => {
             We’ve got a plan that’s perfect for you.
           </h1>
           <p className="md:max-w-[65vw] max-w-full md:text-lg sm:text-sm text-xs text-[#484848]">
-            Find the perfect plan that fits your learning journey. Whether
-            you're just starting out or looking to deepen your skills, we've got
-            a plan designed to meet your needs. Invest in yourself and unlock
-            unlimited potential.
+            Elevate your skills and enhance your learning experience with our
+            flexible and affordable payment options tailored to fit your budget
+            and learning plans. Now is the perfect time to accelerate
+            your career journey!
           </p>
         </section>
 

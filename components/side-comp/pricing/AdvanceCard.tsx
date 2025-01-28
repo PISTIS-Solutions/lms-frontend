@@ -2,19 +2,18 @@
 import React from "react";
 
 import "react-toastify/dist/ReactToastify.css";
-import doubleTick from "@/public/assets/svg/doubletick.svg";
+import reddoubleTick from "@/public/assets/svg/r-doubletick.svg";
 import loop from "@/public/assets/svg/loop.svg";
 import Image from "next/image";
 import Link from "next/link";
 
 const AdvanceCard = () => {
   const services = [
-    { serv: "Move image layer italic" },
-    { serv: "Blur rectangle distribute layerBlur recta" },
-    { serv: "Main scale export inspect" },
-    { serv: "Main scale export inspect" },
-    { serv: "Main scale export inspect" },
-    { serv: "Variant duplicate connection star" },
+    { serv: "Customizable courses to fit your needs" },
+    { serv: "Hands-on projects" },
+    { serv: "Expert mentorship for personalized guidance" },
+    { serv: "Skills-focused training to boost career " },
+    { serv: "Access to high-quality content" },
   ];
 
   return (
@@ -26,7 +25,7 @@ const AdvanceCard = () => {
               <Image src={loop} alt="thunder bolt icon" />
 
               {/* TODO: add font */}
-              <p className="p-[4px_10px] text-xs text-main  h-fit rounded-sm bg-white">
+              <p className="p-[4px_10px] text-xs text-white  h-fit rounded-sm bg-red-500">
                 Enterprise
               </p>
             </div>
@@ -42,7 +41,7 @@ const AdvanceCard = () => {
             {services.map((service, i) => {
               return (
                 <div key={i} className="flex py-2 items-top gap-x-1">
-                  <Image src={doubleTick} alt="double check mark icon" />
+                  <Image src={reddoubleTick} alt="double check mark icon" />
                   <p className="text-sm text-white font-medium">
                     {service.serv}
                   </p>

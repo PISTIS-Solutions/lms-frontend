@@ -7,10 +7,16 @@ import timer from "@/public/assets/svg/timer.svg";
 import rate from "@/public/assets/svg/rate.svg";
 
 import { BsCartPlus } from "react-icons/bs";
+import { useRouter } from "next-nprogress-bar";
 
 const CustomCard = () => {
+  const router = useRouter();
+  const id = 1;
   return (
-    <div className="w-[416px] h-[325px] bg-white rounded-[8px] p-2">
+    <div
+      onClick={() => router.push(`custom-pricing/${id}`)}
+      className="max-w-[416px] h-[325px] bg-white rounded-[8px] p-2"
+    >
       <div className=" rounded-tl-[8px] rounded-tr-[8px]">
         <Image
           src={customImg}

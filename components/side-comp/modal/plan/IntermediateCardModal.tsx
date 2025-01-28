@@ -1,6 +1,6 @@
 import { usePlanStore } from "@/store/plan-store";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { useEffect, useRef, useState } from "react";
 import logo from "@/public/assets/pistis_logo.png";
 import Cookies from "js-cookie";

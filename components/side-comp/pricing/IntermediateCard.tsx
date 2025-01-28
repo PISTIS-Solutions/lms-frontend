@@ -9,13 +9,14 @@ import IntermediateCardModal from "../modal/plan/IntermediateCardModal";
 
 const IntermediateCard = () => {
   const services = [
-    { serv: "Horizontal inspect style share" },
-    { serv: "Object text component style" },
-    { serv: "Horizontal inspect style share" },
-    { serv: "Arrow reesizing main main" },
-    { serv: "Device bullet fill subtract" },
-    { serv: "Arrow reesizing main main" },
-    { serv: "Vector figjam select vector" },
+    { serv: "Hands-on experience" },
+    { serv: "Access to structured learning" },
+    { serv: "Personalized Project Feedback" },
+    { serv: "Real-world project-based learning approach" },
+    { serv: "Group Blocker Sessions" },
+    { serv: "6 months of unlimited access" },
+    { serv: "Resume reviews and mock interviews" },
+    { serv: "Expert-led monthly 4 one-on-one mentorship sessions" },
   ];
 
   return (
@@ -40,7 +41,7 @@ const IntermediateCard = () => {
           </div>
           <h1 className="text-[40px] h-fit text-main font-medium before:content-['₦'] pl-8 before:left-0 before:top-[6%] before:inline before:text-[26px] before:absolute relative">
             400,000
-            <span className="text-[#666666] inline-flex text-base font-medium">
+            <span className="inline-flex text-base font-medium">
               / 6 Months
             </span>
           </h1>
@@ -58,13 +59,6 @@ const IntermediateCard = () => {
               </div>
             );
           })}
-          <div className="py-2 flex gap-x-[6px]">
-            <Info className="text-sub rotate-180" size={14} />
-            {/* TODO: chnage font*/}
-            <p className="text-sub text-xs">
-              Password must contain special character
-            </p>
-          </div>
         </section>
       </div>
 

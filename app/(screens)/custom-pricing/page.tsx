@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Search, ShoppingCart } from "lucide-react";
 
 import pistis from "@/public/assets/full-logo.png";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import CustomCard from "@/components/side-comp/custom-card";
 
 const CustomPayment = () => {
@@ -63,7 +63,7 @@ const CustomPayment = () => {
           </span>
         </div>
 
-        <div className="flex flex-wrap justify-between gap-y-10">
+        <div className="grid grid-cols-3 justify-between gap-5">
           <CustomCard />
           <CustomCard />
           <CustomCard />
@@ -73,8 +73,15 @@ const CustomPayment = () => {
         </div>
       </div>
 
-      <div className="flex py-10 cursor-pointer justify-center"> 
-        <button className="bg-sub rounded-[8px] py-4 text-[#2E2E2E] text-base font-medium w-1/3">Proceed to Payment</button>
+      <div className="flex py-10 cursor-pointer justify-center">
+        <button
+          onClick={() => {
+            router.push("/custom-pricing/order-summary");
+          }}
+          className="bg-sub rounded-[8px] py-4 text-[#2E2E2E] text-base font-medium w-1/3"
+        >
+          Proceed to Payment
+        </button>
       </div>
     </div>
   );

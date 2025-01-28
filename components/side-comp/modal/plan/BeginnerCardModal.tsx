@@ -3,12 +3,11 @@ import logo from "@/public/assets/pistis_logo.png";
 import { usePlanStore } from "@/store/plan-store";
 import { urls } from "@/utils/config";
 import axios from "axios";
-import { Info } from "lucide-react";
+import { Info, X } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
-
 
 const inputs = [
   {
@@ -55,6 +54,8 @@ const BeginnerCardModal = () => {
     }
   };
 
+  const [waitList, setWaitList] = useState(true);
+
   const handleOutsideClick = (e: MouseEvent) => {
     if (isOpen && modal.current && !modal.current.contains(e.target as Node)) {
       setIsOpen(false);
@@ -83,90 +84,159 @@ const BeginnerCardModal = () => {
       >
         Join our upcoming bootcamp
       </button>
-      <div
-        className={
-          "fixed inset-0 bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-50 " +
-          (isOpen
-            ? "opacity-100 backdrop-blur-sm"
-            : "opacity-0 pointer-events-none backdrop-blur-none")
-        }
-      >
+      {waitList ? (
         <div
           className={
-            "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-6 w-full md:max-w-[692px] flex-col py-10 " +
-            (isOpen ? "translate-y-0 scale-100" : "translate-y-full scale-50")
+            "fixed inset-0  bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-[9999] " +
+            (waitList
+              ? "opacity-100 backdrop-blur-sm"
+              : "opacity-0 pointer-events-none backdrop-blur-none")
           }
-          ref={modal}
         >
-          <div className="flex flex-col items-center justify-center w-full">
-            <Image src={logo} alt="Pistis logo" />
+          <div
+            className={
+              "shadow-[0px_0px_45px_0px_#0000004D] absolute bg-white rounded-[20px] flex h-[85vh] overflow-y-scroll items-center gap-y-6 w-full md:max-w-[692px] flex-col py-2 " +
+              (waitList
+                ? "translate-y-0 scale-100"
+                : "translate-y-full scale-50")
+            }
+            ref={modal}
+          >
+            <X
+              onClick={() => setWaitList(false)}
+              className="text-red-500 text-lg absolute top-3 right-3 cursor-pointer"
+            />
+            <div className="flex flex-col items-center justify-center w-full">
+              <Image src={logo} alt="Pistis logo" />
 
-            <span className="max-w-[68%] text-center w-full">
-              <h1 className="text-main text-[32px] font-bold">
-                Join the next wave
-              </h1>
-              {/* TODO:change font */}
-              <p className="text-[#828282]">
-                Become a participant in our upcoming devops bootcamp.
-              </p>
-            </span>
+              <span className="max-w-[68%] text-center w-full">
+                <h1 className="text-main text-[32px] font-bold">
+                  Join Batch B waiting list
+                </h1>
+
+                {/* TODO:change font */}
+                <p className="text-[#828282]">
+                  Watchout Dolor suspendisse accumsan quisque purus malesuada.
+                  Pellentesque tincidunt tellus quisque amet odio vel nulla.
+                  Pellentesque maifg.
+                </p>
+              </span>
+            </div>
+
+            <div className="w-[80%]">
+              <label
+                htmlFor="Email Address"
+                className="capitalize text-[#2E2E2E] mb-2"
+              >
+                Email Address
+              </label>
+              <input
+                type={"email"}
+                className="outline-none border w-full border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] py-3 px-[14px] rounded-md"
+                placeholder={`Enter your email address `}
+                id="Name"
+                required
+              />
+            </div>
+
+            <button className="bg-main h-[50px] flex items-center justify-center w-[80%] text-white rounded-lg font-medium mt-10">
+              Join Our Waiting List
+            </button>
           </div>
+        </div>
+      ) : (
+        <div
+          className={
+            "fixed inset-0 bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-[9999] " +
+            (isOpen
+              ? "opacity-100 backdrop-blur-sm"
+              : "opacity-0 pointer-events-none backdrop-blur-none")
+          }
+        >
+          <div
+            className={
+              "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex h-[85vh] overflow-y-scroll items-center gap-y-6 w-full md:max-w-[692px] flex-col py-2 " +
+              (isOpen ? "translate-y-0 scale-100" : "translate-y-full scale-50")
+            }
+            ref={modal}
+          >
+            <div className="flex flex-col items-center justify-center w-full">
+              <Image src={logo} alt="Pistis logo" />
 
-          {/* TODO:change font */}
-          <form className="w-[80%]  md:w-[532px]" onSubmit={handleSubmit}>
-            <div className="">
-              {inputs.map((itm) => (
-                <div key={itm.label} className="mb-2">
+              <span className="max-w-[68%] text-center w-full">
+                <h1 className="text-main text-[32px] font-bold">
+                  Join the next wave
+                </h1>
+                <div className="border border-main rounded-[8px] text-center my-2 bg-white px-4 py-2">
+                  <p className="text-base font-medium text-[#575757] ">
+                    Batch B Starting Date:{" "}
+                    <span className="text-[#FF1456]">1st Fedurary, 2025.</span>
+                  </p>
+                </div>
+
+                {/* TODO:change font */}
+                <p className="text-[#828282]">
+                  Become a participant in our upcoming devops bootcamp.
+                </p>
+              </span>
+            </div>
+
+            {/* TODO:change font */}
+            <form className="w-[80%]  md:w-[532px]" onSubmit={handleSubmit}>
+              <div className="">
+                {inputs.map((itm) => (
+                  <div key={itm.label} className="mb-2">
+                    <label
+                      htmlFor={itm.label}
+                      className="capitalize text-[#2E2E2E] mb-2"
+                    >
+                      {itm.label}
+                    </label>
+                    <input
+                      type={itm.label === "Email Address" ? "email" : "text"}
+                      className="outline-none border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] py-3 px-[14px] w-full rounded-md"
+                      placeholder={`Enter your ${itm.label.toLocaleLowerCase()}`}
+                      id="Name"
+                      required
+                      name={itm.name}
+                    />
+                  </div>
+                ))}
+
+                <div>
                   <label
-                    htmlFor={itm.label}
+                    htmlFor="Phone Number"
                     className="capitalize text-[#2E2E2E] mb-2"
                   >
-                    {itm.label}
+                    Phone Number
                   </label>
-                  <input
-                    type={itm.label === "Email Address" ? "email" : "text"}
-                    className="outline-none border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] py-3 px-[14px] w-full rounded-md"
-                    placeholder={`Enter your ${itm.label.toLocaleLowerCase()}`}
-                    id="Name"
-                    required
-                    name={itm.name}
-                  />
-                </div>
-              ))}
+                  <div className="border border-[#DADADA] bg-[#FAFAFA] flex items-center rounded-md py-3 px-[14px]">
+                    <span className="border-r border-[#2E2E2E]">+234</span>
+                    <input
+                      type="number"
+                      className="outline-none  placeholder:text-[#9F9F9F]  w-full "
+                      id="Name"
+                      placeholder="123 456 7890"
+                      required
+                      name="phone_number"
+                    />
+                  </div>
 
-              <div>
-                <label
-                  htmlFor="Phone Number"
-                  className="capitalize text-[#2E2E2E] mb-2"
-                >
-                  Phone Number
-                </label>
-                <div className="border border-[#DADADA] bg-[#FAFAFA] flex items-center rounded-md py-3 px-[14px]">
-                  <span className="border-r border-[#2E2E2E]">+234</span>
-                  <input
-                    type="number"
-                    className="outline-none  placeholder:text-[#9F9F9F]  w-full "
-                    id="Name"
-                    placeholder="123 456 7890"
-                    required
-                    name="phone_number"
-                  />
+                  <span className="flex gap-x-[6px] text-[#9F9F9F] text-xs items-center mt-2">
+                    <Info className="text-[#9F9F9F] rotate-180" size={11.67} />
+
+                    <span>This number should be active on WhatsApp</span>
+                  </span>
                 </div>
 
-                <span className="flex gap-x-[6px] text-[#9F9F9F] text-xs items-center mt-2">
-                  <Info className="text-[#9F9F9F] rotate-180" size={11.67} />
-
-                  <span>This number should be active on WhatsApp</span>
-                </span>
+                <button className="bg-main h-[50px] flex items-center justify-center w-full text-white rounded-lg font-medium mt-10">
+                  Submit Details
+                </button>
               </div>
-
-              <button className="bg-main h-[50px] flex items-center justify-center w-full text-white rounded-lg font-medium mt-10">
-                Submit Details
-              </button>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

@@ -8,7 +8,7 @@ import { nigerianStates } from "@/data";
 
 import Fulllogo from "@/public/assets/full-logo.png";
 import useFormStore from "@/store/create-account";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import axios from "axios";
 import { Loader2 } from "lucide-react";
 

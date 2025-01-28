@@ -22,7 +22,7 @@ import ProjectReview from "@/components/side-comp/project-review-table";
 
 import { vectorb, vectorg } from "../../index";
 import TopNav from "@/components/side-comp/topNav";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
 import Cookies from "js-cookie";
 

@@ -4,8 +4,10 @@ import "./globals.css";
 import Favicon from "../public/favicon.ico";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import Providers from "@/components/side-comp/ProgressBarProvider";
 
-const montserrat = Montserrat({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"], display: "auto" });
 
 export const metadata: Metadata = {
   title: "Pistis Student",
@@ -20,16 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={montserrat.className}>
-        {/* <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          closeOnClick={true}
-          pauseOnHover={false}
-          draggable={false}
-          theme="dark"
-        /> */}
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

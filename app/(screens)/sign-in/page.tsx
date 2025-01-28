@@ -6,7 +6,7 @@ import Image from "next/image";
 import logo from "../../../public/assets/pistis_logo.png";
 import { Eye, EyeOff, KeyRound, Loader2, Mail, Router } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import useLoginFormStore from "@/store/sign-in-store";
 import axios from "axios";
 import { urls } from "@/utils/config";

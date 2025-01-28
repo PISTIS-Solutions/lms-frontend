@@ -6,7 +6,7 @@ import Image from "next/image";
 import logo from "../../../../public/assets/pistis_logo.png";
 import envelope from "../../../../public/assets/enve.webp";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
 import Fulllogo from "@/public/assets/full-logo.png";
 

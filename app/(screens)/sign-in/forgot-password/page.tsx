@@ -19,7 +19,7 @@ import { Eye, EyeOff, KeyRound, Loader2Icon, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import axios from "axios";
 import { urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";

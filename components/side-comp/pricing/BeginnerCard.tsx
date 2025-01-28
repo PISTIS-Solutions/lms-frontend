@@ -9,12 +9,13 @@ import BeginnerCardModal from "../modal/plan/BeginnerCardModal";
 
 const BeginnerCard = () => {
   const services = [
-    { serv: "Move image layer italic" },
-    { serv: "Blur rectangle distribute layerBlur recta" },
-    { serv: "Main scale export inspect" },
-    { serv: "Main scale export inspect" },
-    { serv: "Main scale export inspect" },
-    { serv: "Variant duplicate connection star" },
+    { serv: "Digital literacy" },
+    { serv: "Getting familiar with IT" },
+    { serv: "⁠Exploring different Tech Careers" },
+    { serv: "Introduction to IT Career Services and guide" },
+    { serv: "Introduction to DevOps" },
+    { serv: "Data Infographics" },
+    { serv: "Troubleshooting" },
   ];
 
   return (
@@ -25,9 +26,9 @@ const BeginnerCard = () => {
             <div className="flex mb-4 items-center justify-between">
               <Image src={bolt} alt="thunder bolt icon" />
               {/* TODO: add font */}
-              <p className="border-[#60C4FF] p-[4px_10px] text-xs text-[#014873] border h-fit rounded-sm">
+              {/* <p className="border-[#60C4FF] p-[4px_10px] text-xs text-[#014873] border h-fit rounded-sm">
                 Next
-              </p>
+              </p> */}
             </div>
             <div>
               <h1 className="text-2xl text-[#000066] font-medium">Beginner</h1>
@@ -37,8 +38,8 @@ const BeginnerCard = () => {
             </div>
             <h1 className="text-[40px] h-fit text-main font-medium before:content-['₦'] pl-8 before:left-0 before:top-[6%] before:inline before:text-[26px] before:absolute relative">
               100,000
-              <span className="text-[#666666] inline-flex text-base font-medium">
-                / Monthly
+              <span className=" inline-flex text-base font-medium">
+                / 8 Weeks
               </span>
             </h1>
           </section>
