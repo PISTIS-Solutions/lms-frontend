@@ -16,6 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useFormStore from "@/store/create-account";
 import Link from "next/link";
+import email from "@/public/assets/email.png";
 
 const Verify_SignUp = () => {
   const router = useRouter();
@@ -113,19 +114,20 @@ const Verify_SignUp = () => {
             priority
           />
         </div>
-        <div className="px-2 my-10 md:my-0 md:px-0">
-          <h1 className="md:text-4xl text-xl text-center py-5 font-semibold">
-            Verify Account
+        <div className="px-2 my-2 md:my-0 md:px-0">
+          <Image src={email} alt="verify" className="mx-auto" />
+          <h1 className=" text-3xl text-center font-semibold">
+            Verify your email
           </h1>
         </div>
         <div>
-          <h1 className=" md:text-2xl text-base py-2 md:py-10 text-center">
-            A message was sent to your email address, click "Verify" button to
-            verify your account.
-          </h1>
+          <p className=" text-base py-2 font-semibold text-[#828282] text-center">
+            We’ve sent a verification link to your email, kindly click on
+            the link to activate account
+          </p>
         </div>
         <div className="flex justify-center">
-          <Button
+          {/* <Button
             disabled={loading}
             className="w-[95%] bg-[#33CC99] my-3 md:my-0 py-4 flex justify-center items-center rounded-[8px] font-medium text-lg md:text-2xl text-black hover:text-white"
             // onClick={handleVerifyToken}
@@ -135,7 +137,7 @@ const Verify_SignUp = () => {
             ) : (
               <>Submit</>
             )}
-          </Button>
+          </Button> */}
         </div>
         <div>
           <Link href="/create-account/resendToken">

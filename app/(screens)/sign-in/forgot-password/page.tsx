@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import Image from "next/image";
 
 import logo from "../../../../public/assets/pistis_logo.png";
-import bg from "@/public/assets/auth_bg.webp";
+import bg from "@/public/assets/forgot-bg.png";
+import kelsey from "@/public/assets/kelsey.png";
 import {
   Form,
   FormControl,
@@ -83,37 +84,33 @@ const ForgotPassword = () => {
   };
 
   return (
-    <main className=" bg-white min-h-screen w-full relative flex ">
-      <div className="hidden h-full lg:block    lg:p-10 lg:pr-0 lg:w-[51.9%] sticky top-0 lg:h-screen">
+    <main className=" bg-white w-full relative flex ">
+      <div className="hidden md:block p-2 w-1/2 h-screen relative">
         <div className="relative mx-auto w-fit h-full ">
-          <Image
-            src={bg}
-            alt="auth image"
-            className="object-contain  2xl:max-w-[708px] h-full"
-          />
-          <div className="absolute bottom-0 text-white  m-10 max-w-[80%] px-6 border-l-2 border-white">
-            <p className="font-semibold text-[32px] leading-[38.4px] mb-2">
-              Ipsum list layout align italic component project thumb
+          <Image src={bg} alt="auth image" className=" object-fill  h-full" />
+          <div className="w-[80%] p-3 bg-white/5 border-2 rounded-[20px] border-white absolute bottom-5 left-2 ">
+            <p className="font-normal text-white text-sm">
+              “The most powerful thing about DevOps is the way it encourages
+              cross-team collaboration and learning. It breaks down silos and
+              enables everyone to contribute to the entire lifecycle of
+              software, from idea to production, fostering a culture of
+              continuous improvement and innovation.”
             </p>
-            {/* TODO: change font */}
-            <p className="">
-              Outline share italic underline clip. Frame invite export vertical
-              select device. Underline ellipse outline figma follower. Undo
-              selection select arrow share prototype component list. Arrow undo
-              scale prototype boolean.Outline share italic underline clip. Frame
-              invite export vertical select device.{" "}
-            </p>
+            <div className="flex items-center gap-2 my-2">
+              <Image src={kelsey} alt="gene" />
+              <p className="text-2xl font-semibold text-white">Gene Kim</p>
+            </div>
           </div>
         </div>
       </div>
-      <div className="flex lg:w-[48.06%] lg:overflow-auto  justify-center w-full px-4 lg:px-0">
-        <div className="lg:max-w-[75.4%] flex-col gap-y-6  flex w-full">
+      <div className="flex w-full md:w-1/2 justify-center px-4 lg:px-0">
+        <div className=" flex-col gap-y-6  flex">
           <ToastContainer />
           <div className="flex justify-end">
             <Image src={logo} alt="pistis_logo" className="" priority />
           </div>
           <div className="">
-            <h1 className="text-2xl md:text-[32px] text-main leading-[38.4px] font-bold">
+            <h1 className="text-2xl md:text-[32px] text-main  font-bold">
               Forgot Password?
             </h1>
             <h3 className="text-[#828282] text-sm md:text-base">

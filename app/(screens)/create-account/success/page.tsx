@@ -26,7 +26,7 @@ const VerifySuccess = () => {
         />
       </div>
       <div className="">
-        <div className="flex justify-center py-4 px-4  md:px-0">
+        <div className="flex justify-center px-4  md:px-0">
           <Image
             src={envelope}
             alt="envelope"
@@ -34,8 +34,8 @@ const VerifySuccess = () => {
             className="max-w-[168px]"
           />
         </div>
-        <div className="lg:py-10 px-4  md:px-0">
-          <h1 className="text-main text-2xl md:text-[32px] text-center font-semibold">
+        <div className=" px-4  md:px-0">
+          <h1 className="text-main text-3xl md:text-[32px] text-center font-semibold">
             Your mail has been verified
           </h1>
           {/* TODO: change font */}
