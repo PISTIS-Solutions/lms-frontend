@@ -3,7 +3,7 @@ import logo from "@/public/assets/pistis_logo.png";
 import { usePlanStore } from "@/store/plan-store";
 import { urls } from "@/utils/config";
 import axios from "axios";
-import { Info, X } from "lucide-react";
+import { Info, Loader2, X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next-nprogress-bar";
 import { FormEvent, useEffect, useRef, useState } from "react";
@@ -32,8 +32,12 @@ const BeginnerCardModal = () => {
   const toggleModal = () => setIsOpen(!isOpen);
   const authToken = Cookies.get("authToken");
 
+  console.log(plans, "plans");
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const formData = new FormData(e.currentTarget);
     const details = Object.fromEntries(formData);
 
@@ -41,20 +45,22 @@ const BeginnerCardModal = () => {
     const body = {
       user: { ...details, phone_number: `+234${details.phone_number}` },
       plan: plan?.id,
-      amount_to_pay: "100000",
+      // amount_to_pay: "100000",
     };
     console.log(body);
 
     try {
       const response = await axios.post(urls.makeBeginnerPayment, body);
       router.push(response.data.authorization_url);
+      setLoading(false);
       toggleModal();
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
-  const [waitList, setWaitList] = useState(true);
+  const [waitList, setWaitList] = useState(false);
 
   const handleOutsideClick = (e: MouseEvent) => {
     if (isOpen && modal.current && !modal.current.contains(e.target as Node)) {
@@ -211,7 +217,7 @@ const BeginnerCardModal = () => {
                     Phone Number
                   </label>
                   <div className="border border-[#DADADA] bg-[#FAFAFA] flex items-center rounded-md py-3 px-[14px]">
-                    <span className="border-r border-[#2E2E2E]">+234</span>
+                    <span className="border-r mr-2 border-[#2E2E2E]">+234</span>
                     <input
                       type="number"
                       className="outline-none  placeholder:text-[#9F9F9F]  w-full "
@@ -229,8 +235,17 @@ const BeginnerCardModal = () => {
                   </span>
                 </div>
 
-                <button className="bg-main h-[50px] flex items-center justify-center w-full text-white rounded-lg font-medium mt-10">
-                  Submit Details
+                <button
+                  disabled={loading}
+                  className="bg-main h-[50px] flex items-center justify-center w-full text-white rounded-lg font-medium mt-10"
+                >
+                  {loading ? (
+                    <div className="flex items-center justify-center">
+                      <Loader2 className="animate-spin" />
+                    </div>
+                  ) : (
+                    "Submit Details"
+                  )}
                 </button>
               </div>
             </form>

@@ -38,6 +38,7 @@ export const usePlanStore = create<PlanStore>((set, get) => ({
       const response = await axios.get(urls.plans);
 
       set({ plans: response.data });
+      console.log(response, "plans response");
       if (response.status === 200) {
         set({ isLoading: false });
       }

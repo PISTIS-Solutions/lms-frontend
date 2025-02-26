@@ -34,7 +34,7 @@ export default function RootLayout({
           </div>
         </div>
       </div>
-        <div className="flex justify-center w-1/2 h-screen overflow-y-scroll px-2">
+        <div className="flex justify-center w-full md:w-1/2 h-screen overflow-y-scroll px-2">
           {children}
         </div>
       </main>

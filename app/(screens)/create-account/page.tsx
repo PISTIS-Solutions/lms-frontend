@@ -18,7 +18,7 @@ import Link from "next/link";
 import useFormStore from "../../../store/create-account";
 
 import Fulllogo from "@/public/assets/full-logo.png";
-import kelsey from "@/public/assets/kelsey.png"
+import kelsey from "@/public/assets/kelsey.png";
 import bg from "@/public/assets/forgot-bg.png";
 import google from "@/public/assets/svg/google.svg";
 import { urls } from "@/utils/config";
@@ -57,7 +57,11 @@ const SignUp = () => {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
+              first_name: formStore.firstName,
+              last_name: formStore.lastName,
               email: formStore.email,
+              phone_number: `+234${formStore.Phone}`,
+              // location: formStore.location,
               password: formStore.password,
               re_password: formStore.confirm,
             }),
@@ -129,7 +133,7 @@ const SignUp = () => {
     <>
       <ToastContainer />
       <div className=" flex flex-col lg:my-6 w-full gap-y-6">
-      {/* <div className="hidden md:block p-2 w-1/2 h-screen relative">
+        {/* <div className="hidden md:block p-2 w-1/2 h-screen relative">
         <div className="relative mx-auto w-fit h-full ">
           <Image src={bg} alt="auth image" className=" object-fill  h-full" />
           <div className="w-[80%] p-3 bg-white/5 border-2 rounded-[20px] border-white absolute bottom-5 left-2 ">
@@ -256,8 +260,8 @@ const SignUp = () => {
                 id=""
                 className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
                 placeholder="123 456 7890"
-                value={formStore.email}
-                onChange={(e) => formStore.setField("email", e.target.value)}
+                value={formStore.Phone}
+                onChange={(e) => formStore.setField("Phone", e.target.value)}
               />
             </div>
             <span className="text-xs text-[#9F9F9F] flex items-center gap-x-[6px] mt-1">
