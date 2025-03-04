@@ -1,15 +1,15 @@
 import { Calendar } from "lucide-react";
 import Image from "next/image";
-import teamSlice from "@/public/assets/svg/teamSlice.svg";
+import teamSlice from "@/src/assets/svg/teamSlice.svg";
 import { useEffect, useState } from "react";
 import useFetchStudentSessionStore from "@/store/fetch-student-session";
-import time from "@/public/assets/svg/time.svg";
-import topicWhite from "@/public/assets/svg/topicWhite.svg";
-import timeWhite from "@/public/assets/svg/timeWhite.svg";
-import userCard from "@/public/assets/svg/userCard.svg";
-import userCardWhite from "@/public/assets/svg/userCardWhite.svg";
-import calendar from "@/public/assets/svg/calendar.svg";
-import calendarWhite from "@/public/assets/svg/calendarWhite.svg";
+import time from "@/src/assets/svg/time.svg";
+import topicWhite from "@/src/assets/svg/topicWhite.svg";
+import timeWhite from "@/src/assets/svg/timeWhite.svg";
+import userCard from "@/src/assets/svg/userCard.svg";
+import userCardWhite from "@/src/assets/svg/userCardWhite.svg";
+import calendar from "@/src/assets/svg/calendar.svg";
+import calendarWhite from "@/src/assets/svg/calendarWhite.svg";
 
 interface TimeRemaining {
   days: null | number;

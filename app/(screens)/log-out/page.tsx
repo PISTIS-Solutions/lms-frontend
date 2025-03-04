@@ -5,10 +5,10 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 import React from "react";
 
-import sad from "@/public/assets/sad.png";
+import sad from "@/src/assets/sad.png";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import TopNav from "@/components/side-comp/topNav";
 import Link from "next/link";
 

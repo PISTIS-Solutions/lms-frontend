@@ -7,6 +7,8 @@ import { X, ChevronsRight } from "lucide-react";
 import Image from "next/image";
 import ProjectReview from "@/components/side-comp/project-review-table";
 
+// import { vectorb, vectorg } from "../../index";
+import TopNav from "@/components/side-comp/topNav";
 import { useRouter } from "next/navigation";
 
 import Cookies from "js-cookie";
@@ -19,25 +21,28 @@ import useStudentStore from "@/store/dashboard-fetch";
 import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
-import PricingCard from "@/components/side-comp/pricing-card";
-import PaidPricing from "@/components/side-comp/paid-pricing";
+import { Button } from "@/components/ui/button";
+import Pricing from "../pricing/page";
+import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
+import IntermediateCard from "@/components/side-comp/pricing/IntermediateCard";
+import useCourseStore from "@/store/fetch-courses";
 
-import totalCourseBg from "@/public/assets/svg/TotalCourse.svg";
-import books from "@/public/assets/svg/books.svg";
-import checkMark from "@/public/assets/svg/checkmarkDoneMarkCircle.svg";
-import courseDecorator from "@/public/assets/svg/courseDecorator.svg";
-import roundAssignment from "@/public/assets/svg/roundAssignment.svg";
-import stepForward from "@/public/assets/svg/stepForward.svg";
+import totalCourseBg from "@/src/assets/svg/TotalCourse.svg";
+import books from "@/src/assets/svg/books.svg";
+import checkMark from "@/src/assets/svg/checkmarkDoneMarkCircle.svg";
+import courseDecorator from "@/src/assets/svg/courseDecorator.svg";
+import roundAssignment from "@/src/assets/svg/roundAssignment.svg";
+import stepForward from "@/src/assets/svg/stepForward.svg";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import CourseOverviewCard from "@/components/side-comp/course-overview-card";
 import PieChart from "@/components/side-comp/pie-chart";
 import BookASessionCard from "@/components/side-comp/book-a-session-card";
-import CourseEnrollMent from "@/public/assets/svg/courseEnrollment.svg";
-import ProjectSubmitted from "@/public/assets/svg/projectSubmitted.svg";
-import ProjectReviewNotification from "@/public/assets/svg/projectReview.svg";
-import ProjectRejected from "@/public/assets/svg/projectRejected.svg";
-import subscriptionRenewalReminder from "@/public/assets/svg/subscriptionRenewalReminder.svg";
+import CourseEnrollMent from "@/src/assets/svg/courseEnrollment.svg";
+import ProjectSubmitted from "@/src/assets/svg/projectSubmitted.svg";
+import ProjectReviewNotification from "@/src/assets/svg/projectReview.svg";
+import ProjectRejected from "@/src/assets/svg/projectRejected.svg";
+import subscriptionRenewalReminder from "@/src/assets/svg/subscriptionRenewalReminder.svg";
 import NotificationModal from "@/components/side-comp/modal/notification-modal";
 
 const responsive = {
@@ -518,10 +523,10 @@ const Dashboard = () => {
                 <X className="text-main border border-main rounded-md " />
               </button>
             </div>
-            <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
-              <PricingCard bool={false} />
-              <PaidPricing bool={false} />
-            </div>
+            {/* <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
+              <BeginnerCard bool={false} />
+              <IntermediateCard bool={false} />
+            </div> */}
           </div>
         </div>
       )}

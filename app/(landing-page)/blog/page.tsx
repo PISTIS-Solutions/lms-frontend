@@ -4,7 +4,7 @@ import Image from "next/image";
 
 import { motion } from "framer-motion";
 
-import blogBack from "@/public/assets/blogBack.png";
+import blogBack from "@/src/assets/blogBack.png";
 import NavigationBar from "@/components/side-comp/nav";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import Footer from "@/components/side-comp/landing/footer";

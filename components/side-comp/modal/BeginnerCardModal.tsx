@@ -1,5 +1,5 @@
 "use client";
-import logo from "@/public/assets/pistis_logo.png";
+import logo from "@/src/assets/pistis_logo.png";
 // import { usePlanStore } from "@/store/plan-store";
 import { urls } from "@/utils/config";
 import axios from "axios";

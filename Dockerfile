@@ -1,3 +1,4 @@
+# FROM node:20-alpine
 # Build stage
 FROM node:20-alpine AS build
 
@@ -22,22 +23,18 @@ FROM node:20-alpine
 # Set the working directory
 WORKDIR /app
 
-# Copy only the necessary files from the build stage
+# Copy only the built artifacts from the build stage
 COPY --from=build /app/.next /app/.next
+COPY --from=build /app/public /app/public
 COPY --from=build /app/package.json /app/package.json
 COPY --from=build /app/package-lock.json /app/package-lock.json
-
-# Copy the public folder to ensure images and assets are available
-COPY --from=build /app/public /app/public
-
-# Copy npm from the build stage
-COPY --from=build /usr/local/bin/npm /usr/local/bin/npm
 
 # Install only production dependencies
 RUN npm install --only=production --legacy-peer-deps && npm cache clean --force
 
 # Expose the application port
 EXPOSE 3000
-
 # Start the application
-CMD ["npm", "start"]
+# Start the application
+# Start the application
+CMD ["npm", "start", "run"]

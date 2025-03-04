@@ -1,11 +1,11 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronsRight, X } from "lucide-react";
 import { Montserrat } from "next/font/google";
-import CourseEnrollMent from "@/public/assets/svg/courseEnrollment.svg";
-import ProjectSubmitted from "@/public/assets/svg/projectSubmitted.svg";
-import ProjectReviewNotification from "@/public/assets/svg/projectReview.svg";
-import ProjectRejected from "@/public/assets/svg/projectRejected.svg";
-import subscriptionRenewalReminder from "@/public/assets/svg/subscriptionRenewalReminder.svg";
+import CourseEnrollMent from "@/src/assets/svg/courseEnrollment.svg";
+import ProjectSubmitted from "@/src/assets/svg/projectSubmitted.svg";
+import ProjectReviewNotification from "@/src/assets/svg/projectReview.svg";
+import ProjectRejected from "@/src/assets/svg/projectRejected.svg";
+import subscriptionRenewalReminder from "@/src/assets/svg/subscriptionRenewalReminder.svg";
 import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";

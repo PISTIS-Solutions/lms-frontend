@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import CoursesCard from "@/components/side-comp/courses-card";
 import ProjectCard from "@/components/side-comp/project-card";
 import SideNav from "@/components/side-comp/side-nav";

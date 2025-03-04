@@ -5,7 +5,7 @@ import SideNav from "@/components/side-comp/side-nav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 
-import user from "@/public/assets/avatar.jpg";
+import user from "@/src/assets/avatar.jpg";
 import { EditIcon, Eye, EyeOff, KeyRound, Loader2, Mail } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -30,7 +30,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 import useStudentStore from "@/store/fetch-students";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
 const passwordSchema = z.object({
   currentPassword: z.string(),

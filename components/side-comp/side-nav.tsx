@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-import logo from "@/public/assets/sideLogo.png";
+import logo from "@/src/assets/sideLogo.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileNav from "./mobile-nav";
@@ -14,8 +14,8 @@ import { MdAssignment, MdDashboard } from "react-icons/md";
 
 import { IoHelpCircle } from "react-icons/io5";
 import { IoIosLogOut, IoMdSettings } from "react-icons/io";
-import grade from "@/public/assets/svg/grading.svg";
-import bookGray from "@/public/assets/svg/book-gray.svg";
+import grade from "@/src/assets/svg/grading.svg";
+import bookGray from "@/src/assets/svg/book-gray.svg";
 
 const SideNav = () => {
   const navTexts = [
@@ -98,11 +98,11 @@ const SideNav = () => {
               return (
                 <Link href={`/${nav.link}`} key={index} className="">
                   <div
-                    className={`link group ${
-                      isActive
-                        ? " text-white border-l-white border-l-4"
-                        : "text-[#5E5E9F]"
-                    } flex items-center pl-5 gap-3 text-center hover:text-white hover:border-l-4 hover:border-l-white duration-150 ease-in-out cursor-pointer my-1 py-3`}
+                    className={`link ${
+                      pathname.includes(`/${nav.link}`)
+                        ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
+                        : "text-white"
+                    } flex items-center pl-5 gap-3 text-center hover:bg-sub hover:border-r-2 hover:border-r-[#6E6EF7] duration-150 ease-in-out cursor-pointer my-1 py-3`}
                   >
                     <span>
                       {typeof nav.icon === "function"

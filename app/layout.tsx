@@ -5,8 +5,10 @@ import Favicon from "../public/favicon.ico";
 import localFont from "next/font/local";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import Providers from "@/components/side-comp/ProgressBarProvider";
 
-const montserrat = Montserrat({ subsets: ["latin"], display: "swap" });
+const montserrat = Montserrat({ subsets: ["latin"], display: "auto" });
 const SFProDisplay = localFont({
   src: [
     {
@@ -45,20 +47,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${SFProDisplay.variable} ${digitalNumbers.variable} ${montserrat.className}`}
-      >
-        {/* <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          closeOnClick={true}
-          pauseOnHover={false}
-          draggable={false}
-          theme="dark"
-        /> */}
-        {children}
-        <ToastContainer />
+      <body className={montserrat.className}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

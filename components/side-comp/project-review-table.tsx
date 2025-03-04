@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { ArrowLeft, ArrowRight, Loader2Icon } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { cn } from "@/lib/utils";
 import PendingModal from "./modal/pending-modal";
 import ReviewedModal from "./modal/reviewed-modal";
