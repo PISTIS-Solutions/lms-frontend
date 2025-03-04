@@ -373,7 +373,7 @@ const SettingsPage = () => {
               <div className="relative">
                 <span>
                   {selectedFile ? (
-                    <img
+                    <Image
                       src={URL.createObjectURL(selectedFile)}
                       alt="selected"
                       className="w-[159px] h-[159px] rounded-full object-contain"

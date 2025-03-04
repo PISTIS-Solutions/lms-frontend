@@ -26,6 +26,10 @@ import { urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import avatarImage from "@/public/assets/auth-image/kelsey.webp";
+import createAccount from "@/public/assets/auth-image/create-account.webp";
+import AuthImageContainer from "@/components/side-comp/auth-image-container";
+
 const formSchema = z.object({
   Email: z.string().min(2, {
     message: "Input a valid email address",

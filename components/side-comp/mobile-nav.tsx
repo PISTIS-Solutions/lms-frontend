@@ -1,23 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import logo from "@/public/assets/full-logo.png";
-import {
-  ArrowLeftCircle,
-  ArrowRightCircle,
-  Award,
-  BookOpenText,
-  GraduationCap,
-  LayoutDashboard,
-  ListTodo,
-  LogOut,
-  Menu,
-  Settings,
-} from "lucide-react";
+import logo from "@/public/assets/sideLogo.png";
+import { ArrowLeftCircle, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import useFetchStudentSessionStore from "@/store/fetch-student-session";
+import CountDownText from "./CountDownText";
+import UpcomingModal from "./modal/upcoming-modal";
+import { IoIosLogOut, IoMdSettings } from "react-icons/io";
+import { IoHelpCircle } from "react-icons/io5";
+import { MdAssignment, MdDashboard } from "react-icons/md";
+import grade from "@/public/assets/svg/grading.svg";
+import bookGray from "@/public/assets/svg/book-gray.svg";
 
 const MobileNav = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -29,13 +26,25 @@ const MobileNav = () => {
   };
   const navTexts = [
     {
-      icon: <LayoutDashboard />,
+      icon: <MdDashboard />,
       title: "Dashboard",
       link: "dashboard",
     },
     {
-      icon: <BookOpenText />,
-      title: "Course Content",
+      icon: (isActive: boolean) => (
+        <Image
+          src={bookGray}
+          width={16}
+          height={16}
+          alt="assignment"
+          className={`transition duration-150 ${
+            isActive
+              ? "brightness-[3]"
+              : "brightness-95 group-hover:brightness-[3]"
+          }`}
+        />
+      ),
+      title: "Courses",
       link: "courses",
       // otherLink: "courses/add-course/add-modules"
     },
@@ -45,82 +54,148 @@ const MobileNav = () => {
     //   link: "students",
     // },
     {
-      icon: <ListTodo />,
+      icon: <MdAssignment size={16} />,
       title: "Projects",
       link: "project",
     },
     {
-      icon: <Award />,
+      icon: (isActive: boolean) => (
+        <Image
+          src={grade}
+          width={16}
+          height={16}
+          alt="assignment"
+          className={`transition duration-150 ${
+            isActive
+              ? "brightness-[3]"
+              : "brightness-95 group-hover:brightness-[3]"
+          }`}
+        />
+      ),
       title: "Grading",
       link: "grading",
     },
+    {
+      icon: <IoMdSettings />,
+      title: "Settings",
+      link: "settings",
+    },
   ];
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleModal = () => setIsOpen(!isOpen);
+  const { fetchSession, loading, data } = useFetchStudentSessionStore();
+
+  useEffect(() => {
+    fetchSession();
+  }, []);
+
   return (
-    <div className="relative w-1/2 z-[98]">
-      <div className={`absolute bg-main rounded-full top-6 z-[99] ${sidebarOpen ? "-right-4" : "ml-2"}`}>
-        <button className="p-2 text-white" onClick={toggleSidebar}>
-          {sidebarOpen ? <ArrowLeftCircle /> : <Menu />}
-        </button>
-      </div>
-      <nav
-        className={`w-full bg-main h-[100vh] absolute top-0 transform transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <Image className=" m-auto py-5 px-5" src={logo} priority alt="logo" />
-        <div className="flex justify-between flex-col h-[88%]">
-          <div>
-            {navTexts.map((nav, index) => {
-              return (
-                <Link href={`/${nav.link}`} key={index} className="">
-                  <div
-                    className={`link ${
-                      pathname === `/${nav.link}`
-                        ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
-                        : "text-white"
-                    } flex items-center pl-1 gap-1 text-center duration-150 ease-in-out cursor-pointer my-1 py-4`}
-                  >
-                    <span className=""> {nav.icon} </span>
-                    <span className="text-sm">{nav.title}</span>
+    <>
+      <div className="relative w-1/2 z-[98]">
+        <div
+          className={`absolute bg-main rounded-full top-6 z-[99] ${
+            sidebarOpen ? "-right-4" : "ml-2"
+          }`}
+        >
+          <button className="p-2 text-white" onClick={toggleSidebar}>
+            {sidebarOpen ? <ArrowLeftCircle /> : <Menu />}
+          </button>
+        </div>
+        <nav
+          className={`w-full bg-main h-[100vh] absolute top-0 transform transition-transform duration-300 ease-in-out overflow-y-auto ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <Image className=" m-auto py-5 px-5" src={logo} priority alt="logo" />
+          <div className="flex justify-between flex-col h-[88%]">
+            <div>
+              {navTexts.map((nav, index) => {
+                const isActive = pathname.includes(`/${nav.link}`);
+
+                return (
+                  <Link href={`/${nav.link}`} key={index} className="">
+                    <div
+                      className={`link ${
+                        isActive
+                          ? " text-white border-l-white border-l-4"
+                          : "text-[#5E5E9F]"
+                      } flex items-center pl-4 gap-2 text-center duration-150 ease-in-out cursor-pointer my-1 py-3 sm:py-6`}
+                    >
+                      <span className="">
+                        {" "}
+                        {typeof nav.icon === "function"
+                          ? nav.icon(isActive)
+                          : nav.icon}
+                      </span>
+                      <span className="text-sm">{nav.title}</span>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* countdown */}
+            {!loading && data && (
+              <>
+                <div className=" p-3 rounded-[8px] h-fit max-w-sm">
+                  <div className="space-y-4 p-3 bg-main backdrop-blur-sm bg-white/10 rounded-[8px] upcoming-modal-border_gradient">
+                    {/* Header */}
+                    <div className="flex justify-between items-center mb-4 font-sfProDisplay">
+                      <h2 className="text-white text-base font-medium">
+                        Upcoming Section
+                      </h2>
+                    </div>
+
+                    <CountDownText isSmall />
+
+                    <button
+                      className="w-full h-[36px] justify-center items-center font-sfProDisplay bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors rounded-[6px] text-[#FF0000] text-xs lg:text-base cancel-button"
+                      onClick={toggleModal}
+                    >
+                      Cancel Private Session
+                    </button>
                   </div>
-                </Link>
-              );
-            })}
-          </div>
-          <div>
-            <div className="text-white text-center duration-150 ease-in-out cursor-pointer my-1 py-1">
-              <Link href={"/settings"} className="">
+                </div>
+              </>
+            )}
+
+            <div>
+              <div className="text-white text-center duration-150 ease-in-out cursor-pointer my-1 py-1">
+                {/* <Link href={"/help"} className=""> */}
                 <div
                   className={`link ${
-                    pathname === "/settings"
-                      ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
-                      : "text-white"
-                  } flex items-center pl-1 gap-1 text-center duration-150 ease-in-out cursor-pointer my-1 py-4`}
+                    pathname === "/help"
+                      ? " text-white border-l-white border-l-4"
+                      : "text-[#5E5E9F]"
+                  } flex items-center pl-4 gap-2 text-center duration-150 ease-in-out cursor-pointer my-1 py-3`}
                 >
                   {" "}
-                  <Settings />
-                  <span className="text-sm">Settings</span>
+                  <IoHelpCircle />
+                  <span className="text-sm">Help & Information</span>
+                </div>
+                {/* </Link> */}
+              </div>
+              <Link href={"/log-out"} className="">
+                <div
+                  className={`link ${
+                    pathname === "/log-out"
+                      ? " text-[#FF0000] border-l-white border-l-4"
+                      : "text-[#FF0000]"
+                  } flex items-center pl-4 gap-2 text-center duration-150 ease-in-out cursor-pointer mb-2 py-3`}
+                >
+                  {" "}
+                  <IoIosLogOut />
+                  <span className="text-sm">Log Out</span>
                 </div>
               </Link>
             </div>
-            <Link href={"/log-out"} className="">
-              <div
-                className={`link ${
-                  pathname === "/log-out"
-                    ? "bg-sub text-black border-r-[#6E6EF7] border-r-2"
-                    : "text-white"
-                } flex items-center pl-1 gap-1 text-center duration-150 ease-in-out cursor-pointer my-1 py-4`}
-              >
-                {" "}
-                <LogOut />
-                <span className="text-sm">Log Out</span>
-              </div>
-            </Link>
           </div>
-        </div>
-      </nav>
-    </div>
+        </nav>
+      </div>
+      <UpcomingModal toggleModal={toggleModal} isOpen={isOpen} />
+    </>
   );
 };
 

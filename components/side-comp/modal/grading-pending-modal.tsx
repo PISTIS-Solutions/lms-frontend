@@ -22,13 +22,14 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
   const person = projectReview.find(
     (item: any) => item.submission_id === submissionId
   );
+  
   const handleSubmit = async () => {
     if (link && comment !== "") {
       try {
         setLoading(true);
         const accessToken = Cookies.get("authToken");
         const response = await axios.patch(
-          `${urls.courses}${person?.course?.id}/submissions/${person?.submission_id}/`,
+          `${urls.courses}${person?.course?.id}/submissions/${person?.submission_id}/resubmit/`,
           {
             project_id: person?.project?.id,
             submission_link: link,
@@ -133,7 +134,7 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
   };
 
   return (
-    <div className="bg-white p-4 overflow-y-scroll w-full lg:mx-2 mx-0 md:1/2 lg:w-1/3 h-full">
+    <div className="bg-white p-4 overflow-y-scroll relative z-[100] w-full lg:mx-2 mx-0 md:1/2 lg:w-1/3 h-full">
       <div>
         <ToastContainer />
         <div className="flex justify-between items-center">

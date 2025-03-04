@@ -16,6 +16,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { baseURL } from "@/utils/config";
 
+import createAccount from "@/public/assets/auth-image/create-account.webp";
+import avatarImage from "@/public/assets/auth-image/kelsey.webp";
+import AuthImageContainer from "@/components/side-comp/auth-image-container";
+
 const Completeprofile = () => {
   const formStore = useFormStore();
   const [loading, setLoading] = useState<boolean>();

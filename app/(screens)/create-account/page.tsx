@@ -32,6 +32,10 @@ const containsSpecialChars = "Password must contain special characters";
 const differentPassword =
   "Password and Confirm password contains different characters";
 
+import avatarImage from "@/public/assets/auth-image/kelsey.webp";
+import createAccount from "@/public/assets/auth-image/create-account.webp";
+import AuthImageContainer from "@/components/side-comp/auth-image-container";
+
 const SignUp = () => {
   const formStore = useFormStore();
   const [specialCharacterErr, setSpecialCharacterErr] = useState();

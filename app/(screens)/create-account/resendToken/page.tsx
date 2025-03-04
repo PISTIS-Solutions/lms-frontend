@@ -20,6 +20,10 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { urls } from "@/utils/config";
 
+import avatarImage from "@/public/assets/auth-image/kelsey.webp";
+import createAccount from "@/public/assets/auth-image/create-account.webp";
+import AuthImageContainer from "@/components/side-comp/auth-image-container";
+
 const ResendToken = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
