@@ -395,10 +395,10 @@ const Dashboard = () => {
                 <X className="text-main border border-main rounded-md " />
               </button>
             </div>
-            <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
+            {/* <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
               <BeginnerCard bool={false} />
               <IntermediateCard bool={false} />
-            </div>
+            </div> */}
           </div>
         </div>
       )}

@@ -32,13 +32,11 @@ const IntermediateCardModal = () => {
 
   const handleClick = async () => {
     const userId = Cookies.get("userId");
-    const plan = plans.find((itm) => itm.name.includes("Intermidiate"));
+    const plan = plans.find((itm) => itm.name.includes("INTERMEDIATE"));
 
     const data = {
       user: userId,
       plan: plan?.id,
-      amount_to_pay: "400000",
-      payment_type: "one_time",
     };
 
     try {
