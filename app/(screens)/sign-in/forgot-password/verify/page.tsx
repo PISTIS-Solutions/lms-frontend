@@ -1,11 +1,11 @@
 import React from "react";
 import Image from "next/image";
 
-import logo from "@/public/assets/pistis_logo.png";
-import enve from "@/public/assets/enve.webp";
-// import bg from "@/public/assets/auth_bg.webp";
-import kelsey from "@/public/assets/kelsey.png";
-import bg from "@/public/assets/forgot-bg.png";
+import logo from "@/src/assets/pistis_logo.png";
+import enve from "@/src/assets/enve.webp";
+// import bg from "@/src/assets/auth_bg.webp";
+import kelsey from "@/src/assets/kelsey.png";
+import bg from "@/src/assets/forgot-bg.png";
 
 const verify_ForgotPassword = () => {
   return (

@@ -2,8 +2,8 @@
 import React from "react";
 
 import "react-toastify/dist/ReactToastify.css";
-import doubleTick from "@/public/assets/svg/doubletick.svg";
-import bolt from "@/public/assets/svg/roundBolt.svg";
+import doubleTick from "@/src/assets/svg/doubletick.svg";
+import bolt from "@/src/assets/svg/roundBolt.svg";
 import Image from "next/image";
 import BeginnerCardModal from "../modal/plan/BeginnerCardModal";
 

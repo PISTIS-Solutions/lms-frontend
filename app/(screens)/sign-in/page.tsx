@@ -15,9 +15,9 @@ import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
-import bg from "@/public/assets/sign-in-bg.png";
-import google from "@/public/assets/svg/google.svg";
-import kim from "@/public/assets/kim.png"
+import bg from "@/src/assets/sign-in-bg.png";
+import google from "@/src/assets/svg/google.svg";
+import kim from "@/src/assets/kim.png"
 
 const SignIn = () => {
   const formStore = useLoginFormStore();

@@ -2,8 +2,8 @@
 import { Info } from "lucide-react";
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
-import intermediateIcon from "@/public/assets/svg/intermediateIcon.svg";
-import doubleTick from "@/public/assets/svg/doubletick.svg";
+import intermediateIcon from "@/src/assets/svg/intermediateIcon.svg";
+import doubleTick from "@/src/assets/svg/doubletick.svg";
 import Image from "next/image";
 import IntermediateCardModal from "../modal/plan/IntermediateCardModal";
 
@@ -24,7 +24,7 @@ const IntermediateCard = () => {
       <div className="px-4">
         <section className="border-b-[0.5px] border-[#CCCCCC] rounded-tr-[4px] rounded-tl-[4px] py-6 ">
           <div className="flex mb-4 items-center justify-between">
-            <Image src={intermediateIcon} alt="thunder bolt icon" />
+            <Image src={doubleTick} alt="thunder bolt icon" />
             {/* TODO: add font */}
             <p className="border-[#60C4FF] bg-[#C2E8FF] p-[4px_10px] text-xs text-[#001D3D] border h-fit rounded-sm">
               Recommended

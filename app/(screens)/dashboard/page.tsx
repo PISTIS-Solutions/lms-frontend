@@ -27,22 +27,22 @@ import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
 import IntermediateCard from "@/components/side-comp/pricing/IntermediateCard";
 import useCourseStore from "@/store/fetch-courses";
 
-import totalCourseBg from "@/public/assets/svg/TotalCourse.svg";
-import books from "@/public/assets/svg/books.svg";
-import checkMark from "@/public/assets/svg/checkmarkDoneMarkCircle.svg";
-import courseDecorator from "@/public/assets/svg/courseDecorator.svg";
-import roundAssignment from "@/public/assets/svg/roundAssignment.svg";
-import stepForward from "@/public/assets/svg/stepForward.svg";
+import totalCourseBg from "@/src/assets/svg/TotalCourse.svg";
+import books from "@/src/assets/svg/books.svg";
+import checkMark from "@/src/assets/svg/checkmarkDoneMarkCircle.svg";
+import courseDecorator from "@/src/assets/svg/courseDecorator.svg";
+import roundAssignment from "@/src/assets/svg/roundAssignment.svg";
+import stepForward from "@/src/assets/svg/stepForward.svg";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import CourseOverviewCard from "@/components/side-comp/course-overview-card";
 import PieChart from "@/components/side-comp/pie-chart";
 import BookASessionCard from "@/components/side-comp/book-a-session-card";
-import CourseEnrollMent from "@/public/assets/svg/courseEnrollment.svg";
-import ProjectSubmitted from "@/public/assets/svg/projectSubmitted.svg";
-import ProjectReviewNotification from "@/public/assets/svg/projectReview.svg";
-import ProjectRejected from "@/public/assets/svg/projectRejected.svg";
-import subscriptionRenewalReminder from "@/public/assets/svg/subscriptionRenewalReminder.svg";
+import CourseEnrollMent from "@/src/assets/svg/courseEnrollment.svg";
+import ProjectSubmitted from "@/src/assets/svg/projectSubmitted.svg";
+import ProjectReviewNotification from "@/src/assets/svg/projectReview.svg";
+import ProjectRejected from "@/src/assets/svg/projectRejected.svg";
+import subscriptionRenewalReminder from "@/src/assets/svg/subscriptionRenewalReminder.svg";
 import NotificationModal from "@/components/side-comp/modal/notification-modal";
 
 const responsive = {

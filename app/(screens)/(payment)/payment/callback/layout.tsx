@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import kelsey from "@/public/assets/kelsey.png";
-import bg from "@/public/assets/forgot-bg.png";
+import kelsey from "@/src/assets/kelsey.png";
+import bg from "@/src/assets/forgot-bg.png";
 import NavigationBar from "@/components/side-comp/nav";
 
 export const metadata: Metadata = {

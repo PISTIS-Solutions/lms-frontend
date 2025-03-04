@@ -20,8 +20,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { urls } from "@/utils/config";
 
-import avatarImage from "@/public/assets/auth-image/kelsey.webp";
-import createAccount from "@/public/assets/auth-image/create-account.webp";
+import avatarImage from "@/src/assets/auth-image/kelsey.webp";
+import createAccount from "@/src/assets/auth-image/create-account.webp";
 import AuthImageContainer from "@/components/side-comp/auth-image-container";
 
 const ResendToken = () => {

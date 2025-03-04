@@ -4,14 +4,14 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
-import logo from "@/public/assets/pistis_logo.png";
+import logo from "@/src/assets/pistis_logo.png";
 import { Mail, KeyRound, Eye, EyeOff, Loader2, Info } from "lucide-react";
 import useForgotPassStore from "@/store/forgot-password";
 import { urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import kelsey from "@/public/assets/kelsey.png";
-import bg from "@/public/assets/forgot-bg.png";
+import kelsey from "@/src/assets/kelsey.png";
+import bg from "@/src/assets/forgot-bg.png";
 
 const NewPassword = () => {
   const passwordStore = useForgotPassStore();

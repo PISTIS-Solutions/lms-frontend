@@ -2,12 +2,12 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-import pistis from "@/public/assets/full-logo.png";
+import pistis from "@/src/assets/full-logo.png";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
-import mainLogo from "@/public/assets/mainLogo.png";
+import mainLogo from "@/src/assets/mainLogo.png";
 import { usePathname } from "next/navigation";
 import { SlClose } from "react-icons/sl";
 import { motion } from "framer-motion";

@@ -4,13 +4,13 @@ import Image from "next/image";
 import { ChevronLeft, Search, ShoppingCart } from "lucide-react";
 import { MdOpenInNew } from "react-icons/md";
 import { Button } from "@/components/ui/button";
-import pistis from "@/public/assets/full-logo.png";
+import pistis from "@/src/assets/full-logo.png";
 import Link from "next/link";
 import { useRouter } from "next-nprogress-bar";
-import customImg from "@/public/assets/customimg.png";
-import note from "@/public/assets/svg/note.svg";
-import timer from "@/public/assets/svg/timer.svg";
-import rate from "@/public/assets/svg/rate.svg";
+import customImg from "@/src/assets/customimg.png";
+import note from "@/src/assets/svg/note.svg";
+import timer from "@/src/assets/svg/timer.svg";
+import rate from "@/src/assets/svg/rate.svg";
 
 const CourseDetails = () => {
   const router = useRouter();

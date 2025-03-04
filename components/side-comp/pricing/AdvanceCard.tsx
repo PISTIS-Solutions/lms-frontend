@@ -2,8 +2,8 @@
 import React from "react";
 
 import "react-toastify/dist/ReactToastify.css";
-import reddoubleTick from "@/public/assets/svg/r-doubletick.svg";
-import loop from "@/public/assets/svg/loop.svg";
+import reddoubleTick from "@/src/assets/svg/r-doubletick.svg";
+import loop from "@/src/assets/svg/loop.svg";
 import Image from "next/image";
 import Link from "next/link";
 

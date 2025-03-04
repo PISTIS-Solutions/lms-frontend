@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-import logo from "@/public/assets/sideLogo.png";
+import logo from "@/src/assets/sideLogo.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import MobileNav from "./mobile-nav";
@@ -14,8 +14,8 @@ import { MdAssignment, MdDashboard } from "react-icons/md";
 
 import { IoHelpCircle } from "react-icons/io5";
 import { IoIosLogOut, IoMdSettings } from "react-icons/io";
-import grade from "@/public/assets/svg/grading.svg";
-import bookGray from "@/public/assets/svg/book-gray.svg";
+import grade from "@/src/assets/svg/grading.svg";
+import bookGray from "@/src/assets/svg/book-gray.svg";
 
 const SideNav = () => {
   const navTexts = [

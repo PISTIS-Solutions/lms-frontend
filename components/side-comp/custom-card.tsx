@@ -1,10 +1,10 @@
 import Image from "next/image";
 import React from "react";
 
-import customImg from "@/public/assets/customimg.png";
-import note from "@/public/assets/svg/note.svg";
-import timer from "@/public/assets/svg/timer.svg";
-import rate from "@/public/assets/svg/rate.svg";
+import customImg from "@/src/assets/customimg.png";
+import note from "@/src/assets/svg/note.svg";
+import timer from "@/src/assets/svg/timer.svg";
+import rate from "@/src/assets/svg/rate.svg";
 
 import { BsCartPlus } from "react-icons/bs";
 import { useRouter } from "next-nprogress-bar";

@@ -9,9 +9,9 @@ import { FaLock } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { AiTwotoneDelete } from "react-icons/ai";
 
-import note from "@/public/assets/svg/note.svg";
-import timer from "@/public/assets/svg/timer.svg";
-import pistis from "@/public/assets/full-logo.png";
+import note from "@/src/assets/svg/note.svg";
+import timer from "@/src/assets/svg/timer.svg";
+import pistis from "@/src/assets/full-logo.png";
 
 const OrderSummary = () => {
   const router = useRouter();

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, Search, ShoppingCart } from "lucide-react";
 
-import pistis from "@/public/assets/full-logo.png";
+import pistis from "@/src/assets/full-logo.png";
 import { useRouter } from "next-nprogress-bar";
 import CustomCard from "@/components/side-comp/custom-card";
 

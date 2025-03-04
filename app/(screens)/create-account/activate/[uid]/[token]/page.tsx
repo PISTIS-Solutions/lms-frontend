@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
-import logo from "@/public/assets/pistis_logo.png";
+import logo from "@/src/assets/pistis_logo.png";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 
-import Fulllogo from "@/public/assets/full-logo.png";
+import Fulllogo from "@/src/assets/full-logo.png";
 import axios from "axios";
 import { Check, Loader2 } from "lucide-react";
 import { urls } from "@/utils/config";
@@ -16,7 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useFormStore from "@/store/create-account";
 import Link from "next/link";
-import email from "@/public/assets/email.png";
+import email from "@/src/assets/email.png";
 
 const Verify_SignUp = () => {
   const router = useRouter();

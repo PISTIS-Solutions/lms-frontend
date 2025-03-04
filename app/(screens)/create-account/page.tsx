@@ -17,10 +17,10 @@ import {
 import Link from "next/link";
 import useFormStore from "../../../store/create-account";
 
-import Fulllogo from "@/public/assets/full-logo.png";
-import kelsey from "@/public/assets/kelsey.png";
-import bg from "@/public/assets/forgot-bg.png";
-import google from "@/public/assets/svg/google.svg";
+import Fulllogo from "@/src/assets/full-logo.png";
+import kelsey from "@/src/assets/kelsey.png";
+import bg from "@/src/assets/forgot-bg.png";
+import google from "@/src/assets/svg/google.svg";
 import { urls } from "@/utils/config";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -32,8 +32,8 @@ const containsSpecialChars = "Password must contain special characters";
 const differentPassword =
   "Password and Confirm password contains different characters";
 
-import avatarImage from "@/public/assets/auth-image/kelsey.webp";
-import createAccount from "@/public/assets/auth-image/create-account.webp";
+import avatarImage from "@/src/assets/auth-image/kelsey.webp";
+import createAccount from "@/src/assets/auth-image/create-account.webp";
 import AuthImageContainer from "@/components/side-comp/auth-image-container";
 
 const SignUp = () => {
