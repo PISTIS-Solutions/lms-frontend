@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import logo from "../../../../public/assets/pistis_logo.png";
+import logo from "@/src/assets/pistis_logo.png";
 import bg from "@/src/assets/forgot-bg.png";
 import kelsey from "@/src/assets/kelsey.png";
 import {

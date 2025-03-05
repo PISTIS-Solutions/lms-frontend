@@ -14,7 +14,7 @@ COPY . .
 
 
 # Build the app
-RUN npm run build
+RUN npm run build --legacy-peer-deps
 
 RUN ls -la
 RUN ls -la /app

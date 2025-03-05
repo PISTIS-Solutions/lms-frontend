@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { ChangeEvent, useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 
-import logo from "../../../public/assets/pistis_logo.png";
+import logo from "@/src/assets/pistis_logo.png";
 import {
   Mail,
   KeyRound,
