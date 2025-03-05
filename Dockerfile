@@ -17,6 +17,9 @@ COPY . .
 RUN npm run build --legacy-peer-deps
 
 RUN ls -la
+RUN ls -la /app
+
+
 # Production stage
 # FROM node:20-alpine
 
