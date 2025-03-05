@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { usePlanStore } from "@/store/plan-store";
 import { useRouter } from "next-nprogress-bar";
 
-const page = () => {
+const PricingPage = () => {
   const { fetchPlans, isLoading } = usePlanStore();
   const [paymentDuration, setPaymentDuration] = useState(0);
   const router = useRouter();
@@ -77,4 +77,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default PricingPage;
