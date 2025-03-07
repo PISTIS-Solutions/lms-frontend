@@ -311,6 +311,7 @@ const Dashboard = () => {
                               alt={data?.title}
                               layout="fill"
                               objectFit="cover"
+                              unoptimized
                             />
                           </div>
                           <Link
@@ -368,6 +369,7 @@ const Dashboard = () => {
                                 alt={data?.title}
                                 layout="fill"
                                 objectFit="cover"
+                                unoptimized
                               />
                             </div>
                             <div
