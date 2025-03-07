@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 import NavigationBar from "@/components/side-comp/nav";
-import aboutBack from "@/public/assets/aboutBack.png";
+import aboutBack from "@/src/assets/aboutBack.png";
 import Benefits from "@/components/side-comp/landing/benefits";
 import Slides from "@/components/side-comp/landing/slides";
 import Learning from "@/components/side-comp/landing/learning";

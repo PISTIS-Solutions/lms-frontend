@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import BookASessionModal from "./modal/book-a-session-modal";
-import coin from "@/public/assets/svg/coin.svg";
+import coin from "@/src/assets/svg/coin.svg";
 import Cookies from "js-cookie";
 import refreshAdminToken from "@/utils/refreshToken";
 import { toast } from "react-toastify";

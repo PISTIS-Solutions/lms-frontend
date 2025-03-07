@@ -2,8 +2,8 @@
 import React from "react";
 
 import "react-toastify/dist/ReactToastify.css";
-import infinity from "@/public/assets/svg/infinity.svg";
-import redStash from "@/public/assets/svg/redStash.svg";
+import infinity from "@/src/assets/svg/infinity.svg";
+import redStash from "@/src/assets/svg/redStash.svg";
 import Image from "next/image";
 
 const AdvanceCard = () => {

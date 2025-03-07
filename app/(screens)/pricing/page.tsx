@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-import logo from "../../../public/assets/pistis_logo.png";
+import logo from "@/src/assets/pistis_logo.png";
 import PricingCard from "@/components/side-comp/pricing-card";
 import PaidPricing from "@/components/side-comp/paid-pricing";
 

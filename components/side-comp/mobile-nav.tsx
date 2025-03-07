@@ -3,7 +3,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-import logo from "@/public/assets/sideLogo.png";
+import logo from "@/src/assets/sideLogo.png";
 import { ArrowLeftCircle, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -13,8 +13,8 @@ import UpcomingModal from "./modal/upcoming-modal";
 import { IoIosLogOut, IoMdSettings } from "react-icons/io";
 import { IoHelpCircle } from "react-icons/io5";
 import { MdAssignment, MdDashboard } from "react-icons/md";
-import grade from "@/public/assets/svg/grading.svg";
-import bookGray from "@/public/assets/svg/book-gray.svg";
+import grade from "@/src/assets/svg/grading.svg";
+import bookGray from "@/src/assets/svg/book-gray.svg";
 
 const MobileNav = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);

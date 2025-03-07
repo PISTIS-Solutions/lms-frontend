@@ -2,8 +2,8 @@
 import React from "react";
 
 import "react-toastify/dist/ReactToastify.css";
-import stash from "@/public/assets/svg/stash.svg";
-import bolt from "@/public/assets/bolt.png";
+import stash from "@/src/assets/svg/stash.svg";
+import bolt from "@/src/assets/bolt.png";
 import Image from "next/image";
 import BeginnerCardModal from "../modal/BeginnerCardModal";
 

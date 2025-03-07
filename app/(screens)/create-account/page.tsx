@@ -4,20 +4,20 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import logo from "../../../public/assets/pistis_logo.png";
+import logo from "@/src/assets/pistis_logo.png";
 import { Mail, KeyRound, Eye, EyeOff, Loader2, Check } from "lucide-react";
 import Link from "next/link";
 import useFormStore from "../../../store/create-account";
 
-import Fulllogo from "@/public/assets/full-logo.png";
+import Fulllogo from "@/src/assets/full-logo.png";
 import { urls } from "@/utils/config";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
 
-import avatarImage from "@/public/assets/auth-image/kelsey.webp";
-import createAccount from "@/public/assets/auth-image/create-account.webp";
+import avatarImage from "@/src/assets/auth-image/kelsey.webp";
+import createAccount from "@/src/assets/auth-image/create-account.webp";
 import AuthImageContainer from "@/components/side-comp/auth-image-container";
 
 const SignUp = () => {

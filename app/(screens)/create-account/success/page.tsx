@@ -3,14 +3,14 @@
 import React from "react";
 import Image from "next/image";
 
-import logo from "../../../../public/assets/pistis_logo.png";
-import envelope from "../../../../public/assets/enve.png";
+import logo from "@/src/assets/pistis_logo.png";
+import envelope from "@/src/assets/enve.png";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
-import Fulllogo from "@/public/assets/full-logo.png";
-import verifyImage from "@/public/assets/auth-image/verification-success.webp";
-import profilePic from "@/public/assets/auth-image/patrick.webp";
+import Fulllogo from "@/src/assets/full-logo.png";
+import verifyImage from "@/src/assets/auth-image/verification-success.webp";
+import profilePic from "@/src/assets/auth-image/patrick.webp";
 import AuthImageContainer from "@/components/side-comp/auth-image-container";
 
 const VerifySuccess = () => {

@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import logo from "../../../public/assets/pistis_logo.png";
+import logo from "@/src/assets/pistis_logo.png";
 import { Eye, EyeOff, KeyRound, Loader2, Mail, Router } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,8 +15,8 @@ import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
-import signIn from "@/public/assets/auth-image/sigin-in.webp";
-import gene from "@/public/assets/auth-image/gene.webp";
+import signIn from "@/src/assets/auth-image/sigin-in.webp";
+import gene from "@/src/assets/auth-image/gene.webp";
 import AuthImageContainer from "@/components/side-comp/auth-image-container";
 
 const SignIn = () => {

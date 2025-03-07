@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import logo from "@/public/assets/pistis_logo.png";
+import logo from "@/src/assets/pistis_logo.png";
 import Link from "next/link";
 import { nigerianStates } from "@/data";
 
-import Fulllogo from "@/public/assets/full-logo.png";
+import Fulllogo from "@/src/assets/full-logo.png";
 import useFormStore from "@/store/create-account";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -16,8 +16,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { baseURL } from "@/utils/config";
 
-import createAccount from "@/public/assets/auth-image/create-account.webp";
-import avatarImage from "@/public/assets/auth-image/kelsey.webp";
+import createAccount from "@/src/assets/auth-image/create-account.webp";
+import avatarImage from "@/src/assets/auth-image/kelsey.webp";
 import AuthImageContainer from "@/components/side-comp/auth-image-container";
 
 const Completeprofile = () => {

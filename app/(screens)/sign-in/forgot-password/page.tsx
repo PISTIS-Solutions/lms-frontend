@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
-import logo from "../../../../public/assets/pistis_logo.png";
+import logo from "@/src/assets/pistis_logo.png";
 import {
   Form,
   FormControl,
@@ -24,8 +24,8 @@ import { urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import avatarImage from "@/public/assets/auth-image/kelsey.webp";
-import createAccount from "@/public/assets/auth-image/create-account.webp";
+import avatarImage from "@/src/assets/auth-image/kelsey.webp";
+import createAccount from "@/src/assets/auth-image/create-account.webp";
 import AuthImageContainer from "@/components/side-comp/auth-image-container";
 
 const formSchema = z.object({

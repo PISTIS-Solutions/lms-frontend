@@ -4,10 +4,10 @@ import Image from "next/image";
 
 import { motion } from "framer-motion";
 
-import book from "@/public/assets/book.png";
-import star from "@/public/assets/star.png";
-import rocket from "@/public/assets/rocket.png";
-import gram from "@/public/assets/gram.png";
+import book from "@/src/assets/book.png";
+import star from "@/src/assets/star.png";
+import rocket from "@/src/assets/rocket.png";
+import gram from "@/src/assets/gram.png";
 
 const Benefits = () => {
   const cardData = [
