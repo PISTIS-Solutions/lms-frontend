@@ -95,7 +95,7 @@ const NavigationBar = () => {
             Log In
           </button>
         </Link>
-        <Link href="/pricing">
+        <Link href="/create-account">
           <button className="rounded-[8px] py-3 cursor-pointer  px-6 font-sfProDisplay hover:scale-105 text-base font-medium transition-all duration-100 ease-in-out bg-main text-white">
             Sign Up
           </button>

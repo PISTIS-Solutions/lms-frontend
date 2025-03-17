@@ -2,8 +2,8 @@ import React from "react";
 
 import { motion } from "framer-motion";
 
-import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
-import IntermediateCard from "@/components/side-comp/pricing/IntermediateCard";
+import BeginnerCard from "@/components/side-comp/price/BeginnerCard";
+import IntermediateCard from "@/components/side-comp/price/IntermediateCard";
 import AdvanceCard from "@/components/side-comp/price/AdvancedCard";
 
 const LandingPayment = () => {

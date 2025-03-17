@@ -1,14 +1,14 @@
 "use client";
-import IntermediateCard from "@/components/side-comp/price/IntermediateCard";
-import BeginnerCard from "@/components/side-comp/price/BeginnerCard";
-import AdvanceCard from "@/components/side-comp/price/AdvancedCard";
+import IntermediateCard from "@/components/side-comp/pricing/IntermediateCard";
+import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
+import AdvanceCard from "@/components/side-comp/pricing/AdvanceCard";
 import { ChevronLeft } from "lucide-react";
 import PlanNav from "@/components/side-comp/pricing/PlanNav";
 import { useEffect, useState } from "react";
 import { usePlanStore } from "@/store/plan-store";
 import { useRouter } from "next-nprogress-bar";
 
-const PricingPage = () => {
+const PaymentPlan = () => {
   const { fetchPlans, isLoading } = usePlanStore();
   const [paymentDuration, setPaymentDuration] = useState(0);
   const router = useRouter();
@@ -19,7 +19,7 @@ const PricingPage = () => {
 
   return (
     <div className="w-full min-h-screen bg-white flex justify-center items-center flex-col">
-      <PlanNav />
+      {/* <PlanNav /> */}
       <div className="max-w-screen-xl px-6 mt-6">
         <button
           className="flex items-center outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
@@ -42,7 +42,7 @@ const PricingPage = () => {
           </p>
         </section>
 
-        <section className="flex border rounded-[10px] p-[6px] w-fit items-center border-[#DADADA] mx-auto mb-14">
+        {/* <section className="flex border rounded-[10px] p-[6px] w-fit items-center border-[#DADADA] mx-auto mb-14">
           <button
             className={
               "py-4 text-sm lg:text-base rounded-[10px] transition-all duration-300 ease-in-out  " +
@@ -65,7 +65,7 @@ const PricingPage = () => {
           >
             Yearly (save up to 40%)
           </button>
-        </section>
+        </section> */}
 
         <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:justify-between">
           <BeginnerCard />
@@ -77,4 +77,4 @@ const PricingPage = () => {
   );
 };
 
-export default PricingPage;
+export default PaymentPlan;

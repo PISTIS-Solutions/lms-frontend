@@ -22,7 +22,7 @@ const data = [
 const IntermediateCardModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { plans } = usePlanStore();
-  console.log(plans, "plans")
+  console.log(plans, "plans");
   const modal = useRef<HTMLDivElement>(null);
   const authToken = Cookies.get("authToken");
 
@@ -98,11 +98,9 @@ const IntermediateCardModal = () => {
     <>
       <button
         className="bg-main rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
-        onClick={() =>
-          authToken ? toggleModal() : router.push("/create-account")
-        }
+        // onClick={() => router.push("/create-account")}
       >
-        Select Plan
+        Please wait
       </button>
 
       <div

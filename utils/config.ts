@@ -12,7 +12,7 @@ export const urls = {
   studentDashboard: `${baseURL}/dashboard/`,
   deleteStudent: `${baseURL}/deactivate_me/`,
   courses: `${baseURL}/courses/`,
-  updateStudentProfile: `${baseURL}/me/`,
+  updateStudentProfile: `${baseURL}/users/me/`,
   setStudentPassword: `${baseURL}/set_password/`,
   activities: `${baseURL}/activities/`,
   resendToken: `${baseURL}/resend_activation/`,
@@ -25,5 +25,9 @@ export const urls = {
   getStudents: `${baseURL}/courses-and-students/`,
   bookings: `${baseURL}/booking/`,
   getSessions: `${baseURL}/booking/get_count/`,
-  getAllSession: `${baseURL}/booking/get_all/`,
+  getAllSession: `${baseURL}/booking-sessions/`,
+
+  cohorts: `${baseURL}/cohorts/`,
+  
+  waitlist: `${baseURL}/waitlist/join_waitlist/`
 };

@@ -9,7 +9,7 @@ import ProjectReview from "@/components/side-comp/project-review-table";
 
 // import { vectorb, vectorg } from "../../index";
 import TopNav from "@/components/side-comp/topNav";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
 import Cookies from "js-cookie";
 
@@ -21,11 +21,7 @@ import useStudentStore from "@/store/dashboard-fetch";
 import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
-import { Button } from "@/components/ui/button";
-import Pricing from "../pricing/page";
-import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
-import IntermediateCard from "@/components/side-comp/pricing/IntermediateCard";
-import useCourseStore from "@/store/fetch-courses";
+
 
 import totalCourseBg from "@/src/assets/svg/TotalCourse.svg";
 import books from "@/src/assets/svg/books.svg";
@@ -183,7 +179,9 @@ const Dashboard = () => {
     userActivity();
   }, []);
 
-  const userName = Cookies.get("fullName");
+  const firstName = Cookies.get("firstName") || "";
+  const lastName = Cookies.get("lastName") || "";
+
   const subscriptionStatus = Cookies.get("status");
 
   const [openModal, setOpenModal] = useState<boolean>(false);
@@ -202,7 +200,7 @@ const Dashboard = () => {
               <div className=" mb-6 md:flex  justify-between items-center  px-4 w-full">
                 <div className="md:max-w-[70%]">
                   <h2 className="text-3xl text-main font-semibold">
-                    Hello, {userName}
+                    Hello, {`${firstName} ${lastName}`.trim()}
                   </h2>
                   <p className="text-[#666666] font-sfProDisplay">
                     Track your learning progress here. You almost achieved your
@@ -213,15 +211,13 @@ const Dashboard = () => {
                 {subscriptionStatus === "Free" && (
                   <button
                     className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
-                    onClick={handleModal}
+                    onClick={() => route.push("/dashboard/payment-plan")}
                   >
                     Upgrade Plan
                   </button>
                 )}
-                {/* <TopNav /> */}
               </div>
 
-              {/* Display cards in a horizontal layout for larger screens (tablet and above)  */}
               <section className="md:flex flex-wrap items-center self-stretch gap-0 md:gap-5 pr-0 md:pr-4 space-y-4 md:space-y-0 hidden">
                 <CourseOverviewCard
                   bgImage={totalCourseBg}
@@ -498,7 +494,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {openModal && (
+      {/* {openModal && (
         <div className="w-full h-screen bg-black/25 absolute top-0 flex justify-center items-center left-0">
           <div className="rounded-[8px] relative bg-white border-t-2 overflow-y-scroll w-[95vw] md:w-3/4 h-[85vh] z-[99] md:auto border-t-main ">
             <div className="text-center text-black flex justify-center items-center flex-col py-5">
@@ -512,7 +508,9 @@ const Dashboard = () => {
                 </span>
                 , send an email with payment receipt, full name and registered
                 email address to{" "}
-                <span className="font-semibold">learning.pististechub@gmail.com</span>{" "}
+                <span className="font-semibold">
+                  learning.pististechub@gmail.com
+                </span>{" "}
                 for payment confirmation. Upon confirmation, your account will
                 be upgraded in 10 minutes.
               </p>
@@ -523,13 +521,13 @@ const Dashboard = () => {
                 <X className="text-main border border-main rounded-md " />
               </button>
             </div>
-            {/* <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
-              <BeginnerCard bool={false} />
-              <IntermediateCard bool={false} />
-            </div> */}
+            <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
+              <BeginnerCard />
+              <IntermediateCard />
+            </div>
           </div>
         </div>
-      )}
+      )} */}
     </main>
   );
 };

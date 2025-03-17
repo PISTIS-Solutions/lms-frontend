@@ -39,18 +39,22 @@ const SignIn = () => {
         email: formStore.email,
         password: formStore.password,
       });
-
+console.log(response)
       if (response.status === 200) {
-        Cookies.set("authToken", response.data.access, {
+        Cookies.set("authToken", response?.data?.access, {
           sameSite: "None",
           secure: true,
         });
 
-        Cookies.set("refreshToken", response.data.refresh, {
+        Cookies.set("refreshToken", response?.data?.refresh, {
           sameSite: "None",
           secure: true,
         });
-        Cookies.set("fullName", response.data.user.full_name, {
+        Cookies.set("firstName", response.data.user.first_name, {
+          sameSite: "None",
+          secure: true,
+        });
+        Cookies.set("lastName", response.data.user.last_name, {
           sameSite: "None",
           secure: true,
         });
@@ -58,10 +62,10 @@ const SignIn = () => {
           sameSite: "None",
           secure: true,
         });
-        Cookies.set("subscription_status", response.data.user.status, {
-          sameSite: "None",
-          secure: true,
-        });
+        // Cookies.set("subscription_status", response.data.user.status, {
+        //   sameSite: "None",
+        //   secure: true,
+        // });
         Cookies.set("pfp", response.data.user.profile_photo, {
           sameSite: "None",
           secure: true,
@@ -129,7 +133,7 @@ const SignIn = () => {
       <div className="flex gap-5 justify-between">
         <div className="hidden md:block p-2 w-1/2 h-screen relative">
           <div className="relative mx-auto w-fit h-full ">
-            <Image src={bg} alt="auth image" className=" object-fill  h-full" />
+            <Image src={bg} alt="auth image" className=" object-fill w-full h-full" />
             <div className="w-[80%] p-3 bg-white/5 border-2 rounded-[20px] border-white absolute bottom-5 left-2 ">
               <p className="font-normal text-white text-sm">
                 “The most powerful thing about DevOps is the way it encourages

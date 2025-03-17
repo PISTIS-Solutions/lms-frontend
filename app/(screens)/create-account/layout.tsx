@@ -17,7 +17,7 @@ export default function RootLayout({
       <main className=" bg-white h-screen w-full relative gap-2 flex">
       <div className="hidden md:block p-2 w-1/2 h-screen relative">
         <div className="relative mx-auto w-fit h-full ">
-          <Image src={bg} alt="auth image" className=" object-fill  h-full" />
+          <Image src={bg} alt="auth image" className=" w-full  h-full" />
           <div className="w-[80%] p-3 bg-white/5 border-2 rounded-[20px] border-white absolute bottom-5 left-2 ">
             <p className="font-normal text-white text-sm">
               You don’t need to be an expert to start with DevOps. The key is a
