@@ -208,14 +208,14 @@ const Dashboard = () => {
                   </p>
                 </div>
 
-                {subscriptionStatus === "Free" && (
                   <button
                     className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
                     onClick={() => route.push("/dashboard/payment-plan")}
                   >
                     Upgrade Plan
                   </button>
-                )}
+                {/* {subscriptionStatus === "Free" && (
+                )} */}
               </div>
 
               <section className="md:flex flex-wrap items-center self-stretch gap-0 md:gap-5 pr-0 md:pr-4 space-y-4 md:space-y-0 hidden">
