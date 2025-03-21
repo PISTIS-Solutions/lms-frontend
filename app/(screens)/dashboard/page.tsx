@@ -22,7 +22,6 @@ import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
 
-
 import totalCourseBg from "@/src/assets/svg/TotalCourse.svg";
 import books from "@/src/assets/svg/books.svg";
 import checkMark from "@/src/assets/svg/checkmarkDoneMarkCircle.svg";
@@ -130,6 +129,18 @@ const Dashboard = () => {
     }
   };
 
+  // const [authToken, setAuthToken] = useState<string | null>(null);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("authToken");
+
+  //   if (!token) {
+  //     route.push("/create-account");
+  //   } else {
+  //     setAuthToken(token);
+  //   }
+  // }, [route]);
+
   const navigation = useRouter();
 
   const markAsRead = async (link: string, id: string) => {
@@ -189,6 +200,10 @@ const Dashboard = () => {
     setOpenModal((prev) => !prev);
   };
 
+  // if (!authToken) {
+  //   return <p>Loading...</p>;
+  // }
+
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
@@ -208,12 +223,12 @@ const Dashboard = () => {
                   </p>
                 </div>
 
-                  <button
-                    className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
-                    onClick={() => route.push("/dashboard/payment-plan")}
-                  >
-                    Upgrade Plan
-                  </button>
+                <button
+                  className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
+                  onClick={() => route.push("/dashboard/payment-plan")}
+                >
+                  Upgrade Plan
+                </button>
                 {/* {subscriptionStatus === "Free" && (
                 )} */}
               </div>
@@ -472,7 +487,7 @@ const Dashboard = () => {
                   <PieChart
                     courses_completed={stuData?.courses_completed}
                     total_courses={stuData?.total_courses}
-                    enrolled_courses={stuData?.enrolled_courses.length}
+                    enrolled_courses={stuData?.enrolled_courses?.length}
                   />
                 )}
               </div>

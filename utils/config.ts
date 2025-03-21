@@ -9,18 +9,19 @@ export const urls = {
   signin: `${baseURL}/jwt/create/`,
   forgotPassword: `${baseURL}/reset_password/`,
   adminRefreshToken: `${baseURL}/jwt/refresh/`,
-  studentDashboard: `${baseURL}/dashboard/`,
+  studentDashboard: `${baseURL}/students/dashboard/`,
   deleteStudent: `${baseURL}/deactivate_me/`,
   courses: `${baseURL}/courses/`,
   updateStudentProfile: `${baseURL}/users/me/`,
   setStudentPassword: `${baseURL}/set_password/`,
   activities: `${baseURL}/activities/`,
   resendToken: `${baseURL}/resend_activation/`,
-  projectReview: `${baseURL}/project-review/`,
+  projectReview: `${baseURL}/students/project-review/`,
   
   plans: `${baseURL}/subscriptions/payment-plans/`,
   makeBeginnerPayment: `${baseURL}/subscriptions/make-payment-beginner/`,
-  makeIntermediatePayment: `${baseURL}/subscriptions/make-payment-intermidiate/`,
+  makeIntermediatePayment: `${baseURL}/subscriptions/make-payment-intermediate/`,
+  
   
   getStudents: `${baseURL}/courses-and-students/`,
   bookings: `${baseURL}/booking/`,

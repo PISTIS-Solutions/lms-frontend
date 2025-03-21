@@ -122,41 +122,20 @@ const SignUp = () => {
 
   const handleCountryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
-
-    // Find the phone code based on the selected country
     const countryData = countriesWithPhoneCodes.find(
       (item) => item.country === value || item.phoneCode === value
     );
-
-    // Update the state with the selected country and its phone code
-
     if (countryData) formStore.setField("selectedCountry", countryData);
+  };
+
+  const handleGoogleSignIn = async () => {
+    router.push("https://backend.dev.pististechub.io/api/v2/auth/google/init/");
   };
 
   return (
     <>
       <ToastContainer />
       <div className=" flex flex-col lg:my-6 w-full gap-y-6">
-        {/* <div className="hidden md:block p-2 w-1/2 h-screen relative">
-        <div className="relative mx-auto w-fit h-full ">
-          <Image src={bg} alt="auth image" className=" object-fill  h-full" />
-          <div className="w-[80%] p-3 bg-white/5 border-2 rounded-[20px] border-white absolute bottom-5 left-2 ">
-            <p className="font-normal text-white text-sm">
-              You don’t need to be an expert to start with DevOps. The key is a
-              willingness to learn, collaborate, and embrace automation. Every
-              small step you take towards improving your processes brings you
-              closer to success.
-            </p>
-            <div className="flex items-center gap-2 my-2">
-              <Image src={kelsey} alt="gene" />
-              <p className="text-2xl font-semibold text-white">
-                Kelsey Hightower
-              </p>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
         <div className="flex justify-between items-center gap-y-6 mx-4 lg:mx-0">
           <div className="my-2 md:my-0">
             <h1 className="md:text-[32px] sm:text-2xl text-xl font-bold text-main">
@@ -174,7 +153,10 @@ const SignUp = () => {
         </div>
 
         {/*TODO: change font */}
-        <button className="py-2 flex items-center justify-center outline-none rounded-lg border border-[#DADADA] bg-[#FAFAFA] hover:bg-[#E0E0E0] text-[#666666] font-medium gap-x-2 mx-4 lg:mx-0">
+        <button
+          onClick={handleGoogleSignIn}
+          className="py-2 flex items-center justify-center outline-none rounded-lg border border-[#DADADA] bg-[#FAFAFA] hover:bg-[#E0E0E0] text-[#666666] font-medium gap-x-2 mx-4 lg:mx-0"
+        >
           <Image src={google} alt="google icon" />
           Continue with Google
         </button>

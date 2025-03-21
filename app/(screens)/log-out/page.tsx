@@ -16,8 +16,10 @@ const LogOut = () => {
   const router = useRouter();
   const onlogOut = () => {
     Cookies.remove("authToken");
+    localStorage.removeItem("authToken");
     router.replace("/");
   };
+
 
   return (
     <main className="relative h-screen bg-[#FBFBFB]">

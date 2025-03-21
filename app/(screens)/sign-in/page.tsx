@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
 import bg from "@/src/assets/sign-in-bg.png";
 import google from "@/src/assets/svg/google.svg";
-import kim from "@/src/assets/kim.png"
+import kim from "@/src/assets/kim.png";
 
 const SignIn = () => {
   const formStore = useLoginFormStore();
@@ -39,7 +39,7 @@ const SignIn = () => {
         email: formStore.email,
         password: formStore.password,
       });
-console.log(response)
+      console.log(response);
       if (response.status === 200) {
         Cookies.set("authToken", response?.data?.access, {
           sameSite: "None",
@@ -133,7 +133,11 @@ console.log(response)
       <div className="flex gap-5 justify-between">
         <div className="hidden md:block p-2 w-1/2 h-screen relative">
           <div className="relative mx-auto w-fit h-full ">
-            <Image src={bg} alt="auth image" className=" object-fill w-full h-full" />
+            <Image
+              src={bg}
+              alt="auth image"
+              className=" object-fill w-full h-full"
+            />
             <div className="w-[80%] p-3 bg-white/5 border-2 rounded-[20px] border-white absolute bottom-5 left-2 ">
               <p className="font-normal text-white text-sm">
                 “The most powerful thing about DevOps is the way it encourages

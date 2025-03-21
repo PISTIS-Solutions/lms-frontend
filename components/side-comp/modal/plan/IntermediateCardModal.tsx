@@ -7,29 +7,37 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Loader2 } from "lucide-react";
 
 const data = [
   "Layout layer comment union underline clip scrolling",
-  "comment union main. Main hand arrange scale",
-  "vertical image figma. Clip thumbnail star hand",
-  "background font font device.",
+  "Comment union main. Main hand arrange scale",
+  "Vertical image figma. Clip thumbnail star hand",
+  "Background font font device.",
   "Arrange bold inspect move bold",
-  "ectangle selection comment. Image library",
-  "figjam flows frame community text scale line.",
+  "Rectangle selection comment. Image library",
+  "Figjam flows frame community text scale line.",
 ];
 
 const IntermediateCardModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { plans } = usePlanStore();
-  console.log(plans, "plans");
   const modal = useRef<HTMLDivElement>(null);
-  const authToken = Cookies.get("authToken");
-
   const router = useRouter();
+
+  const [selectedPlan, setSelectedPlan] = useState<{
+    price: number;
+    duration: string;
+  }>({
+    price: 400000,
+    duration: "6months",
+  });
 
   const toggleModal = () => setIsOpen(!isOpen);
 
+  const [paying, setPaying] = useState(false);
   const handleClick = async () => {
     const userId = Cookies.get("userId");
     const plan = plans.find((itm) => itm.name.includes("INTERMEDIATE"));
@@ -37,17 +45,42 @@ const IntermediateCardModal = () => {
     const data = {
       user: userId,
       plan: plan?.id,
+      duration: selectedPlan.duration,
     };
 
     try {
+      setPaying(true);
       const accessToken = Cookies.get("authToken");
       const response = await axios.post(urls.makeIntermediatePayment, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      router.push(response.data.authorization_url);
-      toggleModal();
+      if (response.status === 200) {
+        window.open(response.data.payment_data.authorization_url, "_blank");
+        toast.success(response?.data?.message, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+        toggleModal();
+        setPaying(false);
+      } else {
+        toast.error("Payment Failed!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+        setPaying(false);
+      }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
@@ -73,6 +106,8 @@ const IntermediateCardModal = () => {
           theme: "dark",
         });
       }
+    } finally {
+      setPaying(false);
     }
   };
 
@@ -80,8 +115,8 @@ const IntermediateCardModal = () => {
     if (isOpen && modal.current && !modal.current.contains(e.target as Node)) {
       setIsOpen(false);
     }
-    console.log(e);
   };
+
   useEffect(() => {
     if (isOpen) {
       document.addEventListener("mousedown", handleOutsideClick);
@@ -96,16 +131,17 @@ const IntermediateCardModal = () => {
 
   return (
     <>
+      <ToastContainer />
       <button
         className="bg-main rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
-        // onClick={() => router.push("/create-account")}
+        onClick={() => setIsOpen(true)}
       >
-        Please wait
+        Select Plan
       </button>
 
       <div
         className={
-          "fixed inset-0 bg-white bg-opacity-30  transition-all ease-in-out duration-300 flex justify-center items-center z-50 " +
+          "fixed inset-0 bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-50 " +
           (isOpen
             ? "opacity-100 backdrop-blur-sm"
             : "opacity-0 backdrop-blur-none pointer-events-none")
@@ -118,6 +154,7 @@ const IntermediateCardModal = () => {
           }
           ref={modal}
         >
+          <ToastContainer />
           <div className="flex flex-col items-center justify-center w-full">
             <Image src={logo} alt="Pistis logo" />
 
@@ -125,7 +162,6 @@ const IntermediateCardModal = () => {
               <h1 className="text-main text-[32px] font-bold">
                 Intermediate Plan
               </h1>
-              {/* TODO:change font */}
               <p className="text-[#828282]">
                 Before proceeding to payment you are expected to have:
               </p>
@@ -133,17 +169,87 @@ const IntermediateCardModal = () => {
           </div>
 
           <div className="w-[80%] md:w-[532px]">
-            <ul className=" list-disc list-inside text-[#2E2E2E] mv-10">
+            <ul className="list-disc list-inside text-[#2E2E2E] mv-10">
               {data.map((itm) => (
                 <li key={itm}>{itm}</li>
               ))}
             </ul>
 
+            <hr className="mt-5" />
+
+            <div className="my-5">
+              <p className="font-normal text-sm font-sfProDisplay text-[#666666]">
+                Select a payment schedule:
+              </p>
+              <div className="flex items-center justify-between gap-2 md:flex-row flex-col mt-2.5">
+                <div
+                  className={`w-full border cursor-pointer h-[92px] rounded-[8px] p-3 transition duration-200 ${
+                    selectedPlan.duration === "6months"
+                      ? "border-sub"
+                      : "border-[#DADADA]"
+                  }`}
+                  onClick={() =>
+                    setSelectedPlan({ price: 400000, duration: "6months" })
+                  }
+                >
+                  <h1
+                    className={`font-medium text-3xl pm-3 transition duration-200 ${
+                      selectedPlan.duration === "6months"
+                        ? "text-main"
+                        : "text-[#DADADA]"
+                    }`}
+                  >
+                    ₦400,000
+                  </h1>
+                  <p className="font-normal text-sm font-sfProDisplay text-[#666666]">
+                    One-time payment{" "}
+                    <span className="text-sub">(Save up to 12%)</span>
+                  </p>
+                </div>
+                <div
+                  className={`w-full border cursor-pointer h-[92px] rounded-[8px] p-3 transition duration-200 ${
+                    selectedPlan.duration === "30days"
+                      ? "border-sub"
+                      : "border-[#DADADA]"
+                  }`}
+                  onClick={() =>
+                    setSelectedPlan({ price: 73000, duration: "30days" })
+                  }
+                >
+                  <h1
+                    className={`font-medium text-3xl pm-3 transition duration-200 ${
+                      selectedPlan.duration === "30days"
+                        ? "text-main"
+                        : "text-[#DADADA]"
+                    }`}
+                  >
+                    ₦73,000
+                  </h1>
+                  <p className="font-normal text-sm font-sfProDisplay text-[#666666]">
+                    Billed Monthly for 6 Months
+                  </p>
+                </div>
+              </div>
+            </div>
+
             <button
-              className="bg-main h-[50px] flex items-center justify-center w-full text-white rounded-lg font-medium mt-10"
+              disabled={paying}
+              className="bg-main disabled:bg-main/20 disabled:cursor-not-allowed h-[50px] flex items-center justify-center w-full font-sfProDisplay text-white rounded-lg font-medium mt-10"
               onClick={handleClick}
             >
-              Proceed to Payment
+              {paying ? (
+                <span className="flex items-center justify-center">
+                  <Loader2 className="text-white animate-spin" />
+                </span>
+              ) : (
+                <p>
+                  {" "}
+                  Proceed to Payment{" "}
+                  <span className="font-semibold text-sub text-lg">
+                    ₦{selectedPlan.price}
+                  </span>
+                </p>
+              )}
             </button>
           </div>
         </div>

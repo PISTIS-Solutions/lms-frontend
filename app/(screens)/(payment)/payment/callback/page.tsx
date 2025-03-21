@@ -32,6 +32,7 @@ const PaymentVerification = () => {
 
         console.log(response, "payment");
       if (response.status === 200) {
+        window.close()
         toast.success("Payment Successful!", {
           position: "top-right",
           autoClose: 5000,
@@ -78,12 +79,12 @@ const PaymentVerification = () => {
   }, [txRef]);
 
   return (
-    <div className="pt-24">
+    <div className="">
       {/* <NavigationBar/> */}
       <ToastContainer />
       <button
         className="flex items-center outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
-        onClick={() => router.push("/pricing")}
+        onClick={() => router.push("/sign-in")}
       >
         <ChevronLeft size={24} /> Pricing Plan
       </button>
@@ -110,10 +111,10 @@ const PaymentVerification = () => {
                 Your transaction was processed successfully.
               </p>
               <button
-                onClick={() => router.push("/create-account")}
+                onClick={() => router.push("/sign-in")}
                 className="mt-6 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
               >
-                Go to sign up
+               Continue
               </button>
             </div>
           ) : (

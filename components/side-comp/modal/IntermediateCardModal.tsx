@@ -98,15 +98,13 @@ const IntermediateCardModal = () => {
   return (
     <>
       <button
-      disabled
-        className="bg-main disable:bg-main/50 rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
+        // disabled
+        className="bg-main cursor-pointer rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
         // onClick={() => (authToken ? toggleModal() : router.push("/pricing"))}
         onClick={() => router.push("/create-account")}
       >
         Register Now
       </button>
-
-    
     </>
   );
 };

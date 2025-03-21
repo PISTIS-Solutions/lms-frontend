@@ -48,13 +48,12 @@ const BeginnerCardModal = () => {
       plan: plan?.id,
     };
 
-    console.log(body);
-
     try {
       const response = await axios.post(urls.makeBeginnerPayment, body);
+      console.log(response, "begginr")
       if (response.status === 200) {
         window.open(response.data.payments[0].authorization_url, "_blank");
-        console.log(response);
+       
         toast.success("Complete payment in the next tab!", {
           position: "top-right",
           autoClose: 5000,
@@ -79,7 +78,6 @@ const BeginnerCardModal = () => {
         setLoading(false);
       }
     } catch (error) {
-      console.log(error);
       toast.error(`Payment Failed; ${error}!`, {
         position: "top-right",
         autoClose: 5000,
@@ -101,7 +99,6 @@ const BeginnerCardModal = () => {
     try {
       setChecking(true);
       const response = await axios.get(`${urls.cohorts}latest_status`);
-      console.log(response, "ress");
       if (response.status === 200) {
         setWaitListStatus(response?.data?.status);
         setWaitListRegSta(response?.data?.registration_status);
@@ -226,7 +223,7 @@ const BeginnerCardModal = () => {
       </button>
 
       <div>
-        {waitListStatus === "open" && waitListRegSta === "active" ? (
+        {waitListStatus !== "open" && waitListRegSta !== "active" ? (
          <div
             className={
               "fixed inset-0 bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-[9999] " +

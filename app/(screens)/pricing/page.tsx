@@ -42,30 +42,7 @@ const PricingPage = () => {
           </p>
         </section>
 
-        <section className="flex border rounded-[10px] p-[6px] w-fit items-center border-[#DADADA] mx-auto mb-14">
-          <button
-            className={
-              "py-4 text-sm lg:text-base rounded-[10px] transition-all duration-300 ease-in-out  " +
-              (paymentDuration === 0
-                ? "bg-[#2FBC8D] px-[37px] font-semibold text-white shadow-[0px_0px_10px_0px_#00000040]"
-                : "text-[#666666] font-medium px-4")
-            }
-            onClick={() => setPaymentDuration(0)}
-          >
-            Monthly Billing
-          </button>
-          <button
-            className={
-              "py-4 text-sm lg:text-base rounded-[10px] transition-all duration-300 ease-in-out  " +
-              (paymentDuration === 1
-                ? "bg-[#2FBC8D] px-[37px] font-semibold text-white shadow-[0px_0px_10px_0px_#00000040]"
-                : "text-[#666666] font-medium px-4")
-            }
-            onClick={() => setPaymentDuration(1)}
-          >
-            Yearly (save up to 40%)
-          </button>
-        </section>
+      
 
         <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:justify-between">
           <BeginnerCard />

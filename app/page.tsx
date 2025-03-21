@@ -93,7 +93,7 @@ const HomePage = () => {
             Learn from top industry experts, work on real-world projects, and
             join a supportive community.
           </p>
-          <Link href="pricing">
+          <Link href="/create-account">
             <button className="bg-main rounded-[8px] hover:text-main hover:border hover:border-main transition-all ease-in duration-150 hover:bg-white font-medium text-xs md:text-sm lg:text-base py-2 lg:py-4 sm:w-auto w-full px-3 lg:px-6 text-white flex items-center justify-center sm:justify-between gap-2 cursor-pointer">
               Start Your Learning Journey Today{" "}
               <MdOutlineLaunch className="sm:w-6 w-4 h-4 sm:h-6" />

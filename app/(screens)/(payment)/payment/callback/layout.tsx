@@ -15,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <div>
-      <NavigationBar />
+      {/* <NavigationBar /> */}
       {children}
     </div>
   );
