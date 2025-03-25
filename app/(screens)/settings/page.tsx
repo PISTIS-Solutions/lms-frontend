@@ -377,11 +377,15 @@ const SettingsPage = () => {
                       src={URL.createObjectURL(selectedFile)}
                       alt="selected"
                       className="w-[159px] h-[159px] rounded-full object-contain"
+                      width={159}
+                      height={159}
                     />
                   ) : (
                     <Image
                       src={user}
                       className="w-[159px] h-[159px] rounded-full object-contain"
+                      width={159}
+                      height={159}
                       alt="user"
                       priority
                     />

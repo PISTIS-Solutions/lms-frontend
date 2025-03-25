@@ -71,7 +71,7 @@ const NotificationModal = ({
       );
       await navigation.push(link);
     } catch (error: any) {
-      console.log(error.response.data.error[0]);
+      // console.log(error.response.data.error[0]);
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
         await markAsRead(link, id);

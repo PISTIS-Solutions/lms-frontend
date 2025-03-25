@@ -66,7 +66,8 @@ const useFetchStudentSessionStore = create<StoreState>((set, get) => ({
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      const data: dataProps[] = await response.data;
+      // console.log(response, "response")
+      const data: dataProps[] = response.data.results;
 
       const nearestSession = getClosestUpcomingSession(data);
       // const nearestSession = {
@@ -83,7 +84,7 @@ const useFetchStudentSessionStore = create<StoreState>((set, get) => ({
         set({
           data: nearestSession,
           loading: false,
-          sessionLeft: 4 - data.length,
+          sessionLeft: 4 - response?.data?.count,
         });
       }
     } catch (error: any) {

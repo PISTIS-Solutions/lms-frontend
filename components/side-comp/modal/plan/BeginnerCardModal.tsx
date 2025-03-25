@@ -223,7 +223,7 @@ const BeginnerCardModal = () => {
       </button>
 
       <div>
-        {waitListStatus !== "open" && waitListRegSta !== "active" ? (
+        {waitListStatus === "open" && waitListRegSta === "active" ? (
          <div
             className={
               "fixed inset-0 bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-[9999] " +

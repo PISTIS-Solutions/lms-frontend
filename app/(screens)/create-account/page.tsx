@@ -17,11 +17,8 @@ import {
 import Link from "next/link";
 import useFormStore from "../../../store/create-account";
 
-import Fulllogo from "@/src/assets/full-logo.png";
-import kelsey from "@/src/assets/kelsey.png";
-import bg from "@/src/assets/forgot-bg.png";
 import google from "@/src/assets/svg/google.svg";
-import { urls } from "@/utils/config";
+import { urls, baseURL } from "@/utils/config";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,9 +29,6 @@ const containsSpecialChars = "Password must contain special characters";
 const differentPassword =
   "Password and Confirm password contains different characters";
 
-import avatarImage from "@/src/assets/auth-image/kelsey.webp";
-import createAccount from "@/src/assets/auth-image/create-account.webp";
-import AuthImageContainer from "@/components/side-comp/auth-image-container";
 
 const SignUp = () => {
   const formStore = useFormStore();
@@ -129,7 +123,7 @@ const SignUp = () => {
   };
 
   const handleGoogleSignIn = async () => {
-    router.push("https://backend.dev.pististechub.io/api/v2/auth/google/init/");
+    router.push(`${baseURL}/google/init/`);
   };
 
   return (

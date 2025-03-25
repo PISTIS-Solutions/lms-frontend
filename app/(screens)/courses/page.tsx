@@ -76,7 +76,7 @@ const Courses = () => {
   }, []);
 
   const isEnrolled = (courseId: string) =>
-    stuData?.enrolled_courses?.some(
+    stuData?.courses_enrolled?.some(
       (enrolledCourse: any) => enrolledCourse.id === courseId
     );
 

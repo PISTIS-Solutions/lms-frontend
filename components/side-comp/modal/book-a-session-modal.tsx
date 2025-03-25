@@ -151,7 +151,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
         try {
           setLoading(true);
           const accessToken = Cookies.get("authToken");
-          await axios.post(urls.bookings, data, {
+          await axios.post(urls.getAllSession, data, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

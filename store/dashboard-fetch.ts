@@ -28,7 +28,7 @@ const useStudentStore = create<stuData>((set, get) => ({
         },
       });
       set({ stuData: response?.data });
-      set({ enrolled_courses: response?.data?.enrolled_courses });
+      set({ enrolled_courses: response?.data?.courses_enrolled });
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();

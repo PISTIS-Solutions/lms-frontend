@@ -8,7 +8,7 @@ const refreshAdminToken = async (): Promise<void> => {
   try {
     const tokens = {
       refresh: refresh,
-      access: access,
+      // access: access,
     };
     const refreshResponse = await axios.post(urls.adminRefreshToken, tokens);
     if (refreshResponse.status === 201) {

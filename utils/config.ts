@@ -10,10 +10,11 @@ export const urls = {
   forgotPassword: `${baseURL}/reset_password/`,
   adminRefreshToken: `${baseURL}/jwt/refresh/`,
   studentDashboard: `${baseURL}/students/dashboard/`,
-  deleteStudent: `${baseURL}/deactivate_me/`,
+  deleteStudent: `${baseURL}/user/deactivate_me/`,
   courses: `${baseURL}/courses/`,
+  enrollCourses: `${baseURL}/students/enroll/`,
   updateStudentProfile: `${baseURL}/users/me/`,
-  setStudentPassword: `${baseURL}/set_password/`,
+  setStudentPassword: `${baseURL}/users/reset_password_confirm/`,
   activities: `${baseURL}/activities/`,
   resendToken: `${baseURL}/resend_activation/`,
   projectReview: `${baseURL}/students/project-review/`,
@@ -24,8 +25,8 @@ export const urls = {
   
   
   getStudents: `${baseURL}/courses-and-students/`,
-  bookings: `${baseURL}/booking/`,
-  getSessions: `${baseURL}/booking/get_count/`,
+  bookings: `${baseURL}/booking-sessions/`,
+  getSessions: `${baseURL}/booking-sessions/get_count/`,
   getAllSession: `${baseURL}/booking-sessions/`,
 
   cohorts: `${baseURL}/cohorts/`,
