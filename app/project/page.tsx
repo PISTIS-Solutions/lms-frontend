@@ -108,7 +108,7 @@ const Project = () => {
                   <ProjectCard
                     id={project.id}
                     handleCardClick={handleCardClick}
-                    img={project.course_image_url}
+                    img={project.course_image}
                     title={project.title}
                     paragraph={project.paragraph}
                     module={project.module}

@@ -10,13 +10,15 @@ import ProjectReview from "@/components/side-comp/project-review-table";
 // import { vectorb, vectorg } from "../../index";
 import TopNav from "@/components/side-comp/topNav";
 import { useRouter } from "next-nprogress-bar";
+import useStudentStore from "@/store/fetch-students";
 
 import Cookies from "js-cookie";
+
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
-import useStudentStore from "@/store/dashboard-fetch";
+import useStudentDashStore from "@/store/dashboard-fetch";
 
 import axios from "axios";
 import { urls } from "@/utils/config";
@@ -53,7 +55,7 @@ const responsive = {
   },
 };
 
-const getActivityIconLink = (activityType: string) => {
+const getActivityIconLink = (activityType: any) => {
   switch (activityType) {
     case "Course Enrollment Confirmation":
       return { img: CourseEnrollMent, link: "/courses" };
@@ -68,27 +70,17 @@ const getActivityIconLink = (activityType: string) => {
   }
 };
 
-interface Activity {
-  id: string;
-  activity_type: string;
-  message: string;
-  time_since: string;
-  is_read: boolean;
-}
-
-interface NotificationData {
-  "unread messages": number;
-  activities: Activity[];
-}
-
 const Dashboard = () => {
   const route = useRouter();
   //fetch dashboard data with acceess token and use refresh token to refresh expired token
   const { stuData, loading, fetchStuData, enrolled_courses } =
-    useStudentStore();
+    useStudentDashStore();
+    
+    const { studentData, loading: fetchStudentData } = useStudentStore();
 
   //activities endpoint
-  const [activity, setActivities] = useState<NotificationData | undefined>();
+  const [activity, setActivities] = useState<any>();
+  // const [unread, setUnread] = useState<any>()
   const userActivity = async () => {
     try {
       const accessToken = Cookies.get("authToken");
@@ -99,7 +91,7 @@ const Dashboard = () => {
       });
       console.log(response, "activity");
       if (response.status === 200) {
-        setActivities(response.data);
+        setActivities(response.data.activities);
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
@@ -185,6 +177,8 @@ const Dashboard = () => {
     }
   };
 
+  const userName = studentData?.full_name;
+
   useEffect(() => {
     fetchStuData();
     userActivity();
@@ -215,7 +209,7 @@ const Dashboard = () => {
               <div className=" mb-6 md:flex  justify-between items-center  px-4 w-full">
                 <div className="md:max-w-[70%]">
                   <h2 className="text-3xl text-main font-semibold">
-                    Hello, {`${firstName} ${lastName}`.trim()}
+                    Hello, {userName}
                   </h2>
                   <p className="text-[#666666] font-sfProDisplay">
                     Track your learning progress here. You almost achieved your
@@ -323,7 +317,7 @@ const Dashboard = () => {
                           <div className="rounded-[8px] overflow-hidden h-[120px] relative w-full">
                             <Image
                               className=" object-cover w-full h-full"
-                              src={data?.course_image_url}
+                              src={data?.course_image}
                               alt={data?.title}
                               layout="fill"
                               objectFit="cover"
@@ -436,13 +430,12 @@ const Dashboard = () => {
                 <div>
                   <ScrollArea className="w-full rounded-md h-[155px] ">
                     <div className="divide-y-[0.5px] divide-slate-200">
-                      {activity === undefined ||
-                      activity?.activities.length == 0 ? (
+                      {activity === undefined || activity?.length == 0 ? (
                         <p className="text-center leading-[160%]">
                           No activity yet
                         </p>
                       ) : (
-                        activity.activities.map((tag, index: any) => {
+                        activity.map((tag: any, index: any) => {
                           const activityItemLink = getActivityIconLink(
                             tag?.activity_type
                           );
@@ -463,7 +456,10 @@ const Dashboard = () => {
 
                                 <div className="w-full">
                                   <p className="text-sm  text-ellipsis whitespace-nowrap max-w-[71vw] lg:w-[15vw] xl:w-[17vw]  overflow-hidden font-medium">
-                                    {`${tag?.activity_type}: ${tag?.message}`}
+                                    {`${tag?.activity_type}:   ${
+                                      tag?.message?.activity_message ??
+                                      tag?.message
+                                    }`}
                                   </p>
                                   <span className="text-[#999999] text-xs flex items-center gap-x-1 ">
                                     <p>{tag?.time_since}</p>
@@ -487,7 +483,7 @@ const Dashboard = () => {
                   <PieChart
                     courses_completed={stuData?.courses_completed}
                     total_courses={stuData?.total_courses}
-                    enrolled_courses={stuData?.enrolled_courses?.length}
+                    enrolled_courses={stuData?.courses_enrolled?.length}
                   />
                 )}
               </div>

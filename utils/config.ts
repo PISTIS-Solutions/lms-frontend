@@ -14,7 +14,7 @@ export const urls = {
   courses: `${baseURL}/courses/`,
   enrollCourses: `${baseURL}/students/enroll/`,
   updateStudentProfile: `${baseURL}/users/me/`,
-  setStudentPassword: `${baseURL}/users/reset_password_confirm/`,
+  setStudentPassword: `${baseURL}/users/set_password/`,
   activities: `${baseURL}/activities/`,
   resendToken: `${baseURL}/resend_activation/`,
   projectReview: `${baseURL}/students/project-review/`,

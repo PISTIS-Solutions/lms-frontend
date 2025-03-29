@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 
 import user from "@/src/assets/avatar.jpg";
-import { EditIcon, Eye, EyeOff, KeyRound, Loader2, Mail } from "lucide-react";
+import { EditIcon, Eye, EyeOff, KeyRound, Loader2, Mail, Phone } from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -463,7 +463,7 @@ const SettingsPage = () => {
                           </label>
                           <div>
                             <div className="relative">
-                              <Mail className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
+                              <Phone className="mr-2 absolute top-4 text-[#4F5B67] left-3 h-5 w-5" />
                               <Input
                                 type="phoneNumber"
                                 className="py-6 bg-[#FAFAFA] placeholder:text-[#4F5B67] rounded-[6px] indent-6"

@@ -172,7 +172,7 @@ const SignUp = () => {
                 <input
                   type="text"
                   name=""
-                  id=""
+                  id="firstname"
                   className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
                   placeholder="Enter your first name"
                   value={formStore.firstName}
@@ -188,7 +188,7 @@ const SignUp = () => {
                 <input
                   type="text"
                   name=""
-                  id=""
+                  id="lastname"
                   className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
                   placeholder="Enter your last name"
                   value={formStore.lastName}
@@ -209,7 +209,7 @@ const SignUp = () => {
               <input
                 type="email"
                 name=""
-                id=""
+                id="email"
                 className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
                 placeholder="example@gmail.com"
                 value={formStore.email}
@@ -237,7 +237,7 @@ const SignUp = () => {
               <input
                 type="number"
                 name=""
-                id=""
+                id="phone"
                 className="outline-none bg-transparent  placeholder:text-[#9F9F9F] w-full"
                 placeholder="123 456 7890"
                 value={formStore.Phone}

@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next-nprogress-bar";
 import useLoginFormStore from "@/store/sign-in-store";
 import axios from "axios";
-import { urls } from "@/utils/config";
+import { baseURL, urls } from "@/utils/config";
 import Cookies from "js-cookie";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -25,6 +25,10 @@ const SignIn = () => {
 
   const [loading, setLoading] = useState<boolean>(false);
 
+  const handleGoogleSignIn = async () => {
+    route.push(`${baseURL}/google/init/`);
+  };
+
   const onsubmitLogin = async (e: any) => {
     e.preventDefault();
     try {
@@ -39,7 +43,7 @@ const SignIn = () => {
         email: formStore.email,
         password: formStore.password,
       });
-      console.log(response);
+
       if (response.status === 200) {
         Cookies.set("authToken", response?.data?.access, {
           sameSite: "None",
@@ -47,14 +51,6 @@ const SignIn = () => {
         });
 
         Cookies.set("refreshToken", response?.data?.refresh, {
-          sameSite: "None",
-          secure: true,
-        });
-        Cookies.set("firstName", response.data.user.first_name, {
-          sameSite: "None",
-          secure: true,
-        });
-        Cookies.set("lastName", response.data.user.last_name, {
           sameSite: "None",
           secure: true,
         });
@@ -171,7 +167,10 @@ const SignIn = () => {
             </div>
 
             {/* change font */}
-            <button className=" flex items-center py-2 justify-center sm:text-base text-sm outline-none rounded-lg border border-[#DADADA] bg-[#FAFAFA] hover:bg-[#E0E0E0] text-[#666666] font-medium gap-x-2">
+            <button
+              onClick={handleGoogleSignIn}
+              className=" flex items-center py-2 justify-center sm:text-base text-sm outline-none rounded-lg border border-[#DADADA] bg-[#FAFAFA] hover:bg-[#E0E0E0] text-[#666666] font-medium gap-x-2"
+            >
               <Image src={google} alt="google icon" />
               Log in with Google
             </button>

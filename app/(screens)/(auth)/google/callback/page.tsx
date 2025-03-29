@@ -1,103 +1,57 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 
 import logo from "@/src/assets/pistis_logo.png";
-import { Button } from "@/components/ui/button";
-import { useParams, useRouter } from "next/navigation";
-
 import Fulllogo from "@/src/assets/full-logo.png";
-import axios from "axios";
-import { Check, Loader2 } from "lucide-react";
-import { urls } from "@/utils/config";
-
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import useFormStore from "@/store/create-account";
-import Link from "next/link";
 import email from "@/src/assets/email.png";
+import { Loader } from "lucide-react";
 
 const GoogleAuthSignUp = () => {
   const router = useRouter();
-  // const [response, setResponse] = useState<any>();
-  const [loading, setLoading] = useState<any>();
-  // const params = useParams<{ uid: string; token: string }>();
-  // const uid = params.uid;
-  // const token = params.token;
+  const [loading, setLoading] = useState(false);
 
-  // useEffect(() => {
-  //   const handleVerifyToken = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const response = await axios.post(
-  //         urls.activateEmail,
-  //         {
-  //           uid: uid,
-  //           token: token,
-  //         },
-  //         {
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //         }
-  //       );
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const url = window.location.href;
 
-  //       if (response.status === 200) {
-  //         toast.success("Email Verified!", {
-  //           position: "top-right",
-  //           autoClose: 5000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: false,
-  //           draggable: false,
-  //           theme: "dark",
-  //         });
-  //         setLoading(false);
-  //         localStorage.setItem("user_id", response.data.user_id);
-  //         router.replace("/create-account/success");
-  //       } else if (response.status === 403) {
-  //         toast.error("Email already used!", {
-  //           position: "top-right",
-  //           autoClose: 5000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: false,
-  //           draggable: false,
-  //           theme: "dark",
-  //         });
-  //       }
-  //     } catch (error: any) {
-  //       if (error?.message === "Network Error") {
-  //         toast.error("Check your network!", {
-  //           position: "top-right",
-  //           autoClose: 5000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: false,
-  //           draggable: false,
-  //           theme: "dark",
-  //         });
-  //       } else {
-  //         toast.error(error?.response?.data?.detail, {
-  //           position: "top-right",
-  //           autoClose: 5000,
-  //           hideProgressBar: false,
-  //           closeOnClick: true,
-  //           pauseOnHover: false,
-  //           draggable: false,
-  //           theme: "dark",
-  //         });
-  //       }
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+      const match = url.match(/access_token=([^&]+)/);
+      const accessToken = match ? match[1] : null;
 
-  //   handleVerifyToken();
-  // }, [token]);
+      if (accessToken) {
+        setLoading(true);
+        Cookies.set("authToken", accessToken, {
+          secure: true,
+          sameSite: "None",
+          path: "/",
+        });
 
-  const formStore = useFormStore();
+        toast.success("Google authentication successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          onClose: () => router.push("/dashboard"),
+        });
+
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 2000);
+      } else {
+        toast.error("Google authentication error!", {
+          position: "top-right",
+          autoClose: 5000,
+        });
+
+        setTimeout(() => {
+          router.push("/login");
+        }, 2000);
+      }
+    }
+  }, [router]);
 
   return (
     <>
@@ -116,24 +70,18 @@ const GoogleAuthSignUp = () => {
         </div>
         <div className="px-2 my-2 md:my-0 md:px-0">
           <Image src={email} alt="verify" className="mx-auto" />
-          <h1 className=" text-3xl text-center font-semibold">
-            Google Sign Up
-          </h1>
+          <h1 className="text-3xl text-center font-semibold">Google Sign Up</h1>
         </div>
         <div>
-          <p className=" text-base py-2 font-semibold text-[#828282] text-center">
-           Google Sign Up Authenticating, Please wait
+          <p className="text-base py-2 font-semibold text-[#828282] text-center">
+            Google Sign Up Authenticating, Please wait...
           </p>
+          {loading && (
+            <div className="flex justify-center items-center w-full text-main">
+              <Loader className="animate-spin" />
+            </div>
+          )}
         </div>
-        <div className="flex justify-center">
-        </div>
-        {/* <div>
-          <Link href="/create-account/resendToken">
-            <p className="md:text-right md:text-base text-center text-sm cursor-pointer text-main">
-              Resend Token
-            </p>
-          </Link>
-        </div> */}
       </div>
     </>
   );
