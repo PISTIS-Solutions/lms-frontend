@@ -117,8 +117,14 @@ const BeginnerCardModal = () => {
         setWaitListRegSta(response?.data?.registration_status);
         setChecking(false);
         // setIsOpen(false);
+      } else{
+        setWaitListStatus("");
+        setWaitListRegSta("");
+        setChecking(false);
+        
       }
     } catch (error: any) {
+      // console.log(error, "error");
       if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

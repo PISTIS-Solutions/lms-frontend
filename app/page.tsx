@@ -65,7 +65,7 @@ const HomePage = () => {
   return (
     <div className="bg-white">
       <NavigationBar />
-      <div className=" mx-3 md:bg-none md:h-[100vh] h-auto  bg-cover md:rounded-none rounded-[32px] bg-landingBck md:mx-7 lg:mx-14 relative">
+      <div className=" mx-3 md:bg-none md:h-[100vh] h-[70vh]  bg-cover md:rounded-none rounded-[32px] bg-landingBck md:mx-7 lg:mx-14 relative">
         <Image
           src={landingBck}
           alt="landing background"

@@ -265,7 +265,7 @@ const SettingsPage = () => {
         setGeneralLoading(false);
       }
     } else {
-      toast.error("Ensure fields are filled correctly!", {
+      toast.error("Check that all fields are filled!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
