@@ -106,7 +106,7 @@ const PaymentVerification = () => {
                 Payment Successful!
               </h2>
               <p className="text-gray-700 mt-2">
-                Your transaction was processed successfully. Close tab and login
+                Your transaction was processed successfully. Please, close tab and login
                 again to proceed
               </p>
               <button
