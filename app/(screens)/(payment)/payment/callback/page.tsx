@@ -106,14 +106,14 @@ const PaymentVerification = () => {
                 Payment Successful!
               </h2>
               <p className="text-gray-700 mt-2">
-                Your transaction was processed successfully. Please, close tab and login
+                Your transaction was processed successfully. Please, close previous tab and login
                 again to proceed
               </p>
               <button
                 onClick={() => router.push("/sign-in")}
                 className="mt-6 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
               >
-                Continue
+                Sign In
               </button>
             </div>
           ) : (
