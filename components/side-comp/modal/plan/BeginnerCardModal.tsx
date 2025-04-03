@@ -50,10 +50,10 @@ const BeginnerCardModal = () => {
 
     try {
       const response = await axios.post(urls.makeBeginnerPayment, body);
-      console.log(response, "begginr")
+      console.log(response, "begginr");
       if (response.status === 200) {
         window.open(response.data.payments[0].authorization_url, "_blank");
-       
+        //  router.replace(response.data.payments[0].authorization_url)
         toast.success("Complete payment in the next tab!", {
           position: "top-right",
           autoClose: 5000,
@@ -77,16 +77,28 @@ const BeginnerCardModal = () => {
         });
         setLoading(false);
       }
-    } catch (error) {
-      toast.error(`Payment Failed; ${error}!`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "dark",
-      });
+    } catch (error: any) {
+      if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(`Payment Failed; ${error.response.data.user.email[0]}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
       setLoading(false);
     }
   };
@@ -99,6 +111,7 @@ const BeginnerCardModal = () => {
     try {
       setChecking(true);
       const response = await axios.get(`${urls.cohorts}latest_status`);
+      // console.log(response.data.status, "stats")
       if (response.status === 200) {
         setWaitListStatus(response?.data?.status);
         setWaitListRegSta(response?.data?.registration_status);
@@ -223,8 +236,8 @@ const BeginnerCardModal = () => {
       </button>
 
       <div>
-        {waitListStatus === "open" && waitListRegSta === "active" ? (
-         <div
+        {waitListStatus === "active" && waitListRegSta === "open" ? (
+          <div
             className={
               "fixed inset-0 bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-[9999] " +
               (isOpen
@@ -241,7 +254,7 @@ const BeginnerCardModal = () => {
               }
               ref={modal}
             >
-               <ToastContainer />
+              <ToastContainer />
               <div className="flex flex-col items-center justify-center w-full">
                 <Image src={logo} alt="Pistis logo" />
 
@@ -263,7 +276,6 @@ const BeginnerCardModal = () => {
                   </p>
                 </span>
               </div>
-              
 
               <form className="w-[80%]  md:w-[532px]" onSubmit={handleSubmit}>
                 <div className="">
@@ -335,68 +347,67 @@ const BeginnerCardModal = () => {
           </div>
         ) : (
           <div
-          className={
-            "fixed inset-0 bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-[9999] " +
-            (isOpen
-              ? "opacity-100 backdrop-blur-sm"
-              : "opacity-0 pointer-events-none backdrop-blur-none")
-          }
-        >
-          <div
             className={
-              "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex h-[85vh] overflow-y-scroll items-center gap-y-6 w-full md:max-w-[692px] flex-col py-2 " +
+              "fixed inset-0 bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-[9999] " +
               (isOpen
-                ? "translate-y-0 scale-100"
-                : "translate-y-full scale-50")
+                ? "opacity-100 backdrop-blur-sm"
+                : "opacity-0 pointer-events-none backdrop-blur-none")
             }
-            ref={modal}
           >
-            <ToastContainer />
-            
-            <div className="flex flex-col items-center justify-center w-full">
-              <Image src={logo} alt="Pistis logo" />
-
-              <span className="max-w-[68%] text-center w-full">
-                <h1 className="text-main text-[32px] font-bold">
-                  Join waiting list
-                </h1>
-
-                <p className="text-[#828282]">
-                  Watchout Dolor suspendisse accumsan quisque purus malesuada.
-                  Pellentesque tincidunt tellus quisque amet odio vel nulla.
-                  Pellentesque maifg.
-                </p>
-              </span>
-            </div>
-           
-
-            <div className="w-[80%]">
-              <label
-                htmlFor="Email Address"
-                className="capitalize text-[#2E2E2E] mb-2"
-              >
-                Email Address
-              </label>
-              <input
-                type={"email"}
-                className="outline-none border w-full border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] py-3 px-[14px] rounded-md"
-                placeholder={`Enter your email address `}
-                id="Name"
-                required
-                value={email}
-                onChange={(e: any) => setEmail(e.target.value)}
-              />
-            </div>
-
-            <button
-              disabled={joining}
-              onClick={() => joinWaitlist()}
-              className="bg-main h-[50px] disabled:bg-main/20 flex items-center justify-center w-[80%] text-white rounded-lg font-medium mt-10"
+            <div
+              className={
+                "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex h-[85vh] overflow-y-scroll items-center gap-y-6 w-full md:max-w-[692px] flex-col py-2 " +
+                (isOpen
+                  ? "translate-y-0 scale-100"
+                  : "translate-y-full scale-50")
+              }
+              ref={modal}
             >
-              {joining ? "Joining..." : " Join Our Waiting List"}
-            </button>
+              <ToastContainer />
+
+              <div className="flex flex-col items-center justify-center w-full">
+                <Image src={logo} alt="Pistis logo" />
+
+                <span className="max-w-[68%] text-center w-full">
+                  <h1 className="text-main text-[32px] font-bold">
+                    Join waiting list
+                  </h1>
+
+                  <p className="text-[#828282]">
+                    Watchout Dolor suspendisse accumsan quisque purus malesuada.
+                    Pellentesque tincidunt tellus quisque amet odio vel nulla.
+                    Pellentesque maifg.
+                  </p>
+                </span>
+              </div>
+
+              <div className="w-[80%]">
+                <label
+                  htmlFor="Email Address"
+                  className="capitalize text-[#2E2E2E] mb-2"
+                >
+                  Email Address
+                </label>
+                <input
+                  type={"email"}
+                  className="outline-none border w-full border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] py-3 px-[14px] rounded-md"
+                  placeholder={`Enter your email address `}
+                  id="Name"
+                  required
+                  value={email}
+                  onChange={(e: any) => setEmail(e.target.value)}
+                />
+              </div>
+
+              <button
+                disabled={joining}
+                onClick={() => joinWaitlist()}
+                className="bg-main h-[50px] disabled:bg-main/20 flex items-center justify-center w-[80%] text-white rounded-lg font-medium mt-10"
+              >
+                {joining ? "Joining..." : " Join Our Waiting List"}
+              </button>
+            </div>
           </div>
-        </div>
         )}
       </div>
     </>

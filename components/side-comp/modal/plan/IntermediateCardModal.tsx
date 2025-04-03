@@ -96,11 +96,11 @@ const IntermediateCardModal = () => {
           theme: "dark",
         });
       } else {
-        toast.error(error?.response?.data?.detail, {
+        toast.error(`Payment Failed; ${error.response.data.user.email[0]}`, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
-          closeOnClick: true,
+          closeOnClick: false,
           pauseOnHover: false,
           draggable: false,
           theme: "dark",

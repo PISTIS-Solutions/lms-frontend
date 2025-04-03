@@ -20,11 +20,37 @@ const GoogleAuthSignUp = () => {
     if (typeof window !== "undefined") {
       const url = window.location.href;
 
+      // Match access token
       const match = url.match(/access_token=([^&]+)/);
       const accessToken = match ? match[1] : null;
 
       if (accessToken) {
         setLoading(true);
+
+        // Parse the user_data from the URL
+        const userDataMatch = url.match(/user_data=([^&]+)/);
+        const userData = userDataMatch
+          ? JSON.parse(decodeURIComponent(userDataMatch[1]))
+          : null;
+
+        if (userData && userData.id) {
+          // Store userId in the cookie
+          Cookies.set("userId", userData.id, {
+            secure: true,
+            sameSite: "None",
+            path: "/",
+          });
+        }
+        if (userData && userData.picture) {
+          // Store userId in the cookie
+          Cookies.set("pfp", userData.picture, {
+            secure: true,
+            sameSite: "None",
+            path: "/",
+          });
+        }
+
+        // Store the authToken in the cookie
         Cookies.set("authToken", accessToken, {
           secure: true,
           sameSite: "None",

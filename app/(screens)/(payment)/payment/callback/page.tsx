@@ -12,9 +12,9 @@ const PaymentVerification = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
 
-//   const [status, setStatus] = useState<string | null>(null);
+  //   const [status, setStatus] = useState<string | null>(null);
   const [txRef, setTxRef] = useState<string | null>(null);
-//   const [transactionId, setTransactionId] = useState<string | null>(null);
+  //   const [transactionId, setTransactionId] = useState<string | null>(null);
   const [paymentSuccess, setPaymentSuccess] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -27,12 +27,12 @@ const PaymentVerification = () => {
 
     try {
       const response = await axios.get(
-        `${baseURL}/subscriptions/payment/callback/${txRef}`,
+        `${baseURL}/subscriptions/payment/callback/${txRef}`
       );
 
-        console.log(response, "payment");
+      // console.log(response, "payment");
       if (response.status === 200) {
-        window.close()
+        // window.close()
         toast.success("Payment Successful!", {
           position: "top-right",
           autoClose: 5000,
@@ -73,7 +73,7 @@ const PaymentVerification = () => {
   };
 
   useEffect(() => {
-    if ( txRef) {
+    if (txRef) {
       transactionProcess();
     }
   }, [txRef]);
@@ -89,8 +89,6 @@ const PaymentVerification = () => {
         <ChevronLeft size={24} /> Pricing Plan
       </button>
       <div className="h-screen p-2">
-        
-
         <div className="flex flex-col items-center justify-center min-h-[70%]">
           {/* Always show loading first */}
           {loading ? (
@@ -108,13 +106,14 @@ const PaymentVerification = () => {
                 Payment Successful!
               </h2>
               <p className="text-gray-700 mt-2">
-                Your transaction was processed successfully.
+                Your transaction was processed successfully. Close tab and login
+                again to proceed
               </p>
               <button
                 onClick={() => router.push("/sign-in")}
                 className="mt-6 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
               >
-               Continue
+                Continue
               </button>
             </div>
           ) : (
