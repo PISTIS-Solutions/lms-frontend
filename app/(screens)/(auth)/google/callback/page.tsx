@@ -27,11 +27,9 @@ const GoogleAuthSignUp = () => {
       if (accessToken) {
         setLoading(true);
 
-        // Parse the user_data from the URL
+        // Match and decode the user_data
         const userDataMatch = url.match(/user_data=([^&]+)/);
-        const userData = userDataMatch
-          ? JSON.parse(decodeURIComponent(userDataMatch[1]))
-          : null;
+        const userData = userDataMatch ? JSON.parse(decodeURIComponent(userDataMatch[1])) : null;
 
         if (userData && userData.id) {
           // Store userId in the cookie
