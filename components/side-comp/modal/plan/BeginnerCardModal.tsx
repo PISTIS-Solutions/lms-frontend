@@ -50,7 +50,6 @@ const BeginnerCardModal = () => {
 
     try {
       const response = await axios.post(urls.makeBeginnerPayment, body);
-      console.log(response, "begginr");
       if (response.status === 200) {
         window.open(response.data.payments[0].authorization_url, "_blank");
         //  router.replace(response.data.payments[0].authorization_url)
@@ -105,27 +104,36 @@ const BeginnerCardModal = () => {
 
   const [waitListStatus, setWaitListStatus] = useState("");
   const [waitListRegSta, setWaitListRegSta] = useState("");
+
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
   const checkStatus = async () => {
     try {
       setChecking(true);
       const response = await axios.get(`${urls.cohorts}latest_status`);
-      // console.log(response.data.status, "stats")
-      if (response.status === 200) {
-        setWaitListStatus(response?.data?.status);
-        setWaitListRegSta(response?.data?.registration_status);
-        setChecking(false);
-        // setIsOpen(false);
-      } else{
+      if (response.status === 200 && response.data) {
+        setWaitListStatus(response.data.status || "");
+        setWaitListRegSta(response.data.registration_status || "");
+      } else {
         setWaitListStatus("");
         setWaitListRegSta("");
-        setChecking(false);
-        
       }
     } catch (error: any) {
-      // console.log(error, "error");
-      if (error?.message === "Network Error") {
+      setWaitListStatus("");
+      setWaitListRegSta("");
+
+      if (error.response && error.response.status === 404) {
+        // Handle 404 error more gracefully
+        toast.error("The requested cohort status is not available.", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,
@@ -135,8 +143,7 @@ const BeginnerCardModal = () => {
           draggable: false,
           theme: "dark",
         });
-        setError(error?.message);
-      } else {
+      } else if (error?.response?.data?.detail) {
         toast.error(error?.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
@@ -146,7 +153,6 @@ const BeginnerCardModal = () => {
           draggable: false,
           theme: "dark",
         });
-        setError(error?.response?.data?.detail);
       }
     } finally {
       setChecking(false);
