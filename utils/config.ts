@@ -31,5 +31,8 @@ export const urls = {
 
   cohorts: `${baseURL}/cohorts/`,
   
-  waitlist: `${baseURL}/waitlist/join_waitlist/`
+  waitlist: `${baseURL}/waitlist/join_waitlist/`,
+
+  subStatus: `${baseURL}/students/StudentSubscriptionDetails/`
+  
 };

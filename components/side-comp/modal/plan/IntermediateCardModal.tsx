@@ -149,7 +149,7 @@ const IntermediateCardModal = () => {
       >
         <div
           className={
-            "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-6 w-full md:max-w-[692px] flex-col py-10 " +
+            "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[90vh] overflow-y-scroll md:h-auto flex-col py-2 sm:py-10 " +
             (isOpen ? "translate-y-0 scale-100" : "translate-y-full scale-50")
           }
           ref={modal}
@@ -158,18 +158,18 @@ const IntermediateCardModal = () => {
           <div className="flex flex-col items-center justify-center w-full">
             <Image src={logo} alt="Pistis logo" />
 
-            <span className="max-w-[68%] text-center w-full">
-              <h1 className="text-main text-[32px] font-bold">
+            <span className=" max-w-full sm:max-w-[68%] text-center w-full">
+              <h1 className="text-main text-xl sm:text-[32px] font-bold">
                 Intermediate Plan
               </h1>
-              <p className="text-[#828282]">
+              <p className="text-[#828282] sm:text-base text-sm">
                 Before proceeding to payment you are expected to have:
               </p>
             </span>
           </div>
 
-          <div className="w-[80%] md:w-[532px]">
-            <ul className="list-disc list-inside text-[#2E2E2E] mv-10">
+          <div className="w-[90%] sm:w-[80%] md:w-[532px]">
+            <ul className="list-disc list-inside text-[#2E2E2E] sm:text-base text-sm mb-10">
               {data.map((itm) => (
                 <li key={itm}>{itm}</li>
               ))}
@@ -178,12 +178,12 @@ const IntermediateCardModal = () => {
             <hr className="mt-5" />
 
             <div className="my-5">
-              <p className="font-normal text-sm font-sfProDisplay text-[#666666]">
+              <p className="font-normal sm:text-left text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
                 Select a payment schedule:
               </p>
               <div className="flex items-center justify-between gap-2 md:flex-row flex-col mt-2.5">
                 <div
-                  className={`w-full border cursor-pointer h-[92px] rounded-[8px] p-3 transition duration-200 ${
+                  className={`w-full border cursor-pointer h-[92px] rounded-[8px] p-2 sm:p-3 transition duration-200 ${
                     selectedPlan.duration === "6months"
                       ? "border-sub"
                       : "border-[#DADADA]"
@@ -193,7 +193,7 @@ const IntermediateCardModal = () => {
                   }
                 >
                   <h1
-                    className={`font-medium text-3xl pm-3 transition duration-200 ${
+                    className={`font-medium text-2xl sm:text-3xl text-center pb-3 transition duration-200 ${
                       selectedPlan.duration === "6months"
                         ? "text-main"
                         : "text-[#DADADA]"
@@ -201,13 +201,13 @@ const IntermediateCardModal = () => {
                   >
                     ₦400,000
                   </h1>
-                  <p className="font-normal text-sm font-sfProDisplay text-[#666666]">
+                  <p className="font-normal text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
                     One-time payment{" "}
                     <span className="text-sub">(Save up to 12%)</span>
                   </p>
                 </div>
                 <div
-                  className={`w-full border cursor-pointer h-[92px] rounded-[8px] p-3 transition duration-200 ${
+                  className={`w-full border cursor-pointer h-[92px] rounded-[8px] p-2 sm:p-3 transition duration-200 ${
                     selectedPlan.duration === "30days"
                       ? "border-sub"
                       : "border-[#DADADA]"
@@ -217,7 +217,7 @@ const IntermediateCardModal = () => {
                   }
                 >
                   <h1
-                    className={`font-medium text-3xl pm-3 transition duration-200 ${
+                    className={`font-medium text-2xl sm:text-3xl text-center pb-3 transition duration-200 ${
                       selectedPlan.duration === "30days"
                         ? "text-main"
                         : "text-[#DADADA]"
@@ -225,7 +225,7 @@ const IntermediateCardModal = () => {
                   >
                     ₦73,000
                   </h1>
-                  <p className="font-normal text-sm font-sfProDisplay text-[#666666]">
+                  <p className="font-normal text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
                     Billed Monthly for 6 Months
                   </p>
                 </div>

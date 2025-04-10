@@ -259,7 +259,7 @@ const BeginnerCardModal = () => {
           >
             <div
               className={
-                "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex h-[85vh] overflow-y-scroll items-center gap-y-6 w-full md:max-w-[692px] flex-col py-2 " +
+                "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[90vh] overflow-y-scroll md:h-auto flex-col py-2 sm:py-10 " +
                 (isOpen
                   ? "translate-y-0 scale-100"
                   : "translate-y-full scale-50")
@@ -270,8 +270,8 @@ const BeginnerCardModal = () => {
               <div className="flex flex-col items-center justify-center w-full">
                 <Image src={logo} alt="Pistis logo" />
 
-                <span className="max-w-[68%] text-center w-full">
-                  <h1 className="text-main text-[32px] font-bold">
+                <span className="max-w-full sm:max-w-[68%] text-center w-full">
+                  <h1 className="text-main text-xl sm:text-[32px] font-bold">
                     Join the next wave
                   </h1>
                   {/* <div className="border border-main rounded-[8px] text-center my-2 bg-white px-4 py-2">
@@ -283,25 +283,28 @@ const BeginnerCardModal = () => {
                     </p>
                   </div> */}
 
-                  <p className="text-[#828282]">
+                  <p className="text-[#828282] sm:text-base text-sm">
                     Become a participant in our upcoming devops bootcamp.
                   </p>
                 </span>
               </div>
 
-              <form className="w-[80%]  md:w-[532px]" onSubmit={handleSubmit}>
+              <form
+                className="w-[90%] sm:w-[80%]  md:w-[532px]"
+                onSubmit={handleSubmit}
+              >
                 <div className="">
                   {inputs.map((itm) => (
                     <div key={itm.label} className="mb-2">
                       <label
                         htmlFor={itm.label}
-                        className="capitalize text-[#2E2E2E] mb-2"
+                        className="capitalize text-[#2E2E2E] sm:text-base text-sm mb-2"
                       >
                         {itm.label}
                       </label>
                       <input
                         type={itm.label === "Email Address" ? "email" : "text"}
-                        className="outline-none border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] py-3 px-[14px] w-full rounded-md"
+                        className="outline-none border border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] sm:text-base text-sm py-3 px-[14px] w-full rounded-md"
                         placeholder={`Enter your ${itm.label.toLocaleLowerCase()}`}
                         id="Name"
                         required
@@ -313,17 +316,17 @@ const BeginnerCardModal = () => {
                   <div>
                     <label
                       htmlFor="Phone Number"
-                      className="capitalize text-[#2E2E2E] mb-2"
+                      className="capitalize text-[#2E2E2E] sm:text-base text-sm mb-2"
                     >
                       Phone Number
                     </label>
                     <div className="border border-[#DADADA] bg-[#FAFAFA] flex items-center rounded-md py-3 px-[14px]">
-                      <span className="border-r mr-2 border-[#2E2E2E]">
+                      <span className="border-r pr-2 mr-2 border-r-[#2E2E2E]">
                         +234
                       </span>
                       <input
                         type="number"
-                        className="outline-none  placeholder:text-[#9F9F9F]  w-full "
+                        className="outline-none sm:text-base text-sm  placeholder:text-[#9F9F9F]  w-full "
                         id="Name"
                         placeholder="123 456 7890"
                         required
@@ -343,7 +346,7 @@ const BeginnerCardModal = () => {
 
                   <button
                     disabled={loading}
-                    className="bg-main h-[50px] flex items-center justify-center w-full text-white rounded-lg font-medium mt-10"
+                    className="bg-main h-[50px] sm:text-base text-sm flex items-center justify-center w-full text-white rounded-lg font-medium mt-10"
                   >
                     {loading ? (
                       <div className="flex items-center justify-center">
@@ -368,7 +371,7 @@ const BeginnerCardModal = () => {
           >
             <div
               className={
-                "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex h-[85vh] overflow-y-scroll items-center gap-y-6 w-full md:max-w-[692px] flex-col py-2 " +
+                "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[90vh] overflow-y-scroll md:h-auto flex-col py-2 sm:py-10 " +
                 (isOpen
                   ? "translate-y-0 scale-100"
                   : "translate-y-full scale-50")
@@ -380,12 +383,12 @@ const BeginnerCardModal = () => {
               <div className="flex flex-col items-center justify-center w-full">
                 <Image src={logo} alt="Pistis logo" />
 
-                <span className="max-w-[68%] text-center w-full">
-                  <h1 className="text-main text-[32px] font-bold">
+                <span className="max-w-full sm:max-w-[68%] text-center w-full">
+                  <h1 className="text-main text-xl sm:text-[32px] font-bold">
                     Join waiting list
                   </h1>
 
-                  <p className="text-[#828282]">
+                  <p className="text-[#828282] sm:text-base text-sm">
                     Watchout Dolor suspendisse accumsan quisque purus malesuada.
                     Pellentesque tincidunt tellus quisque amet odio vel nulla.
                     Pellentesque maifg.
@@ -396,13 +399,13 @@ const BeginnerCardModal = () => {
               <div className="w-[80%]">
                 <label
                   htmlFor="Email Address"
-                  className="capitalize text-[#2E2E2E] mb-2"
+                  className="capitalize text-[#2E2E2E] sm:text-base text-sm mb-2"
                 >
                   Email Address
                 </label>
                 <input
                   type={"email"}
-                  className="outline-none border w-full border-[#DADADA] bg-[#FAFAFA] placeholder:text-[#9F9F9F] py-3 px-[14px] rounded-md"
+                  className="outline-none border w-full border-[#DADADA] sm:text-base text-sm bg-[#FAFAFA] placeholder:text-[#9F9F9F] py-3 px-[14px] rounded-md"
                   placeholder={`Enter your email address `}
                   id="Name"
                   required
@@ -414,7 +417,7 @@ const BeginnerCardModal = () => {
               <button
                 disabled={joining}
                 onClick={() => joinWaitlist()}
-                className="bg-main h-[50px] disabled:bg-main/20 flex items-center justify-center w-[80%] text-white rounded-lg font-medium mt-10"
+                className="bg-main h-[50px] disabled:bg-main/20 text-sm sm:text-base flex items-center justify-center w-[80%] text-white rounded-lg font-medium mt-10"
               >
                 {joining ? "Joining..." : " Join Our Waiting List"}
               </button>

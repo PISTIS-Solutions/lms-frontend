@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import Providers from "@/components/side-comp/ProgressBarProvider";
 
-const montserrat = Montserrat({ subsets: ["latin"], display: "swap" });
+const montserrat = Montserrat({ subsets: ["latin"], display: "auto" });
 const SFProDisplay = localFont({
   src: [
     {
