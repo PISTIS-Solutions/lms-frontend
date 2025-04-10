@@ -20,27 +20,39 @@ const GoogleAuthSignUp = () => {
     if (typeof window !== "undefined") {
       const url = window.location.href;
 
-      // Match access token
       const match = url.match(/access_token=([^&]+)/);
       const accessToken = match ? match[1] : null;
 
       if (accessToken) {
         setLoading(true);
 
-        // Match and decode the user_data
         const userDataMatch = url.match(/user_data=([^&]+)/);
-        const userData = userDataMatch ? JSON.parse(decodeURIComponent(userDataMatch[1])) : null;
+        let userData = null;
+
+        if (userDataMatch) {
+          const decoded = decodeURIComponent(userDataMatch[1]);
+
+          try {
+            const cleaned = decoded.replace(/'/g, '"');
+            userData = JSON.parse(cleaned);
+          } catch (e) {
+            console.error("Failed to parse user_data:", e);
+            toast.error("Error parsing user data from Google", {
+              position: "top-right",
+              autoClose: 5000,
+            });
+          }
+        }
 
         if (userData && userData.id) {
-          // Store userId in the cookie
           Cookies.set("userId", userData.id, {
             secure: true,
             sameSite: "None",
             path: "/",
           });
         }
+
         if (userData && userData.picture) {
-          // Store userId in the cookie
           Cookies.set("pfp", userData.picture, {
             secure: true,
             sameSite: "None",
@@ -48,7 +60,6 @@ const GoogleAuthSignUp = () => {
           });
         }
 
-        // Store the authToken in the cookie
         Cookies.set("authToken", accessToken, {
           secure: true,
           sameSite: "None",
@@ -85,12 +96,7 @@ const GoogleAuthSignUp = () => {
           <Image src={Fulllogo} alt="logo" />
         </div>
         <div className="flex justify-end">
-          <Image
-            src={logo}
-            alt="pistis_logo"
-            className="md:block hidden"
-            priority
-          />
+          <Image src={logo} alt="pistis_logo" className="md:block hidden" priority />
         </div>
         <div className="px-2 my-2 md:my-0 md:px-0">
           <Image src={email} alt="verify" className="mx-auto" />
