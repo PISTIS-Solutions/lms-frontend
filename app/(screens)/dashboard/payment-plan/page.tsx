@@ -17,6 +17,8 @@ const PaymentPlan = () => {
     fetchPlans();
   }, [fetchPlans]);
 
+
+
   return (
     <div className="w-full min-h-screen bg-white flex justify-center items-center flex-col">
       {/* <PlanNav /> */}

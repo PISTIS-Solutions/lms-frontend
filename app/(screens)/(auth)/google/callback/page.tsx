@@ -33,7 +33,11 @@ const GoogleAuthSignUp = () => {
           const decoded = decodeURIComponent(userDataMatch[1]);
 
           try {
-            const cleaned = decoded.replace(/'/g, '"');
+            const cleaned = decoded
+              .replace(/'/g, '"') 
+              .replace(/\bTrue\b/g, "true")
+              .replace(/\bFalse\b/g, "false"); 
+
             userData = JSON.parse(cleaned);
           } catch (e) {
             console.error("Failed to parse user_data:", e);
@@ -65,7 +69,6 @@ const GoogleAuthSignUp = () => {
           sameSite: "None",
           path: "/",
         });
-
         toast.success("Google authentication successful!", {
           position: "top-right",
           autoClose: 3000,
@@ -96,7 +99,12 @@ const GoogleAuthSignUp = () => {
           <Image src={Fulllogo} alt="logo" />
         </div>
         <div className="flex justify-end">
-          <Image src={logo} alt="pistis_logo" className="md:block hidden" priority />
+          <Image
+            src={logo}
+            alt="pistis_logo"
+            className="md:block hidden"
+            priority
+          />
         </div>
         <div className="px-2 my-2 md:my-0 md:px-0">
           <Image src={email} alt="verify" className="mx-auto" />
