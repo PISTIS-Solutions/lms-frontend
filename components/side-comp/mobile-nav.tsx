@@ -179,12 +179,12 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
                         </div>
                       </div>
 
-                      <button
+                      {/* <button
                         className="w-full h-[36px] font-medium bg-sub hover:bg-opacity-20 transition-colors rounded-[6px] text-white text-xs lg:text-base"
                         onClick={() => router.push("/dashboard/pricing")}
                       >
                         Upgrade Plan
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>

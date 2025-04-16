@@ -14,7 +14,6 @@ import useStudentStore from "@/store/fetch-students";
 
 import Cookies from "js-cookie";
 
-
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
@@ -75,8 +74,8 @@ const Dashboard = () => {
   //fetch dashboard data with acceess token and use refresh token to refresh expired token
   const { stuData, loading, fetchStuData, enrolled_courses } =
     useStudentDashStore();
-    
-    const { studentData, loading: fetchStudentData } = useStudentStore();
+
+  const { studentData, loading: fetchStudentData } = useStudentStore();
 
   //activities endpoint
   const [activity, setActivities] = useState<any>();
@@ -198,6 +197,51 @@ const Dashboard = () => {
   //   return <p>Loading...</p>;
   // }
 
+  const [loadSub, setLoadSub] = useState(true);
+  const [subStatus, setSubStatus] = useState<any>({});
+  const getSubscription = async () => {
+    try {
+      setLoadSub(true);
+      const accessToken = Cookies.get("authToken");
+      const response = await axios.get(`${urls.subStatus}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.status === 200) {
+        setLoadSub(false);
+        setSubStatus(response.data);
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await getSubscription();
+      } else if (error.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } finally {
+      setLoadSub(false);
+    }
+  };
+
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
@@ -217,14 +261,21 @@ const Dashboard = () => {
                   </p>
                 </div>
 
-                <button
-                  className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
-                  onClick={() => route.push("/dashboard/payment-plan")}
-                >
-                  Upgrade Plan
-                </button>
-                {/* {subscriptionStatus === "Free" && (
-                )} */}
+                {subStatus?.current_plan === "Intermediate" ? (
+                  <button
+                    className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
+                    onClick={() => route.push("/dashboard/payment-plan")}
+                  >
+                    Upgrade Plan
+                  </button>
+                ) : (
+                  <button
+                    className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
+                    onClick={() => route.push("/dashboard/payment-plan")}
+                  >
+                    Buy Custom Plan
+                  </button>
+                )}
               </div>
 
               <section className="md:flex flex-wrap items-center self-stretch gap-0 md:gap-5 pr-0 md:pr-4 space-y-4 md:space-y-0 hidden">

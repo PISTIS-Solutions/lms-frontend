@@ -183,7 +183,7 @@ const IntermediateCardModal = () => {
               </p>
               <div className="flex items-center justify-between gap-2 md:flex-row flex-col mt-2.5">
                 <div
-                  className={`w-full border cursor-pointer h-[92px] rounded-[8px] p-2 sm:p-3 transition duration-200 ${
+                  className={`w-full border cursor-pointer h-auto rounded-[8px] p-2 sm:p-1.5 transition duration-200 ${
                     selectedPlan.duration === "6months"
                       ? "border-sub"
                       : "border-[#DADADA]"
@@ -202,12 +202,12 @@ const IntermediateCardModal = () => {
                     ₦400,000
                   </h1>
                   <p className="font-normal text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
-                    One-time payment{" "}
+                    One-time payment{" "} <br />
                     <span className="text-sub">(Save up to 12%)</span>
                   </p>
                 </div>
                 <div
-                  className={`w-full border cursor-pointer h-[92px] rounded-[8px] p-2 sm:p-3 transition duration-200 ${
+                  className={`w-full border cursor-pointer h-auto rounded-[8px] p-2 sm:p-3 transition duration-200 ${
                     selectedPlan.duration === "30days"
                       ? "border-sub"
                       : "border-[#DADADA]"

@@ -160,9 +160,9 @@ const SideNav = () => {
   }, []);
 
   const formatTimeLeft = (timeStr: string) => {
-    const dayMatch = timeStr.match(/(\d+)\s+day/);
-    const hourMatch = timeStr.match(/(\d+)\s+hour/);
-    const minuteMatch = timeStr.match(/(\d+)\s+minute/);
+    const dayMatch = timeStr?.match(/(\d+)\s+day/);
+    const hourMatch = timeStr?.match(/(\d+)\s+hour/);
+    const minuteMatch = timeStr?.match(/(\d+)\s+minute/);
 
     const days = dayMatch ? dayMatch[1].padStart(2, "0") : "00";
     const hours = hourMatch ? hourMatch[1].padStart(2, "0") : "00";
@@ -227,12 +227,12 @@ const SideNav = () => {
                       </div>
                     </div>
 
-                    <button
+                    {/* <button
                       className="w-full h-[46px] font-medium bg-sub hover:bg-opacity-20 transition-colors rounded-[6px] text-white text-xs lg:text-base"
                       onClick={() => router.push("/dashboard/pricing")}
                     >
                       Upgrade Plan
-                    </button>
+                    </button> */}
                   </div>
                 </div>
               </div>

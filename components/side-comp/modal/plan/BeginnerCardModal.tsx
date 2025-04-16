@@ -259,7 +259,7 @@ const BeginnerCardModal = () => {
           >
             <div
               className={
-                "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[90vh] overflow-y-scroll md:h-auto flex-col py-2 sm:py-10 " +
+                "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[90%] overflow-y-scroll md:h-auto flex-col py-2 sm:py-10 " +
                 (isOpen
                   ? "translate-y-0 scale-100"
                   : "translate-y-full scale-50")
@@ -371,7 +371,7 @@ const BeginnerCardModal = () => {
           >
             <div
               className={
-                "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[90vh] overflow-y-scroll md:h-auto flex-col py-2 sm:py-10 " +
+                "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[80vh] overflow-y-scroll md:h-auto flex-col py-2 sm:py-10 " +
                 (isOpen
                   ? "translate-y-0 scale-100"
                   : "translate-y-full scale-50")
