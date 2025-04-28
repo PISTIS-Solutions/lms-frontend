@@ -103,9 +103,9 @@ body::-webkit-scrollbar-thumb {
   left: 50%; 
   transform: translateX(-50%);
   height: 4px;
-  width: 90%;
+  width: 100%;
   border-radius: 10px 10px 0 0;
-  background-color: #33CC99;
+  background-color: #FF1456;
 
   clip-path: path('M0 4 Q 50% 0, 100% 4 T 100% 4');
 }
