@@ -20,6 +20,7 @@ import Learning from "@/components/side-comp/landing/learning";
 import Link from "next/link";
 import Sponsors from "@/components/side-comp/landing/Sponsors";
 import OurMentors from "@/components/side-comp/landing/mentors";
+import ScholarshipModal from "@/components/side-comp/modal/scholarship-modal";
 
 const HomePage = () => {
   //faq
@@ -64,6 +65,7 @@ const HomePage = () => {
     },
   ];
 
+  const [openScholarshipModal, setOpenScholarshipModal] = useState(false);
   return (
     <div className="bg-white">
       <NavigationBar />
@@ -127,7 +129,9 @@ const HomePage = () => {
             DevOps.
           </p>
           <div className="mb-2">
-            <p className="text-white font-bold text-sm sm:text-base">What's Included?</p>
+            <p className="text-white font-bold text-sm sm:text-base">
+              What's Included?
+            </p>
             <div className="flex flex-wrap w-full sm:w-[60%] gap-2">
               {[
                 "Hands-on projects",
@@ -146,15 +150,20 @@ const HomePage = () => {
               ))}
             </div>
           </div>
-          <Link href="/create-account">
-            <button className="bg-[#FF1456] rounded-[8px] hover:text-main hover:border hover:border-main transition-all ease-in duration-150 hover:bg-white font-medium text-xs md:text-sm lg:text-base py-2 lg:py-4 sm:w-auto w-full px-3 lg:px-6 text-white flex items-center justify-center sm:justify-between gap-2 cursor-pointer">
-              Start Your Learning Journey Today{" "}
-              <MdOutlineLaunch className="sm:w-6 w-4 h-4 sm:h-6" />
-            </button>
-          </Link>
+          {/* <Link href="/create-account"> */}
+          <button
+            onClick={() => {
+              setOpenScholarshipModal(true);
+            }}
+            className="bg-[#FF1456] rounded-[8px] hover:text-main hover:border hover:border-main transition-all ease-in duration-150 hover:bg-white font-medium text-xs md:text-sm lg:text-base py-2 lg:py-4 sm:w-auto w-full px-3 lg:px-6 text-white flex items-center justify-center sm:justify-between gap-2 cursor-pointer"
+          >
+            Start Your Learning Journey Today{" "}
+            <MdOutlineLaunch className="sm:w-6 w-4 h-4 sm:h-6" />
+          </button>
+          {/* </Link> */}
         </motion.div>
       </div>
-      <Sponsors/>
+      <Sponsors />
       <Benefits />
       <div className=" overflow-x-hidden block lg:flex items-center justify-center lg:justify-between gap-10 md:gap-20 p-4 md:p-20 bg-main bg-curve bg-bottom bg-contain bg-no-repeat">
         <motion.div
@@ -211,7 +220,7 @@ const HomePage = () => {
         </motion.div>
       </div>
       <Slides />
-      <OurMentors/>
+      <OurMentors />
       <Learning />
       <LandingPayment />
       <div
@@ -311,6 +320,11 @@ const HomePage = () => {
         </motion.div>
       </div>
       <Footer />
+      {openScholarshipModal && (
+        <div className="w-full h-full flex justify-center items-center fixed top-0 left-0 bg-[rgba(255,255,255,0.3)] backdrop-blur-lg z-50">
+          <ScholarshipModal setOpenScholarshipModal={setOpenScholarshipModal} />
+        </div>
+      )}
     </div>
   );
 };
