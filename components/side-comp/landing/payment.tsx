@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import BeginnerCard from "@/components/side-comp/price/BeginnerCard";
 import IntermediateCard from "@/components/side-comp/price/IntermediateCard";
-import AdvanceCard from "@/components/side-comp/price/AdvancedCard";
+import AdvanceCard from "@/components/side-comp/pricing/AdvanceCard";
 
 const LandingPayment = () => {
   return (
