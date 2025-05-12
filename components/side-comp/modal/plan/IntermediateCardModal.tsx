@@ -181,7 +181,7 @@ const IntermediateCardModal = () => {
               <p className="font-normal sm:text-left text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
                 Select a payment schedule:
               </p>
-              <div className="flex items-center justify-between gap-2 md:flex-row flex-col mt-2.5">
+              <div className="flex items-center justify-between gap-2 flex-col mt-2.5">
                 <div
                   className={`w-full border cursor-pointer h-auto rounded-[8px] p-2 sm:p-1.5 transition duration-200 ${
                     selectedPlan.duration === "6months"
@@ -193,16 +193,21 @@ const IntermediateCardModal = () => {
                   }
                 >
                   <h1
-                    className={`font-medium text-2xl sm:text-3xl text-center pb-3 transition duration-200 ${
+                    className={`font-medium text-2xl flex items-center gap-2 sm:text-3xl text-center pb-3 transition duration-200 ${
                       selectedPlan.duration === "6months"
                         ? "text-main"
                         : "text-[#DADADA]"
                     }`}
                   >
-                    ₦400,000
+                    ₦400,000   <span className="text-[#484848] text-sm font-normal">
+                      + (VAT 4.6%)
+                    </span>{" "}
+                    <span className="text-[#484848] text-sm font-medium">
+                      ₦6,328.92
+                    </span>
                   </h1>
-                  <p className="font-normal text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
-                    One-time payment{" "} <br />
+                  <p className="font-normal flex items-center gap-1 text-xs sm:text-sm font-sfProDisplay text-[#666666]">
+                    One-time payment
                     <span className="text-sub">(Save up to 12%)</span>
                   </p>
                 </div>
@@ -217,15 +222,21 @@ const IntermediateCardModal = () => {
                   }
                 >
                   <h1
-                    className={`font-medium text-2xl sm:text-3xl text-center pb-3 transition duration-200 ${
+                    className={`font-medium text-2xl flex items-center gap-2 sm:text-3xl text-center pb-3 transition duration-200 ${
                       selectedPlan.duration === "30days"
                         ? "text-main"
                         : "text-[#DADADA]"
                     }`}
                   >
-                    ₦73,000
+                    ₦73,000{" "}
+                    <span className="text-[#484848] text-sm font-normal">
+                      + (VAT 4.6%)
+                    </span>{" "}
+                    <span className="text-[#484848] text-sm font-medium">
+                      ₦4,228.92
+                    </span>
                   </h1>
-                  <p className="font-normal text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
+                  <p className="font-normal  text-xs sm:text-sm font-sfProDisplay text-[#666666]">
                     Billed Monthly for 6 Months
                   </p>
                 </div>

@@ -50,6 +50,9 @@ const ScholarshipModal = ({ setOpenScholarshipModal }: any) => {
   const router = useRouter();
   return (
     <div
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
       className="h-[90vh] w-[90%] sm:w-[80%] md:w-[70%] p-4 sm:p-6 rounded-[30px] bg-blend-overlay overflow-y-scroll bg-cover bg-center"
       style={{
         backgroundImage: `url(${bgDots.src}), linear-gradient(#02A0FD, #02A0FD)`,
@@ -63,7 +66,7 @@ const ScholarshipModal = ({ setOpenScholarshipModal }: any) => {
           Scholarship Opportunities
         </span>
         <X
-          className="text-white h-5 sm:w-7 w-5 sm:h-7"
+          className="text-white cursor-pointer h-5 sm:w-7 w-5 sm:h-7"
           onClick={() => {
             setOpenScholarshipModal(false);
           }}

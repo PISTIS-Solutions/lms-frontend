@@ -69,7 +69,7 @@ const HomePage = () => {
   return (
     <div className="bg-white">
       <NavigationBar />
-      <div className=" mx-3 md:bg-none md:h-[100vh] h-[80vh] bg-cover md:rounded-none rounded-[32px] bg-landingBck md:mx-7 lg:mx-14 relative">
+      <div className=" mx-3 md:bg-none h-[100vh] bg-cover md:rounded-none rounded-[32px] bg-landingBck md:mx-7 xl:mx-14 relative">
         <Image
           src={landingBck}
           alt="landing background"
@@ -80,16 +80,19 @@ const HomePage = () => {
           initial={{ opacity: 0, scale: 0.5 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="absolute ml-0 lg:ml-6 my-0 lg:my-4 p-4 lg:p-5 left-0 top-0"
+          className="absolute ml-0 xl:ml-6 my-0 xl:my-4 p-4 xl:p-5 left-0 top-0"
         >
-          <div className="rounded-[6px] text-white bg-white/20 block text-center md:inline-block px-4 py-1 lg:py-2 font-medium text-sm md:text-base lg:text-lg">
-            🚀 Automate and Innovate
+          <div className="rounded-[6px] text-white bg-white/20 block text-center md:inline-block px-4 py-1 xl:py-2 font-medium text-xs md:text-sm xl:text-lg">
+            🚀 Pistis Sprint & Slash DevOps Challenge
           </div>
 
-          <h1 className="lg:text-5xl text-2xl md:text-4xl font-normal py-2 lg:py-4 text-white sm:text-left text-center">
-            DevOps Engineering <br />{" "}
-            <span className="relative font-medium text-3xl md:text-5xl lg:text-7xl inline-block">
-              Scholarship
+          <h1 className="xl:text-5xl text-2xl md:text-4xl font-normal py-2 xl:py-4 text-white sm:text-left text-center">
+            {/* DevOps Engineering <br />{" "} */}
+            <span className="relative font-medium text-3xl md:text-5xl xl:text-7xl inline-block">
+              {/* Your Hustle. Your Path. Your Discount. */}
+              <p>Your Path</p>
+              <p>Yout Hustle</p>
+              <p>Your discount</p>
               <svg
                 className="absolute left-0 bottom-0 w-full h-2"
                 viewBox="50 0 200 10"
@@ -120,16 +123,14 @@ const HomePage = () => {
               </svg>
             </span>
           </h1>
-          <p className="lg:text-base text-xs sm:text-left text-center md:text-sm font-normal max-w-[581px] pb-2 text-white">
-            Are you passionate about technology and eager to build a career in
-            DevOps Engineering? This is your chance to gain industry-relevant
-            skills through a fully funded scholarship program. <br /> Join a
-            structured learning path that equips you with the knowledge and
-            hands-on experience needed to thrive in the fast-growing field of
-            DevOps.
+          <p className="xl:text-base text-xs sm:text-left text-center md:text-sm font-normal max-w-[581px] pb-2 text-white">
+            Are you eager to launch a career in DevOps but limited by cost? The
+            Sprint & Slash Challenge is your shot to earn a massive discount on
+            our premium DevOps training—by showing your consistency, curiosity,
+            and commitment.
           </p>
           <div className="mb-2">
-            <p className="text-white font-bold text-sm sm:text-base">
+            <p className="text-white font-bold text-xs sm:text-sm">
               What's Included?
             </p>
             <div className="flex flex-wrap w-full sm:w-[60%] gap-2">
@@ -143,7 +144,7 @@ const HomePage = () => {
               ].map((text, index) => (
                 <div
                   key={index}
-                  className="text-white text-xs sm:text-base font-medium bg-white/15 rounded-md py-2 px-4 text-center"
+                  className="text-white text-[10px] sm:text-base font-medium bg-white/15 rounded-md py-2 px-4 text-center"
                 >
                   {text}
                 </div>
@@ -155,9 +156,9 @@ const HomePage = () => {
             onClick={() => {
               setOpenScholarshipModal(true);
             }}
-            className="bg-[#FF1456] rounded-[8px] hover:text-main hover:border hover:border-main transition-all ease-in duration-150 hover:bg-white font-medium text-xs md:text-sm lg:text-base py-2 lg:py-4 sm:w-auto w-full px-3 lg:px-6 text-white flex items-center justify-center sm:justify-between gap-2 cursor-pointer"
+            className="bg-[#FF1456] rounded-[8px] hover:text-main hover:border hover:border-main transition-all ease-in duration-150 hover:bg-white font-medium text-xs md:text-sm xl:text-base py-2 lg:py-4 sm:w-auto w-full px-3 lg:px-6 text-white flex items-center justify-center sm:justify-between gap-2 cursor-pointer"
           >
-            Start Your Learning Journey Today{" "}
+            Join the Sprint & Slash Challenge{" "}
             <MdOutlineLaunch className="sm:w-6 w-4 h-4 sm:h-6" />
           </button>
           {/* </Link> */}
@@ -321,7 +322,12 @@ const HomePage = () => {
       </div>
       <Footer />
       {openScholarshipModal && (
-        <div className="w-full h-full flex justify-center items-center fixed top-0 left-0 bg-[rgba(255,255,255,0.3)] backdrop-blur-lg z-50">
+        <div
+          onClick={() => {
+            setOpenScholarshipModal(false);
+          }}
+          className="w-full h-full flex justify-center items-center fixed top-0 left-0 bg-[rgba(255,255,255,0.3)] backdrop-blur-lg z-50"
+        >
           <ScholarshipModal setOpenScholarshipModal={setOpenScholarshipModal} />
         </div>
       )}

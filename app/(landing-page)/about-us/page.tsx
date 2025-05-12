@@ -22,22 +22,19 @@ const AboutUs = () => {
     {
       bgImg: missionBg,
       tag: "Mission",
-      para: `Sed consectetur purus in cras dui risus. Purus nisl morbi
-              vestibulum sit. Lobortis non vel convallis nunc rhoncus tempor
-              pulvinar adipiscing pharetra. Vitae auctor at semper semper at
-              nulla nisi. Et eget lectus sit volutpat fermentum pellentesque.`,
+      para: `To cultivate a thriving African tech ecosystem where skilled youth drive innovation, economic growth, and digital transformation across the continent.`,
       hexImg: target,
     },
     {
       bgImg: missionBg,
       tag: "vision",
-      para: `Dui lorem gravida ultrices elit fringilla aliquam. Faucibus aliquam mollis eget diam amet pharetra sit hendrerit. In vitae imperdiet sapien facilisis accumsan dolor. A ultrices neque tincidunt id ornare nec. Vitae lacus velit varius enim accumsan sollicitudin sollicitudin ut.`,
+      para: `To empower African youth with in-demand skills in DevOps, DevSecOps, AI/ML, Platform Engineering, and Cybersecurity.`,
       hexImg: aim,
     },
     {
       bgImg: missionBg,
       tag: "values",
-      para: `Risus diam et egestas proin varius nulla. Amet lobortis vitae porta vel. Nulla eu nec arcu elit fermentum sit nec lobortis. Commodo viverra tincidunt blandit nisl sit ac. Diam amet ante aenean nulla massa massa parturient accumsan nam.`,
+      para: `We offer training, talent development, and strategic partnerships to bridge the skills gap, retain local talent, and connect professionals with career opportunities—while also providing expert consultancy to help businesses reach their tech goals.`,
       hexImg: diamond,
     },
   ];
@@ -46,7 +43,7 @@ const AboutUs = () => {
       <NavigationBar />
       <div
         style={{ backgroundImage: `url(${aboutImg.src})` }}
-        className=" mx-3 md:bg-none bg-cover md:rounded-none rounded-[32px] md:mx-7 lg:mx-14 relative"
+        className=" mx-3 md:bg-none h-[60vh] flex lg:block justify-center items-center md:h-auto bg-cover md:rounded-none rounded-[22px] md:mx-7 lg:mx-14 relative"
       >
         <Image
           src={aboutBack}
@@ -66,11 +63,7 @@ const AboutUs = () => {
 
           <h1 className="lg:text-5xl text-2xl md:text-4xl font-normal py-2 lg:py-4 text-white sm:text-left max-w-full md:max-w-[740px] text-center">
             Discover Our Mission to
-            <span className=" relative underline-custom">
-              {" "}
-              Empower Larners and Shape
-            </span>{" "}
-            <br />
+            <span className=" relative"> Empower Larners and Shape</span> <br />
             the Future of Education
           </h1>
           <p className="lg:text-base text-xs sm:text-left text-center md:text-sm font-normal max-w-[581px] pb-2 lg:pb-4 text-white">
@@ -86,24 +79,24 @@ const AboutUs = () => {
           return (
             <div
               key={index}
-              className="rounded-[24px] shadow-[0_0_40px_0_rgba(0,0,0,0.1)] w-full h-[534px]"
+              className="rounded-[24px] shadow-[0_0_40px_0_rgba(0,0,0,0.1)] w-full h-[450px] sm:h-[534px]"
             >
               <div
                 style={{ backgroundImage: `url(${missionBg.src})` }}
-                className="w-full bg-cover rounded-tr-[24px] rounded-tl-[24px]  flex justify-center h-[258px] items-center"
+                className="w-full bg-cover rounded-tr-[24px] rounded-tl-[24px]  flex justify-center h-[220px] items-center"
               >
                 <h1 className="text-white font-semibold text-2xl sm:text-3xl md:text-4xl uppercase ">
                   {card.tag}
                 </h1>
               </div>
-              <div className="p-5 relative flex justify-center items-center h-[276px]">
+              <div className="p-5 relative flex justify-center items-center h-[200px] sm:h-[276px]">
                 <Image
                   src={card.hexImg}
                   alt={card.tag}
                   className="absolute -top-24 h-[167px] w-[167px]"
                 />
 
-                <p className="text-[#666666] font-normal text-sm sm:text-base text-center mt-4">
+                <p className="text-[#666666] z-10 font-normal text-xs sm:text-sm text-center mt-4">
                   {card.para}
                 </p>
               </div>
