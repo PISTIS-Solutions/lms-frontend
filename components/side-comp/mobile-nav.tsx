@@ -94,9 +94,9 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
   }, []);
 
   const formatTimeLeft = (timeStr: string) => {
-    const dayMatch = timeStr.match(/(\d+)\s+day/);
-    const hourMatch = timeStr.match(/(\d+)\s+hour/);
-    const minuteMatch = timeStr.match(/(\d+)\s+minute/);
+    const dayMatch = timeStr?.match(/(\d+)\s+day/);
+    const hourMatch = timeStr?.match(/(\d+)\s+hour/);
+    const minuteMatch = timeStr?.match(/(\d+)\s+minute/);
 
     const days = dayMatch ? dayMatch[1].padStart(2, "0") : "00";
     const hours = hourMatch ? hourMatch[1].padStart(2, "0") : "00";

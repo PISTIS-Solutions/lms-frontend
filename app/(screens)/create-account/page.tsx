@@ -24,11 +24,11 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
 import { countriesWithPhoneCodes } from "@/data";
+import axios from "axios";
 
 const containsSpecialChars = "Password must contain special characters";
 const differentPassword =
   "Password and Confirm password contains different characters";
-
 
 const SignUp = () => {
   const formStore = useFormStore();
@@ -49,23 +49,17 @@ const SignUp = () => {
       } else {
         try {
           setLoading(true);
-          const response = await fetch(urls.signup, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              first_name: formStore.firstName,
-              last_name: formStore.lastName,
-              email: formStore.email,
-              phone_number: `+234${formStore.Phone}`,
-              // location: formStore.location,
-              password: formStore.password,
-              re_password: formStore.confirm,
-            }),
+          const response = await axios.post(urls.signup, {
+            first_name: formStore.firstName,
+            last_name: formStore.lastName,
+            email: formStore.email,
+            phone_number: `+234${formStore.Phone}`,
+            // location: formStore.location,
+            password: formStore.password,
+            re_password: formStore.confirm,
           });
-
-          if (response.ok) {
+          console.log(response, "rez");
+          if (response.status === 201) {
             // setModal(true);
             // router.push("/create-account/activate/[uid]");
             localStorage.setItem("email", formStore.email);
@@ -78,8 +72,23 @@ const SignUp = () => {
               draggable: false,
               theme: "dark",
             });
-          } else {
-            toast.error("This email address has been registered!", {
+          }
+        } catch (error: any) {
+          const passwordErrors = error?.response?.data?.password;
+          const emailErrors = error?.response?.data?.email;
+          const phoneError = error?.response?.data?.phone_number;
+
+          if (error.message === containsSpecialChars) {
+            setError(error.message);
+          }
+
+          console.log(passwordErrors?.[0], "err");
+          console.log(error?.response, "errRez");
+
+          if (
+            emailErrors?.[0] === "User with this Email Address already exists."
+          ) {
+            toast.error(emailErrors?.[0] || "Something went wrong!", {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -88,10 +97,40 @@ const SignUp = () => {
               draggable: false,
               theme: "dark",
             });
-          }
-        } catch (error: any) {
-          if (error.message === containsSpecialChars) {
-            setError(error.message);
+          } else if (
+            passwordErrors?.[0] ===
+              "The password is too similar to the Last Name." ||
+            "The password is too similar to the First Name."
+          ) {
+            toast.error(passwordErrors?.[0] || "Something went wrong!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            });
+          } else if (phoneError?.[0] === "Enter a valid phone number.") {
+            toast.error(phoneError?.[0] || "Something went wrong!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            });
+          } else {
+            toast.error(error?.response?.message || "Something went wrong!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            });
           }
         } finally {
           setLoading(false);

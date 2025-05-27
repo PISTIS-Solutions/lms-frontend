@@ -10,9 +10,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 
 const timeRangeData = [
-  { name: "15 Min", value: 15 },
   { name: "30 Min", value: 30 },
-  { name: "1 hr", value: 60 },
+  { name: "60 Min", value: 60 },
+  { name: "1 hr 30Min", value: 90 },
 ];
 
 const validateDate = (value: Date | null): boolean => {
@@ -167,7 +167,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
             theme: "dark",
           });
         } catch (error: any) {
-          console.log(error.response.data.error[0]);
+          console.log(error?.response?.data?.error?.[0]);
           if (error.response && error.response.status === 401) {
             await refreshAdminToken();
             await createASession();
@@ -249,44 +249,6 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
     return true;
   };
 
-  // const validateAllInputs = () => {
-  //   if (
-  //     !validateInput(preferredDateStr, preferredDateError, "preferredDateStr")
-  //   )
-  //     return false;
-  //   if (
-  //     !validateInput(preferredTimeStr, preferredTimeError, "preferredTimeStr")
-  //   )
-  //     return false;
-  //   if (!validateInput(altDateStr, altDateError, "altDateStr")) return false;
-  //   if (!validateInput(altTimeStr, altTimeError, "altTimeStr")) return false;
-
-  //   // Check for future dates
-  //   if (isDateTimeInPast(preferredDateStr, preferredTimeStr)) {
-  //     setError("Please select a future preferred date and time.");
-  //     updateErrorState("preferredDateStr", false);
-  //     updateErrorState("preferredTimeStr", false);
-  //     return false;
-  //   }
-
-  //   if (isDateTimeInPast(altDateStr, altTimeStr)) {
-  //     setError("Please select a future alternate date and time.");
-  //     updateErrorState("altDateStr", false);
-  //     updateErrorState("altTimeStr", false);
-  //     return false;
-  //   }
-
-  //   if (!topic) {
-  //     setError("Topic is required.");
-  //     updateErrorState("topic", false);
-  //     return false;
-  //   } else {
-  //     updateErrorState("topic", true);
-  //   }
-
-  //   setError("");
-  //   return true;
-  // };
   const validateAllInputs = () => {
     if (
       !validateInput(preferredDateStr, preferredDateError, "preferredDateStr")
@@ -550,24 +512,6 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                 </label>
                 <div className="flex justify-between mt-1">
                   <div className=" w-[48%]">
-                    {/* <DatePicker
-                      selected={altDateStr}
-                      onChange={(date) => setAltDateStr(date)}
-                      dateFormat="dd-MM-yyyy"
-                      className={`p-3 border rounded-md outline-none w-full ${
-                        notDateError.altDateStr === false
-                          ? "border-red-600"
-                          : notDateError.altDateStr === true
-                          ? "border-[#2FBC8D]"
-                          : "border-[#DADADA]"
-                      } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                      id="alt-date-time"
-                      placeholderText="DD-MM-YYYY"
-                      onBlur={() =>
-                        validateInput(altDateStr, altDateError, "altDateStr")
-                      }
-                    /> */}
-
                     <DatePicker
                       selected={altDateStr}
                       onChange={(date) => setAltDateStr(date)}
@@ -589,44 +533,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                       } // Disable weekends
                     />
                   </div>
-                  {/* <input
-                    type="text"
-                    className={`p-3 border rounded-md outline-none w-[48%] ${
-                      notDateError.altTimeStr === false
-                        ? "border-red-600"
-                        : notDateError.altTimeStr === true
-                        ? "border-[#2FBC8D]"
-                        : "border-[#DADADA]"
-                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                    id="alt-time-input"
-                    onChange={(e) => setAltTimeStr(e.target.value.trim())}
-                    value={altTimeStr}
-                    placeholder="09:00"
-                    onBlur={() =>
-                      validateInput(altTimeStr, altTimeError, "altTimeStr")
-                    }
-                    pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
-                  /> */}
-                  {/* <input
-                    type="text"
-                    className={`p-3 border rounded-md outline-none w-[48%] ${
-                      notDateError.altTimeStr === false
-                        ? "border-red-600"
-                        : notDateError.altTimeStr === true
-                        ? "border-[#2FBC8D]"
-                        : "border-[#DADADA]"
-                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                    id="alt-time-input"
-                    onChange={(e) =>
-                      setAltTimeStr(e.target.value.replace(/\s+/g, " ").trim())
-                    }
-                    value={altTimeStr}
-                    placeholder="09:00 AM"
-                    onBlur={() =>
-                      validateInput(altTimeStr, altTimeError, "altTimeStr")
-                    }
-                    pattern="^(0?[1-9]|1[0-2]):([0-5][0-9])( ?)(AM|PM|am|pm)$"
-                  /> */}
+
                   <div className="flex items-center gap-2 w-full ml-2">
                     {/* Time Input */}
                     <input
@@ -697,7 +604,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                   {timeRangeData.map((itm) => (
                     <button
                       className={
-                        "group rounded-[6px] flex gap-x-2 items-center py-1 px-2 border outline-none w-[96.92px] self-stretch transition-all duration-300 ease-in-out " +
+                        "group rounded-[6px] flex gap-x-2 items-center py-1 px-2 border outline-none w-full self-stretch transition-all duration-300 ease-in-out " +
                         (duration == itm.value
                           ? "border-[#2FBC8D] text-[#2FBC8D]"
                           : "border-[#9F9F9F] text-[#9F9F9F]")

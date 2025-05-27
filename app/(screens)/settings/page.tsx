@@ -6,7 +6,15 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import Image from "next/image";
 
 import user from "@/src/assets/avatar.jpg";
-import { EditIcon, Eye, EyeOff, KeyRound, Loader2, Mail, Phone } from "lucide-react";
+import {
+  EditIcon,
+  Eye,
+  EyeOff,
+  KeyRound,
+  Loader2,
+  Mail,
+  Phone,
+} from "lucide-react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -118,6 +126,7 @@ const SettingsPage = () => {
           router.replace("/sign-in");
         }
       } catch (error: any) {
+        console.log(error, "error")
         if (error.response && error.response.status === 401) {
           try {
             await refreshToken();
@@ -162,7 +171,35 @@ const SettingsPage = () => {
             draggable: false,
             theme: "dark",
           });
+        } else if (
+          error?.response?.data?.email?.[0] ===
+          "The password is too similar to the Email Address."
+        ) {
+          toast.error(
+            error?.response?.data?.email?.[0] || "Something went wrong!",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            }
+          );
         } else {
+          toast.error(
+            error?.response?.data?.message || "Something went wrong!",
+            {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            }
+          );
         }
       } finally {
         setPasswordLoading(false);

@@ -266,14 +266,15 @@ const Dashboard = () => {
                     className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
                     onClick={() => route.push("/dashboard/payment-plan")}
                   >
-                    Upgrade Plan
+                    Buy Custom Plan
                   </button>
                 ) : (
                   <button
+                    // disabled
                     className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
                     onClick={() => route.push("/dashboard/payment-plan")}
                   >
-                    Buy Custom Plan
+                    Upgrade Plan
                   </button>
                 )}
               </div>
@@ -425,7 +426,7 @@ const Dashboard = () => {
                             <div className="rounded-[8px] overflow-hidden h-[120px] relative w-full">
                               <Image
                                 className=" object-cover w-full h-full"
-                                src={data?.course_image_url}
+                                src={data?.course_image}
                                 alt={data?.title}
                                 layout="fill"
                                 objectFit="cover"

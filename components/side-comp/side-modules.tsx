@@ -10,7 +10,7 @@ const SideModules = ({ courseRead, selectedIndex, handleItemClick }: any) => {
       {courseRead?.modules?.map((module: any, index: any) => (
         <>
           <div
-            key={module.id}
+            key={module?.id}
             className={`py-3 px-4 cursor-pointer ${
               module.id === selectedIndex ? "bg-main text-white" : ""
             }`}
