@@ -90,10 +90,10 @@ const Dashboard = () => {
       });
       console.log(response, "activity");
       if (response.status === 200) {
-        setActivities(response.data.activities);
+        setActivities(response?.data?.activities);
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
+      if (error?.response && error?.response?.status === 401) {
         await refreshAdminToken();
         await userActivity();
       } else if (error?.message === "Network Error") {
@@ -149,7 +149,7 @@ const Dashboard = () => {
       await navigation.push(link);
     } catch (error: any) {
       // console.log(error.response.data.error[0]);
-      if (error.response && error.response.status === 401) {
+      if (error?.response && error?.response?.status === 401) {
         await refreshAdminToken();
         await markAsRead(link, id);
       } else if (error?.message === "Network Error") {
@@ -210,13 +210,13 @@ const Dashboard = () => {
       });
       if (response.status === 200) {
         setLoadSub(false);
-        setSubStatus(response.data);
+        setSubStatus(response?.data);
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
+      if (error?.response && error?.response?.status === 401) {
         await refreshAdminToken();
         await getSubscription();
-      } else if (error.message === "Network Error") {
+      } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,
@@ -360,10 +360,10 @@ const Dashboard = () => {
                 {/* Display courses in a horizontal layout for larger screens (tablet and above)  */}
                 <section className="md:flex gap-4 flex-wrap hidden lg:flex-nowrap lg:justify-between">
                   {enrolled_courses && enrolled_courses?.length > 0 ? (
-                    enrolled_courses.slice(0, 3).map((data: any) => {
+                    enrolled_courses?.slice(0, 3).map((data: any) => {
                       return (
                         <div
-                          key={data.id}
+                          key={data?.id}
                           className="rounded-[8px]  my-2 lg:my-0 relative bg-white shadow-md sm:w-[242px] lg:w-[calc(33.333%-16px)] w-full min-h-[218px] p-1 font-sfProDisplay"
                         >
                           <div className="rounded-[8px] overflow-hidden h-[120px] relative w-full">
@@ -376,7 +376,7 @@ const Dashboard = () => {
                             />
                           </div>
                           <Link
-                            href={`/courses/${data.id}`}
+                            href={`/courses/${data?.id}`}
                             className="p-2 flex flex-col min-h-[87px] justify-between"
                           >
                             <h3 className="text-base leading-[160%]">
@@ -417,7 +417,7 @@ const Dashboard = () => {
                     swipeable={true}
                   >
                     {enrolled_courses && enrolled_courses?.length > 0 ? (
-                      enrolled_courses.slice(0, 3).map((data: any) => {
+                      enrolled_courses?.slice(0, 3).map((data: any) => {
                         return (
                           <div
                             key={data.id}
@@ -496,12 +496,12 @@ const Dashboard = () => {
                               key={index}
                               className="flex items-center gap-3 md:gap-4 px-1 md:px-2 cursor-pointer py-2 last-of-type:pb-0 hover:bg-gray-100"
                               onClick={() =>
-                                markAsRead(activityItemLink.link, tag.id)
+                                markAsRead(activityItemLink?.link, tag?.id)
                               }
                             >
                               <div className="flex items-center gap-x-2">
                                 <Image
-                                  src={activityItemLink.img}
+                                  src={activityItemLink?.img}
                                   alt="activity icon"
                                   className="w-7 h-7 "
                                 />

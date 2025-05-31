@@ -93,23 +93,26 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
     fetchSession();
   }, []);
 
-  const formatTimeLeft = (timeStr: string) => {
-    const dayMatch = timeStr?.match(/(\d+)\s+day/);
-    const hourMatch = timeStr?.match(/(\d+)\s+hour/);
-    const minuteMatch = timeStr?.match(/(\d+)\s+minute/);
+ const formatTimeLeft = (timeStr?: string | null) => {
+  if (!timeStr) {
+    return <>00 <span className="text-xs">Days</span> : 00 <span className="text-xs">Hrs</span> : 00 <span className="text-xs">Mins</span></>;
+  }
 
-    const days = dayMatch ? dayMatch[1].padStart(2, "0") : "00";
-    const hours = hourMatch ? hourMatch[1].padStart(2, "0") : "00";
-    const minutes = minuteMatch ? minuteMatch[1].padStart(2, "0") : "00";
+  const dayMatch = timeStr.match(/(\d+)\s+day/);
+  const hourMatch = timeStr.match(/(\d+)\s+hour/);
+  const minuteMatch = timeStr.match(/(\d+)\s+minute/);
 
-    return (
-      <>
-        {days} <span className="text-xs">Days</span> : {hours}{" "}
-        <span className="text-xs">Hrs</span> : {minutes}{" "}
-        <span className="text-xs">Mins</span>
-      </>
-    );
-  };
+  const days = dayMatch ? dayMatch[1].padStart(2, "0") : "00";
+  const hours = hourMatch ? hourMatch[1].padStart(2, "0") : "00";
+  const minutes = minuteMatch ? minuteMatch[1].padStart(2, "0") : "00";
+
+  return (
+    <>
+      {days} <span className="text-xs">Days</span> : {hours} <span className="text-xs">Hrs</span> : {minutes} <span className="text-xs">Mins</span>
+    </>
+  );
+};
+
 
   return (
     <>
@@ -197,7 +200,7 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
                       {/* Header */}
                       <div className="flex justify-between items-center mb-4 font-sfProDisplay">
                         <h2 className="text-white text-base font-medium">
-                          Upcoming Section
+                          Upcoming Session
                         </h2>
                       </div>
 
