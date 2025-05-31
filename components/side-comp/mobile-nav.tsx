@@ -210,7 +210,7 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
                         className="w-full h-[36px] justify-center items-center font-sfProDisplay bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors rounded-[6px] text-[#FF0000] text-xs lg:text-base cancel-button"
                         onClick={toggleModal}
                       >
-                        Cancel Private Session
+                        Cancel private session
                       </button>
                     </div>
                   </div>
