@@ -182,7 +182,7 @@ const IntermediateCardModal = () => {
               <p className="font-normal sm:text-left text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
                 Select a payment schedule:
               </p>
-              <div className="flex items-center justify-between gap-2 md:flex-row flex-col mt-2.5">
+              <div className="flex items-center justify-between gap-2 flex-col mt-2.5">
                 <div
                   className={`w-full border cursor-pointer h-auto rounded-[8px] p-2 sm:p-1.5 transition duration-200 ${
                     selectedPlan.duration === "6months"
