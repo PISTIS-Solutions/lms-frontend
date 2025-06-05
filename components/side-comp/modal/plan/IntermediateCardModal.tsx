@@ -142,7 +142,7 @@ const IntermediateCardModal = () => {
 
       <div
         className={
-          "fixed inset-0 bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-50 " +
+          "fixed inset-0  bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-50 " +
           (isOpen
             ? "opacity-100 backdrop-blur-sm"
             : "opacity-0 backdrop-blur-none pointer-events-none")
@@ -150,7 +150,7 @@ const IntermediateCardModal = () => {
       >
         <div
           className={
-            "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[90vh] overflow-y-scroll md:h-auto flex-col py-2 sm:py-10 " +
+            "shadow-[0px_0px_45px_0px_#0000004D] bg-white  rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[95vh] overflow-y-scroll flex-col py-2 sm:py-10 " +
             (isOpen ? "translate-y-0 scale-100" : "translate-y-full scale-50")
           }
           ref={modal}
