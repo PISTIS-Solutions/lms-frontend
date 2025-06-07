@@ -1,7 +1,7 @@
 "use client";
 import IntermediateCard from "@/components/side-comp/pricing/IntermediateCard";
 import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
-import AdvanceCard from "@/components/side-comp/pricing/AdvanceCard";
+import AdvanceCard from "@/components/side-comp/price/AdvancedCard";
 import { ChevronLeft } from "lucide-react";
 import PlanNav from "@/components/side-comp/pricing/PlanNav";
 import { useEffect, useState } from "react";
@@ -70,7 +70,7 @@ const PaymentPlan = () => {
         </section> */}
 
         <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:justify-between">
-          <BeginnerCard />
+          {/* <BeginnerCard /> */}
           <IntermediateCard />
           <AdvanceCard />
         </div>

@@ -17,7 +17,7 @@ import grade from "@/src/assets/svg/grading.svg";
 import bookGray from "@/src/assets/svg/book-gray.svg";
 import { useRouter } from "next-nprogress-bar";
 
-const MobileNav = ({ loadSub, subStatus }: any) => {
+const MobileNav = ({ loadSub, current_plan, time_left }: any) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const router = useRouter();
@@ -93,26 +93,33 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
     fetchSession();
   }, []);
 
- const formatTimeLeft = (timeStr?: string | null) => {
-  if (!timeStr) {
-    return <>00 <span className="text-xs">Days</span> : 00 <span className="text-xs">Hrs</span> : 00 <span className="text-xs">Mins</span></>;
-  }
+  const formatTimeLeft = (timeStr?: string | null) => {
+    if (!timeStr) {
+      return (
+        <>
+          00 <span className="text-xs">Days</span> : 00{" "}
+          <span className="text-xs">Hrs</span> : 00{" "}
+          <span className="text-xs">Mins</span>
+        </>
+      );
+    }
 
-  const dayMatch = timeStr.match(/(\d+)\s+day/);
-  const hourMatch = timeStr.match(/(\d+)\s+hour/);
-  const minuteMatch = timeStr.match(/(\d+)\s+minute/);
+    const dayMatch = timeStr.match(/(\d+)\s+day/);
+    const hourMatch = timeStr.match(/(\d+)\s+hour/);
+    const minuteMatch = timeStr.match(/(\d+)\s+minute/);
 
-  const days = dayMatch ? dayMatch[1].padStart(2, "0") : "00";
-  const hours = hourMatch ? hourMatch[1].padStart(2, "0") : "00";
-  const minutes = minuteMatch ? minuteMatch[1].padStart(2, "0") : "00";
+    const days = dayMatch ? dayMatch[1].padStart(2, "0") : "00";
+    const hours = hourMatch ? hourMatch[1].padStart(2, "0") : "00";
+    const minutes = minuteMatch ? minuteMatch[1].padStart(2, "0") : "00";
 
-  return (
-    <>
-      {days} <span className="text-xs">Days</span> : {hours} <span className="text-xs">Hrs</span> : {minutes} <span className="text-xs">Mins</span>
-    </>
-  );
-};
-
+    return (
+      <>
+        {days} <span className="text-xs">Days</span> : {hours}{" "}
+        <span className="text-xs">Hrs</span> : {minutes}{" "}
+        <span className="text-xs">Mins</span>
+      </>
+    );
+  };
 
   return (
     <>
@@ -160,25 +167,23 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
             </div>
 
             <div>
-              {!loadSub && subStatus && (
+              {!loadSub && current_plan === "Intermediate" && (
                 <div>
                   <div className="p-1 rounded-[8px] w-full mb-2 overflow-y-scroll">
                     <div className="space-y-2 p-2 bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">
                       <p className="text-white font-normal text-xs sm:text-sm">
                         Current Plan{" "}
-                        <span className="text-sub">
-                          ({subStatus?.current_plan})
-                        </span>
+                        <span className="text-sub">({current_plan})</span>
                       </p>
                       <h2 className="text-white text-lg sm:text-2xl font-semibold mb-2">
-                        {subStatus?.current_plan}
+                        {current_plan}
                       </h2>
                       <div>
                         <p className="text-white font-normal text-xs">
                           Time left
                         </p>
                         <div className="text-white font-digital tracking-wider font-digitalNumbers text-sm sm:text-xl font-normal">
-                          {formatTimeLeft(subStatus?.time_left)}
+                          {formatTimeLeft(time_left)}
                         </div>
                       </div>
 

@@ -98,11 +98,11 @@ const Footer = () => {
       </div>
       <hr className="md:my-16 my-10" />
       <div className="flex md:flex-row flex-col items-center justify-center">
-        <ul className="flex items-center gap-10 text-xs sm:text-base font-normal font-sfProDisplay text-white">
+        {/* <ul className="flex items-center gap-10 text-xs sm:text-base font-normal font-sfProDisplay text-white">
           <li className="cursor-pointer">Terms of Service</li>
           <li className="cursor-pointer">Privacy Policy</li>
           <li className="cursor-pointer">Cookies Policy</li>
-        </ul>
+        </ul> */}
       </div>
     </div>
   );

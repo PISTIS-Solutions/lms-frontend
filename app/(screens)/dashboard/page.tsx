@@ -40,6 +40,7 @@ import ProjectReviewNotification from "@/src/assets/svg/projectReview.svg";
 import ProjectRejected from "@/src/assets/svg/projectRejected.svg";
 import subscriptionRenewalReminder from "@/src/assets/svg/subscriptionRenewalReminder.svg";
 import NotificationModal from "@/components/side-comp/modal/notification-modal";
+import useCheckStatusStore from "@/store/checkStatus";
 
 const responsive = {
   tablet: {
@@ -197,50 +198,7 @@ const Dashboard = () => {
   //   return <p>Loading...</p>;
   // }
 
-  const [loadSub, setLoadSub] = useState(true);
-  const [subStatus, setSubStatus] = useState<any>({});
-  const getSubscription = async () => {
-    try {
-      setLoadSub(true);
-      const accessToken = Cookies.get("authToken");
-      const response = await axios.get(`${urls.subStatus}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      if (response.status === 200) {
-        setLoadSub(false);
-        setSubStatus(response?.data);
-      }
-    } catch (error: any) {
-      if (error?.response && error?.response?.status === 401) {
-        await refreshAdminToken();
-        await getSubscription();
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-    } finally {
-      setLoadSub(false);
-    }
-  };
+  const { current_plan } = useCheckStatusStore();
 
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
@@ -261,7 +219,7 @@ const Dashboard = () => {
                   </p>
                 </div>
 
-                {subStatus?.current_plan === "Intermediate" ? (
+                {current_plan === "Intermediate" ? (
                   <button
                     className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
                     onClick={() => route.push("/dashboard/payment-plan")}

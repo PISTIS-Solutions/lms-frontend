@@ -44,6 +44,7 @@ const SignIn = () => {
         password: formStore.password,
       });
 
+      console.log(response, "response from signin");
       if (response.status === 200) {
         Cookies.set("authToken", response?.data?.access, {
           sameSite: "None",
@@ -58,10 +59,10 @@ const SignIn = () => {
           sameSite: "None",
           secure: true,
         });
-        // Cookies.set("subscription_status", response.data.user.status, {
-        //   sameSite: "None",
-        //   secure: true,
-        // });
+        Cookies.set("status", response.data.user.status, {
+          sameSite: "None",
+          secure: true,
+        });
         Cookies.set("pfp", response.data.user.profile_photo, {
           sameSite: "None",
           secure: true,

@@ -5,7 +5,7 @@ export const baseURL = "https://backend.dev.pististechub.io/api/v2/auth";
 export const urls = {
   signup: `${baseURL}/users/`,
   changePassword: `${baseURL}/users/reset_password_confirm/`,
-  activateEmail: `${baseURL}/activation/`,
+  activateEmail: `${baseURL}/users/activation/`,
   signin: `${baseURL}/jwt/create/`,
   forgotPassword: `${baseURL}/users/reset_password/`,
   adminRefreshToken: `${baseURL}/jwt/refresh/`,
@@ -16,7 +16,7 @@ export const urls = {
   updateStudentProfile: `${baseURL}/users/me/`,
   setStudentPassword: `${baseURL}/users/set_password/`,
   activities: `${baseURL}/activities/`,
-  resendToken: `${baseURL}/resend_activation/`,
+  resendToken: `${baseURL}/users/resend_activation/`,
   projectReview: `${baseURL}/students/project-review/`,
   
   plans: `${baseURL}/subscriptions/payment-plans/`,
