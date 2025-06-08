@@ -167,7 +167,7 @@ const MobileNav = ({ loadSub, current_plan, time_left }: any) => {
             </div>
 
             <div>
-              {!loadSub && current_plan === "Intermediate" && (
+              {!loadSub && current_plan === "Intermidiate" && (
                 <div>
                   <div className="p-1 rounded-[8px] w-full mb-2 overflow-y-scroll">
                     <div className="space-y-2 p-2 bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">

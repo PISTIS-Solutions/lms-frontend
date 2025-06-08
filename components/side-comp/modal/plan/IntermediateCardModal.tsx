@@ -12,13 +12,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { Loader2 } from "lucide-react";
 
 const data = [
-  "Layout layer comment union underline clip scrolling",
-  "Comment union main. Main hand arrange scale",
-  "Vertical image figma. Clip thumbnail star hand",
-  "Background font font device.",
-  "Arrange bold inspect move bold",
-  "Rectangle selection comment. Image library",
-  "Figjam flows frame community text scale line.",
+  "4 one-on-one mentorship sessions per month",
+  "6 months of unlimited access",
+  "15 courses",
+  "15 projects",
+  "Group Blocker Sessions",
+  
 ];
 
 const IntermediateCardModal = () => {

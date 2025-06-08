@@ -27,11 +27,11 @@ const PaymentPlan = () => {
           className="flex items-center outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
           onClick={() => router.back()}
         >
-          <ChevronLeft size={24} /> Pricing Plan
+          <ChevronLeft size={24} />
         </button>
         <section className="text-center text-black flex justify-center items-center flex-col pt-5 pb-10 mx-auto mt-6">
           <span className="bg-[#E6F6FF] rounded-full py-2 px-6 text-main mb-8">
-            Vertical draft ellipse connection draft
+            Pricing Plans
           </span>
           <h1 className="font-semibold pb-2 md:pb-5 text-xl sm:text-xl md:text-5xl">
             We’ve got a plan that’s perfect for you.
