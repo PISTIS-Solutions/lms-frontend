@@ -65,18 +65,18 @@ const HomePage = () => {
   return (
     <div className="bg-white">
       <NavigationBar />
-      <div className=" mx-3 md:bg-none md:h-[100vh] h-[80vh]  bg-cover md:rounded-none rounded-[32px] bg-landingBck md:mx-7 lg:mx-14 relative">
+      <div className=" mx-3 md:bg-none md:h-[100vh] h-[60vh]  bg-cover md:rounded-none rounded-[32px] bg-landingBck md:mx-7 lg:mx-14 relative">
         <Image
           src={landingBck}
           alt="landing background"
           priority
-          className="w-full  object-cover hidden md:block"
+          className="w-full h-full object-cover rounded-2xl"
         />
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="md:absolute static  ml-0 lg:ml-6 my-0 lg:my-14 p-4 lg:p-10 left-0 top-0"
+          className="absolute ml-0 lg:ml-6 my-0 lg:my-14 p-4 lg:p-10 left-0 top-0"
         >
           <div className="rounded-[6px] text-white bg-white/20 block text-center md:inline-block px-4 py-1 lg:py-2 font-medium text-sm md:text-base lg:text-lg">
             🚀 Automate and Innovate
@@ -93,7 +93,7 @@ const HomePage = () => {
             Learn from top industry experts, work on real-world projects, and
             join a supportive community.
           </p>
-          <Link href="pricing">
+          <Link href="/create-account">
             <button className="bg-main rounded-[8px] hover:text-main hover:border hover:border-main transition-all ease-in duration-150 hover:bg-white font-medium text-xs md:text-sm lg:text-base py-2 lg:py-4 sm:w-auto w-full px-3 lg:px-6 text-white flex items-center justify-center sm:justify-between gap-2 cursor-pointer">
               Start Your Learning Journey Today{" "}
               <MdOutlineLaunch className="sm:w-6 w-4 h-4 sm:h-6" />

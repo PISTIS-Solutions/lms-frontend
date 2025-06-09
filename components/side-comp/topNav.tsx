@@ -8,6 +8,7 @@ import Link from "next/link";
 
 const TopNav = () => {
   const { studentData, loading, fetchStudentData } = useStudentStore();
+  
 
   useEffect(() => {
     fetchStudentData();

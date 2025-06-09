@@ -8,7 +8,7 @@ import React from "react";
 import sad from "@/src/assets/sad.png";
 import { Button } from "@/components/ui/button";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import TopNav from "@/components/side-comp/topNav";
 import Link from "next/link";
 
@@ -16,8 +16,10 @@ const LogOut = () => {
   const router = useRouter();
   const onlogOut = () => {
     Cookies.remove("authToken");
+    localStorage.removeItem("authToken");
     router.replace("/");
   };
+
 
   return (
     <main className="relative h-screen bg-[#FBFBFB]">

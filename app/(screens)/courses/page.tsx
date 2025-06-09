@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { Loader2Icon, Plus, Search } from "lucide-react";
 import CoursesCard from "@/components/side-comp/courses-card";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import TopNav from "@/components/side-comp/topNav";
 
 import { ToastContainer, toast } from "react-toastify";
@@ -76,7 +76,7 @@ const Courses = () => {
   }, []);
 
   const isEnrolled = (courseId: string) =>
-    stuData?.enrolled_courses.some(
+    stuData?.courses_enrolled?.some(
       (enrolledCourse: any) => enrolledCourse.id === courseId
     );
 
@@ -103,7 +103,7 @@ const Courses = () => {
                     id={course.id}
                     handleCardClick={handleCardClick}
                     // handleOpen={handleOpen}
-                    img={course.course_image_url}
+                    img={course.course_image}
                     title={course.title}
                     paragraph={course.paragraph}
                     duration={course.course_duration}

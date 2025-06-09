@@ -1,25 +1,38 @@
+export const baseURL = "https://backend.dev.pististechub.io/api/v2/auth";
 
-// export const baseURL = "https://backend.dev.pististechub.io/api/v1/auth";
-
-export const baseURL = process.env.NEXT_PUBLIC_API_URL;
+// export const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const urls = {
-  signup: `${baseURL}/users/student/`,
-  changePassword: `${baseURL}/users/student/reset_password_confirm/`,
-  activateEmail: `${baseURL}/users/student/activation/`,
+  signup: `${baseURL}/users/`,
+  changePassword: `${baseURL}/users/reset_password_confirm/`,
+  activateEmail: `${baseURL}/users/activation/`,
   signin: `${baseURL}/jwt/create/`,
-  forgotPassword: `${baseURL}/users/student/reset_password/`,
+  forgotPassword: `${baseURL}/users/reset_password/`,
   adminRefreshToken: `${baseURL}/jwt/refresh/`,
-  studentDashboard: `${baseURL}/users/student/dashboard/`,
-  deleteStudent: `${baseURL}/users/student/deactivate_me/`,
+  studentDashboard: `${baseURL}/students/dashboard/`,
+  deleteStudent: `${baseURL}/user/deactivate_me/`,
   courses: `${baseURL}/courses/`,
-  updateStudentProfile: `${baseURL}/users/student/me/`,
-  setStudentPassword: `${baseURL}/users/student/set_password/`,
+  enrollCourses: `${baseURL}/students/enroll/`,
+  updateStudentProfile: `${baseURL}/users/me/`,
+  setStudentPassword: `${baseURL}/users/set_password/`,
   activities: `${baseURL}/activities/`,
-  resendToken: `${baseURL}/users/student/resend_activation/`,
-  projectReview: `${baseURL}/users/student/project-review/`,
+  resendToken: `${baseURL}/users/resend_activation/`,
+  projectReview: `${baseURL}/students/project-review/`,
+  
+  plans: `${baseURL}/subscriptions/payment-plans/`,
+  makeBeginnerPayment: `${baseURL}/subscriptions/make-payment-beginner/`,
+  makeIntermediatePayment: `${baseURL}/subscriptions/make-payment-intermediate/`,
+  
+  
   getStudents: `${baseURL}/courses-and-students/`,
-  bookings: `${baseURL}/users/booking/`,
-  getSessions: `${baseURL}/users/booking/get_count/`,
-  getAllSession: `${baseURL}/users/booking/get_all/`,
+  bookings: `${baseURL}/booking-sessions/`,
+  getSessions: `${baseURL}/booking-sessions/get_count/`,
+  getAllSession: `${baseURL}/booking-sessions/`,
+
+  cohorts: `${baseURL}/cohorts/`,
+  
+  waitlist: `${baseURL}/waitlist/join_waitlist/`,
+
+  subStatus: `${baseURL}/students/StudentSubscriptionDetails/`
+  
 };

@@ -13,7 +13,7 @@ interface stuData {
   fetchStuData: () => Promise<void>;
 }
 
-const useStudentStore = create<stuData>((set, get) => ({
+const useStudentDashStore = create<stuData>((set, get) => ({
   stuData: null,
   loading: false,
   enrolled_courses: [],
@@ -27,8 +27,9 @@ const useStudentStore = create<stuData>((set, get) => ({
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log(response, "studata")
       set({ stuData: response?.data });
-      set({ enrolled_courses: response?.data?.enrolled_courses });
+      set({ enrolled_courses: response?.data?.courses_enrolled });
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
@@ -60,4 +61,4 @@ const useStudentStore = create<stuData>((set, get) => ({
   },
 }));
 
-export default useStudentStore;
+export default useStudentDashStore;

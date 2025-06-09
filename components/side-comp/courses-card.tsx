@@ -104,19 +104,25 @@ cardProps) => {
   const isLockedDisabled = isLocked;
 
   const handleEnroll = async (id: string) => {
-    setEnrolling(true);
-
+    
     try {
+      setEnrolling(true);
       const authToken = Cookies.get("authToken");
-      const enrollmentEndpoint = `${urls.courses}${id}/enroll/`;
+      const enrollmentEndpoint = `${urls.enrollCourses}`;
 
-      const response = await axios.post(enrollmentEndpoint, null, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: `Bearer ${authToken}`,
+      const response = await axios.post(
+        enrollmentEndpoint,
+        {
+          course: id,
         },
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
+      );
 
       if (response.status === 200) {
         window.location.reload();

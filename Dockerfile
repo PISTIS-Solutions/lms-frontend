@@ -1,7 +1,6 @@
 # Build stage
 FROM node:20-alpine AS build
 
-# Set working directory
 WORKDIR /app
 
 # Copy package files
@@ -13,8 +12,6 @@ RUN npm install --legacy-peer-deps
 # Copy the entire source code
 COPY . .
 
-# Debugging: List files before build
-# RUN ls -la /app
 
 # Build the app
 RUN npm run build --legacy-peer-deps
@@ -35,12 +32,11 @@ COPY --from=build /app/src/assets /app/src/assets
 COPY --from=build /app/package.json /app/package.json
 COPY --from=build /app/package-lock.json /app/package-lock.json
 
+# Copy npm from the build stage
+COPY --from=build /usr/local/bin/npm /usr/local/bin/npm
+
 # Install only production dependencies
 RUN npm install --only=production --legacy-peer-deps && npm cache clean --force
-
-# Debugging: Check final files
-# RUN ls -la /app
-
 
 # Expose the application port
 EXPOSE 3000

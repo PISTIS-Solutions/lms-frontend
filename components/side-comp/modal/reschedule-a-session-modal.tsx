@@ -142,7 +142,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
         try {
           setLoading(true);
           const accessToken = Cookies.get("authToken");
-          await axios.put(
+          await axios.patch(
             `${urls.bookings}${sessionData?.id}/reschedule/`,
             data,
             {

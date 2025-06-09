@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import { urls } from "@/utils/config";
+import { baseURL, urls } from "@/utils/config";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -21,7 +21,7 @@ const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
       setLoadSubmit(true);
       const accessToken = Cookies.get("authToken");
       const response = await axios.get(
-        `${urls.courses}${person?.course}/submissions/${person?.submission_id}/`,
+        `${baseURL}/students/${person?.course}/submissions/${person?.submission_id}/`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,

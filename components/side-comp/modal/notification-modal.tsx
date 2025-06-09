@@ -18,24 +18,7 @@ import Cookies from "js-cookie";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
-interface Activity {
-  id: string;
-  activity_type: string;
-  message: string;
-  time_since: string;
-  is_read: boolean;
-}
-
-interface NotificationModalProps {
-  "unread messages": number;
-  activities: Activity[];
-}
-
-const NotificationModal = ({
-  activities,
-}: {
-  activities: NotificationModalProps | undefined;
-}) => {
+const NotificationModal = ({ activities }: { activities: any }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => activities != undefined && setIsOpen(!isOpen);
@@ -71,7 +54,7 @@ const NotificationModal = ({
       );
       await navigation.push(link);
     } catch (error: any) {
-      console.log(error.response.data.error[0]);
+      // console.log(error.response.data.error[0]);
       if (error.response && error.response.status === 401) {
         await refreshAdminToken();
         await markAsRead(link, id);
@@ -128,13 +111,13 @@ const NotificationModal = ({
               className={`text-[#014873] text-2xl font-medium ${montserrat.className} `}
             >
               Notification{" "}
-              <span className="font-sfProDisplay text-xs text-[#9F9F9F]  relative top-[-4px]">
+              {/* <span className="font-sfProDisplay text-xs text-[#9F9F9F]  relative top-[-4px]">
                 (
                 {activities && activities["unread messages"]
                   ? activities["unread messages"]
                   : ""}{" "}
                 Unread )
-              </span>
+              </span> */}
             </h3>
             <X
               size={18}
@@ -145,11 +128,10 @@ const NotificationModal = ({
           </span>
           <ScrollArea className="w-full rounded-md h-[80vh] lg:h-[90vh] pb-10 lg:p-0">
             <div className="divide-y-[0.5px] divide-slate-200">
-              {activities === undefined ||
-              activities?.activities.length == 0 ? (
+              {activities === undefined || activities?.length == 0 ? (
                 <p className="text-center leading-[160%]">No activity yet</p>
               ) : (
-                activities?.activities.map((tag, index: number) => {
+                activities?.map((tag: any, index: number) => {
                   const activityItemLink = getActivityIconLink(
                     tag?.activity_type
                   );
@@ -182,7 +164,7 @@ const NotificationModal = ({
                             </span>
                           </div>
                           <p className="text-[#9F9F9F] text-sm">
-                            {tag?.message}
+                            {tag?.message?.activity_message ?? tag?.message}
                           </p>
                         </div>
                       </div>

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import CoursesCard from "@/components/side-comp/courses-card";
 import ProjectCard from "@/components/side-comp/project-card";
 import SideNav from "@/components/side-comp/side-nav";
@@ -77,7 +77,7 @@ const Project = () => {
   }, []);
 
   const isEnrolled = (courseId: string) =>
-    stuData?.enrolled_courses.some(
+    stuData?.courses_enrolled?.some(
       (enrolledCourse: any) => enrolledCourse.id === courseId
     );
 
@@ -108,7 +108,7 @@ const Project = () => {
                   <ProjectCard
                     id={project.id}
                     handleCardClick={handleCardClick}
-                    img={project.course_image_url}
+                    img={project.course_image}
                     title={project.title}
                     paragraph={project.paragraph}
                     module={project.module}

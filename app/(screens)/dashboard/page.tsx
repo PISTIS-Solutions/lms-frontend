@@ -7,20 +7,21 @@ import { X, ChevronsRight } from "lucide-react";
 import Image from "next/image";
 import ProjectReview from "@/components/side-comp/project-review-table";
 
-import { useRouter } from "next/navigation";
+// import { vectorb, vectorg } from "../../index";
+import TopNav from "@/components/side-comp/topNav";
+import { useRouter } from "next-nprogress-bar";
+import useStudentStore from "@/store/fetch-students";
 
 import Cookies from "js-cookie";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
-import useStudentStore from "@/store/dashboard-fetch";
+import useStudentDashStore from "@/store/dashboard-fetch";
 
 import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
-import PricingCard from "@/components/side-comp/pricing-card";
-import PaidPricing from "@/components/side-comp/paid-pricing";
 
 import totalCourseBg from "@/src/assets/svg/TotalCourse.svg";
 import books from "@/src/assets/svg/books.svg";
@@ -39,6 +40,7 @@ import ProjectReviewNotification from "@/src/assets/svg/projectReview.svg";
 import ProjectRejected from "@/src/assets/svg/projectRejected.svg";
 import subscriptionRenewalReminder from "@/src/assets/svg/subscriptionRenewalReminder.svg";
 import NotificationModal from "@/components/side-comp/modal/notification-modal";
+import useCheckStatusStore from "@/store/checkStatus";
 
 const responsive = {
   tablet: {
@@ -53,7 +55,7 @@ const responsive = {
   },
 };
 
-const getActivityIconLink = (activityType: string) => {
+const getActivityIconLink = (activityType: any) => {
   switch (activityType) {
     case "Course Enrollment Confirmation":
       return { img: CourseEnrollMent, link: "/courses" };
@@ -68,27 +70,17 @@ const getActivityIconLink = (activityType: string) => {
   }
 };
 
-interface Activity {
-  id: string;
-  activity_type: string;
-  message: string;
-  time_since: string;
-  is_read: boolean;
-}
-
-interface NotificationData {
-  "unread messages": number;
-  activities: Activity[];
-}
-
 const Dashboard = () => {
   const route = useRouter();
   //fetch dashboard data with acceess token and use refresh token to refresh expired token
   const { stuData, loading, fetchStuData, enrolled_courses } =
-    useStudentStore();
+    useStudentDashStore();
+
+  const { studentData, loading: fetchStudentData } = useStudentStore();
 
   //activities endpoint
-  const [activity, setActivities] = useState<NotificationData | undefined>();
+  const [activity, setActivities] = useState<any>();
+  // const [unread, setUnread] = useState<any>()
   const userActivity = async () => {
     try {
       const accessToken = Cookies.get("authToken");
@@ -97,12 +89,12 @@ const Dashboard = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log(response, "activity");
       if (response.status === 200) {
-        setActivities(response.data);
-        // console.log(response.data);
+        setActivities(response?.data?.activities);
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
+      if (error?.response && error?.response?.status === 401) {
         await refreshAdminToken();
         await userActivity();
       } else if (error?.message === "Network Error") {
@@ -129,6 +121,18 @@ const Dashboard = () => {
     }
   };
 
+  // const [authToken, setAuthToken] = useState<string | null>(null);
+
+  // useEffect(() => {
+  //   const token = localStorage.getItem("authToken");
+
+  //   if (!token) {
+  //     route.push("/create-account");
+  //   } else {
+  //     setAuthToken(token);
+  //   }
+  // }, [route]);
+
   const navigation = useRouter();
 
   const markAsRead = async (link: string, id: string) => {
@@ -146,7 +150,7 @@ const Dashboard = () => {
       await navigation.push(link);
     } catch (error: any) {
       // console.log(error.response.data.error[0]);
-      if (error.response && error.response.status === 401) {
+      if (error?.response && error?.response?.status === 401) {
         await refreshAdminToken();
         await markAsRead(link, id);
       } else if (error?.message === "Network Error") {
@@ -173,18 +177,28 @@ const Dashboard = () => {
     }
   };
 
+  const userName = studentData?.full_name;
+
   useEffect(() => {
     fetchStuData();
     userActivity();
   }, []);
 
-  const userName = Cookies.get("fullName");
+  const firstName = Cookies.get("firstName") || "";
+  const lastName = Cookies.get("lastName") || "";
+
   const subscriptionStatus = Cookies.get("status");
 
   const [openModal, setOpenModal] = useState<boolean>(false);
   const handleModal = () => {
     setOpenModal((prev) => !prev);
   };
+
+  // if (!authToken) {
+  //   return <p>Loading...</p>;
+  // }
+
+  const { current_plan } = useCheckStatusStore();
 
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
@@ -205,18 +219,24 @@ const Dashboard = () => {
                   </p>
                 </div>
 
-                {subscriptionStatus === "Free" && (
+                {current_plan === "Intermediate" ? (
                   <button
                     className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
-                    onClick={handleModal}
+                    onClick={() => route.push("/dashboard/payment-plan")}
+                  >
+                    Buy Custom Plan
+                  </button>
+                ) : (
+                  <button
+                    // disabled
+                    className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
+                    onClick={() => route.push("/dashboard/payment-plan")}
                   >
                     Upgrade Plan
                   </button>
                 )}
-                {/* <TopNav /> */}
               </div>
 
-              {/* Display cards in a horizontal layout for larger screens (tablet and above)  */}
               <section className="md:flex flex-wrap items-center self-stretch gap-0 md:gap-5 pr-0 md:pr-4 space-y-4 md:space-y-0 hidden">
                 <CourseOverviewCard
                   bgImage={totalCourseBg}
@@ -298,16 +318,16 @@ const Dashboard = () => {
                 {/* Display courses in a horizontal layout for larger screens (tablet and above)  */}
                 <section className="md:flex gap-4 flex-wrap hidden lg:flex-nowrap lg:justify-between">
                   {enrolled_courses && enrolled_courses?.length > 0 ? (
-                    enrolled_courses.slice(0, 3).map((data: any) => {
+                    enrolled_courses?.slice(0, 3).map((data: any) => {
                       return (
                         <div
-                          key={data.id}
+                          key={data?.id}
                           className="rounded-[8px]  my-2 lg:my-0 relative bg-white shadow-md sm:w-[242px] lg:w-[calc(33.333%-16px)] w-full min-h-[218px] p-1 font-sfProDisplay"
                         >
                           <div className="rounded-[8px] overflow-hidden h-[120px] relative w-full">
                             <Image
                               className=" object-cover w-full h-full"
-                              src={data?.course_image_url}
+                              src={data?.course_image}
                               alt={data?.title}
                               layout="fill"
                               objectFit="cover"
@@ -315,7 +335,7 @@ const Dashboard = () => {
                             />
                           </div>
                           <Link
-                            href={`/courses/${data.id}`}
+                            href={`/courses/${data?.id}`}
                             className="p-2 flex flex-col min-h-[87px] justify-between"
                           >
                             <h3 className="text-base leading-[160%]">
@@ -356,7 +376,7 @@ const Dashboard = () => {
                     swipeable={true}
                   >
                     {enrolled_courses && enrolled_courses?.length > 0 ? (
-                      enrolled_courses.slice(0, 3).map((data: any) => {
+                      enrolled_courses?.slice(0, 3).map((data: any) => {
                         return (
                           <div
                             key={data.id}
@@ -365,7 +385,7 @@ const Dashboard = () => {
                             <div className="rounded-[8px] overflow-hidden h-[120px] relative w-full">
                               <Image
                                 className=" object-cover w-full h-full"
-                                src={data?.course_image_url}
+                                src={data?.course_image}
                                 alt={data?.title}
                                 layout="fill"
                                 objectFit="cover"
@@ -422,13 +442,12 @@ const Dashboard = () => {
                 <div>
                   <ScrollArea className="w-full rounded-md h-[155px] ">
                     <div className="divide-y-[0.5px] divide-slate-200">
-                      {activity === undefined ||
-                      activity?.activities.length == 0 ? (
+                      {activity === undefined || activity?.length == 0 ? (
                         <p className="text-center leading-[160%]">
                           No activity yet
                         </p>
                       ) : (
-                        activity.activities.map((tag, index: any) => {
+                        activity.map((tag: any, index: any) => {
                           const activityItemLink = getActivityIconLink(
                             tag?.activity_type
                           );
@@ -437,19 +456,22 @@ const Dashboard = () => {
                               key={index}
                               className="flex items-center gap-3 md:gap-4 px-1 md:px-2 cursor-pointer py-2 last-of-type:pb-0 hover:bg-gray-100"
                               onClick={() =>
-                                markAsRead(activityItemLink.link, tag.id)
+                                markAsRead(activityItemLink?.link, tag?.id)
                               }
                             >
                               <div className="flex items-center gap-x-2">
                                 <Image
-                                  src={activityItemLink.img}
+                                  src={activityItemLink?.img}
                                   alt="activity icon"
                                   className="w-7 h-7 "
                                 />
 
                                 <div className="w-full">
                                   <p className="text-sm  text-ellipsis whitespace-nowrap max-w-[71vw] lg:w-[15vw] xl:w-[17vw]  overflow-hidden font-medium">
-                                    {`${tag?.activity_type}: ${tag?.message}`}
+                                    {`${tag?.activity_type}:   ${
+                                      tag?.message?.activity_message ??
+                                      tag?.message
+                                    }`}
                                   </p>
                                   <span className="text-[#999999] text-xs flex items-center gap-x-1 ">
                                     <p>{tag?.time_since}</p>
@@ -473,7 +495,7 @@ const Dashboard = () => {
                   <PieChart
                     courses_completed={stuData?.courses_completed}
                     total_courses={stuData?.total_courses}
-                    enrolled_courses={stuData?.enrolled_courses.length}
+                    enrolled_courses={stuData?.courses_enrolled?.length}
                   />
                 )}
               </div>
@@ -495,7 +517,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {openModal && (
+      {/* {openModal && (
         <div className="w-full h-screen bg-black/25 absolute top-0 flex justify-center items-center left-0">
           <div className="rounded-[8px] relative bg-white border-t-2 overflow-y-scroll w-[95vw] md:w-3/4 h-[85vh] z-[99] md:auto border-t-main ">
             <div className="text-center text-black flex justify-center items-center flex-col py-5">
@@ -509,7 +531,9 @@ const Dashboard = () => {
                 </span>
                 , send an email with payment receipt, full name and registered
                 email address to{" "}
-                <span className="font-semibold">learning.pististechub@gmail.com</span>{" "}
+                <span className="font-semibold">
+                  learning.pististechub@gmail.com
+                </span>{" "}
                 for payment confirmation. Upon confirmation, your account will
                 be upgraded in 10 minutes.
               </p>
@@ -521,12 +545,12 @@ const Dashboard = () => {
               </button>
             </div>
             <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
-              <PricingCard bool={false} />
-              <PaidPricing bool={false} />
+              <BeginnerCard />
+              <IntermediateCard />
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </main>
   );
 };

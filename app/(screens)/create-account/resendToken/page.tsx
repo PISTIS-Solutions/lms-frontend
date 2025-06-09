@@ -14,7 +14,7 @@ import {
 import { Eye, EyeOff, KeyRound, Loader2Icon, Mail } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -108,15 +108,9 @@ const ResendToken = () => {
   };
 
   return (
-    <main className="h-screen w-full flex relative">
-      <AuthImageContainer
-        avatarImage={avatarImage}
-        avatarName="Kelsey Hightower"
-        bgImg={createAccount}
-        quote="“You don’t need to be an expert to start with DevOps. The key is a willingness to learn, collaborate, and embrace automation. Every small step you take towards improving your processes brings you closer to success.”"
-      />
+    <>
       <ToastContainer />
-      <div className="bg-white w-[100%] lg:w-[50%] h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] flex flex-col justify-around px-5  md:px-6 lg:px-10 xl:px-16">
+      <div className="lg:max-w-[75.4%] flex flex-col lg:my-6 w-full gap-y-6">
         <div className="flex justify-end">
           <Image src={logo} alt="pistis_logo" className="" priority />
         </div>
@@ -163,7 +157,7 @@ const ResendToken = () => {
           </div>
         </div>
       </div>
-    </main>
+    </>
   );
 };
 

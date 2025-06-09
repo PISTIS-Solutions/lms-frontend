@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { AiOutlineUpload } from "react-icons/ai";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { urls } from "@/utils/config";
+import { baseURL, urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
@@ -40,9 +40,9 @@ const PendingModal = ({
         setLoading(true);
         const accessToken = Cookies.get("authToken");
         const response = await axios.post(
-          `${urls.courses}${cID}/submissions/`,
+          `${baseURL}/students/${cID}/submissions/`,
           {
-            project_id: bool ? projectData?.id : projectID,
+            project: bool ? projectData?.id : projectID,
             submission_link: link,
             student_comments: comment,
             status: "Submitted"

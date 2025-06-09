@@ -2,7 +2,7 @@
 import { Info } from "lucide-react";
 import React from "react";
 import "react-toastify/dist/ReactToastify.css";
-import intermediateIcon from "@/src/assets/svg/intermediateIcon.svg";
+import intermediateIcon from "@/src/assets/bolt.png";
 import stash from "@/src/assets/svg/stash.svg";
 import Image from "next/image";
 import IntermediateCardModal from "../modal/IntermediateCardModal";

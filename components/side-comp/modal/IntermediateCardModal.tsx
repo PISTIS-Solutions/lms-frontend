@@ -98,58 +98,13 @@ const IntermediateCardModal = () => {
   return (
     <>
       <button
-        className="bg-main rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
+        // disabled
+        className="bg-main cursor-pointer rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
         // onClick={() => (authToken ? toggleModal() : router.push("/pricing"))}
-        onClick={() => router.push("/pricing")}
+        onClick={() => router.push("/create-account")}
       >
-        Select Plan
+        Register Now
       </button>
-
-      <div
-        className={
-          "fixed inset-0 bg-white bg-opacity-30  transition-all ease-in-out duration-300 flex justify-center items-center z-50 " +
-          (isOpen
-            ? "opacity-100 backdrop-blur-sm"
-            : "opacity-0 backdrop-blur-none pointer-events-none")
-        }
-      >
-        <div
-          className={
-            "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-6 w-full md:max-w-[692px] flex-col py-10 " +
-            (isOpen ? "translate-y-0 scale-100" : "translate-y-full scale-50")
-          }
-          ref={modal}
-        >
-          <div className="flex flex-col items-center justify-center w-full">
-            <Image src={logo} alt="Pistis logo" />
-
-            <span className="max-w-[68%] text-center w-full">
-              <h1 className="text-main text-[32px] font-bold">
-                Intermediate Plan
-              </h1>
-              {/* TODO:change font */}
-              <p className="text-[#828282]">
-                Before proceeding to payment you are expected to have:
-              </p>
-            </span>
-          </div>
-
-          <div className="w-[80%] md:w-[532px]">
-            <ul className=" list-disc list-inside text-[#2E2E2E] mv-10">
-              {data.map((itm) => (
-                <li key={itm}>{itm}</li>
-              ))}
-            </ul>
-
-            <button
-              className="bg-main h-[50px] flex items-center justify-center w-full text-white rounded-lg font-medium mt-10"
-              onClick={() => null}
-            >
-              Proceed to Payment
-            </button>
-          </div>
-        </div>
-      </div>
     </>
   );
 };

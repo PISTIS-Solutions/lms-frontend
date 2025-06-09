@@ -28,7 +28,7 @@ const Learning = () => {
   ];
 
   return (
-    <div className="md:p-[1rem_5rem_5rem_5rem] p-[10px_6px_6px_6px] sm:p-[1rem_3rem_3rem_3rem] bg-white">
+    <div className="md:p-[1rem_5rem_5rem_5rem] p-[10px_6px_6px_6px] sm:p-[1px_3px_3px_3px] bg-white">
       <div className="flex flex-col items-center gap-y-2">
         <motion.p
           initial={{ y: -100, opacity: 0 }}
@@ -47,7 +47,7 @@ const Learning = () => {
           Enhance Your Learning Experience
         </motion.h1>
       </div>
-      <div className="flex lg:flex-row flex-col items-center justify-center md:justify-between gap-8 my-10">
+      <div className="flex lg:flex-row flex-col items-center mx-2 sm:mx-0 justify-center md:justify-between gap-8 my-10">
         {learnData.map((learn, index) => {
           return (
             <motion.div

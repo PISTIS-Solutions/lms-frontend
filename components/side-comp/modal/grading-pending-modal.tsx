@@ -7,7 +7,7 @@ import React, { useState } from "react";
 import { AiOutlineUpload } from "react-icons/ai";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { urls } from "@/utils/config";
+import { baseURL, urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
@@ -29,9 +29,9 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
         setLoading(true);
         const accessToken = Cookies.get("authToken");
         const response = await axios.patch(
-          `${urls.courses}${person?.course?.id}/submissions/${person?.submission_id}/resubmit/`,
+          `${baseURL}/students/${person?.course?.id}/submissions/${person?.submission_id}/`,
           {
-            project_id: person?.project?.id,
+            project: person?.project?.id,
             submission_link: link,
             student_comments: comment,
             status: "Submitted"
