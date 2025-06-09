@@ -36,6 +36,7 @@ const BookASessionCard = () => {
                   src={studentData?.profile_photo}
                   alt="profile-pics"
                   className=""
+                  unoptimized
                   width={64}
                   height={64}
                 />

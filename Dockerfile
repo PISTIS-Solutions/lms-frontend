@@ -16,16 +16,16 @@ COPY . .
 # Build the app
 RUN npm run build --legacy-peer-deps
 
-# RUN ls -la
+# Debugging: List files after build
 # RUN ls -la /app
-
 
 # Production stage
 FROM node:20-alpine
 
+# Set working directory
 WORKDIR /app
 
-# Copy only necessary files
+# Copy only necessary files from build stage
 COPY --from=build /app/.next /app/.next
 COPY --from=build /app/public /app/public
 COPY --from=build /app/src/assets /app/src/assets  
@@ -43,4 +43,3 @@ EXPOSE 3000
 
 # Start the application
 CMD ["npm", "start"]
-
