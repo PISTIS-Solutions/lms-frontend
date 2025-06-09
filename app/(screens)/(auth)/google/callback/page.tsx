@@ -67,6 +67,13 @@ const GoogleAuthSignUp = () => {
             path: "/",
           });
         }
+        if (userData && userData.status) {
+          Cookies.set("status", userData.status, {
+            secure: true,
+            sameSite: "None",
+            path: "/",
+          });
+        }
 
         Cookies.set("authToken", accessToken, {
           secure: true,
