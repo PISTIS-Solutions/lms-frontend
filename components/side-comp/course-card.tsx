@@ -41,6 +41,7 @@ const Coursecard = ({
           width={100}
           height={100}
           priority
+          unoptimized
           className="w-full rounded-tl-[6px] rounded-tr-[6px] h-[180px] bg-cover"
         />
       </div>
