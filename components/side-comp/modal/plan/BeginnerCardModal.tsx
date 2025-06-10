@@ -161,6 +161,7 @@ const BeginnerCardModal = () => {
 
   const [joining, setJoining] = useState(false);
   const [email, setEmail] = useState("");
+  
   const joinWaitlist = async () => {
     try {
       setJoining(true);
