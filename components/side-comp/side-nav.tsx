@@ -165,7 +165,7 @@ const SideNav = () => {
             {(current_plan === "Intermediate") && !loadSub && (
               <div>
                 <div className="p-1 rounded-[8px] w-full mb-2 overflow-y-scroll">
-                  <div className="space-y-2 p-2 bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">
+                  <div className="space-y-2 p-2 flex flex-col h-auto 2xl:h-[300px] justify-around  bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">
                     <p className="text-white font-normal text-sm">
                       Current Plan{" "}
                       <span className="text-sub">
