@@ -52,7 +52,7 @@ const LandingCourses = () => {
                     key={course.id}
                     id={course.id}
                     index={index}
-                    image={course.course_image_url}
+                    image={course.course_image}
                     header={course.title}
                     moduleCount={course.module_count}
                     duration={course.course_duration}
