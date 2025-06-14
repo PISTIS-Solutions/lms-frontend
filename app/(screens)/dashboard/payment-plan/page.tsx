@@ -7,6 +7,7 @@ import PlanNav from "@/components/side-comp/pricing/PlanNav";
 import { useEffect, useState } from "react";
 import { usePlanStore } from "@/store/plan-store";
 import { useRouter } from "next-nprogress-bar";
+import useCheckStatusStore from "@/store/checkStatus";
 
 const PaymentPlan = () => {
   const { fetchPlans, isLoading } = usePlanStore();
@@ -17,7 +18,7 @@ const PaymentPlan = () => {
     fetchPlans();
   }, [fetchPlans]);
 
-
+  const { current_plan } = useCheckStatusStore();
 
   return (
     <div className="w-full min-h-screen bg-white flex justify-center items-center flex-col">
@@ -69,10 +70,16 @@ const PaymentPlan = () => {
           </button>
         </section> */}
 
-        <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:justify-between">
+        <div className="flex flex-wrap items-center justify-center pb-5 gap-2">
           {/* <BeginnerCard /> */}
-          <IntermediateCard />
-          <AdvanceCard />
+          {current_plan === "Intermediate" ? (
+            <AdvanceCard />
+          ) : (
+            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-between">
+              <IntermediateCard />
+              <AdvanceCard />
+            </div>
+          )}
         </div>
       </div>
     </div>
