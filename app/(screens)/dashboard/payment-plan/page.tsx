@@ -21,11 +21,11 @@ const PaymentPlan = () => {
   const { current_plan } = useCheckStatusStore();
 
   return (
-    <div className="w-full min-h-screen bg-white flex justify-center items-center flex-col">
+    <div className="w-full min-h-screen relative bg-white flex justify-center items-center flex-col">
       {/* <PlanNav /> */}
-      <div className="max-w-screen-xl px-6 mt-6">
+      <div className="max-w-screen-xl  px-6 mt-6">
         <button
-          className="flex items-center outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
+          className="flex items-center absolute top-2 left-2 outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
           onClick={() => router.back()}
         >
           <ChevronLeft size={24} />
