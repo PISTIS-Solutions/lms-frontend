@@ -168,12 +168,12 @@ const SideNav = () => {
                   <div className="space-y-2 2xl:space-y-6 p-2 flex flex-col h-auto justify-around  bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">
                     <p className="text-white font-normal 2xl:text-2xl text-sm">
                       Current Plan{" "}
-                      <span className="text-sub">
-                        ({current_plan ? current_plan : "Free"})
-                      </span>
+                      {/* <span className="text-sub">
+                        ({current_plan === "Intermediate" ? current_plan : "Free"})
+                      </span> */}
                     </p>
-                    <h2 className="text-white 2xl:text-3xl text-xl font-semibold mb-2">
-                      {current_plan ? current_plan : "Free"}
+                    <h2 className="text-white text-center 2xl:text-3xl text-xl font-semibold mb-2">
+                      {current_plan === "Intermediate" ? current_plan : "Free"}
                     </h2>
                     {current_plan === "Intermediate" ? (
                       <div>
