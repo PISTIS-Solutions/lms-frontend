@@ -7,6 +7,7 @@ import PlanNav from "@/components/side-comp/pricing/PlanNav";
 import { useEffect, useState } from "react";
 import { usePlanStore } from "@/store/plan-store";
 import { useRouter } from "next-nprogress-bar";
+import useCheckStatusStore from "@/store/checkStatus";
 
 const PaymentPlan = () => {
   const { fetchPlans, isLoading } = usePlanStore();
@@ -17,14 +18,14 @@ const PaymentPlan = () => {
     fetchPlans();
   }, [fetchPlans]);
 
-
+  const { current_plan } = useCheckStatusStore();
 
   return (
-    <div className="w-full min-h-screen bg-white flex justify-center items-center flex-col">
+    <div className="w-full min-h-screen relative bg-white flex justify-center items-center flex-col">
       {/* <PlanNav /> */}
-      <div className="max-w-screen-xl px-6 mt-6">
+      <div className="max-w-screen-xl  px-6 mt-6">
         <button
-          className="flex items-center outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
+          className="flex items-center absolute top-2 left-2 outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
           onClick={() => router.back()}
         >
           <ChevronLeft size={24} />
@@ -69,10 +70,16 @@ const PaymentPlan = () => {
           </button>
         </section> */}
 
-        <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:justify-between">
+        <div className="flex flex-wrap items-center justify-center pb-5 gap-2">
           {/* <BeginnerCard /> */}
-          <IntermediateCard />
-          <AdvanceCard />
+          {current_plan === "Intermediate" ? (
+            <AdvanceCard />
+          ) : (
+            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-between">
+              <IntermediateCard />
+              <AdvanceCard />
+            </div>
+          )}
         </div>
       </div>
     </div>

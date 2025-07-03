@@ -107,60 +107,47 @@ const BeginnerCardModal = () => {
 
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
-  const checkStatus = async () => {
-    try {
-      setChecking(true);
-      const response = await axios.get(`${urls.cohorts}latest_status`);
-      if (response.status === 200 && response.data) {
-        setWaitListStatus(response.data.status || "");
-        setWaitListRegSta(response.data.registration_status || "");
-      } else {
-        setWaitListStatus("");
-        setWaitListRegSta("");
+ const checkStatus = async () => {
+  try {
+    setChecking(true);
+    
+    // Append timestamp to bypass preflight cache issues
+    const response = await axios.get(
+      `${urls.cohorts}latest_status?ts=${Date.now()}`,
+      {
+        withCredentials: true, // include if backend sets cookies/auth headers
       }
-    } catch (error: any) {
+    );
+
+    if (response.status === 200 && response.data) {
+      setWaitListStatus(response.data.status || "");
+      setWaitListRegSta(response.data.registration_status || "");
+    } else {
       setWaitListStatus("");
       setWaitListRegSta("");
-
-      if (error.response && error.response.status === 404) {
-        // Handle 404 error more gracefully
-        toast.error("The requested cohort status is not available.", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else if (error?.response?.data?.detail) {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-    } finally {
-      setChecking(false);
     }
-  };
+  } catch (error: any) {
+    setWaitListStatus("");
+    setWaitListRegSta("");
+
+    if (error.response && error.response.status === 404) {
+      toast.error("The requested cohort status is not available.", { position: "top-right", autoClose: 5000, theme: "dark" });
+    } else if (error?.message === "Network Error") {
+      toast.error("Check your network!", { position: "top-right", autoClose: 5000, theme: "dark" });
+    } else if (error?.response?.data?.detail) {
+      toast.error(error?.response?.data?.detail, { position: "top-right", autoClose: 5000, theme: "dark" });
+    } else if (error?.message?.includes("CORS")) {
+      toast.error("CORS error — try clearing cache or switching browser.", { position: "top-right", autoClose: 5000, theme: "dark" });
+    }
+  } finally {
+    setChecking(false);
+  }
+};
+
 
   const [joining, setJoining] = useState(false);
   const [email, setEmail] = useState("");
+  
   const joinWaitlist = async () => {
     try {
       setJoining(true);

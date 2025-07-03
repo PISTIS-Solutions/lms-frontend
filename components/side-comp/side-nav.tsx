@@ -128,8 +128,8 @@ const SideNav = () => {
 
     return (
       <>
-        {days} <span className="text-xs">Days</span> : {hours}{" "}
-        <span className="text-xs">Hrs</span> : {minutes}{" "}
+        {days}<span className="text-xs">Days</span> : {hours}
+        <span className="text-xs">Hrs</span> : {minutes}
         <span className="text-xs">Mins</span>
       </>
     );
@@ -162,27 +162,33 @@ const SideNav = () => {
           </div>
           {/* subscription countdown */}
           <div className="">
-            {(current_plan === "Intermidiate") && !loadSub && (
+            {!loadSub && (
               <div>
                 <div className="p-1 rounded-[8px] w-full mb-2 overflow-y-scroll">
-                  <div className="space-y-2 p-2 bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">
-                    <p className="text-white font-normal text-sm">
+                  <div className="space-y-2 2xl:space-y-6 p-2 flex flex-col h-auto justify-around  bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">
+                    <p className="text-white font-normal 2xl:text-2xl text-sm">
                       Current Plan{" "}
-                      <span className="text-sub">
-                        ({current_plan ? current_plan : "Free"})
-                      </span>
+                      {/* <span className="text-sub">
+                        ({current_plan === "Intermediate" ? current_plan : "Free"})
+                      </span> */}
                     </p>
-                    <h2 className="text-white text-xl font-semibold mb-2">
-                      {current_plan}
+                    <h2 className="text-white text-center 2xl:text-3xl text-xl font-semibold mb-2">
+                      {current_plan === "Intermediate" ? current_plan : "Free"}
                     </h2>
-                    <div>
-                      <p className="text-white font-normal text-xs">
-                        Time left
-                      </p>
-                      <div className="text-white font-digital tracking-wider font-digitalNumbers text-xl font-normal">
-                        {formatTimeLeft(time_left)}
+                    {current_plan === "Intermediate" ? (
+                      <div>
+                        <p className="text-white font-normal 2xl:text-xl text-xs">
+                          Time left
+                        </p>
+                        <div className="text-white font-digital tracking-wider font-digitalNumbers 2xl:text-2xl text-xl font-normal">
+                          {current_plan === "Intermediate"
+                            ? formatTimeLeft(time_left)
+                            : ""}
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>
