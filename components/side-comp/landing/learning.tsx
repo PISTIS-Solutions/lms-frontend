@@ -28,7 +28,7 @@ const Learning = () => {
   ];
 
   return (
-    <div className="md:p-[1rem_5rem_5rem_5rem] p-[10px_6px_6px_6px] sm:p-[1px_3px_3px_3px] bg-white">
+    <div className="md:p-[1rem_5rem_5rem_5rem] p-[10px_10px_10px_10px] sm:p-[1px_10px_10px_10px] bg-white">
       <div className="flex flex-col items-center gap-y-2">
         <motion.p
           initial={{ y: -100, opacity: 0 }}
