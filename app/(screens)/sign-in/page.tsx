@@ -44,6 +44,7 @@ const SignIn = () => {
         password: formStore.password,
       });
 
+      console.log(response, "response from signin");
       if (response.status === 200) {
         Cookies.set("authToken", response?.data?.access, {
           sameSite: "None",
@@ -58,10 +59,10 @@ const SignIn = () => {
           sameSite: "None",
           secure: true,
         });
-        // Cookies.set("subscription_status", response.data.user.status, {
-        //   sameSite: "None",
-        //   secure: true,
-        // });
+        Cookies.set("status", response.data.user.status, {
+          sameSite: "None",
+          secure: true,
+        });
         Cookies.set("pfp", response.data.user.profile_photo, {
           sameSite: "None",
           secure: true,
@@ -150,7 +151,7 @@ const SignIn = () => {
           </div>
         </div>
         <div className="flex justify-center w-full md:w-1/2 overflow-y-scroll h-screen">
-          <div className="bg-white w-[100%]  h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] flex flex-col gap-y-6 lg:gap-y-10 px-5  md:px-6 lg:px-10">
+          <div className="bg-white w-[100%]  h-screen rounded-none lg:rounded-tl-[40px] lg:rounded-bl-[40px] flex flex-col justify-center gap-y-6 lg:gap-y-10 px-5  md:px-6 lg:px-10">
             <div className="">
               <div className="flex justify-end">
                 <Image src={logo} alt="pistis_logo" className="" priority />

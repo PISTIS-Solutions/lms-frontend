@@ -110,10 +110,10 @@ const PaymentVerification = () => {
                 again to proceed
               </p>
               <button
-                onClick={() => router.push("/sign-in")}
+                onClick={() => router.push("/")}
                 className="mt-6 bg-green-600 hover:bg-green-700 text-white px-5 py-2 rounded-lg"
               >
-                Sign In
+                Continue!
               </button>
             </div>
           ) : (
@@ -130,7 +130,7 @@ const PaymentVerification = () => {
                 onClick={() => router.push("/pricing")}
                 className="mt-6 bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg"
               >
-                Go back!
+                Continue!
               </button>
             </div>
           )}

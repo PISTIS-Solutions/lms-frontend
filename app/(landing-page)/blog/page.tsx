@@ -8,6 +8,7 @@ import blogBack from "@/src/assets/blogBack.png";
 import NavigationBar from "@/components/side-comp/nav";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import Footer from "@/components/side-comp/landing/footer";
+import blogImg from "@/src/assets/blogImg.png";
 
 import blogImg from "@/src/assets/blogImg.png";
 

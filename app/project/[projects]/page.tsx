@@ -99,6 +99,7 @@ const SingleProject = () => {
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
+      <ToastContainer/>
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-between items-center bg-white shadow-md p-4 w-full">
           <ArrowLeft

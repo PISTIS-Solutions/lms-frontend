@@ -22,6 +22,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import refreshAdminToken from "@/utils/refreshToken";
 import { useRouter } from "next-nprogress-bar";
+import useCheckStatusStore from "@/store/checkStatus";
 
 const SideNav = () => {
   const navTexts = [
@@ -108,58 +109,15 @@ const SideNav = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleModal = () => setIsOpen(!isOpen);
   const { fetchSession, loading, data } = useFetchStudentSessionStore();
-
-  const [loadSub, setLoadSub] = useState(true);
-  const [subStatus, setSubStatus] = useState<any>({});
-  const getSubscription = async () => {
-    try {
-      setLoadSub(true);
-      const accessToken = Cookies.get("authToken");
-      const response = await axios.get(`${urls.subStatus}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      if (response.status === 200) {
-        setLoadSub(false);
-        setSubStatus(response.data);
-      }
-    } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await getSubscription();
-      } else if (error.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-    } finally {
-      setLoadSub(false);
-    }
-  };
+  const { checkStatus, current_plan, time_left, loadSub } =
+    useCheckStatusStore();
 
   useEffect(() => {
     fetchSession();
-    getSubscription();
+    checkStatus();
   }, []);
 
-  const formatTimeLeft = (timeStr: string) => {
+  const formatTimeLeft = (timeStr: string | null) => {
     const dayMatch = timeStr?.match(/(\d+)\s+day/);
     const hourMatch = timeStr?.match(/(\d+)\s+hour/);
     const minuteMatch = timeStr?.match(/(\d+)\s+minute/);
@@ -170,8 +128,8 @@ const SideNav = () => {
 
     return (
       <>
-        {days} <span className="text-xs">Days</span> : {hours}{" "}
-        <span className="text-xs">Hrs</span> : {minutes}{" "}
+        {days}<span className="text-xs">Days</span> : {hours}
+        <span className="text-xs">Hrs</span> : {minutes}
         <span className="text-xs">Mins</span>
       </>
     );
@@ -202,37 +160,35 @@ const SideNav = () => {
               );
             })}
           </div>
-
           {/* subscription countdown */}
           <div className="">
-            {!loadSub && subStatus && (
+            {!loadSub && (
               <div>
                 <div className="p-1 rounded-[8px] w-full mb-2 overflow-y-scroll">
-                  <div className="space-y-2 p-2 bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">
-                    <p className="text-white font-normal text-sm">
+                  <div className="space-y-2 2xl:space-y-6 p-2 flex flex-col h-auto justify-around  bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">
+                    <p className="text-white font-normal 2xl:text-2xl text-sm">
                       Current Plan{" "}
-                      <span className="text-sub">
-                        ({subStatus?.current_plan})
-                      </span>
+                      {/* <span className="text-sub">
+                        ({current_plan === "Intermediate" ? current_plan : "Free"})
+                      </span> */}
                     </p>
-                    <h2 className="text-white text-xl font-semibold mb-2">
-                      {subStatus?.current_plan}
+                    <h2 className="text-white text-center 2xl:text-3xl text-xl font-semibold mb-2">
+                      {current_plan === "Intermediate" ? current_plan : "Free"}
                     </h2>
-                    <div>
-                      <p className="text-white font-normal text-xs">
-                        Time left
-                      </p>
-                      <div className="text-white font-digital tracking-wider font-digitalNumbers text-xl font-normal">
-                        {formatTimeLeft(subStatus?.time_left)}
+                    {current_plan === "Intermediate" ? (
+                      <div>
+                        <p className="text-white font-normal 2xl:text-xl text-xs">
+                          Time left
+                        </p>
+                        <div className="text-white font-digital tracking-wider font-digitalNumbers 2xl:text-2xl text-xl font-normal">
+                          {current_plan === "Intermediate"
+                            ? formatTimeLeft(time_left)
+                            : ""}
+                        </div>
                       </div>
-                    </div>
-
-                    {/* <button
-                      className="w-full h-[46px] font-medium bg-sub hover:bg-opacity-20 transition-colors rounded-[6px] text-white text-xs lg:text-base"
-                      onClick={() => router.push("/dashboard/pricing")}
-                    >
-                      Upgrade Plan
-                    </button> */}
+                    ) : (
+                      ""
+                    )}
                   </div>
                 </div>
               </div>
@@ -262,7 +218,7 @@ const SideNav = () => {
 
           {/* Help & Logout */}
           <div>
-            <Link href="/help">
+            <Link href="#">
               <div
                 className={`link flex items-center pl-5 gap-3 text-center transition duration-150 ease-in-out cursor-pointer my-1 py-3 
                   ${
@@ -294,7 +250,11 @@ const SideNav = () => {
 
       {/* Mobile Navigation */}
       <div className="lg:hidden block">
-        <MobileNav loadSub={loadSub} subStatus={subStatus} />
+        <MobileNav
+          loadSub={loadSub}
+          current_plan={current_plan}
+          time_left={time_left}
+        />
       </div>
     </div>
   );

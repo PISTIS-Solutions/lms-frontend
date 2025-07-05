@@ -10,6 +10,7 @@ import Benefits from "@/components/side-comp/landing/benefits";
 import Slides from "@/components/side-comp/landing/slides";
 import Learning from "@/components/side-comp/landing/learning";
 import Footer from "@/components/side-comp/landing/footer";
+import aboutImg from "@/src/assets/abtImage.png";
 
 import missionBg from "@/src/assets/missionBg.png";
 import aboutImg from "@/src/assets/abtImage.png";
@@ -61,7 +62,7 @@ const AboutUs = () => {
             🚀 Automate and Innovate
           </div>
 
-          <h1 className="lg:text-5xl text-2xl md:text-4xl font-normal py-2 lg:py-4 text-white sm:text-left max-w-full md:max-w-[740px] text-center">
+          <h1 className="lg:text-4xl text-2xl md:text-3xl font-normal py-2 lg:py-4 text-white sm:text-left max-w-full md:max-w-[740px] text-center">
             Discover Our Mission to
             <span className=" relative"> Empower Larners and Shape</span> <br />
             the Future of Education
