@@ -18,6 +18,9 @@ import Benefits from "@/components/side-comp/landing/benefits";
 import Slides from "@/components/side-comp/landing/slides";
 import Learning from "@/components/side-comp/landing/learning";
 import Link from "next/link";
+import Sponsors from "@/components/side-comp/landing/Sponsors";
+import OurMentors from "@/components/side-comp/landing/mentors";
+import ScholarshipModal from "@/components/side-comp/modal/scholarship-modal";
 
 const HomePage = () => {
   //faq
@@ -62,10 +65,11 @@ const HomePage = () => {
     },
   ];
 
+  const [openScholarshipModal, setOpenScholarshipModal] = useState(false);
   return (
     <div className="bg-white">
       <NavigationBar />
-      <div className=" mx-3 md:bg-none md:h-[100vh] h-[60vh]  bg-cover md:rounded-none rounded-[32px] bg-landingBck md:mx-7 lg:mx-14 relative">
+      <div className=" mx-3 md:bg-none h-[100vh] bg-cover md:rounded-none rounded-[32px] bg-landingBck md:mx-7 xl:mx-14 relative">
         <Image
           src={landingBck}
           alt="landing background"
@@ -76,31 +80,91 @@ const HomePage = () => {
           initial={{ opacity: 0, scale: 0.5 }}
           whileInView={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
-          className="absolute ml-0 lg:ml-6 my-0 lg:my-14 p-4 lg:p-10 left-0 top-0"
+          className="absolute ml-0 xl:ml-6 my-0 xl:my-4 p-4 xl:p-5 left-0 top-0"
         >
-          <div className="rounded-[6px] text-white bg-white/20 block text-center md:inline-block px-4 py-1 lg:py-2 font-medium text-sm md:text-base lg:text-lg">
-            🚀 Automate and Innovate
+          <div className="rounded-[6px] text-white bg-white/20 block text-center md:inline-block px-4 py-1 xl:py-2 font-medium text-xs md:text-sm xl:text-lg">
+            🚀 Pistis Sprint & Slash DevOps Challenge
           </div>
 
-          <h1 className="lg:text-5xl text-2xl md:text-4xl font-normal py-2 lg:py-4 text-white sm:text-left text-center">
-            Become a <br />{" "}
-            <span className="font-medium text-3xl md:text-5xl lg:text-6xl relative underline-custom">
-              DevOps Engineer
-            </span>{" "}
-            <br /> Faster Than You Think
+          <h1 className="xl:text-5xl text-2xl md:text-4xl font-normal py-2 xl:py-4 text-white sm:text-left text-center">
+            {/* DevOps Engineering <br />{" "} */}
+            <span className="relative font-medium text-3xl md:text-5xl xl:text-7xl inline-block">
+              {/* Your Hustle. Your Path. Your Discount. */}
+              <p>Your Path</p>
+              <p>Yout Hustle</p>
+              <p>Your discount</p>
+              <svg
+                className="absolute left-0 bottom-0 w-full h-2"
+                viewBox="50 0 200 10"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="none" // optional: helps with resizing
+              >
+                <path
+                  d="M0 5 C50 10, 150 0, 200 5"
+                  stroke="#EF476F"
+                  strokeWidth="3"
+                  fill="transparent"
+                />
+              </svg>
+              <svg
+                className="absolute left-2 bottom-1 w-[90%] h-2"
+                viewBox="0 0 200 10"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                preserveAspectRatio="none" // optional: helps with resizing
+              >
+                <path
+                  d="M0 5 C50 10, 150 0, 200 5"
+                  stroke="#EF476F"
+                  strokeWidth="3"
+                  fill="transparent"
+                />
+              </svg>
+            </span>
           </h1>
-          <p className="lg:text-base text-xs sm:text-left text-center md:text-sm font-normal max-w-[581px] pb-2 lg:pb-4 text-white">
-            Learn from top industry experts, work on real-world projects, and
-            join a supportive community.
+          <p className="xl:text-base text-xs sm:text-left text-center md:text-sm font-normal max-w-[581px] pb-2 text-white">
+            Are you eager to launch a career in DevOps but limited by cost? The
+            Sprint & Slash Challenge is your shot to earn a massive discount on
+            our premium DevOps training—by showing your consistency, curiosity,
+            and commitment.
           </p>
-          <Link href="/create-account">
-            <button className="bg-main rounded-[8px] hover:text-main hover:border hover:border-main transition-all ease-in duration-150 hover:bg-white font-medium text-xs md:text-sm lg:text-base py-2 lg:py-4 sm:w-auto w-full px-3 lg:px-6 text-white flex items-center justify-center sm:justify-between gap-2 cursor-pointer">
-              Start Your Learning Journey Today{" "}
-              <MdOutlineLaunch className="sm:w-6 w-4 h-4 sm:h-6" />
-            </button>
-          </Link>
+          <div className="mb-2">
+            <p className="text-white font-bold text-xs sm:text-sm">
+              What's Included?
+            </p>
+            <div className="flex flex-wrap w-full sm:w-[60%] gap-2">
+              {[
+                "Hands-on projects",
+                "Career mentorship",
+                "Expert-led training",
+                "Networking with industry leaders",
+                "Community Support",
+                "Certification",
+              ].map((text, index) => (
+                <div
+                  key={index}
+                  className="text-white text-[10px] sm:text-base font-medium bg-white/15 rounded-md py-2 px-4 text-center"
+                >
+                  {text}
+                </div>
+              ))}
+            </div>
+          </div>
+          {/* <Link href="/create-account"> */}
+          <button
+            onClick={() => {
+              setOpenScholarshipModal(true);
+            }}
+            className="bg-[#FF1456] rounded-[8px] hover:text-main hover:border hover:border-main transition-all ease-in duration-150 hover:bg-white font-medium text-xs md:text-sm xl:text-base py-2 lg:py-4 sm:w-auto w-full px-3 lg:px-6 text-white flex items-center justify-center sm:justify-between gap-2 cursor-pointer"
+          >
+            Join the Sprint & Slash Challenge{" "}
+            <MdOutlineLaunch className="sm:w-6 w-4 h-4 sm:h-6" />
+          </button>
+          {/* </Link> */}
         </motion.div>
       </div>
+      <Sponsors />
       <Benefits />
       <div className=" overflow-x-hidden block lg:flex items-center justify-center lg:justify-between gap-10 md:gap-20 p-4 md:p-20 bg-main bg-curve bg-bottom bg-contain bg-no-repeat">
         <motion.div
@@ -157,6 +221,7 @@ const HomePage = () => {
         </motion.div>
       </div>
       <Slides />
+      <OurMentors />
       <Learning />
       <LandingPayment />
       <div
@@ -256,6 +321,16 @@ const HomePage = () => {
         </motion.div>
       </div>
       <Footer />
+      {openScholarshipModal && (
+        <div
+          onClick={() => {
+            setOpenScholarshipModal(false);
+          }}
+          className="w-full h-full flex justify-center items-center fixed top-0 left-0 bg-[rgba(255,255,255,0.3)] backdrop-blur-lg z-50"
+        >
+          <ScholarshipModal setOpenScholarshipModal={setOpenScholarshipModal} />
+        </div>
+      )}
     </div>
   );
 };

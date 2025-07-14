@@ -8,36 +8,60 @@ import rate from "@/src/assets/svg/rate.svg";
 
 import { BsCartPlus } from "react-icons/bs";
 import { useRouter } from "next-nprogress-bar";
+import { motion } from "framer-motion";
 
-const CustomCard = () => {
+interface Componentprops {
+  image: any;
+  header: String;
+  index: number;
+  id: any;
+  moduleCount: number;
+  duration: any;
+}
+
+const CustomCard = ({
+  image,
+  header,
+  index,
+  id,
+  moduleCount,
+  duration,
+}: Componentprops) => {
   const router = useRouter();
-  const id = 1;
+  // const id = 1;
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, scale: 0.5 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
+      key={id}
       onClick={() => router.push(`custom-pricing/${id}`)}
-      className="max-w-[416px] h-[325px] bg-white rounded-[8px] p-2"
+      className="max-w-[416px] h-auto bg-white rounded-[8px] p-2"
     >
       <div className=" rounded-tl-[8px] rounded-tr-[8px]">
         <Image
-          src={customImg}
-          className="w-full h-1/2"
-          alt="custom-card-image"
+          src={image}
+          alt="img"
+          width={100}
+          height={100}
+          priority
+          className="w-full rounded-tl-[6px] rounded-tr-[6px] h-[180px] bg-cover"
         />
       </div>
       <div className="p-2 flex flex-col justify-between">
         <div>
-          <h3 className="text-base font-semibold text-[#2E2E2E]">
-            Introduction to DevOps Practices Mastering Continuous Integration
-          </h3>
+          <h3 className="text-base font-semibold text-[#2E2E2E]">{header}</h3>
           <div className="flex items-center justify-between py-3">
             <div className="flex items-center gap-x-[8px]">
               <span className="bg-[#E6F6FF] rounded py-1 px-2 flex items-center justify-between">
                 <Image alt="note" src={note} className="w-4 h-4" />
-                <p className="text-[#014873] font-normal text-sm">12 modules</p>
+                <p className="text-[#014873] font-normal text-sm">
+                  {moduleCount} modules
+                </p>
               </span>
               <span className="bg-[#E6F6FF] rounded py-1 px-2 flex items-center justify-between">
                 <Image alt="note" src={timer} className="w-4 h-4" />
-                <p className="text-[#014873] font-normal text-sm">85hr 43min</p>
+                <p className="text-[#014873] font-normal text-sm">{duration}</p>
               </span>
             </div>
             <div className="flex items-center gap-x-2">
@@ -57,7 +81,7 @@ const CustomCard = () => {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,17 +1,23 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, Search, ShoppingCart } from "lucide-react";
+import { ChevronLeft, Loader2Icon, Search, ShoppingCart } from "lucide-react";
 
 import pistis from "@/src/assets/full-logo.png";
 import { useRouter } from "next-nprogress-bar";
 import CustomCard from "@/components/side-comp/custom-card";
+import useStudentsStore from "@/store/fetch-students-landing";
 
 const CustomPayment = () => {
   const router = useRouter();
+  const { students, fetchStudents, loading } = useStudentsStore();
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
   return (
     <div className="bg-slate-50 h-[100%]">
       <div className="bg-main px-20 h-[98px] flex items-center justify-between">
@@ -64,12 +70,31 @@ const CustomPayment = () => {
         </div>
 
         <div className="grid grid-cols-3 justify-between gap-5">
-          <CustomCard />
-          <CustomCard />
-          <CustomCard />
-          <CustomCard />
-          <CustomCard />
-          <CustomCard />
+          {loading ? (
+            <span className="text-main w-full flex items-center justify-center">
+              <Loader2Icon className="animate-spin" />
+              <p className="text-lg text-center md:text-xl">Loading...</p>
+            </span>
+          ) : students?.course_details &&
+            students?.course_details.length > 0 ? (
+            students?.course_details.map((course: any, index: number) => {
+              return (
+                <CustomCard
+                  key={course.id}
+                  id={course.id}
+                  index={index}
+                  image={course.course_image}
+                  header={course.title}
+                  moduleCount={course.module_count}
+                  duration={course.course_duration}
+                />
+              );
+            })
+          ) : (
+            <p className="text-center w-full lg:text-xl font-semibold absolute text-main text-sm">
+              No course available yet!
+            </p>
+          )}
         </div>
       </div>
 
