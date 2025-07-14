@@ -8,12 +8,18 @@ import blogBack from "@/src/assets/blogBack.png";
 import NavigationBar from "@/components/side-comp/nav";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import Footer from "@/components/side-comp/landing/footer";
+import blogImg from "@/src/assets/blogImg.png";
+
+import blogImg from "@/src/assets/blogImg.png";
 
 const Blog = () => {
   return (
     <div className="bg-white">
       <NavigationBar />
-      <div className=" h-[50vh] md:h-auto mx-3 md:bg-none bg-blogImg bg-cover md:rounded-none rounded-[32px] md:mx-7 lg:mx-14 relative">
+      <div
+        style={{ backgroundImage: `url(${blogImg.src})` }}
+        className=" h-[50vh] md:h-auto mx-3 md:bg-none bg-cover md:rounded-none rounded-[32px] md:mx-7 lg:mx-14 relative"
+      >
         <Image
           src={blogBack}
           alt="landing background"

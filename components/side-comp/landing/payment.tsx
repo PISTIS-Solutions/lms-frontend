@@ -2,13 +2,13 @@ import React from "react";
 
 import { motion } from "framer-motion";
 
-import BeginnerCard from "@/components/side-comp/price/BeginnerCard";
+import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
 import IntermediateCard from "@/components/side-comp/price/IntermediateCard";
 import AdvanceCard from "@/components/side-comp/pricing/AdvanceCard";
 
 const LandingPayment = () => {
   return (
-    <div className="md:p-[0_5rem_5rem_5rem] p-[0_6px_6px_6px] sm:p-[0_3rem_3rem_3rem] bg-white">
+    <div className="md:p-[0_5rem_5rem_5rem] p-[0_10px_10px_10px] sm:p-[0_3rem_3rem_3rem] bg-white">
       <div className="flex flex-col items-center gap-y-2">
         <motion.p
           initial={{ y: -100, opacity: 0 }}

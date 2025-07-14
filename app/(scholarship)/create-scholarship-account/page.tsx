@@ -24,13 +24,12 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
 import { countriesWithPhoneCodes } from "@/data";
-import axios from "axios";
 
 const containsSpecialChars = "Password must contain special characters";
 const differentPassword =
   "Password and Confirm password contains different characters";
 
-const SignUp = () => {
+const ScholarshipSignUp = () => {
   const formStore = useFormStore();
   const [specialCharacterErr, setSpecialCharacterErr] = useState();
   const [loading, setLoading] = useState<boolean>();
@@ -49,21 +48,40 @@ const SignUp = () => {
       } else {
         try {
           setLoading(true);
-          const response = await axios.post(urls.signup, {
-            first_name: formStore.firstName,
-            last_name: formStore.lastName,
-            email: formStore.email,
-            phone_number: `+234${formStore.Phone}`,
-            // location: formStore.location,
-            password: formStore.password,
-            re_password: formStore.confirm,
-          });
-          console.log(response, "rez");
-          if (response.status === 201) {
+          const response = await fetch(
+            `${baseURL}/users/challenge-user/register/`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                first_name: formStore.firstName,
+                last_name: formStore.lastName,
+                email: formStore.email,
+                phone_number: `+234${formStore.Phone}`,
+                // location: formStore.location,
+                password: formStore.password,
+                re_password: formStore.confirm,
+              }),
+            }
+          );
+        //   console.log(response, "challenger");
+          if (response.ok) {
             // setModal(true);
             // router.push("/create-account/activate/[uid]");
             localStorage.setItem("email", formStore.email);
-            toast.success("Check email for validation!", {
+            toast.success("Challenge user register!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              theme: "dark",
+            });
+          } else {
+            toast.error("This email address has been registered!", {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -74,63 +92,8 @@ const SignUp = () => {
             });
           }
         } catch (error: any) {
-          const passwordErrors = error?.response?.data?.password;
-          const emailErrors = error?.response?.data?.email;
-          const phoneError = error?.response?.data?.phone_number;
-
           if (error.message === containsSpecialChars) {
             setError(error.message);
-          }
-
-          console.log(passwordErrors?.[0], "err");
-          console.log(error?.response, "errRez");
-
-          if (
-            emailErrors?.[0] === "User with this Email Address already exists."
-          ) {
-            toast.error(emailErrors?.[0] || "Something went wrong!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else if (
-            passwordErrors?.[0] ===
-              "The password is too similar to the Last Name." ||
-            "The password is too similar to the First Name."
-          ) {
-            toast.error(passwordErrors?.[0] || "Something went wrong!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else if (phoneError?.[0] === "Enter a valid phone number.") {
-            toast.error(phoneError?.[0] || "Something went wrong!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else {
-            toast.error(error?.response?.message || "Something went wrong!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
           }
         } finally {
           setLoading(false);
@@ -185,8 +148,7 @@ const SignUp = () => {
           />
         </div>
 
-        {/*TODO: change font */}
-        <button
+        {/* <button
           onClick={handleGoogleSignIn}
           className="py-2 flex items-center justify-center outline-none rounded-lg border border-[#DADADA] bg-[#FAFAFA] hover:bg-[#E0E0E0] text-[#666666] font-medium gap-x-2 mx-4 lg:mx-0"
         >
@@ -195,11 +157,10 @@ const SignUp = () => {
         </button>
 
         <span className="before:absolute relative before:h-[1px] before:w-[45%] before:-left-0 text-center before:bg-[#BDBDBD] before:top-[45%] font-medium text-[#666666] after:absolute after:h-[1px] after:w-[45%] after:-right-0 after:bg-[#BDBDBD] after:top-[45%] mx-4 lg:mx-0">
-          {/* TODO: change font */}
+          
           or
-        </span>
+        </span> */}
 
-        {/* TODO: change font */}
         <form
           onSubmit={onSubmit}
           className="space-y-3 px-2 md:px-0 mx-4 lg:mx-0"
@@ -416,4 +377,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default ScholarshipSignUp;

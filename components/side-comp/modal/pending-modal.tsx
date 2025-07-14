@@ -64,7 +64,7 @@ const PendingModal = ({
             theme: "dark",
           });
           setLoading(false);
-          handleCloseModal();
+          // handleCloseModal();
         }
       } 
       catch (error: any) {

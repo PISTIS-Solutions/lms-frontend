@@ -80,7 +80,6 @@ const CustomPayment = () => {
     }
     // console.log(storedId, "stored");
   }, []);
-
   return (
     <div className="bg-slate-50 h-screen overflow-y-scroll">
       <ToastContainer />
@@ -139,7 +138,6 @@ const CustomPayment = () => {
             </button>
           </span>
         </div>
-
         {loading ? (
           <span className="text-main w-full flex items-center justify-center">
             <Loader2Icon className="animate-spin" />

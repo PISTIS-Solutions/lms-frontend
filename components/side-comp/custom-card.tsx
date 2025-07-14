@@ -175,7 +175,7 @@ const CustomCard = (
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

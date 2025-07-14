@@ -27,6 +27,7 @@ const useCourseRead = create<readStudent>((set, get) => ({
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log(response, "course")
       set({ courseRead: response.data });
       set({ response: response.status });
       if (response.status === 200) {

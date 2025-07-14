@@ -53,6 +53,7 @@ const NewPassword = () => {
             draggable: false,
             theme: "dark",
           });
+          router.replace("/sign-in")
           // setModal(true);
           // router.push("/create-account/activate/[uid]");
         } else {

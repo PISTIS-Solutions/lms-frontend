@@ -12,13 +12,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { Loader2 } from "lucide-react";
 
 const data = [
-  "Layout layer comment union underline clip scrolling",
-  "Comment union main. Main hand arrange scale",
-  "Vertical image figma. Clip thumbnail star hand",
-  "Background font font device.",
-  "Arrange bold inspect move bold",
-  "Rectangle selection comment. Image library",
-  "Figjam flows frame community text scale line.",
+  "4 one-on-one mentorship sessions per month",
+  "6 months of unlimited access",
+  "15 courses",
+  "15 projects",
+  "Group Blocker Sessions",
+  
 ];
 
 const IntermediateCardModal = () => {
@@ -56,6 +55,7 @@ const IntermediateCardModal = () => {
           Authorization: `Bearer ${accessToken}`,
         },
       });
+      console.log(response, "intermediate payment");
       if (response.status === 200) {
         window.open(response.data.payment_data.authorization_url, "_blank");
         toast.success(response?.data?.message, {
@@ -141,7 +141,7 @@ const IntermediateCardModal = () => {
 
       <div
         className={
-          "fixed inset-0 bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-50 " +
+          "fixed inset-0  bg-white bg-opacity-30 transition-all ease-in-out duration-300 flex justify-center items-center z-50 " +
           (isOpen
             ? "opacity-100 backdrop-blur-sm"
             : "opacity-0 backdrop-blur-none pointer-events-none")
@@ -149,7 +149,7 @@ const IntermediateCardModal = () => {
       >
         <div
           className={
-            "shadow-[0px_0px_45px_0px_#0000004D] bg-white rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[90vh] overflow-y-scroll md:h-auto flex-col py-2 sm:py-10 " +
+            "shadow-[0px_0px_45px_0px_#0000004D] bg-white  rounded-[20px] flex items-center gap-y-3 sm:gap-y-6 w-[90vw] md:max-w-[692px] h-[95vh] overflow-y-scroll flex-col py-2 sm:py-10 " +
             (isOpen ? "translate-y-0 scale-100" : "translate-y-full scale-50")
           }
           ref={modal}
@@ -181,7 +181,7 @@ const IntermediateCardModal = () => {
               <p className="font-normal sm:text-left text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
                 Select a payment schedule:
               </p>
-              <div className="flex items-center justify-between gap-2 md:flex-row flex-col mt-2.5">
+              <div className="flex items-center justify-between gap-2 flex-col mt-2.5">
                 <div
                   className={`w-full border cursor-pointer h-auto rounded-[8px] p-2 sm:p-1.5 transition duration-200 ${
                     selectedPlan.duration === "6months"
@@ -193,16 +193,22 @@ const IntermediateCardModal = () => {
                   }
                 >
                   <h1
-                    className={`font-medium text-2xl sm:text-3xl text-center pb-3 transition duration-200 ${
+                    className={`font-medium text-2xl sm:text-3xl flex items-center gap-1.5 pb-3 transition duration-200 ${
                       selectedPlan.duration === "6months"
                         ? "text-main"
                         : "text-[#DADADA]"
                     }`}
                   >
-                    ₦400,000
+                    ₦400,000{" "}
+                    <span className="font-normal text-sm text-[#484848]">
+                      + (VAT 4.6%){" "}
+                      <span className="text-medium text-[#484848]">
+                        ₦6,328.92
+                      </span>
+                    </span>
                   </h1>
-                  <p className="font-normal text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
-                    One-time payment{" "} <br />
+                  <p className="font-normal text-xs sm:text-sm font-sfProDisplay text-[#666666]">
+                    One-time payment{" "}
                     <span className="text-sub">(Save up to 12%)</span>
                   </p>
                 </div>
@@ -217,15 +223,21 @@ const IntermediateCardModal = () => {
                   }
                 >
                   <h1
-                    className={`font-medium text-2xl sm:text-3xl text-center pb-3 transition duration-200 ${
+                    className={`font-medium text-2xl flex items-center gap-1.5 sm:text-3xl pb-3 transition duration-200 ${
                       selectedPlan.duration === "30days"
                         ? "text-main"
                         : "text-[#DADADA]"
                     }`}
                   >
-                    ₦73,000
+                    ₦73,000{" "}
+                    <span className="font-normal text-sm text-[#484848]">
+                      + (VAT 4.6%){" "}
+                      <span className="text-medium text-[#484848]">
+                        ₦4,228.92
+                      </span>
+                    </span>
                   </h1>
-                  <p className="font-normal text-center text-xs sm:text-sm font-sfProDisplay text-[#666666]">
+                  <p className="font-normal text-xs sm:text-sm font-sfProDisplay text-[#666666]">
                     Billed Monthly for 6 Months
                   </p>
                 </div>

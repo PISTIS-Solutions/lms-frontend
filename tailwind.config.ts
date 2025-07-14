@@ -25,6 +25,7 @@ module.exports = {
         pricingBack: "url('/assets/pricingBack.png')",
         advanceCardBg: "url('/assets/advance_card_background.webp')",
         
+        
         backdrop: "url('/assets/backdrop.svg')",
         curve: "url('/assets/curve.png')",
         whtcurve: "url('/assets/white-curve.png')",
@@ -32,6 +33,7 @@ module.exports = {
         abtImage: "url('/assets/abtImage.png')",
         blogImg: "url('/assets/blogImg.png')",
         "session-bg": "url('/assets/svg/sessionBg.svg')",
+        
       },
       colors: {
         main: "#000066",

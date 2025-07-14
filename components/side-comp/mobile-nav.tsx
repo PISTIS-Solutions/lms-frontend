@@ -17,7 +17,7 @@ import grade from "@/src/assets/svg/grading.svg";
 import bookGray from "@/src/assets/svg/book-gray.svg";
 import { useRouter } from "next-nprogress-bar";
 
-const MobileNav = ({ loadSub, subStatus }: any) => {
+const MobileNav = ({ loadSub, current_plan, time_left }: any) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const router = useRouter();
@@ -93,7 +93,17 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
     fetchSession();
   }, []);
 
-  const formatTimeLeft = (timeStr: string) => {
+  const formatTimeLeft = (timeStr?: string | null) => {
+    if (!timeStr) {
+      return (
+        <>
+          00 <span className="text-xs">Days</span> : 00{" "}
+          <span className="text-xs">Hrs</span> : 00{" "}
+          <span className="text-xs">Mins</span>
+        </>
+      );
+    }
+
     const dayMatch = timeStr.match(/(\d+)\s+day/);
     const hourMatch = timeStr.match(/(\d+)\s+hour/);
     const minuteMatch = timeStr.match(/(\d+)\s+minute/);
@@ -157,25 +167,23 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
             </div>
 
             <div>
-              {!loadSub && subStatus && (
+              {!loadSub && current_plan === "Intermediate" && (
                 <div>
                   <div className="p-1 rounded-[8px] w-full mb-2 overflow-y-scroll">
-                    <div className="space-y-2 p-2 bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">
+                    <div className="space-y-2 p-2 bg-main border border-white  rounded-[8px] upcoming-modal-border_gradient">
                       <p className="text-white font-normal text-xs sm:text-sm">
                         Current Plan{" "}
-                        <span className="text-sub">
-                          ({subStatus?.current_plan})
-                        </span>
+                        <span className="text-sub">({current_plan})</span>
                       </p>
                       <h2 className="text-white text-lg sm:text-2xl font-semibold mb-2">
-                        {subStatus?.current_plan}
+                        {current_plan}
                       </h2>
                       <div>
                         <p className="text-white font-normal text-xs">
                           Time left
                         </p>
                         <div className="text-white font-digital tracking-wider font-digitalNumbers text-sm sm:text-xl font-normal">
-                          {formatTimeLeft(subStatus?.time_left)}
+                          {formatTimeLeft(time_left)}
                         </div>
                       </div>
 
@@ -197,7 +205,7 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
                       {/* Header */}
                       <div className="flex justify-between items-center mb-4 font-sfProDisplay">
                         <h2 className="text-white text-base font-medium">
-                          Upcoming Section
+                          Upcoming Session
                         </h2>
                       </div>
 
@@ -207,7 +215,7 @@ const MobileNav = ({ loadSub, subStatus }: any) => {
                         className="w-full h-[36px] justify-center items-center font-sfProDisplay bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors rounded-[6px] text-[#FF0000] text-xs lg:text-base cancel-button"
                         onClick={toggleModal}
                       >
-                        Cancel Private Session
+                        Cancel private session
                       </button>
                     </div>
                   </div>

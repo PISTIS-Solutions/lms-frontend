@@ -1,12 +1,13 @@
 "use client";
 import IntermediateCard from "@/components/side-comp/pricing/IntermediateCard";
 import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
-import AdvanceCard from "@/components/side-comp/pricing/AdvanceCard";
+import AdvanceCard from "@/components/side-comp/price/AdvancedCard";
 import { ChevronLeft } from "lucide-react";
 import PlanNav from "@/components/side-comp/pricing/PlanNav";
 import { useEffect, useState } from "react";
 import { usePlanStore } from "@/store/plan-store";
 import { useRouter } from "next-nprogress-bar";
+import useCheckStatusStore from "@/store/checkStatus";
 
 const PaymentPlan = () => {
   const { fetchPlans, isLoading } = usePlanStore();
@@ -17,21 +18,21 @@ const PaymentPlan = () => {
     fetchPlans();
   }, [fetchPlans]);
 
-
+  const { current_plan } = useCheckStatusStore();
 
   return (
-    <div className="w-full min-h-screen bg-white flex justify-center items-center flex-col">
+    <div className="w-full min-h-screen relative bg-white flex justify-center items-center flex-col">
       {/* <PlanNav /> */}
-      <div className="max-w-screen-xl px-6 mt-6">
+      <div className="max-w-screen-xl  px-6 mt-6">
         <button
-          className="flex items-center outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
+          className="flex items-center absolute top-2 left-2 outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
           onClick={() => router.back()}
         >
-          <ChevronLeft size={24} /> Pricing Plan
+          <ChevronLeft size={24} />
         </button>
         <section className="text-center text-black flex justify-center items-center flex-col pt-5 pb-10 mx-auto mt-6">
           <span className="bg-[#E6F6FF] rounded-full py-2 px-6 text-main mb-8">
-            Vertical draft ellipse connection draft
+            Pricing Plans
           </span>
           <h1 className="font-semibold pb-2 md:pb-5 text-xl sm:text-xl md:text-5xl">
             We’ve got a plan that’s perfect for you.
@@ -69,10 +70,16 @@ const PaymentPlan = () => {
           </button>
         </section> */}
 
-        <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:justify-between">
-          <BeginnerCard />
-          <IntermediateCard />
-          <AdvanceCard />
+        <div className="flex flex-wrap items-center justify-center pb-5 gap-2">
+          {/* <BeginnerCard /> */}
+          {current_plan === "Intermediate" ? (
+            <AdvanceCard />
+          ) : (
+            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-between">
+              <IntermediateCard />
+              <AdvanceCard />
+            </div>
+          )}
         </div>
       </div>
     </div>

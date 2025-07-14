@@ -138,7 +138,7 @@ const NavigationBar = () => {
                   >
                     <p
                       className={`cursor-pointer ${
-                        pathname === `/${nav.link}`
+                        pathname === `${nav.link}`
                           ? "text-main"
                           : "text-[#BDBDBD]"
                       } `}

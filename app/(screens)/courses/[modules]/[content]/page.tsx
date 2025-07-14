@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
 import SideNav from "@/components/side-comp/side-nav";
 import { ArrowLeft, ChevronRight, Edit3, Loader2, Plus } from "lucide-react";
