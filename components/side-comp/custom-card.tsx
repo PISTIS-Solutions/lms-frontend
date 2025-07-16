@@ -14,6 +14,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import refreshAdminToken from "@/utils/refreshToken";
 import { Loader, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
 
 const CustomCard = (
   {
@@ -109,7 +110,7 @@ const CustomCard = (
   };
 
   return (
-    <div
+    <motion.div
       key={key}
       onClick={() => router.push(`custom-pricing/${id}`)}
       className="max-w-[416px] shadow-md h-[350px] bg-white rounded-[8px] p-2"
