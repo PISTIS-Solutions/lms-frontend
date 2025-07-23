@@ -64,31 +64,7 @@ const LandingCourses = () => {
                 No course available yet!
               </p>
             )}
-            {/* <Coursecard
-              image={cicd}
-              header="CI/CD"
-              title="Continous Intergration and Development"
-              modules={2}
-            />
-            <Coursecard
-              image={dns}
-              header="Domain Name System"
-              title=""
-              modules={2}
-            />
-            <Coursecard image={docker} header="Docker" title="" modules={2} />
-            <Coursecard
-              image={git}
-              header="GIT"
-              title="Distributed version control system"
-              modules={2}
-            />
-            <Coursecard
-              image={gitops}
-              header="GITOPS"
-              title="Building a strong operational framework"
-              modules={2}
-            /> */}
+          
           </div>
           <div className="absolute right-0 top-0 h-full w-14 md:w-20 pointer-events-none bg-gradient-to-l from-white" />
         </div>

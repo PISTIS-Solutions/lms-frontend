@@ -21,7 +21,7 @@ import email from "@/src/assets/email.png";
 const Verify_SignUp = () => {
   const router = useRouter();
   // const [response, setResponse] = useState<any>();
-  const [loading, setLoading] = useState<any>();
+  const [loading, setLoading] = useState<any>(false);
   const params = useParams<{ uid: string; token: string }>();
   const uid = params.uid;
   const token = params.token;
@@ -95,7 +95,7 @@ const Verify_SignUp = () => {
     };
 
     handleVerifyToken();
-  }, [token]);
+  }, [uid,token]);
 
   const formStore = useFormStore();
 
