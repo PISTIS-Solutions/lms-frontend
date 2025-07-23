@@ -33,7 +33,7 @@ export const usePlanStore = create<PlanStore>((set, get) => ({
   fetchPlans: async () => {
     try {
       set({ isLoading: true });
-      const accessToken = Cookies.get("authToken");
+      
       // const courseID = localStorage.getItem("courseID");
       const response = await axios.get(urls.plans);
 

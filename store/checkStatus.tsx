@@ -35,7 +35,6 @@ const useCheckStatusStore = create<CheckStatusState>((set) => ({
           loadSub: false,
           error: null,
         });
-        console.log(response.data.current_plan, "Subscription Status");
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {

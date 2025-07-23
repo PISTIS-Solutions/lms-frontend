@@ -2,13 +2,6 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-import axios from "axios";
-import { urls } from "@/utils/config";
-import Cookies from "js-cookie";
-import refreshAdminToken from "@/utils/refreshToken";
-
-import { AiFillStar } from "react-icons/ai";
-
 interface Componentprops {
   image: any;
   header: String;
@@ -78,9 +71,9 @@ const Coursecard = ({
               <path
                 d="M6.5013 8.83333V6.16667M12.5013 4.16667L11.168 2.83333M5.16797 1.5H7.83464M6.5013 14.1667C5.08681 14.1667 3.73026 13.6048 2.73007 12.6046C1.72987 11.6044 1.16797 10.2478 1.16797 8.83333C1.16797 7.41885 1.72987 6.06229 2.73007 5.0621C3.73026 4.0619 5.08681 3.5 6.5013 3.5C7.91579 3.5 9.27235 4.0619 10.2725 5.0621C11.2727 6.06229 11.8346 7.41885 11.8346 8.83333C11.8346 10.2478 11.2727 11.6044 10.2725 12.6046C9.27235 13.6048 7.91579 14.1667 6.5013 14.1667Z"
                 stroke="#014873"
-                stroke-width="1.2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
             {duration}
