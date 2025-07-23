@@ -64,7 +64,6 @@ const LandingCourses = () => {
                 No course available yet!
               </p>
             )}
-          
           </div>
           <div className="absolute right-0 top-0 h-full w-14 md:w-20 pointer-events-none bg-gradient-to-l from-white" />
         </div>

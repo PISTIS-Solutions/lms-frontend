@@ -34,7 +34,8 @@ const SignIn = () => {
     try {
       setLoading(true);
       if (!containsSpecialCharacters(formStore.password)) {
-        throw new Error("Password must contain special characters");
+      toast.error("Password must contain special characters");
+      return;
       }
       const url = urls.signin;
 
