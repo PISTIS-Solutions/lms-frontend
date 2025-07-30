@@ -127,11 +127,11 @@ const SideNav = () => {
     const minutes = minuteMatch ? minuteMatch[1].padStart(2, "0") : "00";
 
     return (
-      <>
-        {days}<span className="text-xs">Days</span> : {hours}
-        <span className="text-xs">Hrs</span> : {minutes}
-        <span className="text-xs">Mins</span>
-      </>
+      <div className="w-full whitespace-nowrap flex flex-wrap items-center">
+        <div className="text-sm">{days}Days</div>:
+        <div className="text-sm">{hours}Hrs</div>:
+        <div className="text-sm">{minutes}Min</div>
+      </div>
     );
   };
 

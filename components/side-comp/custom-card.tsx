@@ -8,13 +8,10 @@ import rate from "@/src/assets/svg/rate.svg";
 
 import { BsCartPlus } from "react-icons/bs";
 import { useRouter } from "next-nprogress-bar";
-import { courseListType } from "@/app/(screens)/custom-pricing/page";
-import { baseURL } from "@/utils/config";
-import axios from "axios";
-import { toast } from "react-toastify";
-import refreshAdminToken from "@/utils/refreshToken";
-import { Loader, Loader2 } from "lucide-react";
+import { CourseType } from "@/app/(screens)/custom-pricing/page";
 import { motion } from "framer-motion";
+import { useCartStoreInitial } from "@/store/cart/cartStore";
+import { Check } from "lucide-react";
 
 const CustomCard = (
   {
@@ -23,102 +20,96 @@ const CustomCard = (
     slug,
     price,
     course_image,
-    modules_count,
+    module_count,
     course_duration,
-  }: courseListType,
+  }: CourseType,
   key: any
 ) => {
   const router = useRouter();
+  const { selectedCourses, toggleCourse } = useCartStoreInitial();
   // const id = 1;
-  const [loading, setLoading] = useState(false);
-  const [cartId, setCartId] = useState<string | null>(null);
+  // const [loading, setLoading] = useState(false);
+  // const [cartId, setCartId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const storedId = localStorage.getItem("custom_cart_id");
-    if (storedId) {
-      setCartId(storedId);
-    }
-  }, []);
+  // const addToCart = async () => {
+  //   try {
+  //     setLoading(true);
 
-  const addToCart = async () => {
-    try {
-      setLoading(true);
-
-      const payload: any = {
-        course_ids: [id],
-      };
-      if (cartId) {
-        payload.cart_id = cartId;
-      }
-      const response = await axios.post(`${baseURL}/cart/add/`, payload);
-      console.log(response.data.id);
-      if (response.status === 200) {
-        if (!cartId && response.data.id) {
-          setCartId(response.data.id);
-          localStorage.setItem("custom_cart_id", response.data.id);
-        }
-        toast.success(`${response.data.items[0].course.title} added to cart`, {
-          position: "top-right",
-          autoClose: 5000,
-          theme: "dark",
-        });
-      } else {
-        toast.error("Error adding to cart", {
-          position: "top-right",
-          autoClose: 5000,
-          theme: "dark",
-        });
-      }
-    } catch (error: any) {
-      toast.error(`Error adding to cart: ${error.message}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "dark",
-      });
-      if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await addToCart();
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-      setLoading(false);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     const payload: any = {
+  //       course_ids: [id],
+  //     };
+  //     if (cartId) {
+  //       payload.cart_id = cartId;
+  //     }
+  //     const response = await axios.post(`${baseURL}/cart/add/`, payload);
+  //     console.log(response.data.id);
+  //     if (response.status === 200) {
+  //       if (!cartId && response.data.id) {
+  //         setCartId(response.data.id);
+  //         localStorage.setItem("custom_cart_id", response.data.id);
+  //       }
+  //       toast.success(`${response.data.items[0].course.title} added to cart`, {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         theme: "dark",
+  //       });
+  //     } else {
+  //       toast.error("Error adding to cart", {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         theme: "dark",
+  //       });
+  //     }
+  //   } catch (error: any) {
+  //     toast.error(`Error adding to cart: ${error.message}`, {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: false,
+  //       draggable: false,
+  //       theme: "dark",
+  //     });
+  //     if (error.response && error.response.status === 401) {
+  //       await refreshAdminToken();
+  //       await addToCart();
+  //     } else if (error?.message === "Network Error") {
+  //       toast.error("Check your network!", {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "dark",
+  //       });
+  //     } else {
+  //       toast.error(error?.response?.data?.detail, {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "dark",
+  //       });
+  //     }
+  //     setLoading(false);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <motion.div
       key={key}
       onClick={() => router.push(`custom-pricing/${id}`)}
-      className="max-w-[416px] shadow-md h-[350px] bg-white rounded-[8px] p-2"
+      className="w-full shadow-md h-[370px] bg-white rounded-[8px] p-2"
     >
-      <div className=" rounded-tl-[8px] rounded-tr-[8px]">
+      <div className=" ">
         <Image
           src={course_image}
-          className="w-full  h-[180px]"
+          className="w-full object-cover rounded-tl-[8px] rounded-tr-[8px] h-[200px]"
           alt={title}
           width={100}
           height={100}
@@ -134,7 +125,7 @@ const CustomCard = (
               <span className="bg-[#E6F6FF] rounded py-1 px-2 flex items-center justify-between">
                 <Image alt="note" src={note} className="w-4 h-4" />
                 <p className="text-[#014873] font-normal text-xs sm:text-sm">
-                  {modules_count} modules
+                  {module_count} module(s)
                 </p>
               </span>
               <span className="bg-[#E6F6FF] rounded py-1 px-2 flex items-center justify-between">
@@ -160,18 +151,33 @@ const CustomCard = (
           <button
             onClick={(e) => {
               e.stopPropagation();
-              addToCart();
+              toggleCourse({ id, title, price, module_count, course_duration });
             }}
-            disabled={loading}
-            className="bg-sub cursor-pointer disabled:bg-sub/70 rounded-[6px] flex items-center justify-between gap-2 p-[12px_10px] sm:p-[16px_14px]"
+            // disabled={loading}
+            className={` ${
+              selectedCourses.some((course) => course.id === id)
+                ? " border border-sub bg-white"
+                : "bg-sub "
+            } cursor-pointer rounded-[6px] flex items-center justify-between gap-2 p-[12px_10px] sm:p-[16px_14px]`}
           >
-            {loading ? (
+            {/* {loading ? (
               <Loader2 className="text-white w-4 h-4 animate-spin" />
             ) : (
               <BsCartPlus className=" text-white w-4 h-4" />
-            )}
+            )} */}
             <p className="text-sm hidden sm:block font-semibold text-white">
-              {loading ? "Adding to cart..." : "Add to cart"}
+              {/* {loading ? "Adding to cart..." : "Add to cart"} */}
+              {selectedCourses.some((course) => course.id === id) ? (
+                <span className="flex text-sub items-center gap-1">
+                  <Check className="w-4 h-4 text-sub" />
+                  <span className="hidden sm:inline">Added</span>
+                </span>
+              ) : (
+                <span className="flex items-center gap-1">
+                  <BsCartPlus className="w-4 h-4 text-white" />
+                  <span className="hidden sm:inline">Add to cart</span>
+                </span>
+              )}
             </p>
           </button>
         </div>

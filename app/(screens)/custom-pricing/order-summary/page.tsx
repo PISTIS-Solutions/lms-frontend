@@ -4,105 +4,216 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next-nprogress-bar";
 
-import { ChevronLeft, Info, Search } from "lucide-react";
+import { ChevronLeft, Info, Loader2, Search } from "lucide-react";
 import { FaLock } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { AiTwotoneDelete } from "react-icons/ai";
 
 import note from "@/src/assets/svg/note.svg";
 import timer from "@/src/assets/svg/timer.svg";
-import pistis from "@/src/assets/full-logo.png";
+
 import useCartStore from "@/store/fetch-cart";
+import { useCartStoreInitial } from "@/store/cart/cartStore";
+import axios from "axios";
+import { urls } from "@/utils/config";
+import refreshAdminToken from "@/utils/refreshToken";
+import { toast, ToastContainer } from "react-toastify";
+import Cookies from "js-cookie";
 
 const OrderSummary = () => {
   const router = useRouter();
   const { fetchCart, cart, loading } = useCartStore();
 
-  useEffect(() => {
-    const storedId = localStorage.getItem("custom_cart_id");
-    if (storedId) {
-      fetchCart(storedId);
-    }
-  }, []);
+  // const inputs = [
+  //   {
+  //     name: "full_name",
+  //     label: "Full Name",
+  //   },
+  //   {
+  //     name: "email",
+  //     label: "Email Address",
+  //   },
+  // ];
 
-  const carts = [
-    {
-      title:
-        "Introduction to DevOps Practices Mastering Continuous Integration",
-      price: "₦428,000.00",
-    },
-    {
-      title:
-        "Introduction to DevOps Practices Mastering Continuous Integration",
-      price: "₦428,000.00",
-    },
-    {
-      title:
-        "Introduction to DevOps Practices Mastering Continuous Integration",
-      price: "₦428,000.00",
-    },
-    {
-      title:
-        "Introduction to DevOps Practices Mastering Continuous Integration",
-      price: "₦428,000.00",
-    },
-    {
-      title:
-        "Introduction to DevOps Practices Mastering Continuous Integration",
-      price: "₦428,000.00",
-    },
-    {
-      title:
-        "Introduction to DevOps Practices Mastering Continuous Integration",
-      price: "₦428,000.00",
-    },
-  ];
-  const inputs = [
-    {
-      name: "full_name",
-      label: "Full Name",
-    },
-    {
-      name: "email",
-      label: "Email Address",
-    },
-  ];
+  const { selectedCourses, toggleCourse, clearCart } = useCartStoreInitial();
+  const [coupon, setCoupon] = useState<string | null>(null);
+
+  const [loadingCart, setLoadingCart] = useState(false);
+  const [cartId, setCartId] = useState("");
+
+  const makeCoursePurchase = async (id: string) => {
+    setLoadingCart(true);
+    try {
+      const accessToken = Cookies.get("authToken");
+      const response = await axios.post(
+        `${urls.cart}${id}/checkout/`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(response, "make course purchase");
+
+      if (response.status === 201) {
+        window.open(response.data.payment_url, "_blank");
+        clearCart();
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await makeCoursePurchase(id);
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } finally {
+      setLoadingCart(false);
+    }
+  };
+  const makeCoursePurchaseII = async () => {
+    setLoadingCart(true);
+    try {
+      const accessToken = Cookies.get("authToken");
+      const response = await axios.post(
+        `${urls.subs}make-payment-advanced/`,
+        {
+          course_ids: selectedCourses.map((course) => course.id),
+          ...(coupon?.trim() && { coupon_code: coupon.trim() }),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(response, "make course purchase II");
+
+      if (response.status === 201) {
+        window.open(response.data.payment_url, "_blank");
+        clearCart();
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await makeCoursePurchaseII();
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } finally {
+      setLoadingCart(false);
+    }
+  };
+  const addToBECart = async () => {
+    setLoadingCart(true);
+    try {
+      const accessToken = Cookies.get("authToken");
+      const response = await axios.post(
+        `${urls.cart}add/`,
+        {
+          course_ids: selectedCourses.map((course) => course.id),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log(response, "add course to backend");
+      if (response.status === 200) {
+        setCartId(response.data.id);
+        await makeCoursePurchase(response.data.id);
+      } else {
+        toast.error("Failed to add to cart", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        await refreshAdminToken();
+        await addToBECart();
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error?.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      }
+    }
+  };
+
   return (
     <div className="bg-slate-50 h-[100%]">
-      <div className="bg-main px-5 sm:px-10 md:px-20 h-[98px] flex gap-5 items-center justify-between">
-        <Image src={pistis} className="md:w-auto w-1/3" alt="pistis" priority />
-        {/* <span className="relative w-full md:w-1/3">
-              <Search className="text-[#9F9F9F] absolute left-2 mt-3 w-5 h-5 font-normal" />
-              <input
-                type="text"
-                className="bg-white rounded-[8px] py-3 w-full indent-8 placeholder:text-[#9F9F9F] text-xs sm:text-sm font-normal"
-                placeholder="Search for a preferred course"
-              />
-            </span> */}
-        <span className="flex items-center gap-x-2 sm:gap-x-5">
-          <Link href="/sign-in">
-            <Button className="bg-sub py-2 sm:py-[13px] hover:text-white px-3 whitespace-nowrap sm:px-[20px] text-xs   sm:text-lg text-black font-medium">
-              Sign In
-            </Button>
-          </Link>
-
-          <Link href="/create-account">
-            <p className="text-xs sm:text-lg hover:text-gray-200 whitespace-nowrap text-white font-medium cursor-pointer">
-              Create Account
-            </p>
-          </Link>
-        </span>
-      </div>
+      <ToastContainer />
       <div className="sm:p-5 p-2 flex md:flex-row flex-col  justify-between gap-1 lg:gap-5">
-        <div className="bg-main rounded-[16px] w-full lg:w-[60%] overflow-y-scroll h-screen p-10">
-          <div className="flex items-center gap-5 text-white">
-            <span onClick={() => router.back()} className="cursor-pointer">
+        <div className="bg-main rounded-[16px] w-full overflow-scroll  h-[100vh] p-10">
+          <div
+            onClick={() => router.back()}
+            className="flex items-center gap-5 text-white"
+          >
+            <span className="cursor-pointer">
               <ChevronLeft className="w-6 h-6" />
             </span>
             <p className=" font-medium text-base md:text-2xl">
               Order Summary{" "}
               <span className="text-[#2FBC8D] font-semibold text-lg">
-                ({cart?.items?.length})
+                ({selectedCourses?.length})
               </span>
             </p>
           </div>
@@ -111,8 +222,12 @@ const OrderSummary = () => {
               Total payment
             </p>
             <h1 className="font-semibold md:text-4xl text-2xl lg:text-5xl text-white text-center py-3">
-              ₦428,000.00
+              ₦
+              {selectedCourses
+                ?.reduce((acc, course) => acc + (Number(course.price) || 0), 0)
+                .toLocaleString()}
             </h1>
+
             <div className="flex items-center gap-2 justify-center my-3">
               <FaLock className=" h-4 sm:w-6 w-4 sm:h-6 text-[#2FBC8D]" />
               <p className="font-medium text-sm sm:text-base text-white text-center">
@@ -121,58 +236,111 @@ const OrderSummary = () => {
             </div>
           </div>
           <hr className="my-5" />
-          <div className="w-full flex justify-center">
-            <div className="bg-[#FFFFFF1A] rounded-[8px] w-full lg:w-[80%]">
-              {cart?.items?.map((cart:any) => {
-                // const id = 1;
-                return (
-                  <>
-                    <div
-                      onClick={() => router.push(`/custom-pricing/${cart?.course?.id}`)}
-                      key={cart?.course?.id}
-                      className="flex flex-col gap-5 py-5 p-4 cursor-pointer"
-                    >
-                      <div className="flex justify-between">
-                        <h1 className="font-medium text-xs sm:text-base text-white">
-                          {cart?.course?.title}
-                        </h1>
-                        {/* <span className="flex items-center justify-center rounded-[6px] cursor-pointer">
-                      </span> */}
-                        <AiTwotoneDelete className="p-2 text-white cursor-pointer flex-none w-10 h-10 " />
-                      </div>
-                      <div className="">
-                        <div className="flex w-full items-center gap-x-[8px] flex-wrap ">
-                          <span className="bg-[#E6F6FF] rounded py-1 px-2 flex my-1 items-center w-full justify-center gap-2">
-                            <Image alt="note" src={note} className="w-4 h-4" />
-                            <p className="text-[#014873] font-normal text-xs whitespace-nowrap sm:text-sm">
-                              12 modules
-                            </p>
-                          </span>
-                          <span className="bg-[#E6F6FF] rounded py-1 px-2 flex items-center w-full justify-center gap-2">
-                            <Image alt="note" src={timer} className="w-4 h-4" />
-                            <p className="text-[#014873] font-normal text-xs sm:text-sm">
-                              85hr 43min
-                            </p>
-                          </span>
-                        </div>
-                        <h1 className="font-semibold my-2 text-xl w-full sm:text-center text-right sm:text-2xl text-white">
-                        ₦{cart?.course?.price}
-                        </h1>
-                      </div>
-                    </div>
-                    <hr />
-                  </>
-                );
-              })}
+          {selectedCourses?.length === 0 ? (
+            <div className="w-full h-[50vh] items-center flex justify-center overflow-y-scroll">
+              <p className="text-white font-medium text-center">
+                No courses added to cart!
+              </p>
             </div>
+          ) : (
+            <div className="w-full flex justify-center overflow-y-scroll">
+              <div className="bg-[#FFFFFF1A] rounded-[8px] w-full lg:w-[80%]">
+                {selectedCourses?.map((cart: any, index) => {
+                  // const id = 1;
+                  return (
+                    <div key={index}>
+                      <div
+                        onClick={() =>
+                          router.push(`/custom-pricing/${cart?.course?.id}`)
+                        }
+                        className="flex flex-col gap-5 py-5 p-4 cursor-pointer"
+                      >
+                        <div className="flex justify-between">
+                          <h1 className="font-medium text-xs sm:text-base text-white">
+                            {cart?.title}
+                          </h1>
+                          <AiTwotoneDelete
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleCourse({
+                                id: cart.id,
+                                title: cart.title,
+                                price: cart.price,
+                                module_count: cart.module_count,
+                                course_duration: cart.course_duration,
+                              });
+                            }}
+                            className="p-2 text-white cursor-pointer flex-none w-10 h-10"
+                          />
+                        </div>
+                        <div className="">
+                          <div className="flex w-full items-center gap-x-[8px] flex-wrap ">
+                            <span className="bg-[#E6F6FF] rounded py-1 px-2 flex my-1 items-center w-full justify-center gap-2">
+                              <Image
+                                alt="note"
+                                src={note}
+                                className="w-4 h-4"
+                              />
+                              <p className="text-[#014873] font-normal text-xs whitespace-nowrap sm:text-sm">
+                                {cart?.module_count}
+                              </p>
+                            </span>
+                            <span className="bg-[#E6F6FF] rounded py-1 px-2 flex items-center w-full justify-center gap-2">
+                              <Image
+                                alt="note"
+                                src={timer}
+                                className="w-4 h-4"
+                              />
+                              <p className="text-[#014873] font-normal text-xs sm:text-sm">
+                                {cart?.course_duration}
+                              </p>
+                            </span>
+                          </div>
+                          <h1 className="font-semibold my-2 text-xl w-full sm:text-center text-right sm:text-2xl text-white">
+                            ₦{cart?.price}
+                          </h1>
+                        </div>
+                      </div>
+                      <hr />
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          <div className="my-2 w-full lg:w-[80%] mx-auto">
+            <label
+              className="font-sfProDisplay font-normal py-0.5 text-sm sm:text-base text-white"
+              htmlFor="discount_code"
+            >
+              Discount Code (optional)
+            </label>{" "}
+            <br />
+            <input
+              value={coupon!}
+              onChange={(e) => setCoupon(e.target.value)}
+              type="text"
+              placeholder="Enter  your Discount Code"
+              className="bg-[#FAFAFA] w-full text-sm sm:text-base p-4 border border-[#DADADA] rounded-[6px]"
+            />
           </div>
-          <div className="text-xs sm:text-sm font-normal flex items-center justify-center gap-2 sm:gap-5 mt-5 text-white">
-            <p>©2025 All rights reserved</p>
-            <p>Terms of Service</p>
-            <p>Privacy Policy</p>
+          <button
+            onClick={() => makeCoursePurchaseII()}
+            className="bg-white w-full lg:w-[80%] h-[50px] border border-white text-sm sm:text-base flex items-center justify-center mx-auto text-main rounded-lg font-medium mt-10"
+          >
+            {loadingCart ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              "Proceed to Make Payment"
+            )}
+          </button>
+          <div className="text-xs sm:text-xs font-normal flex items-center justify-center gap-2 sm:gap-5 mt-5 text-white">
+            <p>© {new Date().getFullYear()} All rights reserved</p> .
+            <p>Terms of Service</p> .<p>Privacy Policy</p>
           </div>
         </div>
-        <div className=" w-full lg:w-[40%] p-5 md:p-10">
+        {/* <div className=" w-full lg:w-[40%] p-5 md:p-10">
           <div>
             <h1 className="text-main font-semibold text-xl sm:text-3xl">
               Personal Details
@@ -232,27 +400,14 @@ const OrderSummary = () => {
                     <span>This number should be active on WhatsApp</span>
                   </span>
                 </div>
-                {/* <div className="flex justify-center mt-4">
-                  <div className="w-[95%] border border-[#DADADA] p-4 rounded-[6px] flex items-center gap-3">
-                    <input type="checkbox" name="" id="" />
-                    <div>
-                      <p className="font-medium text-sm text-[#666666]">
-                        Securely save my information for 1-click checkout
-                      </p>
-                      <p className="font-normal text-xs text-[#828282]">
-                        Orci feugiat morbi pharetra laoreet nunc lobortis
-                        tincidunt.
-                      </p>
-                    </div>
-                  </div>
-                </div> */}
+
                 <button className="bg-main h-[50px] text-sm sm:text-base flex items-center justify-center w-full text-white rounded-lg font-medium mt-10">
                   Proceed to Make Payment
                 </button>
               </div>
             </form>
           </div>
-        </div>
+        </div> */}
       </div>
       {/* 
       <div className="flex items-center justify-between my-5">

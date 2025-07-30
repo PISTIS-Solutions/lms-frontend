@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import infinity from "@/src/assets/svg/infinity.svg";
 import redStash from "@/src/assets/svg/redStash.svg";
 import Image from "next/image";
+import { useRouter } from "next-nprogress-bar";
 
 const AdvanceCard = () => {
   const services = [
@@ -14,6 +15,8 @@ const AdvanceCard = () => {
     { serv: "Main scale export inspect" },
     { serv: "Access to high-quality content" },
   ];
+
+  const router = useRouter();
 
   return (
     <div className="border-2 relative border-[#001D3D] rounded-[10px] w-full lg:w-[32%] px-2 flex-col flex self-stretch bg-advanceCardBg bg-cover bg-main overflow-hidden bg-blend-screen">
@@ -28,13 +31,17 @@ const AdvanceCard = () => {
               </p>
             </div>
             <div className="text-white">
-              <h1 className="text-2xl font-sfProDisplay font-medium">Advance</h1>
+              <h1 className="text-2xl font-sfProDisplay font-medium">
+                Advance
+              </h1>
               <p className="text-sm font-sfProDisplay mb-6">
                 Choose the perfect DevOps course that aligns with your goals and
                 current skill level.
               </p>
             </div>
-            <h1 className="text-[40px] h-fit font-sfProDisplayfont-sfProDisplay text-white font-medium">Custom</h1>
+            <h1 className="text-[40px] h-fit font-sfProDisplayfont-sfProDisplay text-white font-medium">
+              Custom
+            </h1>
           </section>
           <section className="mt-10 h-[45%] overflow-y-scroll">
             {services.map((service, i) => {
@@ -49,8 +56,13 @@ const AdvanceCard = () => {
             })}
           </section>
         </div>
-        <button disabled className="bg-white disabled:bg-white/50 disabled:cursor-not-allowed  rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-main">
-          Coming Soon
+        <button
+          // disabled
+          className="bg-main border border-white cursor-pointer rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
+          // onClick={() => (authToken ? toggleModal() : router.push("/pricing"))}
+          onClick={() => router.push("/create-account")}
+        >
+          Register Now
         </button>
       </div>
     </div>

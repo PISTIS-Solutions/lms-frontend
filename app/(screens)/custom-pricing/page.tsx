@@ -1,180 +1,123 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next-nprogress-bar";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 import { Button } from "@/components/ui/button";
-import {
-  ChevronLeft,
-  Loader,
-  Loader2Icon,
-  Search,
-  ShoppingCart,
-} from "lucide-react";
-
-import pistis from "@/src/assets/full-logo.png";
-import { useRouter } from "next-nprogress-bar";
 import CustomCard from "@/components/side-comp/custom-card";
-import axios from "axios";
-import { baseURL } from "@/utils/config";
-import { toast, ToastContainer } from "react-toastify";
 import useCartStore from "@/store/fetch-cart";
 
-export interface courseListType {
+import pistis from "@/src/assets/full-logo.png";
+import { baseURL } from "@/utils/config";
+
+import { ChevronLeft, Loader2Icon, ShoppingCart } from "lucide-react";
+import { useCartStoreInitial } from "@/store/cart/cartStore";
+
+export interface CourseType {
   id: string;
   title: string;
   slug: string;
   price: string;
   course_image: string;
-  modules_count: number;
+  module_count: number;
   course_duration: string;
 }
+
 const CustomPayment = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [courses, setCourses] = useState<courseListType[]>([]);
-  const getCustomCourses = async () => {
+  const [courses, setCourses] = useState<CourseType[]>([]);
+
+  const { fetchCart, cart } = useCartStore();
+
+  const fetchCourses = async () => {
     try {
-      setLoading(true);
-      const response = await axios.get(`${baseURL}/courses/advanced-courses/`);
-      console.log(response, "res");
-      if (response.status === 200) {
-        setCourses(response.data);
-        setLoading(false);
+      const { data, status } = await axios.get(
+        `${baseURL}/courses/advanced-courses/`
+      );
+      if (status === 200) {
+        setCourses(data);
       } else {
-        toast.error(`Error fetching courses`, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
+        toast.error("Failed to fetch courses");
       }
     } catch (error: any) {
-      toast.error(`Error fetching courses: ${error.message}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "dark",
-      });
-      setLoading(false);
+      toast.error(`Error: ${error.message}`);
     } finally {
       setLoading(false);
     }
   };
-  useEffect(() => {
-    getCustomCourses();
-  }, []);
-
-  const { fetchCart, cart } = useCartStore();
 
   useEffect(() => {
-    const storedId = localStorage.getItem("custom_cart_id");
-    if (storedId) {
-      fetchCart(storedId);
-    }
-    // console.log(storedId, "stored");
+    fetchCourses();
   }, []);
+
+  const handleCheckout = () => router.push("/custom-pricing/order-summary");
+  const { selectedCourses } = useCartStoreInitial();
+
   return (
-    <div className="bg-slate-50 h-screen overflow-y-scroll">
+    <div className="bg-slate-50 min-h-screen overflow-y-auto">
       <ToastContainer />
-      <div className="bg-main px-5 sm:px-10 md:px-20 h-[98px] flex gap-5 items-center justify-between">
-        <Image src={pistis} className="md:w-auto w-1/3" alt="pistis" priority />
-        {/* <span className="relative w-full md:w-1/3">
-          <Search className="text-[#9F9F9F] absolute left-2 mt-3 w-5 h-5 font-normal" />
-          <input
-            type="text"
-            className="bg-white rounded-[8px] py-3 w-full indent-8 placeholder:text-[#9F9F9F] text-xs sm:text-sm font-normal"
-            placeholder="Search for a preferred course"
-          />
-        </span> */}
-        <span className="flex items-center gap-x-2 sm:gap-x-5">
-          <Link href="/sign-in">
-            <Button className="bg-sub py-2 sm:py-[13px] hover:text-white px-3 whitespace-nowrap sm:px-[20px] text-sm sm:text-lg text-black font-medium">
-              Sign In
-            </Button>
-          </Link>
 
-          <Link href="/create-account">
-            <p className="text-sm sm:text-lg hover:text-gray-200 text-white font-medium cursor-pointer">
-              Create Account
-            </p>
-          </Link>
-        </span>
-      </div>
-
-      <div className="px-5 sm:px-10 md:px-20 ">
+      <main className="px-5 sm:px-7 md:px-10">
         <div className="flex py-5 items-center justify-between">
-          <span
+          <button
             onClick={() => router.back()}
-            className="flex items-center gap-x-1 cursor-pointer"
+            className="flex items-center gap-x-1"
           >
-            <ChevronLeft className="sm:w-6 h-4 sm:h-6 w-4" />
-            <p className=" font-medium text-sm sm:text-base md:text-lg text-[#2E2E2E]">
+            <ChevronLeft className="w-4 sm:w-6 h-4 sm:h-6" />
+            <span className="text-sm sm:text-base md:text-lg font-medium text-[#2E2E2E]">
               Available Courses
-            </p>
-          </span>
-          <span>
-            <button
-              onClick={() => {
-                router.push("/custom-pricing/order-summary");
-              }}
-              className="bg-sub cursor-pointer rounded-[6px] flex items-center justify-between gap-2 p-[12px_10px] sm:p-[16px_14px]"
-            >
-              <span className="relative">
-                <ShoppingCart className=" text-white sm:w-6 h-4 sm:h-6 w-4" />
-                <p className="bg-[#FF0000] absolute top-0 -right-1 rounded-full flex items-center justify-center text-xs w-[12px] sm:w-[14px] h-[12px] sm:h-[14px] text-white font-medium">
-                  {cart?.items?.length}
-                </p>
-              </span>
-              <p className="sm:text-sm hidden sm:block text-xs font-semibold text-white">
-                Check Out
-              </p>
-            </button>
-          </span>
+            </span>
+          </button>
+
+          <button
+            onClick={handleCheckout}
+            className="bg-sub rounded-[6px] flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-3"
+          >
+            <span className="relative">
+              <ShoppingCart className="text-white w-4 sm:w-6 h-4 sm:h-6" />
+              {selectedCourses?.length > 0 && (
+                <span className="absolute top-0 -right-1 w-[12px] h-[12px] sm:w-[14px] sm:h-[14px] bg-[#FF0000] text-white text-xs flex items-center justify-center rounded-full">
+                  {selectedCourses?.length}
+                </span>
+              )}
+            </span>
+            <span className="hidden sm:block text-xs sm:text-sm font-semibold text-white">
+              Check Out
+            </span>
+          </button>
         </div>
+
         {loading ? (
-          <span className="text-main w-full flex items-center justify-center">
-            <Loader2Icon className="animate-spin" />
-            <p className="sm:text-lg text-base md:text-xl">Loading...</p>
-          </span>
-        ) : courses && courses.length > 0 ? (
+          <div className="flex justify-center items-center gap-2 text-main py-10">
+            <Loader2Icon className="animate-spin w-5 h-5" />
+            <p className="text-base sm:text-lg">Loading...</p>
+          </div>
+        ) : courses.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {courses.map((course: any) => (
-              <CustomCard
-                key={course.id}
-                id={course.id}
-                title={course.title}
-                slug={course.slug}
-                price={course.price}
-                course_image={course.course_image}
-                modules_count={course.modules_count}
-                course_duration={course.course_duration}
-              />
+            {courses.map((course) => (
+              <CustomCard key={course.id} {...course} />
             ))}
           </div>
         ) : (
-          <p className="text-center w-full lg:text-xl font-semibold text-main text-sm">
-            No course available yet!
+          <p className="text-center text-main font-semibold text-sm lg:text-xl py-10">
+            No courses available yet!
           </p>
         )}
-      </div>
 
-      <div className="flex py-10 cursor-pointer justify-center">
-        <button
-          onClick={() => {
-            router.push("/custom-pricing/order-summary");
-          }}
-          className="bg-sub rounded-[8px] py-4 text-[#2E2E2E] text-base font-medium w-1/3"
-        >
-          Proceed to Payment
-        </button>
-      </div>
+        <div className="flex justify-center py-10">
+          <button
+            onClick={handleCheckout}
+            className="bg-sub w-1/2 sm:w-1/3 rounded-[8px] py-4 text-base font-medium text-[#2E2E2E]"
+          >
+            Proceed to Payment
+          </button>
+        </div>
+      </main>
     </div>
   );
 };

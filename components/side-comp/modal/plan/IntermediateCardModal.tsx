@@ -17,7 +17,6 @@ const data = [
   "15 courses",
   "15 projects",
   "Group Blocker Sessions",
-  
 ];
 
 const IntermediateCardModal = () => {
@@ -25,6 +24,7 @@ const IntermediateCardModal = () => {
   const { plans } = usePlanStore();
   const modal = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const [coupon, setCoupon] = useState<string | null>(null);
 
   const [selectedPlan, setSelectedPlan] = useState<{
     price: number;
@@ -45,6 +45,7 @@ const IntermediateCardModal = () => {
       user: userId,
       plan: plan?.id,
       duration: selectedPlan.duration,
+      ...(coupon?.trim() && { coupon_code: coupon.trim() }),
     };
 
     try {
@@ -242,6 +243,23 @@ const IntermediateCardModal = () => {
                   </p>
                 </div>
               </div>
+            </div>
+
+            <div className="my-2 w-full mx-auto">
+              <label
+                className="font-sfProDisplay font-normal py-0.5 text-sm sm:text-base text-[#2E2E2E"
+                htmlFor="discount_code"
+              >
+                Discount Code (optional)
+              </label>{" "}
+              <br />
+              <input
+                value={coupon!}
+                onChange={(e) => setCoupon(e.target.value)}
+                type="text"
+                placeholder="Enter  your Discount Code"
+                className="bg-[#FAFAFA] w-full text-sm sm:text-base p-4 border border-[#DADADA] rounded-[6px]"
+              />
             </div>
 
             <button

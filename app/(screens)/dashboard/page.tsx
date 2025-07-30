@@ -222,7 +222,7 @@ const Dashboard = () => {
                 {current_plan === "Intermediate" ? (
                   <button
                     className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
-                    onClick={() => route.push("/dashboard/payment-plan")}
+                    onClick={() => route.push("/custom-pricing")}
                   >
                     Buy Custom Plan
                   </button>
