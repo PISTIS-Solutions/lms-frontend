@@ -34,8 +34,8 @@ const SignIn = () => {
     try {
       setLoading(true);
       if (!containsSpecialCharacters(formStore.password)) {
-      toast.error("Password must contain special characters");
-      return;
+        toast.error("Password must contain special characters");
+        return;
       }
       const url = urls.signin;
 
@@ -65,6 +65,14 @@ const SignIn = () => {
           secure: true,
         });
         Cookies.set("pfp", response.data.user.profile_photo, {
+          sameSite: "None",
+          secure: true,
+        });
+        Cookies.set("first_login", response?.data?.achievements?.first_login, {
+          sameSite: "None",
+          secure: true,
+        });
+        Cookies.set("cert", response?.data?.certification, {
           sameSite: "None",
           secure: true,
         });

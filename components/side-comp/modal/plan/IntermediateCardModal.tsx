@@ -84,8 +84,11 @@ const IntermediateCardModal = () => {
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await handleClick();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await handleClick();
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

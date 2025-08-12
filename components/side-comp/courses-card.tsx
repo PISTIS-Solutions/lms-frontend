@@ -65,8 +65,11 @@ cardProps) => {
         }
       } catch (error: any) {
         if (error.response && error.response.status === 401) {
-          await refreshAdminToken();
-          await getModuleCount();
+          const refreshed = await refreshAdminToken();
+          if (refreshed) {
+            await getModuleCount();
+          }
+          return;
         } else if (error?.message === "Network Error") {
           toast.error("Check your network!", {
             position: "top-right",
@@ -104,7 +107,6 @@ cardProps) => {
   const isLockedDisabled = isLocked;
 
   const handleEnroll = async (id: string) => {
-    
     try {
       setEnrolling(true);
       const authToken = Cookies.get("authToken");
@@ -139,8 +141,11 @@ cardProps) => {
     } catch (error: any) {
       // console.log(error.response.data.message, "error")
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await handleEnroll(id);
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await handleEnroll(id);
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

@@ -55,8 +55,11 @@ const SingleProject = () => {
       // console.log(response.data, "projects")
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await fetchProjects();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await fetchProjects();
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
@@ -99,7 +102,7 @@ const SingleProject = () => {
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
-      <ToastContainer/>
+      <ToastContainer />
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-between items-center bg-white shadow-md p-4 w-full">
           <ArrowLeft

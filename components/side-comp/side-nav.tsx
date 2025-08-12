@@ -23,6 +23,7 @@ import { toast } from "react-toastify";
 import refreshAdminToken from "@/utils/refreshToken";
 import { useRouter } from "next-nprogress-bar";
 import useCheckStatusStore from "@/store/checkStatus";
+import { MdDownload } from "react-icons/md";
 
 const SideNav = () => {
   const navTexts = [
@@ -135,6 +136,8 @@ const SideNav = () => {
     );
   };
 
+  const certificate = Cookies.get("certificate");
+
   return (
     <div>
       <nav className="w-64 hidden lg:block bg-main h-screen absolute top-0 overflow-y-auto">
@@ -218,26 +221,28 @@ const SideNav = () => {
 
           {/* Help & Logout */}
           <div>
-            <Link href="#">
-              <div
-                className={`link flex items-center pl-5 gap-3 text-center transition duration-150 ease-in-out cursor-pointer my-1 py-3 
+            {certificate && (
+              <Link href="/certificate">
+                <div
+                  className={`link flex items-center pl-5 gap-3 text-center transition duration-150 ease-in-out cursor-pointer my-1 py-3 
                   ${
-                    pathname === "/help"
-                      ? "text-white border-l-white border-l-4"
-                      : "text-gray-400 hover:text-white hover:border-l-4 hover:border-l-white"
+                    pathname === "/certificate"
+                      ? "text-white border-l-white border-l-2"
+                      : "text-gray-400 hover:text-white hover:border-l-2 hover:border-l-white"
                   }`}
-              >
-                <IoHelpCircle size={26} />
-                <span className="text-lg">Help & Information</span>
-              </div>
-            </Link>
+                >
+                  <MdDownload size={26} />
+                  <span className="text-lg">Download Certificate</span>
+                </div>
+              </Link>
+            )}
             <Link href="/log-out">
               <div
                 className={`link flex items-center pl-5 gap-3 text-center transition duration-150 ease-in-out cursor-pointer my-1 py-3 
                   ${
                     pathname.includes("/log-out")
-                      ? "text-[#FF0000] border-l-white border-l-4"
-                      : "text-[#FF0000] hover:text-white hover:border-l-4 hover:border-l-white"
+                      ? "text-[#FF0000] border-l-white border-l-2"
+                      : "text-[#FF0000] hover:text-white hover:border-l-2 hover:border-l-white"
                   }`}
               >
                 <IoIosLogOut size={26} />

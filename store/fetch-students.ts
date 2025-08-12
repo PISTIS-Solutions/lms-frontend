@@ -29,8 +29,11 @@ const useStudentStore = create<readStudent>((set, get) => ({
       set({ studentData: response.data });
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await get().fetchStudentData();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await get().fetchStudentData();
+        }
+        return;
       } else if (error.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

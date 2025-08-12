@@ -81,6 +81,16 @@ const GoogleAuthSignUp = () => {
           path: "/",
         });
 
+        // Cookies.set("first_login", achievement?.first_login, {
+        //   sameSite: "None",
+        //   secure: true,
+        // });
+
+        // Cookies.set("cert", certification, {
+        //   sameSite: "None",
+        //   secure: true,
+        // });
+
         toast.success("Google authentication successful!", {
           position: "top-right",
           autoClose: 3000,

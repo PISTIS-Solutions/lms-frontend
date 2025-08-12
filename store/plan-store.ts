@@ -33,7 +33,7 @@ export const usePlanStore = create<PlanStore>((set, get) => ({
   fetchPlans: async () => {
     try {
       set({ isLoading: true });
-      
+
       // const courseID = localStorage.getItem("courseID");
       const response = await axios.get(urls.plans);
 
@@ -43,8 +43,11 @@ export const usePlanStore = create<PlanStore>((set, get) => ({
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await get().fetchPlans();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await get().fetchPlans();
+        }
+        return;
       } else if (error.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

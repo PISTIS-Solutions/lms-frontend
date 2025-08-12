@@ -39,7 +39,7 @@ const OrderSummary = () => {
   const [coupon, setCoupon] = useState<string | null>(null);
 
   const [loadingCart, setLoadingCart] = useState(false);
-  const [cartId, setCartId] = useState("");
+  // const [cartId, setCartId] = useState("");
 
   const makeCoursePurchase = async (id: string) => {
     setLoadingCart(true);
@@ -59,11 +59,15 @@ const OrderSummary = () => {
       if (response.status === 201) {
         window.open(response.data.payment_url, "_blank");
         clearCart();
+        setCoupon("");
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await makeCoursePurchase(id);
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await makeCoursePurchase(id);
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
@@ -89,12 +93,65 @@ const OrderSummary = () => {
       setLoadingCart(false);
     }
   };
-  const makeCoursePurchaseII = async () => {
+
+  // const makeCoursePurchaseII = async () => {
+  //   setLoadingCart(true);
+  //   try {
+  //     const accessToken = Cookies.get("authToken");
+  //     const response = await axios.post(
+  //       `${urls.subs}make-payment-advanced/`,
+  //       {
+  //         course_ids: selectedCourses.map((course) => course.id),
+  //         ...(coupon?.trim() && { coupon_code: coupon.trim() }),
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken}`,
+  //         },
+  //       }
+  //     );
+  //     console.log(response, "make course purchase II");
+
+  //     if (response.status === 201) {
+  //       window.open(response.data.payment_url, "_blank");
+  //       clearCart();
+  //     }
+  //   } catch (error: any) {
+  //     if (error.response && error.response.status === 401) {
+  //       await refreshAdminToken();
+  //       await makeCoursePurchaseII();
+  //     } else if (error?.message === "Network Error") {
+  //       toast.error("Check your network!", {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "dark",
+  //       });
+  //     } else {
+  //       toast.error(error?.response?.data?.detail, {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "dark",
+  //       });
+  //     }
+  //   } finally {
+  //     setLoadingCart(false);
+  //   }
+  // };
+
+  const addToBECart = async () => {
     setLoadingCart(true);
     try {
       const accessToken = Cookies.get("authToken");
       const response = await axios.post(
-        `${urls.subs}make-payment-advanced/`,
+        `${urls.cart}add/`,
         {
           course_ids: selectedCourses.map((course) => course.id),
           ...(coupon?.trim() && { coupon_code: coupon.trim() }),
@@ -105,59 +162,9 @@ const OrderSummary = () => {
           },
         }
       );
-      console.log(response, "make course purchase II");
-
-      if (response.status === 201) {
-        window.open(response.data.payment_url, "_blank");
-        clearCart();
-      }
-    } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await makeCoursePurchaseII();
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-    } finally {
-      setLoadingCart(false);
-    }
-  };
-  const addToBECart = async () => {
-    setLoadingCart(true);
-    try {
-      const accessToken = Cookies.get("authToken");
-      const response = await axios.post(
-        `${urls.cart}add/`,
-        {
-          course_ids: selectedCourses.map((course) => course.id),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
       console.log(response, "add course to backend");
       if (response.status === 200) {
-        setCartId(response.data.id);
+        // setCartId(response.data.id);
         await makeCoursePurchase(response.data.id);
       } else {
         toast.error("Failed to add to cart", {
@@ -172,8 +179,11 @@ const OrderSummary = () => {
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await addToBECart();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await addToBECart();
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
@@ -318,6 +328,7 @@ const OrderSummary = () => {
             </label>{" "}
             <br />
             <input
+              disabled={loadingCart}
               value={coupon!}
               onChange={(e) => setCoupon(e.target.value)}
               type="text"
@@ -326,7 +337,7 @@ const OrderSummary = () => {
             />
           </div>
           <button
-            onClick={() => makeCoursePurchaseII()}
+            onClick={() => addToBECart()}
             className="bg-white w-full lg:w-[80%] h-[50px] border border-white text-sm sm:text-base flex items-center justify-center mx-auto text-main rounded-lg font-medium mt-10"
           >
             {loadingCart ? (

@@ -119,8 +119,11 @@ const CourseDetails = () => {
         theme: "dark",
       });
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await getCustomCourses(id);
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await getCustomCourses(id);
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

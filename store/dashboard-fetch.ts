@@ -27,13 +27,16 @@ const useStudentDashStore = create<stuData>((set, get) => ({
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(response, "studata")
+      console.log(response, "studata");
       set({ stuData: response?.data });
       set({ enrolled_courses: response?.data?.courses_enrolled });
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await get().fetchStuData();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await get().fetchStuData();
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

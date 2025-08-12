@@ -35,8 +35,11 @@ const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await fetchSubDetails();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await fetchSubDetails();
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
@@ -71,7 +74,9 @@ const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
       <div>
         <ToastContainer />
         <div className="flex justify-between items-center">
-        <h1 className="md:text-2xl text-lg font-medium">{person?.project?.title}</h1>
+          <h1 className="md:text-2xl text-lg font-medium">
+            {person?.project?.title}
+          </h1>
           <span
             onClick={handleReviewModal}
             className="border-2 cursor-pointer border-main p-2 rounded-sm w-[32px] h-[32px] flex justify-center items-center"
@@ -101,7 +106,9 @@ const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
                 Mentor's comment
               </h1>
               <p className="text-[#3E3E3E] text-base md:text-lg">
-                {!loadSubmit ? submitDetails?.mentor_comments : "Please wait..."}
+                {!loadSubmit
+                  ? submitDetails?.mentor_comments
+                  : "Please wait..."}
               </p>
             </div>
           </p>

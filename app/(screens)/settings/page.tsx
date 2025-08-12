@@ -126,11 +126,14 @@ const SettingsPage = () => {
           router.replace("/sign-in");
         }
       } catch (error: any) {
-        console.log(error, "error")
+        console.log(error, "error");
         if (error.response && error.response.status === 401) {
           try {
-            await refreshToken();
-            await onSubmitPassword(values, e);
+            const refreshed = await refreshAdminToken();
+            if (refreshed) {
+              await onSubmitPassword(values, e);
+            }
+            return;
           } catch (refreshError: any) {
             // console.error("Error refreshing token:", refreshError.message);
           }
@@ -278,8 +281,11 @@ const SettingsPage = () => {
         if (error.response && error.response.status === 401) {
           // Handle unauthorized error
           try {
-            await refreshToken();
-            await onSubmitGeneral(e);
+            const refreshed = await refreshAdminToken();
+            if (refreshed) {
+              await onSubmitGeneral(e);
+            }
+            return;
           } catch (refreshError: any) {
             // Handle refresh token error
           }
@@ -360,8 +366,11 @@ const SettingsPage = () => {
     } catch (error: any) {
       setLoading(false);
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await DeactivateStudent();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await DeactivateStudent();
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
