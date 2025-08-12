@@ -36,8 +36,11 @@ const Project = () => {
       setCourses(response.data);
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await fetchCourses();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await fetchCourses();
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

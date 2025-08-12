@@ -30,8 +30,11 @@ const useCartStore = create<CartStore>((set, get) => ({
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await get().fetchCart(id);
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await get().fetchCart(id);
+        }
+        return;
       }
       //   else if (error?.message === "Network Error") {
       //     toast.error("Check your network!", {

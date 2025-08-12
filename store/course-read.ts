@@ -20,14 +20,14 @@ const useCourseRead = create<readStudent>((set, get) => ({
   fetchCourseRead: async (id: any) => {
     try {
       set({ loading: true });
-      const accessToken = Cookies.get('authToken');
+      const accessToken = Cookies.get("authToken");
       // const courseID = localStorage.getItem("courseID");
       const response = await axios.get(`${urls.courses}${id}/`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      console.log(response, "course")
+      console.log(response, "course");
       set({ courseRead: response.data });
       set({ response: response.status });
       if (response.status === 200) {
@@ -36,8 +36,11 @@ const useCourseRead = create<readStudent>((set, get) => ({
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await get().fetchCourseRead(id);
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await get().fetchCourseRead(id);
+        }
+        return;
       } else if (error.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

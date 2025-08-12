@@ -1,9 +1,7 @@
 "use client";
 import IntermediateCard from "@/components/side-comp/pricing/IntermediateCard";
-import BeginnerCard from "@/components/side-comp/pricing/BeginnerCard";
-import AdvanceCard from "@/components/side-comp/price/AdvancedCard";
+import AdvanceCard from "@/components/side-comp/pricing/AdvanceCard";
 import { ChevronLeft } from "lucide-react";
-import PlanNav from "@/components/side-comp/pricing/PlanNav";
 import { useEffect, useState } from "react";
 import { usePlanStore } from "@/store/plan-store";
 import { useRouter } from "next-nprogress-bar";

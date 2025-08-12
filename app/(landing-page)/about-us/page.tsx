@@ -10,7 +10,6 @@ import Benefits from "@/components/side-comp/landing/benefits";
 import Slides from "@/components/side-comp/landing/slides";
 import Learning from "@/components/side-comp/landing/learning";
 import Footer from "@/components/side-comp/landing/footer";
-import aboutImg from "@/src/assets/abtImage.png";
 
 import missionBg from "@/src/assets/missionBg.png";
 import aboutImg from "@/src/assets/abtImage.png";

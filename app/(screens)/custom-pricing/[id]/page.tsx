@@ -1,7 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { ChevronLeft, Loader2Icon, Search, ShoppingCart } from "lucide-react";
+import {
+  Check,
+  ChevronLeft,
+  Loader2Icon,
+  Search,
+  ShoppingCart,
+} from "lucide-react";
 import { MdOpenInNew } from "react-icons/md";
 import { Button } from "@/components/ui/button";
 import pistis from "@/src/assets/full-logo.png";
@@ -33,6 +39,8 @@ import {
 } from "@/utils/markdown";
 import refreshAdminToken from "@/utils/refreshToken";
 import { BiAddToQueue } from "react-icons/bi";
+import { useCartStoreInitial } from "@/store/cart/cartStore";
+import { BsCartPlus } from "react-icons/bs";
 
 interface courseReadType {
   id: string;
@@ -43,13 +51,39 @@ interface courseReadType {
   overview: string;
   course_url: string;
   course_duration: string;
-  order: number;
-  module_count: string;
+  order?: number;
+  modules: [];
+  modules_count: number;
   price: string;
+  owner: {
+    id: string;
+    user: {
+      id: string;
+      email: string;
+      first_name: string;
+      last_name: string;
+      phone_number: string;
+      location: string;
+      profile_photo: string;
+      is_onboarded: boolean;
+      is_active: boolean;
+      is_student: boolean;
+      is_staff: boolean;
+      date_joined: string;
+      last_login: string;
+      status: string;
+    };
+    role: string;
+    position: string;
+    bio: string;
+  };
+  review_count: number;
+  average_rating: string | null;
 }
 const CourseDetails = () => {
   const router = useRouter();
   const params = useParams();
+  const { selectedCourses, toggleCourse } = useCartStoreInitial();
 
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<courseReadType>();
@@ -85,8 +119,11 @@ const CourseDetails = () => {
         theme: "dark",
       });
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await getCustomCourses(id);
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await getCustomCourses(id);
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
@@ -118,121 +155,83 @@ const CourseDetails = () => {
     getCustomCourses(params?.id);
   }, []);
 
-  const [cartId, setCartId] = useState<string | null>(null);
-  const [loadAdd, setLoadAdd] = useState(false);
+  // const [cartId, setCartId] = useState<string | null>(null);
+  // const [loadAdd, setLoadAdd] = useState(false);
 
-  useEffect(() => {
-    const storedId = localStorage.getItem("custom_cart_id");
-    if (storedId) {
-      setCartId(storedId);
-    }
-  }, []);
+  // const addToCart = async () => {
+  //   try {
+  //     setLoadAdd(true);
 
-  const addToCart = async () => {
-    try {
-      setLoadAdd(true);
-
-      const payload: any = {
-        course_ids: [course?.id],
-      };
-      if (cartId) {
-        payload.cart_id = cartId;
-      }
-      const response = await axios.post(`${baseURL}/cart/add/`, payload);
-      console.log(response.data.id);
-      if (response.status === 200) {
-        if (!cartId && response.data.id) {
-          setCartId(response.data.id);
-          localStorage.setItem("custom_cart_id", response.data.id);
-        }
-        toast.success(`${response.data.items[0].course.title} added to cart`, {
-          position: "top-right",
-          autoClose: 5000,
-          theme: "dark",
-        });
-      } else {
-        toast.error("Error adding to cart", {
-          position: "top-right",
-          autoClose: 5000,
-          theme: "dark",
-        });
-      }
-    } catch (error: any) {
-      toast.error(`Error adding to cart: ${error.message}`, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        theme: "dark",
-      });
-      if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await addToCart();
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
-      setLoadAdd(false);
-    } finally {
-      setLoadAdd(false);
-    }
-  };
+  //     const payload: any = {
+  //       course_ids: [course?.id],
+  //     };
+  //     if (cartId) {
+  //       payload.cart_id = cartId;
+  //     }
+  //     const response = await axios.post(`${baseURL}/cart/add/`, payload);
+  //     console.log(response.data.id);
+  //     if (response.status === 200) {
+  //       toast.success(`${response.data.items[0].course.title} added to cart`, {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         theme: "dark",
+  //       });
+  //     } else {
+  //       toast.error("Error adding to cart", {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         theme: "dark",
+  //       });
+  //     }
+  //   } catch (error: any) {
+  //     toast.error(`Error adding to cart: ${error.message}`, {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: false,
+  //       draggable: false,
+  //       theme: "dark",
+  //     });
+  //     if (error.response && error.response.status === 401) {
+  //       await refreshAdminToken();
+  //       await addToCart();
+  //     } else if (error?.message === "Network Error") {
+  //       toast.error("Check your network!", {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "dark",
+  //       });
+  //     } else {
+  //       toast.error(error?.response?.data?.detail, {
+  //         position: "top-right",
+  //         autoClose: 5000,
+  //         hideProgressBar: false,
+  //         closeOnClick: true,
+  //         pauseOnHover: false,
+  //         draggable: false,
+  //         theme: "dark",
+  //       });
+  //     }
+  //     setLoadAdd(false);
+  //   } finally {
+  //     setLoadAdd(false);
+  //   }
+  // };
 
   if (loading)
     return (
       <div className="bg-slate-50 h-[100%]">
-        <div className="bg-main px-5 sm:px-10 md:px-20 h-[98px] flex gap-5 items-center justify-between">
-          <Image
-            src={pistis}
-            className="md:w-auto w-1/3"
-            alt="pistis"
-            priority
-          />
-          {/* <span className="relative w-full md:w-1/3">
-          <Search className="text-[#9F9F9F] absolute left-2 mt-3 w-5 h-5 font-normal" />
-          <input
-            type="text"
-            className="bg-white rounded-[8px] py-3 w-full indent-8 placeholder:text-[#9F9F9F] text-xs sm:text-sm font-normal"
-            placeholder="Search for a preferred course"
-          />
-        </span> */}
-          <span className="flex items-center gap-x-2 sm:gap-x-5">
-            <Link href="/sign-in">
-              <Button className="bg-sub py-2 sm:py-[13px] hover:text-white px-3 whitespace-nowrap sm:px-[20px] text-sm sm:text-lg text-black font-medium">
-                Sign In
-              </Button>
-            </Link>
-
-            <Link href="/create-account">
-              <p className="text-sm sm:text-lg hover:text-gray-200 text-white font-medium cursor-pointer">
-                Create Account
-              </p>
-            </Link>
-          </span>
-        </div>
         <div className="h-screen w-full flex justify-center items-center">
           <span className="text-main w-full flex items-center justify-center">
             <Loader2Icon className="animate-spin" />
-            <p className="text-base sm:text-lg md:text-xl">Loading course information...</p>
+            <p className="text-base sm:text-sm md:text-base">
+              Loading course information...
+            </p>
           </span>
         </div>
       </div>
@@ -240,49 +239,41 @@ const CourseDetails = () => {
 
   return (
     <div className="bg-slate-50 h-[100%]">
-      <div className="bg-main px-5 sm:px-10 md:px-20 h-[98px] flex gap-5 items-center justify-between">
-        <Image src={pistis} className="md:w-auto w-1/3" alt="pistis" priority />
-        {/* <span className="relative w-full md:w-1/3">
-              <Search className="text-[#9F9F9F] absolute left-2 mt-3 w-5 h-5 font-normal" />
-              <input
-                type="text"
-                className="bg-white rounded-[8px] py-3 w-full indent-8 placeholder:text-[#9F9F9F] text-xs sm:text-sm font-normal"
-                placeholder="Search for a preferred course"
-              />
-            </span> */}
-        <span className="flex items-center gap-x-2 sm:gap-x-5">
-          <Link href="/sign-in">
-            <Button className="bg-sub py-2 sm:py-[13px] hover:text-white px-3 whitespace-nowrap sm:px-[20px] text-sm sm:text-lg text-black font-medium">
-              Sign In
-            </Button>
-          </Link>
-
-          <Link href="/create-account">
-            <p className="text-sm sm:text-lg hover:text-gray-200 text-white font-medium cursor-pointer">
-              Create Account
-            </p>
-          </Link>
-        </span>
-      </div>
       <div className="p-5">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-0.5 sm:gap-2">
-            <ChevronLeft onClick={() => router.back()} />
-            <p className="text-[#2E2E2E] text-sm sm:text-base md:text-lg font-medium">{`Course Details / ${course?.title}`}</p>
+          <div
+            onClick={() => router.back()}
+            className="flex items-center gap-0.5 sm:gap-1"
+          >
+            <ChevronLeft />
+            <p className="text-[#2E2E2E] text-xs sm:text-sm md:text-base font-medium">{`Course Details / ${course?.title}`}</p>
           </div>
           <button
-            disabled={loadAdd}
-            onClick={addToCart}
+            // disabled={loadAdd}
+            onClick={() => {
+              toggleCourse({
+                id: course!.id,
+                title: course!.title,
+                price: course!.price,
+                module_count: course!.modules_count,
+                course_duration: course!.course_duration,
+              });
+            }}
             className="bg-sub disabled:bg-sub/70 cursor-pointer rounded-[6px] flex items-center justify-between gap-2 p-[12px_10px] sm:p-[16px_14px]"
           >
-            <span className="relative">
-              <BiAddToQueue className=" text-white  w-6 h-6" />
-              {/* <p className="bg-[#FF0000] absolute top-0 -right-1 rounded-full flex items-center justify-center text-xs w-[14px] h-[14px] text-white font-medium">
-                5
-              </p> */}
-            </span>
             <p className="text-sm font-semibold hidden sm:block text-white">
-              {loadAdd ? "Adding to cart" : "Add to cart"}
+              {/* {loadAdd ? "Adding to cart" : "Add to cart"} */}
+              {selectedCourses.some((cart) => cart.id === course?.id) ? (
+                <span className="flex items-center gap-1">
+                  <Check className="w-4 h-4 text-white" />
+                  <span className="hidden sm:inline">Added</span>
+                </span>
+              ) : (
+                <span className="flex items-center gap-1">
+                  <BsCartPlus className="w-4 h-4 text-white" />
+                  <span className="hidden sm:inline">Add to cart</span>
+                </span>
+              )}
             </p>
           </button>
         </div>
@@ -291,7 +282,7 @@ const CourseDetails = () => {
             <Image
               // alt={course?.title}
               alt="courseDetailImage"
-              className="w-full h-[328px] "
+              className="w-full object-cover rounded-tl-[8px] rounded-tr-[8px] h-[328px] "
               src={course?.course_image}
               width={100}
               height={100}
@@ -314,7 +305,7 @@ const CourseDetails = () => {
                   <span className="bg-[#FAFAFA] rounded py-1 px-2 flex items-center justify-between">
                     <Image alt="note" src={note} className="w-4 h-4" />
                     <p className="text-[#484848] font-normal text-xs sm:text-sm">
-                      {course?.module_count} modules
+                      {course?.modules.length} module(s)
                     </p>
                   </span>
                   <span className="bg-[#FAFAFA] rounded py-1 px-2 flex items-center justify-between">
@@ -327,12 +318,17 @@ const CourseDetails = () => {
                 <div className="flex items-center gap-x-2">
                   <Image alt="rate" src={rate} className="w-4 h-4" />
                   <p className="text-[#484848] text-xs sm:text-sm font-normal">
-                    4.5 ({course?.order})
+                    {course?.average_rating === null
+                      ? "0"
+                      : course?.average_rating}{" "}
+                    ({course?.review_count})
                   </p>
                 </div>
               </div>
               <div className="flex items-center justify-end gap-3">
-                <p className="text-[#484848] font-medium text-xs sm:text-sm">Price:</p>
+                <p className="text-[#484848] font-medium text-xs sm:text-sm">
+                  Price:
+                </p>
                 <h1 className="text-[#484848] font-semibold text-xl sm:text-3xl">
                   ₦{course?.price}
                 </h1>
@@ -370,31 +366,32 @@ const CourseDetails = () => {
               <div>
                 <div className="flex justify-between">
                   <Image
-                    alt="tutorImg"
-                    src={customImg}
+                    width={96}
+                    height={96}
+                    alt={`${course?.owner?.user?.first_name} ${course?.owner?.user?.last_name}`}
+                    src={course?.owner?.user?.profile_photo!}
                     className="w-24 h-24 rounded-full object-fill"
                   />
-                  <MdOpenInNew className="text-[#484848] h-5 w-5 cursor-pointer" />
+                  {/* <MdOpenInNew className="text-[#484848] h-5 w-5 cursor-pointer" /> */}
                 </div>
                 <h1 className="text-main font-semibold text-sm sm:text-lg mt-3">
-                  Alex Thompson
+                  {`${course?.owner?.user?.first_name} ${course?.owner?.user?.last_name}`}
                 </h1>
                 <p className="text-[#666666] font-normal text-xs sm:text-sm py-1">
-                  Senior DevOps Engineer & Cloud Infrastructure Expert
+                  {course?.owner?.position === "frontend_dev"
+                    ? "Frontend Developer"
+                    : course?.owner?.position === "backend_dev"
+                    ? "Backend Developer"
+                    : course?.owner?.position === "faculty_lead"
+                    ? "Faculty Lead"
+                    : course?.owner?.position}
                 </p>
               </div>
               <p className="text-[#2E2E2E] text-xs sm:text-base font-normal py-3 leading-relaxed">
-                Alex Thompson is a highly skilled DevOps engineer with over a
-                decade of experience in automating and optimizing cloud
-                infrastructures. He has led DevOps teams at top tech firms,
-                focusing on improving deployment pipelines, enhancing system
-                reliability, and implementing robust CI/CD practices. Alex is a
-                dedicated mentor, known for his ability to simplify complex
-                DevOps concepts and tools, empowering his students to excel in
-                dynamic tech environments.
+                {course?.owner?.bio}
               </p>
             </div>
-            <div className="my-3">
+            {/* <div className="my-3">
               <h1 className="text-[#2E2E2E] font-semibold text-sm sm:text-lg">
                 Course Reviews
               </h1>
@@ -406,7 +403,7 @@ const CourseDetails = () => {
                   deployment processes, enhancing system reliability, and
                   implementing robust{" "}
                 </p>
-                <div className="flex items-center justify-between my-3">
+                <div className="flex flex-wrap items-center justify-between my-3">
                   <div className="flex items-center gap-2">
                     <Image
                       alt=""
@@ -423,11 +420,13 @@ const CourseDetails = () => {
                   </div>
                   <div className="flex items-center gap-x-2">
                     <Image alt="rate" src={rate} className="w-4 h-4" />
-                    <p className="text-[#484848] text-xs sm:text-sm font-normal">4.5</p>
+                    <p className="text-[#484848] text-xs sm:text-sm font-normal">
+                      4.5
+                    </p>
                   </div>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
         <div className="flex py-10 cursor-pointer justify-center">

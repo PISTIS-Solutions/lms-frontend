@@ -41,6 +41,7 @@ import ProjectRejected from "@/src/assets/svg/projectRejected.svg";
 import subscriptionRenewalReminder from "@/src/assets/svg/subscriptionRenewalReminder.svg";
 import NotificationModal from "@/components/side-comp/modal/notification-modal";
 import useCheckStatusStore from "@/store/checkStatus";
+import InitialLogin from "../../../components/side-comp/achievement/initialLogin";
 
 const responsive = {
   tablet: {
@@ -189,10 +190,21 @@ const Dashboard = () => {
 
   const subscriptionStatus = Cookies.get("status");
 
-  const [openModal, setOpenModal] = useState<boolean>(false);
-  const handleModal = () => {
-    setOpenModal((prev) => !prev);
+  const first_login = Cookies.get("first_login") || "false";
+  const [open, setOpen] = useState(false);
+
+  const onOpenLoginAchievement = () => {
+    const isFirstLoginTrue = first_login === "true";
+    setOpen(isFirstLoginTrue);
   };
+
+  useEffect(() => {
+    const first_login = Cookies.get("first_login");
+    if (first_login === "true") {
+      setOpen(true);
+      Cookies.remove("first_login");
+    }
+  }, []);
 
   // if (!authToken) {
   //   return <p>Loading...</p>;
@@ -222,7 +234,7 @@ const Dashboard = () => {
                 {current_plan === "Intermediate" ? (
                   <button
                     className="bg-[#2FBC8D] rounded-[8px] px-8 text-white font-sfProDisplay font-medium h-[50px] mt-2 md:mt-0"
-                    onClick={() => route.push("/dashboard/payment-plan")}
+                    onClick={() => route.push("/custom-pricing")}
                   >
                     Buy Custom Plan
                   </button>
@@ -517,40 +529,11 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {/* {openModal && (
-        <div className="w-full h-screen bg-black/25 absolute top-0 flex justify-center items-center left-0">
-          <div className="rounded-[8px] relative bg-white border-t-2 overflow-y-scroll w-[95vw] md:w-3/4 h-[85vh] z-[99] md:auto border-t-main ">
-            <div className="text-center text-black flex justify-center items-center flex-col py-5">
-              <h1 className="font-semibold pb-2 md:pb-5 text-xl sm:text-xl md:text-4xl">
-                Find the right plan for you
-              </h1>
-              <p className="md:max-w-[60vw] max-w-full md:text-base sm:text-sm text-xs ">
-                Make payment into{" "}
-                <span className="font-semibold">
-                  THE PISTIS TECH HUB (6366146872, MONIEPOINT MFB)
-                </span>
-                , send an email with payment receipt, full name and registered
-                email address to{" "}
-                <span className="font-semibold">
-                  learning.pististechub@gmail.com
-                </span>{" "}
-                for payment confirmation. Upon confirmation, your account will
-                be upgraded in 10 minutes.
-              </p>
-              <button
-                onClick={handleModal}
-                className=" bg-transparent absolute top-5 right-5 cursor-pointer"
-              >
-                <X className="text-main border border-main rounded-md " />
-              </button>
-            </div>
-            <div className="flex flex-wrap items-center justify-center pb-5 gap-2 md:gap-10 ">
-              <BeginnerCard />
-              <IntermediateCard />
-            </div>
-          </div>
+      {open && (
+        <div className="w-full h-screen bg-white/20 backdrop-blur-sm z-[99999] absolute top-0 flex justify-center items-center left-0">
+          <InitialLogin setOpen={setOpen} />
         </div>
-      )} */}
+      )}
     </main>
   );
 };

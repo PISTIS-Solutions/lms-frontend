@@ -164,8 +164,11 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
         } catch (error: any) {
           console.log(error.response.data.error[0]);
           if (error.response && error.response.status === 401) {
-            await refreshAdminToken();
-            await rescheduleSession();
+            const refreshed = await refreshAdminToken();
+            if (refreshed) {
+              await rescheduleSession();
+            }
+            return;
           } else if (error?.message === "Network Error") {
             toast.error("Check your network!", {
               position: "top-right",

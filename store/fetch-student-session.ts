@@ -89,8 +89,11 @@ const useFetchStudentSessionStore = create<StoreState>((set, get) => ({
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await get().fetchSession();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await get().fetchSession();
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

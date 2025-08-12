@@ -38,8 +38,11 @@ const useCheckStatusStore = create<CheckStatusState>((set) => ({
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await useCheckStatusStore.getState().checkStatus();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await useCheckStatusStore.getState().checkStatus();
+        }
+        return;
       } else if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

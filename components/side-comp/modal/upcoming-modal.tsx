@@ -39,8 +39,11 @@ const UpcomingModal = ({ toggleModal, isOpen }: UpcomingModal) => {
       });
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await deleteSession();
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await deleteSession();
+        }
+        return;
       } else if (error.response && error.response.status === 404) {
         console.log(error.response);
       } else if (error?.message === "Network Error") {

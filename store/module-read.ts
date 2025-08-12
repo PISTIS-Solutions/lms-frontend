@@ -36,8 +36,11 @@ const useModuleRead = create<readStudent>((set, get) => ({
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await get().fetchModuleRead(id, moduleID);
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await get().fetchModuleRead(id, moduleID);
+        }
+        return;
       } else if (error.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",

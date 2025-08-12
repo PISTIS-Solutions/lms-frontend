@@ -15,7 +15,7 @@ const usePendingGradeStore = create<pendingGrading>((set, get) => ({
   loading: false,
   fetchProjectReview: async () => {
     try {
-        set({ loading: true });
+      set({ loading: true });
       const accessToken = Cookies.get("authToken");
       const response = await axios.get(urls.projectReview, {
         headers: {
@@ -27,34 +27,37 @@ const usePendingGradeStore = create<pendingGrading>((set, get) => ({
         set({ loading: false });
         // console.log(response, "res")
       }
-    }catch (error: any) {
-        if (error.response && error.response.status === 401) {
-          await refreshAdminToken();
+    } catch (error: any) {
+      if (error.response && error.response.status === 401) {
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
           await get().fetchProjectReview;
-        } else if (error.message === "Network Error") {
-          toast.error("Check your network!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
-        } else {
-          toast.error(error.response?.data?.detail, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
         }
-      } finally {
-        set({ loading: false });
+        return;
+      } else if (error.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
+      } else {
+        toast.error(error.response?.data?.detail, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          theme: "dark",
+        });
       }
+    } finally {
+      set({ loading: false });
+    }
   },
 }));
 

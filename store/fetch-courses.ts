@@ -34,9 +34,12 @@ const useCourseStore = create<CourseStore>((set, get) => ({
       }
     } catch (error: any) {
       if (error.response && error.response.status === 401) {
-        await refreshAdminToken();
-        await get().fetchStuCourses();
-      } 
+        const refreshed = await refreshAdminToken();
+        if (refreshed) {
+          await get().fetchStuCourses();
+        }
+        return;
+      }
       // else if (error?.message === "Network Error") {
       //   toast.error("Check your network!", {
       //     position: "top-right",

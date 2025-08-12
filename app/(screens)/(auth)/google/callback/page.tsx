@@ -21,65 +21,61 @@ const GoogleAuthSignUp = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const url = window.location.href;
+      const url = new URL(window.location.href);
 
-      const match = url.match(/access_token=([^&]+)/);
-      const accessToken = match ? match[1] : null;
+      const accessToken = url.searchParams.get("access_token");
+      const refreshToken = url.searchParams.get("refresh_token");
+      const firstLogin = url.searchParams.get("first_login");
+      const isCertified = url.searchParams.get("is_certified");
+      const userId = url.searchParams.get("user_id");
+      const status = url.searchParams.get("subscription_status");
 
       if (accessToken) {
         setLoading(true);
-
-        const userDataMatch = url.match(/user_data=([^&]+)/);
-        let userData = null;
-
-        if (userDataMatch) {
-          const decoded = decodeURIComponent(userDataMatch[1]);
-
-          try {
-            const cleaned = decoded
-              .replace(/UUID\(['"]?([^'")]+)['"]?\)/g, '"$1"')
-              .replace(/'/g, '"')
-              .replace(/\bTrue\b/g, "true")
-              .replace(/\bFalse\b/g, "false");
-
-            userData = JSON.parse(cleaned);
-          } catch (e) {
-            console.error("Failed to parse user_data:", e);
-            toast.error("Error parsing user data from Google", {
-              position: "top-right",
-              autoClose: 5000,
-            });
-          }
-        }
-
-        if (userData && userData.id) {
-          Cookies.set("userId", userData.id, {
-            secure: true,
-            sameSite: "None",
-            path: "/",
-          });
-        }
-
-        if (userData && userData.picture) {
-          Cookies.set("pfp", userData.picture, {
-            secure: true,
-            sameSite: "None",
-            path: "/",
-          });
-        }
-        if (userData && userData.status) {
-          Cookies.set("status", userData.status, {
-            secure: true,
-            sameSite: "None",
-            path: "/",
-          });
-        }
 
         Cookies.set("authToken", accessToken, {
           secure: true,
           sameSite: "None",
           path: "/",
         });
+
+        if (refreshToken) {
+          Cookies.set("refreshToken", refreshToken, {
+            secure: true,
+            sameSite: "None",
+            path: "/",
+          });
+        }
+
+        if (firstLogin !== null) {
+          Cookies.set("first_login", firstLogin, {
+            secure: true,
+            sameSite: "None",
+            path: "/",
+          });
+        }
+
+        if (isCertified !== null) {
+          Cookies.set("cert", isCertified, {
+            secure: true,
+            sameSite: "None",
+            path: "/",
+          });
+        }
+        if (userId !== null) {
+          Cookies.set("user_id", userId, {
+            secure: true,
+            sameSite: "None",
+            path: "/",
+          });
+        }
+        if (status !== null) {
+          Cookies.set("status", status, {
+            secure: true,
+            sameSite: "None",
+            path: "/",
+          });
+        }
 
         toast.success("Google authentication successful!", {
           position: "top-right",

@@ -23,6 +23,7 @@ export const urls = {
   plans: `${baseURL}/subscriptions/payment-plans/`,
   makeBeginnerPayment: `${baseURL}/subscriptions/make-payment-beginner/`,
   makeIntermediatePayment: `${baseURL}/subscriptions/make-payment-intermediate/`,
+  subs: `${baseURL}/subscriptions/`,
   
   
   getStudents: `${baseURL}/courses-and-students/`,
@@ -34,6 +35,8 @@ export const urls = {
   
   waitlist: `${baseURL}/waitlist/join_waitlist/`,
 
-  subStatus: `${baseURL}/students/StudentSubscriptionDetails/`
+  subStatus: `${baseURL}/students/StudentSubscriptionDetails/`,
+
+  cart: `${baseURL}/cart/`
   
 };

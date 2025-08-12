@@ -12,10 +12,11 @@ import CountDownText from "./CountDownText";
 import UpcomingModal from "./modal/upcoming-modal";
 import { IoIosLogOut, IoMdSettings } from "react-icons/io";
 import { IoHelpCircle } from "react-icons/io5";
-import { MdAssignment, MdDashboard } from "react-icons/md";
+import { MdAssignment, MdDashboard, MdDownload } from "react-icons/md";
 import grade from "@/src/assets/svg/grading.svg";
 import bookGray from "@/src/assets/svg/book-gray.svg";
 import { useRouter } from "next-nprogress-bar";
+import Cookies from "js-cookie";
 
 const MobileNav = ({ loadSub, current_plan, time_left }: any) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -121,6 +122,8 @@ const MobileNav = ({ loadSub, current_plan, time_left }: any) => {
     );
   };
 
+  const certificate = Cookies.get("cert");
+
   return (
     <>
       <div className="relative w-1/2 z-[98]">
@@ -224,21 +227,23 @@ const MobileNav = ({ loadSub, current_plan, time_left }: any) => {
             </div>
 
             <div>
-              <div className="text-white text-center duration-150 ease-in-out cursor-pointer my-1 py-1">
-                {/* <Link href={"/help"} className=""> */}
-                <div
-                  className={`link ${
-                    pathname === "/help"
-                      ? " text-white border-l-white border-l-4"
-                      : "text-[#5E5E9F]"
-                  } flex items-center pl-4 gap-2 text-center duration-150 ease-in-out cursor-pointer my-1 py-3`}
-                >
-                  {" "}
-                  <IoHelpCircle />
-                  <span className="text-sm">Help & Information</span>
+              {certificate && (
+                <div className="text-white text-center duration-150 ease-in-out cursor-pointer my-1 py-1">
+                  <Link href={"/certificate"} className="">
+                    <div
+                      className={` ${
+                        pathname === "/certificate"
+                          ? " text-white border-l-white border-l-4"
+                          : "text-[#5E5E9F]"
+                      } flex items-center pl-4 gap-2 text-center duration-150 ease-in-out cursor-pointer my-1 py-3`}
+                    >
+                      {" "}
+                      <MdDownload />
+                      <span className="text-sm">Download certificate</span>
+                    </div>
+                  </Link>
                 </div>
-                {/* </Link> */}
-              </div>
+              )}
               <Link href={"/log-out"} className="">
                 <div
                   className={`link ${
