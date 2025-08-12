@@ -122,7 +122,7 @@ const MobileNav = ({ loadSub, current_plan, time_left }: any) => {
     );
   };
 
-  const certificate = Cookies.get("certificate");
+  const certificate = Cookies.get("cert");
 
   return (
     <>

@@ -136,7 +136,7 @@ const SideNav = () => {
     );
   };
 
-  const certificate = Cookies.get("certificate");
+  const certificate = Cookies.get("cert");
 
   return (
     <div>
