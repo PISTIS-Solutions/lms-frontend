@@ -37,6 +37,8 @@ export const urls = {
 
   subStatus: `${baseURL}/students/StudentSubscriptionDetails/`,
 
-  cart: `${baseURL}/cart/`
+  cart: `${baseURL}/cart/`,
+
+  blog: `${baseURL}/blogs/`
   
 };
