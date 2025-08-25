@@ -25,6 +25,7 @@ interface cardProps {
   duration: number;
   handleCardClick: any;
   isEnrolled: any;
+  category: string;
   // handleOpen: () => void;
 }
 
@@ -36,6 +37,7 @@ const ProjectCard = ({
   handleCardClick,
   project,
   isEnrolled,
+  category,
 }: // handleOpen,
 cardProps) => {
   const [moduleCount, setModuleCount] = useState(0);
@@ -88,7 +90,9 @@ cardProps) => {
           alt={title}
           unoptimized
           priority
-          className={`rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px] ${isEnrolled? " ": " blur-sm"}`}
+          className={`rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px] ${
+            isEnrolled ? " " : " blur-sm"
+          }`}
         />
         <div className="p-2">
           <div className="md:mb-14 mb-5">
@@ -107,6 +111,9 @@ cardProps) => {
               )}{" "}
               projects
             </div>
+            <span className="inline-block mt-2 px-2 py-1 text-xs font-medium bg-main/10 text-main rounded-full capitalize">
+              {category} Course
+            </span>
           </div>
         </div>
       </div>

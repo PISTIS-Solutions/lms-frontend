@@ -175,7 +175,7 @@ const SideNav = () => {
                         ({current_plan === "Intermediate" ? current_plan : "Free"})
                       </span> */}
                     </p>
-                    <h2 className="text-white text-center 2xl:text-3xl text-xl font-semibold mb-2">
+                    <h2 className="text-white 2xl:text-3xl text-xl font-semibold mb-2">
                       {current_plan === "Intermediate" ? current_plan : "Free"}
                     </h2>
                     {current_plan === "Intermediate" ? (
