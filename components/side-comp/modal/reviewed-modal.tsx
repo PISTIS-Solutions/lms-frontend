@@ -3,17 +3,18 @@ import { X } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { baseURL, urls } from "@/utils/config";
-import axios from "axios";
+// import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
+import { createAxiosInstance } from "@/lib/axios";
 
 const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
   const submissionId = localStorage.getItem("submissionID");
   const person = projectReview.find(
     (item: any) => item.submission_id === submissionId
   );
-
+  const axios = createAxiosInstance();
   const [submitDetails, setSubmitDetails] = useState<any | null>(null);
   const [loadSubmit, setLoadSubmit] = useState(false);
   const fetchSubDetails = async () => {
@@ -34,33 +35,15 @@ const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
         // console.log(response.data)
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await fetchSubDetails();
-        }
-        return;
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
+      toast.error(error?.response?.data?.detail, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     } finally {
       setLoadSubmit(false);
     }

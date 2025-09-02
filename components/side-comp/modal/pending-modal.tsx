@@ -5,13 +5,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2, X } from "lucide-react";
 import React, { useState } from "react";
 import { AiOutlineUpload } from "react-icons/ai";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
 import { baseURL, urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 import { useParams } from "next/navigation";
+import { createAxiosInstance } from "@/lib/axios";
 
 const PendingModal = ({
   handleCloseModal,
@@ -33,6 +34,7 @@ const PendingModal = ({
 
   const projectData = pID2?.find((item: any) => item.id === projectParamId);
   const projectID = pID?.[0]?.id;
+  const axios = createAxiosInstance();
 
   const handleSubmit = async () => {
     if (link && comment !== "") {
@@ -45,7 +47,7 @@ const PendingModal = ({
             project: bool ? projectData?.id : projectID,
             submission_link: link,
             student_comments: comment,
-            status: "Submitted"
+            status: "Submitted",
           },
           {
             headers: {
@@ -66,16 +68,11 @@ const PendingModal = ({
           setLoading(false);
           // handleCloseModal();
         }
-      } 
-      catch (error: any) {
+      } catch (error: any) {
         if (error.response) {
           const status = error.response.status;
           const data = error.response.data;
-      
-          if (status === 401) {
-            await refreshAdminToken();
-            await handleSubmit();
-          } else if (status === 400 && data[0]) {
+          if (status === 400 && data[0]) {
             toast.error(data[0], {
               position: "top-right",
               autoClose: 5000,
@@ -85,7 +82,10 @@ const PendingModal = ({
               draggable: false,
               theme: "dark",
             });
-          } else if (status === 400 && data.submission_link?.[0] == "Enter a valid URL.") {
+          } else if (
+            status === 400 &&
+            data.submission_link?.[0] == "Enter a valid URL."
+          ) {
             toast.error(data.submission_link[0], {
               position: "top-right",
               autoClose: 5000,
@@ -106,30 +106,8 @@ const PendingModal = ({
               theme: "dark",
             });
           }
-        } else if (error.message === "Network Error") {
-          toast.error("Check your network!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
-        } else {
-          toast.error("An unexpected error occurred", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
         }
-      }
-       
-      finally {
+      } finally {
         setLoading(false);
       }
     } else {

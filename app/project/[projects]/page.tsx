@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ArrowLeft, ChevronRight, Edit3, Loader2, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import TopNav from "@/components/side-comp/topNav";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
 import { urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
@@ -32,13 +32,14 @@ import {
   strong,
   customLink,
 } from "@/utils/markdown";
+import { createAxiosInstance } from "@/lib/axios";
 
 const SingleProject = () => {
   const router = useRouter();
   // const [showList, setShowList] = useState(false);
   const params = useParams<{ projects: string }>();
   const courseID = params.projects;
-
+  const axios = createAxiosInstance();
   const [loading, setLoading] = useState(false);
   const [project, setProject] = useState<any | null>(null);
 
@@ -54,23 +55,7 @@ const SingleProject = () => {
       setProject(response.data);
       // console.log(response.data, "projects")
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await fetchProjects();
-        }
-        return;
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
+     
         toast.error(error?.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
@@ -80,7 +65,7 @@ const SingleProject = () => {
           draggable: false,
           theme: "dark",
         });
-      }
+      
     } finally {
       setLoading(false);
     }

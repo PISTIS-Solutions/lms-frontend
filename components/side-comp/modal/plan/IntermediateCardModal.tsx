@@ -4,12 +4,13 @@ import { useRouter } from "next-nprogress-bar";
 import { useEffect, useRef, useState } from "react";
 import logo from "@/src/assets/pistis_logo.png";
 import Cookies from "js-cookie";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Loader2 } from "lucide-react";
+import { createAxiosInstance } from "@/lib/axios";
 
 const data = [
   "4 one-on-one mentorship sessions per month",
@@ -25,7 +26,7 @@ const IntermediateCardModal = () => {
   const modal = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const [coupon, setCoupon] = useState<string | null>(null);
-
+  const axios = createAxiosInstance();
   const [selectedPlan, setSelectedPlan] = useState<{
     price: number;
     duration: string;
@@ -83,33 +84,15 @@ const IntermediateCardModal = () => {
         setPaying(false);
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await handleClick();
-        }
-        return;
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(`Payment Failed; ${error.response.data.user.email[0]}`, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
+      toast.error(`Payment Failed; ${error.response.data.user.email[0]}`, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     } finally {
       setPaying(false);
     }

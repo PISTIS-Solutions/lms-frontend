@@ -15,7 +15,7 @@ import { IoHelpCircle } from "react-icons/io5";
 import { IoIosLogOut, IoMdSettings } from "react-icons/io";
 import grade from "@/src/assets/svg/grading.svg";
 import bookGray from "@/src/assets/svg/book-gray.svg";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 
 import Cookies from "js-cookie";
@@ -163,57 +163,53 @@ const SideNav = () => {
               );
             })}
           </div>
-          {/* subscription countdown */}
-          <div className="">
+
+          <div className="space-y-4">
+
             {!loadSub && (
-              <div>
-                <div className="p-1 rounded-[8px] w-full mb-2 overflow-y-scroll">
-                  <div className="space-y-2 2xl:space-y-6 p-2 flex flex-col h-auto justify-around  bg-main border border-white rounded-[8px] upcoming-modal-border_gradient">
-                    <p className="text-white font-normal 2xl:text-2xl text-sm">
-                      Current Plan{" "}
-                      {/* <span className="text-sub">
-                        ({current_plan === "Intermediate" ? current_plan : "Free"})
-                      </span> */}
-                    </p>
-                    <h2 className="text-white 2xl:text-3xl text-xl font-semibold mb-2">
-                      {current_plan === "Intermediate" ? current_plan : "Free"}
-                    </h2>
-                    {current_plan === "Intermediate" ? (
-                      <div>
-                        <p className="text-white font-normal 2xl:text-xl text-xs">
-                          Time left
-                        </p>
-                        <div className="text-white font-digital tracking-wider font-digitalNumbers 2xl:text-2xl text-xl font-normal">
-                          {current_plan === "Intermediate"
-                            ? formatTimeLeft(time_left)
-                            : ""}
-                        </div>
+              <div className="p-1 rounded-lg w-full mb-2 overflow-y-auto">
+                <div className="flex flex-col justify-around p-2 h-auto space-y-2 2xl:space-y-6 bg-main border border-white rounded-lg upcoming-modal-border_gradient">
+                  <p className="text-white font-normal text-sm 2xl:text-2xl">
+                    Current Plan
+                  </p>
+
+                  <h2 className="text-white text-center text-xl 2xl:text-3xl font-semibold mb-2">
+                    {current_plan === "Intermediate" ? current_plan : "Free"}
+                  </h2>
+
+                  {current_plan === "Intermediate" && (
+                    <div>
+                      <p className="text-white font-normal text-xs 2xl:text-xl">
+                        Time Left
+                      </p>
+                      <div className="text-white font-digital font-digitalNumbers tracking-wider text-xl 2xl:text-2xl font-normal">
+                        {formatTimeLeft(time_left)}
                       </div>
-                    ) : (
-                      ""
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
 
-            {/* Countdown Section */}
             {!loading && data && (
               <>
-                <div className="p-1 rounded-[8px] w-full mb-2 overflow-y-scroll">
-                  <div className="space-y-4 p-4 bg-main backdrop-blur-sm bg-white/10 rounded-[8px] upcoming-modal-border_gradient">
+                <div className="p-1 rounded-lg w-full mb-2 overflow-y-auto">
+                  <div className="p-4 space-y-4 bg-main bg-white/10 backdrop-blur-sm rounded-lg upcoming-modal-border_gradient">
                     <h2 className="text-white text-base font-medium mb-4">
-                      Upcoming Section
+                      Upcoming Session
                     </h2>
+
                     <CountDownText isSmall />
+
                     <button
-                      className="w-full h-[46px] font-medium bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors rounded-[6px] text-[#FF0000] text-xs lg:text-base"
+                      className="w-full h-[46px] text-xs lg:text-base font-medium rounded-md text-red-600 bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors"
                       onClick={toggleModal}
                     >
                       Cancel Private Session
                     </button>
                   </div>
                 </div>
+
                 <UpcomingModal toggleModal={toggleModal} isOpen={isOpen} />
               </>
             )}
@@ -232,7 +228,7 @@ const SideNav = () => {
                   }`}
                 >
                   <MdDownload size={26} />
-                  <span className="text-lg">Download Certificate</span>
+                  <span className="text-sm">Download Certificate</span>
                 </div>
               </Link>
             )}

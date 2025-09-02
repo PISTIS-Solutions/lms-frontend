@@ -2,10 +2,11 @@ import { create } from "zustand";
 
 import Cookies from "js-cookie";
 import { baseURL, urls } from "@/utils/config";
-import axios from "axios";
+// import axios from "axios";
 import refreshAdminToken from "@/utils/refreshToken";
 
 import { toast } from "react-toastify";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface CartStore {
   cart: any;
@@ -14,7 +15,7 @@ interface CartStore {
   setLoading: (loading: boolean) => void;
   fetchCart: (id: any) => Promise<void>;
 }
-
+const axios = createAxiosInstance();
 const useCartStore = create<CartStore>((set, get) => ({
   cart: {},
   loading: false,
@@ -29,13 +30,7 @@ const useCartStore = create<CartStore>((set, get) => ({
         set({ cart: response.data, loading: false });
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await get().fetchCart(id);
-        }
-        return;
-      }
+      
       //   else if (error?.message === "Network Error") {
       //     toast.error("Check your network!", {
       //       position: "top-right",

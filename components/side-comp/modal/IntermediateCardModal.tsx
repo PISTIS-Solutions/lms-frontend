@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import logo from "@/src/assets/pistis_logo.png";
 import Cookies from "js-cookie";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
 import { toast } from "react-toastify";

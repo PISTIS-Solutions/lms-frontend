@@ -10,6 +10,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { createAxiosInstance } from "@/lib/axios";
 
 const inputs = [
   {
@@ -33,7 +34,7 @@ const BeginnerCardModal = () => {
   const modal = useRef<HTMLDivElement>(null);
   const toggleModal = () => setIsOpen(!isOpen);
   const authToken = Cookies.get("authToken");
-
+  // const axios = createAxiosInstance();
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -44,14 +45,14 @@ const BeginnerCardModal = () => {
 
     const plan = plans.find((itm) => itm.name.includes("BEGINNER"));
     const body = {
-      user: { ...details, phone_number: `+234${details.phone_number}` },
+      user: { ...details, phone_number: `+234${details?.phone_number}` },
       plan: plan?.id,
     };
 
     try {
       const response = await axios.post(urls.makeBeginnerPayment, body);
       if (response.status === 200) {
-        window.open(response.data.payments[0].authorization_url, "_blank");
+        window.open(response?.data?.payments[0]?.authorization_url, "_blank");
         //  router.replace(response.data.payments[0].authorization_url)
         toast.success("Complete payment in the next tab!", {
           position: "top-right",
@@ -107,47 +108,55 @@ const BeginnerCardModal = () => {
 
   const [checking, setChecking] = useState(true);
   const [error, setError] = useState("");
- const checkStatus = async () => {
-  try {
-    setChecking(true);
-    
-    // Append timestamp to bypass preflight cache issues
-    const response = await axios.get(
-      `${urls.cohorts}latest_status?ts=${Date.now()}`,
-      {
-        withCredentials: true, // include if backend sets cookies/auth headers
-      }
-    );
+  const [noCohort, setNoCohort] = useState(false);
 
-    if (response.status === 200 && response.data) {
-      setWaitListStatus(response.data.status || "");
-      setWaitListRegSta(response.data.registration_status || "");
-    } else {
+  const checkStatus = async () => {
+    try {
+      setChecking(true);
+      const response = await axios.get(`${urls.cohorts}latest_status`);
+      if (
+        response.status === 200 &&
+        response.data?.detail ===
+          "No cohort found. Please create a cohort first."
+      ) {
+        setNoCohort(true);
+        setWaitListStatus("");
+        setWaitListRegSta("");
+      } else if (response.status === 200 && response.data) {
+        setNoCohort(false);
+        setWaitListStatus(response?.data?.status || "");
+        setWaitListRegSta(response?.data?.registration_status || "");
+      } else {
+        setNoCohort(false);
+        setWaitListStatus("");
+        setWaitListRegSta("");
+      }
+    } catch (error: any) {
+      setNoCohort(false);
       setWaitListStatus("");
       setWaitListRegSta("");
-    }
-  } catch (error: any) {
-    setWaitListStatus("");
-    setWaitListRegSta("");
 
-    if (error.response && error.response.status === 404) {
-      toast.error("The requested cohort status is not available.", { position: "top-right", autoClose: 5000, theme: "dark" });
-    } else if (error?.message === "Network Error") {
-      toast.error("Check your network!", { position: "top-right", autoClose: 5000, theme: "dark" });
-    } else if (error?.response?.data?.detail) {
-      toast.error(error?.response?.data?.detail, { position: "top-right", autoClose: 5000, theme: "dark" });
-    } else if (error?.message?.includes("CORS")) {
-      toast.error("CORS error — try clearing cache or switching browser.", { position: "top-right", autoClose: 5000, theme: "dark" });
+      if (error.response && error.response.status === 404) {
+        toast.error("The requested cohort status is not available.", {
+          position: "top-right",
+          autoClose: 5000,
+          theme: "dark",
+        });
+      } else if (error?.message === "Network Error") {
+        toast.error("Check your network!", {
+          position: "top-right",
+          autoClose: 5000,
+          theme: "dark",
+        });
+      }
+    } finally {
+      setChecking(false);
     }
-  } finally {
-    setChecking(false);
-  }
-};
-
+  };
 
   const [joining, setJoining] = useState(false);
   const [email, setEmail] = useState("");
-  
+
   const joinWaitlist = async () => {
     try {
       setJoining(true);
@@ -227,12 +236,21 @@ const BeginnerCardModal = () => {
   return (
     <>
       <ToastContainer />
-      <button
-        className="bg-main rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
-        onClick={() => setIsOpen(true)}
-      >
-        Select Plan
-      </button>
+      {noCohort ? (
+        <button
+          className="bg-main cursor-pointer rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
+          onClick={() => router.push("/create-account")}
+        >
+          Register Now
+        </button>
+      ) : (
+        <button
+          className="bg-main rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
+          onClick={() => setIsOpen(true)}
+        >
+          Select Plan
+        </button>
+      )}
 
       <div>
         {waitListStatus === "active" && waitListRegSta === "open" ? (

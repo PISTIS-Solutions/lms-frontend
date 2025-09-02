@@ -1,9 +1,10 @@
 import { create } from "zustand";
 import Cookies from "js-cookie";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
 import { toast } from "react-toastify";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface Plan {
   id: string;
@@ -22,7 +23,7 @@ interface PlanStore {
   isLoading: boolean;
   fetchPlans: () => Promise<void>;
 }
-
+const axios = createAxiosInstance();
 export const usePlanStore = create<PlanStore>((set, get) => ({
   plans: [],
   selectedPlanId: null,
@@ -42,13 +43,7 @@ export const usePlanStore = create<PlanStore>((set, get) => ({
         set({ isLoading: false });
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await get().fetchPlans();
-        }
-        return;
-      } else if (error.message === "Network Error") {
+    if (error.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,

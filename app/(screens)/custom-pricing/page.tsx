@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next-nprogress-bar";
-import axios from "axios";
+// import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import { baseURL } from "@/utils/config";
 
 import { ChevronLeft, Loader2Icon, ShoppingCart } from "lucide-react";
 import { useCartStoreInitial } from "@/store/cart/cartStore";
+import { createAxiosInstance } from "@/lib/axios";
 
 export interface CourseType {
   id: string;
@@ -33,6 +34,7 @@ const CustomPayment = () => {
   const [courses, setCourses] = useState<CourseType[]>([]);
 
   const { fetchCart, cart } = useCartStore();
+  const axios = createAxiosInstance();
 
   const fetchCourses = async () => {
     try {

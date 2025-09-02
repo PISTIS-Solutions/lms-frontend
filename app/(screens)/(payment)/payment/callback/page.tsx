@@ -1,16 +1,18 @@
 "use client";
 import NavigationBar from "@/components/side-comp/nav";
 import { baseURL } from "@/utils/config";
-import axios from "axios";
+// import axios from "axios";
 import { CheckCircle, ChevronLeft, Loader2, XCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from "react-toastify";
+import { createAxiosInstance } from "@/lib/axios";
 
 const PaymentVerification = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const axios = createAxiosInstance();
 
   //   const [status, setStatus] = useState<string | null>(null);
   const [txRef, setTxRef] = useState<string | null>(null);
@@ -106,8 +108,8 @@ const PaymentVerification = () => {
                 Payment Successful!
               </h2>
               <p className="text-gray-700 mt-2">
-                Your transaction was processed successfully. Please, close previous tab and login
-                again to proceed
+                Your transaction was processed successfully. Please, close
+                previous tab and login again to proceed
               </p>
               <button
                 onClick={() => router.push("/")}

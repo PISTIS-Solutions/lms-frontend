@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
 import { urls } from "@/utils/config";
 import { toast } from "react-toastify";
 import refreshAdminToken from "@/utils/refreshToken";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface readStudent {
   courseRead: any;
@@ -11,7 +12,7 @@ interface readStudent {
   response: any;
   fetchCourseRead: (id: any) => Promise<void>;
 }
-
+const axios = createAxiosInstance();
 const useCourseRead = create<readStudent>((set, get) => ({
   courseRead: null,
   loading: false,
@@ -35,33 +36,15 @@ const useCourseRead = create<readStudent>((set, get) => ({
         set({ loading: false });
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await get().fetchCourseRead(id);
-        }
-        return;
-      } else if (error.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
+      toast.error(error.response?.data?.detail, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     } finally {
       set({ loading: false });
     }

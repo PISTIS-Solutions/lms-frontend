@@ -28,6 +28,7 @@ const ResendToken = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
+  // const axios = createAxiosInstance();
 
   const resendToken = async (e: any) => {
     e.preventDefault();
@@ -48,7 +49,7 @@ const ResendToken = () => {
         if (response.status === 204) {
           // setResponse(response.data);
           setLoading(false);
-          toast.success("Check email for new tokeen", {
+          toast.success("Check email for new token", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,

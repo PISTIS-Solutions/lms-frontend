@@ -2,9 +2,10 @@
 import SideNav from "@/components/side-comp/side-nav";
 import TopNav from "@/components/side-comp/topNav";
 import { urls } from "@/utils/config";
-import axios from "axios";
+// import axios from "axios";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { MdKeyboardArrowLeft } from "react-icons/md";
 import { toast, ToastContainer } from "react-toastify";
 import Image from "next/image";
 import { Loader2 } from "lucide-react";
@@ -25,6 +26,8 @@ import {
 } from "@/utils/markdown";
 import NavigationBar from "@/components/side-comp/nav";
 import Footer from "@/components/side-comp/landing/footer";
+import { useRouter } from "next-nprogress-bar";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface blogT {
   id: string;
@@ -40,6 +43,7 @@ const GetBlogbyId = () => {
   const params = useParams();
   const [loading, setLoading] = useState(true);
   const [readBlog, setReadBlog] = useState<blogT>();
+  const axios = createAxiosInstance();
 
   const readBlogs = async () => {
     try {
@@ -57,6 +61,7 @@ const GetBlogbyId = () => {
   useEffect(() => {
     readBlogs();
   }, []);
+  const router = useRouter();
 
   return (
     <div className="relative h-screen bg-[#FBFBFB]">
@@ -69,6 +74,15 @@ const GetBlogbyId = () => {
           </div>
         ) : readBlog ? (
           <div className="space-y-6">
+            <div className="flex items-center gap-1">
+              <MdKeyboardArrowLeft
+                onClick={() => router.back()}
+                className="w-9 cursor-pointer h-9 text-main"
+              />
+              <h1 className="text-2xl md:text-4xl font-bold text-gray-800">
+                {readBlog.title}
+              </h1>
+            </div>
             <div className="w-full h-[250px] md:h-[400px] overflow-hidden rounded-2xl shadow-sm">
               <Image
                 src={readBlog.blog_picture}
@@ -80,9 +94,6 @@ const GetBlogbyId = () => {
             </div>
 
             <div className="space-y-2">
-              <h1 className="text-2xl md:text-4xl font-bold text-gray-800">
-                {readBlog.title}
-              </h1>
               <p className="text-main text-sm font-medium">
                 {new Date(readBlog.created_at).toLocaleDateString("en-GB", {
                   day: "2-digit",

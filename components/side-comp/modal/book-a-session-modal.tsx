@@ -2,12 +2,13 @@ import refreshAdminToken from "@/utils/refreshToken";
 import { Check, Loader2, X } from "lucide-react";
 import React, { FormEvent, useState } from "react";
 import Cookies from "js-cookie";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import { toast } from "react-toastify";
 import useFetchStudentSessionStore from "@/store/fetch-student-session";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import { createAxiosInstance } from "@/lib/axios";
 
 const timeRangeData = [
   { name: "30 Min", value: 30 },
@@ -21,6 +22,7 @@ const validateDate = (value: Date | null): boolean => {
   const day = String(value.getDate()).padStart(2, "0");
   const month = String(value.getMonth() + 1).padStart(2, "0"); // Months are zero-based
   const year = value.getFullYear();
+  const axios = createAxiosInstance();
 
   const date = `${day}-${month}-${year}`;
   return /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(\d{4})$/.test(date);
@@ -146,7 +148,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
         alternative_date,
         duration,
       };
-
+      const axios = createAxiosInstance();
       const createASession = async () => {
         try {
           setLoading(true);
@@ -168,23 +170,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
           });
         } catch (error: any) {
           console.log(error?.response?.data?.error?.[0]);
-          if (error.response && error.response.status === 401) {
-            const refreshed = await refreshAdminToken();
-            if (refreshed) {
-              await createASession();
-            }
-            return;
-          } else if (error?.message === "Network Error") {
-            toast.error("Check your network!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else if (
+          if (
             error.response.data.error[0] ===
             "You have exhausted your booking limit"
           ) {

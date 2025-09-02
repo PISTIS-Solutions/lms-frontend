@@ -18,7 +18,7 @@ import note from "@/src/assets/svg/note.svg";
 import timer from "@/src/assets/svg/timer.svg";
 import rate from "@/src/assets/svg/rate.svg";
 import { useParams } from "next/navigation";
-import axios from "axios";
+// import axios from "axios";
 import { baseURL } from "@/utils/config";
 import { toast } from "react-toastify";
 
@@ -41,6 +41,7 @@ import refreshAdminToken from "@/utils/refreshToken";
 import { BiAddToQueue } from "react-icons/bi";
 import { useCartStoreInitial } from "@/store/cart/cartStore";
 import { BsCartPlus } from "react-icons/bs";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface courseReadType {
   id: string;
@@ -84,7 +85,7 @@ const CourseDetails = () => {
   const router = useRouter();
   const params = useParams();
   const { selectedCourses, toggleCourse } = useCartStoreInitial();
-
+  const axios = createAxiosInstance();
   const [loading, setLoading] = useState(true);
   const [course, setCourse] = useState<courseReadType>();
   const getCustomCourses = async (id: any) => {
@@ -118,33 +119,6 @@ const CourseDetails = () => {
         draggable: false,
         theme: "dark",
       });
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await getCustomCourses(id);
-        }
-        return;
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
       setLoading(false);
     } finally {
       setLoading(false);

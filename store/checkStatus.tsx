@@ -1,9 +1,10 @@
 import { create } from "zustand";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface CheckStatusState {
   current_plan: string | null;
@@ -12,7 +13,7 @@ interface CheckStatusState {
   error: string | null;
   checkStatus: () => Promise<void>;
 }
-
+const axios = createAxiosInstance();
 const useCheckStatusStore = create<CheckStatusState>((set) => ({
   current_plan: null,
   time_left: null,
@@ -37,34 +38,16 @@ const useCheckStatusStore = create<CheckStatusState>((set) => ({
         });
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await useCheckStatusStore.getState().checkStatus();
-        }
-        return;
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        set({ error: error?.response?.data?.detail || "An error occurred" });
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
+      set({ error: error?.response?.data?.detail || "An error occurred" });
+      toast.error(error?.response?.data?.detail, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     } finally {
       set({ loadSub: false });
     }

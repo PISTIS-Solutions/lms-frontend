@@ -10,10 +10,11 @@ import {
   Trash2,
 } from "lucide-react";
 import useCourseRead from "@/store/course-read";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 
 import Cookies from "js-cookie";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface cardProps {
   id: number;
@@ -42,6 +43,7 @@ const ProjectCard = ({
 cardProps) => {
   const [moduleCount, setModuleCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const axios = createAxiosInstance();
 
   useEffect(() => {
     const getModuleCount = async () => {

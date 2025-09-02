@@ -1,16 +1,17 @@
 import { create } from "zustand";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
 import { urls } from "@/utils/config";
 import { toast } from "react-toastify";
 import refreshAdminToken from "@/utils/refreshToken";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface StudentsStore {
   students: any;
   loading: boolean;
   fetchStudents: () => Promise<void>;
 }
-
+const axios = createAxiosInstance();
 const useStudentsStore = create<StudentsStore>((set, get) => ({
   students: {},
   loading: false,
@@ -24,7 +25,6 @@ const useStudentsStore = create<StudentsStore>((set, get) => ({
         // console.log(response.data, "resdat");
       }
     } catch (error: any) {
-      
       toast.error(`Error fetching courses: ${error.message}`, {
         position: "top-right",
         autoClose: 5000,
