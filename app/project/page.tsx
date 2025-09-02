@@ -104,6 +104,7 @@ const Project = () => {
                     duration={project.duration}
                     project={project.project}
                     isEnrolled={isEnrolled(project.id)}
+                    category={project?.course_category}
                   />
                 </div>
               ))

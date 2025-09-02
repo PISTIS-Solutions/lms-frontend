@@ -134,7 +134,7 @@ const Blog = () => {
           ) : blogs.length === 0 ? (
             <div className="col-span-full flex flex-col items-center justify-center text-center py-10">
               <p className="text-gray-500 text-sm md:text-base">
-                No blogs available yet. Create one to get started!
+                No blogs available yet.
               </p>
             </div>
           ) : (
