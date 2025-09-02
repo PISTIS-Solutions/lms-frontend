@@ -13,8 +13,9 @@ import { useRouter } from "next/navigation";
 import refreshAdminToken from "@/utils/refreshToken";
 import { toast } from "react-toastify";
 import { urls } from "@/utils/config";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
+import { createAxiosInstance } from "@/lib/axios";
 
 const montserrat = Montserrat({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ const NotificationModal = ({ activities }: { activities: any }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => activities != undefined && setIsOpen(!isOpen);
+  const axios = createAxiosInstance();
 
   const getActivityIconLink = (activityType: string) => {
     switch (activityType) {
@@ -55,33 +57,16 @@ const NotificationModal = ({ activities }: { activities: any }) => {
       await navigation.push(link);
     } catch (error: any) {
       // console.log(error.response.data.error[0]);
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await markAsRead(link, id);
-        }
-        return;
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
+
+      toast.error(error?.response?.data?.detail, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     }
   };
 

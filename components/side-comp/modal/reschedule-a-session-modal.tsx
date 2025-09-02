@@ -2,13 +2,14 @@ import refreshAdminToken from "@/utils/refreshToken";
 import { Check, Loader2, X } from "lucide-react";
 import React, { FormEvent, useEffect, useState } from "react";
 import Cookies from "js-cookie";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import { toast } from "react-toastify";
 import useFetchStudentSessionStore from "@/store/fetch-student-session";
 import CountDownText from "../CountDownText";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { createAxiosInstance } from "@/lib/axios";
 
 const timeRangeData = [
   { name: "15 Min", value: 15 },
@@ -102,7 +103,7 @@ const isDateTimeInPast = (date: Date | null, timeStr: string): boolean => {
 
 const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
   const { fetchSession, data: sessionData } = useFetchStudentSessionStore();
-
+  const axios = createAxiosInstance();
   const [duration, setDuration] = useState(15);
   const [isOpen, setIsOpen] = useState(false);
   const [topic, setTopic] = useState(sessionData?.topic);
@@ -163,23 +164,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
           });
         } catch (error: any) {
           console.log(error.response.data.error[0]);
-          if (error.response && error.response.status === 401) {
-            const refreshed = await refreshAdminToken();
-            if (refreshed) {
-              await rescheduleSession();
-            }
-            return;
-          } else if (error?.message === "Network Error") {
-            toast.error("Check your network!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else if (
+          if (
             error.response.data.error[0] ===
             "You have exhausted your booking limit"
           ) {

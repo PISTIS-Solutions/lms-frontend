@@ -1,9 +1,10 @@
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
-import axios from "axios";
+// import axios from "axios";
 import { toast } from "react-toastify";
 import { create } from "zustand";
 import Cookies from "js-cookie";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface TimeRemaining {
   days: number;
@@ -29,7 +30,7 @@ interface dataProps {
   alternative_date: string;
   duration: number;
 }
-
+const axios = createAxiosInstance();
 function getClosestUpcomingSession(items: dataProps[]): dataProps | null {
   const now = new Date();
   let closestItem: dataProps | null = null;
@@ -88,13 +89,7 @@ const useFetchStudentSessionStore = create<StoreState>((set, get) => ({
         });
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await get().fetchSession();
-        }
-        return;
-      } else if (error?.message === "Network Error") {
+   if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,

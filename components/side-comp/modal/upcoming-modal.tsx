@@ -3,11 +3,12 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import refreshAdminToken from "@/utils/refreshToken";
 import Cookies from "js-cookie";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import CountDownText from "../CountDownText";
 import RescheduleASessionModal from "./reschedule-a-session-modal";
 import useFetchStudentSessionStore from "@/store/fetch-student-session";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface UpcomingModal {
   toggleModal: () => void;
@@ -17,7 +18,7 @@ interface UpcomingModal {
 const UpcomingModal = ({ toggleModal, isOpen }: UpcomingModal) => {
   const [loading, setLoading] = useState(false);
   const { data, fetchSession } = useFetchStudentSessionStore();
-
+  const axios = createAxiosInstance();
   const deleteSession = async () => {
     try {
       setLoading(true);
@@ -38,35 +39,15 @@ const UpcomingModal = ({ toggleModal, isOpen }: UpcomingModal) => {
         theme: "dark",
       });
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await deleteSession();
-        }
-        return;
-      } else if (error.response && error.response.status === 404) {
-        console.log(error.response);
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
+      toast.error(error?.response?.data?.detail, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     } finally {
       setLoading(false);
       fetchSession();

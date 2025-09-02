@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import refreshAdminToken from "@/utils/refreshToken";
 import { toast } from "react-toastify";
 import { urls } from "@/utils/config";
-import axios from "axios";
+// import axios from "axios";
 import useStudentStore from "@/store/fetch-students";
 import { Loader } from "lucide-react";
 import useFetchStudentSessionStore from "@/store/fetch-student-session";

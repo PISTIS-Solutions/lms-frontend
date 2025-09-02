@@ -19,6 +19,7 @@ import { baseURL } from "@/utils/config";
 import createAccount from "@/src/assets/auth-image/create-account.webp";
 import avatarImage from "@/src/assets/auth-image/kelsey.webp";
 import AuthImageContainer from "@/components/side-comp/auth-image-container";
+import { createAxiosInstance } from "@/lib/axios";
 
 const Completeprofile = () => {
   const formStore = useFormStore();
@@ -26,6 +27,7 @@ const Completeprofile = () => {
   const [success, setSuccess] = useState<boolean>(false);
 
   const router = useRouter();
+  // const axios = createAxiosInstance();
 
   const onSubmitCompleteProfile = async (e: any) => {
     e.preventDefault();

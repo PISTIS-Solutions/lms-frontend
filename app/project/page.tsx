@@ -6,7 +6,7 @@ import ProjectCard from "@/components/side-comp/project-card";
 import SideNav from "@/components/side-comp/side-nav";
 import { Loader2, Loader2Icon, Plus, Search, X } from "lucide-react";
 import Link from "next/link";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
 import { urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
@@ -15,10 +15,12 @@ import TopNav from "@/components/side-comp/topNav";
 import refreshAdminToken from "@/utils/refreshToken";
 import useStudentStore from "@/store/dashboard-fetch";
 import { Skeleton } from "@/components/ui/skeleton";
+import { createAxiosInstance } from "@/lib/axios";
 
 const Project = () => {
   const router = useRouter();
   const { stuData, fetchStuData } = useStudentStore();
+  const axios = createAxiosInstance();
 
   const [loading, setLoading] = useState(false);
   const [selectedProject, setSelectedProject] = useState<string | null>(null);
@@ -35,23 +37,7 @@ const Project = () => {
       });
       setCourses(response.data);
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await fetchCourses();
-        }
-        return;
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
+     
         toast.error(error?.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
@@ -61,7 +47,7 @@ const Project = () => {
           draggable: false,
           theme: "dark",
         });
-      }
+      
     } finally {
       setLoading(false);
     }

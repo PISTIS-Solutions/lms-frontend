@@ -10,10 +10,11 @@ import {
   Trash2,
 } from "lucide-react";
 import useCourseRead from "@/store/course-read";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 
 import Cookies from "js-cookie";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface cardProps {
   id: number;
@@ -40,6 +41,7 @@ const ProjectCard = ({
 cardProps) => {
   const [moduleCount, setModuleCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const axios = createAxiosInstance();
 
   useEffect(() => {
     const getModuleCount = async () => {
@@ -88,7 +90,9 @@ cardProps) => {
           alt={title}
           unoptimized
           priority
-          className={`rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px] ${isEnrolled? " ": " blur-sm"}`}
+          className={`rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px] ${
+            isEnrolled ? " " : " blur-sm"
+          }`}
         />
         <div className="p-2">
           <div className="md:mb-14 mb-5">

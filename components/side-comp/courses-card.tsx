@@ -9,7 +9,7 @@ import {
   LucideLoader2,
   LucideLockKeyhole,
 } from "lucide-react";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import Cookies from "js-cookie";
 import refreshAdminToken from "@/utils/refreshToken";
@@ -18,6 +18,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import useCourseRead from "@/store/course-read";
 import { motion } from "framer-motion";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface cardProps {
   id: string;
@@ -46,6 +47,7 @@ cardProps) => {
   const [loading, setLoading] = useState(false);
   const [enrolling, setEnrolling] = useState(false);
   const { fetchCourseRead } = useCourseRead();
+  const axios = createAxiosInstance();
 
   useEffect(() => {
     const getModuleCount = async () => {
@@ -64,23 +66,7 @@ cardProps) => {
           setModuleCount(0);
         }
       } catch (error: any) {
-        if (error.response && error.response.status === 401) {
-          const refreshed = await refreshAdminToken();
-          if (refreshed) {
-            await getModuleCount();
-          }
-          return;
-        } else if (error?.message === "Network Error") {
-          toast.error("Check your network!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
-        } else {
+       
           toast.error(error?.response?.data?.detail, {
             position: "top-right",
             autoClose: 5000,
@@ -90,7 +76,7 @@ cardProps) => {
             draggable: false,
             theme: "dark",
           });
-        }
+        
         setModuleCount(0);
       } finally {
         setLoading(false);

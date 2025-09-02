@@ -24,6 +24,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Terms from "@/components/side-comp/terms";
 import { countriesWithPhoneCodes } from "@/data";
+import { createAxiosInstance } from "@/lib/axios";
 import axios from "axios";
 
 const containsSpecialChars = "Password must contain special characters";
@@ -38,6 +39,7 @@ const SignUp = () => {
 
   // const [modal, setModal] = useState<boolean>(false);
   const router = useRouter();
+  // const axios = createAxiosInstance();
   //submit function
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

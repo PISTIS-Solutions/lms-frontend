@@ -5,24 +5,26 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2, X } from "lucide-react";
 import React, { useState } from "react";
 import { AiOutlineUpload } from "react-icons/ai";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
 import { baseURL, urls } from "@/utils/config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 import { useParams } from "next/navigation";
+import { createAxiosInstance } from "@/lib/axios";
 
 const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
   const [link, setLink] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
+  const axios = createAxiosInstance();
 
   const submissionId = localStorage.getItem("submissionID");
   const person = projectReview.find(
     (item: any) => item.submission_id === submissionId
   );
-  
+
   const handleSubmit = async () => {
     if (link && comment !== "") {
       try {
@@ -34,7 +36,7 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
             project: person?.project?.id,
             submission_link: link,
             student_comments: comment,
-            status: "Submitted"
+            status: "Submitted",
           },
           {
             headers: {
@@ -58,11 +60,7 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
         if (error.response) {
           const status = error.response.status;
           const data = error.response.data;
-
-          if (status === 401) {
-            await refreshAdminToken();
-            await handleSubmit();
-          } else if (status === 400 && data[0]) {
+          if (status === 400 && data[0]) {
             toast.error(data[0], {
               position: "top-right",
               autoClose: 5000,
@@ -96,16 +94,6 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
               theme: "dark",
             });
           }
-        } else if (error.message === "Network Error") {
-          toast.error("Check your network!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
         } else {
           toast.error("An unexpected error occurred", {
             position: "top-right",

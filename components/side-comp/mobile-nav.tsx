@@ -215,7 +215,7 @@ const MobileNav = ({ loadSub, current_plan, time_left }: any) => {
                       <CountDownText isSmall />
 
                       <button
-                        className="w-full h-[36px] justify-center items-center font-sfProDisplay bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors rounded-[6px] text-[#FF0000] text-xs lg:text-base cancel-button"
+                        className="w-full p-2 justify-center items-center font-sfProDisplay bg-white bg-opacity-10 hover:bg-opacity-20 transition-colors rounded-[6px] text-[#FF0000] text-sm cancel-button"
                         onClick={toggleModal}
                       >
                         Cancel private session

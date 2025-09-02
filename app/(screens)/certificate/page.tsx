@@ -1,17 +1,19 @@
 "use client";
 import { useState } from "react";
-import axios from "axios";
+// import axios from "axios";
 import Cookies from "js-cookie";
 import { toast, ToastContainer } from "react-toastify";
 import { Download, CheckCircle, XCircle, RotateCcw } from "lucide-react";
 import { baseURL } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
 import SideNav from "@/components/side-comp/side-nav";
+import { createAxiosInstance } from "@/lib/axios";
 
 const Certificate = () => {
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
-    "idle"
-  );
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const axios = createAxiosInstance();
 
   const fetchCertificate = async () => {
     try {
@@ -36,14 +38,6 @@ const Certificate = () => {
 
       setStatus("success");
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await fetchCertificate();
-        }
-        return;
-      }
-
       if (error.response && error.response.data instanceof Blob) {
         try {
           const text = await error.response.data.text();
@@ -58,18 +52,7 @@ const Certificate = () => {
             theme: "dark",
           });
         }
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail || "Something went wrong", {
-          position: "top-right",
-          theme: "dark",
-        });
       }
-
       setStatus("error");
     }
   };

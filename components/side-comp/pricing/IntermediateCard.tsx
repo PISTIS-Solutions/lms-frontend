@@ -39,8 +39,8 @@ const IntermediateCard = () => {
               workflows.
             </p>
           </div>
-          <h1 className="text-[40px] h-fit text-main font-medium before:content-['₦'] pl-8 before:left-0 before:top-[6%] before:inline before:text-[26px] before:absolute relative">
-            400,000
+          <h1 className="text-4xl text-main items-end font-medium flex gap-1">
+            ₦400,000
             <span className="inline-flex text-base font-medium">
               / 6 Months
             </span>

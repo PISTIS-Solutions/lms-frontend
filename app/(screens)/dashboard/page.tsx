@@ -19,7 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import useStudentDashStore from "@/store/dashboard-fetch";
 
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
 
@@ -42,6 +42,7 @@ import subscriptionRenewalReminder from "@/src/assets/svg/subscriptionRenewalRem
 import NotificationModal from "@/components/side-comp/modal/notification-modal";
 import useCheckStatusStore from "@/store/checkStatus";
 import InitialLogin from "../../../components/side-comp/achievement/initialLogin";
+import { createAxiosInstance } from "@/lib/axios";
 
 const responsive = {
   tablet: {
@@ -78,6 +79,7 @@ const Dashboard = () => {
     useStudentDashStore();
 
   const { studentData, loading: fetchStudentData } = useStudentStore();
+  const axios = createAxiosInstance();
 
   //activities endpoint
   const [activity, setActivities] = useState<any>();
@@ -95,20 +97,7 @@ const Dashboard = () => {
         setActivities(response?.data?.activities);
       }
     } catch (error: any) {
-      if (error?.response && error?.response?.status === 401) {
-        await refreshAdminToken();
-        await userActivity();
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
+      
         toast.error(error?.response?.data?.detail, {
           position: "top-right",
           autoClose: 5000,
@@ -118,7 +107,7 @@ const Dashboard = () => {
           draggable: false,
           theme: "dark",
         });
-      }
+      
     }
   };
 
@@ -151,30 +140,7 @@ const Dashboard = () => {
       await navigation.push(link);
     } catch (error: any) {
       // console.log(error.response.data.error[0]);
-      if (error?.response && error?.response?.status === 401) {
-        await refreshAdminToken();
-        await markAsRead(link, id);
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
+   
     }
   };
 

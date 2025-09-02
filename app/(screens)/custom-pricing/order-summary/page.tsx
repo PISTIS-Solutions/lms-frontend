@@ -14,11 +14,12 @@ import timer from "@/src/assets/svg/timer.svg";
 
 import useCartStore from "@/store/fetch-cart";
 import { useCartStoreInitial } from "@/store/cart/cartStore";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshAdminToken from "@/utils/refreshToken";
 import { toast, ToastContainer } from "react-toastify";
 import Cookies from "js-cookie";
+import { createAxiosInstance } from "@/lib/axios";
 
 const OrderSummary = () => {
   const router = useRouter();
@@ -39,6 +40,7 @@ const OrderSummary = () => {
   const [coupon, setCoupon] = useState<string | null>(null);
 
   const [loadingCart, setLoadingCart] = useState(false);
+  const axios = createAxiosInstance();
   // const [cartId, setCartId] = useState("");
 
   const makeCoursePurchase = async (id: string) => {
@@ -62,33 +64,15 @@ const OrderSummary = () => {
         setCoupon("");
       }
     } catch (error: any) {
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await makeCoursePurchase(id);
-        }
-        return;
-      } else if (error?.message === "Network Error") {
-        toast.error("Check your network!", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      } else {
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      }
+      toast.error(error?.response?.data?.detail, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     } finally {
       setLoadingCart(false);
     }

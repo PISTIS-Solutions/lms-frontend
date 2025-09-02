@@ -9,11 +9,28 @@ import NavigationBar from "@/components/side-comp/nav";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import Footer from "@/components/side-comp/landing/footer";
 import blogImg from "@/src/assets/blogImg.png";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import { toast, ToastContainer } from "react-toastify";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next-nprogress-bar";
+
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+
+import {
+  CustomH2,
+  code,
+  customH3,
+  customOL,
+  customP,
+  customTD,
+  customTH,
+  customUL,
+  strong,
+  customLink,
+} from "@/utils/markdown";
+import { createAxiosInstance } from "@/lib/axios";
 
 interface blogT {
   id: string;
@@ -29,7 +46,7 @@ const Blog = () => {
   const [blogs, setBlogs] = useState<blogT[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
+  const axios = createAxiosInstance();
   const fetchBlogs = async () => {
     try {
       const response = await axios.get(`${urls.blog}`);
@@ -142,7 +159,23 @@ const Blog = () => {
                     {blog.title}
                   </h2>
                   <p className="text-[#666666] text-sm line-clamp-2">
-                    {blog.description}
+                    <ReactMarkdown
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        h2: CustomH2,
+                        h3: customH3,
+                        ol: customOL,
+                        p: customP,
+                        ul: customUL,
+                        th: customTH,
+                        td: customTD,
+                        strong: strong,
+                        code: code,
+                        a: customLink,
+                      }}
+                    >
+                      {blog.description}
+                    </ReactMarkdown>
                   </p>
                   <div>
                     <p className="text-main text-xs font-medium">

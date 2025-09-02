@@ -11,74 +11,75 @@ const PaymentPlan = () => {
   const { fetchPlans, isLoading } = usePlanStore();
   const [paymentDuration, setPaymentDuration] = useState(0);
   const router = useRouter();
+  const { current_plan } = useCheckStatusStore();
 
   useEffect(() => {
     fetchPlans();
   }, [fetchPlans]);
 
-  const { current_plan } = useCheckStatusStore();
-
   return (
-    <div className="w-full min-h-screen relative bg-white flex justify-center items-center flex-col">
-      {/* <PlanNav /> */}
-      <div className="max-w-screen-xl  px-6 mt-6">
+    <div className="w-full min-h-screen bg-white flex flex-col items-center">
+      {/* Back button */}
+      <button
+        className="flex items-center absolute top-4 left-4 gap-x-1 text-gray-800 font-medium text-lg hover:text-main transition-colors"
+        onClick={() => router.back()}
+      >
+        <ChevronLeft size={24} />
+        <span className="hidden sm:inline">Back</span>
+      </button>
+
+      {/* Header section */}
+      <section className="max-w-4xl text-center mt-12 px-6">
+        <span className="bg-[#E6F6FF] rounded-full py-2 px-6 text-main text-sm md:text-base font-medium mb-6 inline-block">
+          Pricing Plans
+        </span>
+        <h1 className="font-semibold text-2xl md:text-5xl text-gray-900 leading-tight">
+          We’ve got a plan that’s perfect for you.
+        </h1>
+        <p className="mt-4 text-xs sm:text-sm md:text-lg text-gray-600 md:max-w-[65vw] mx-auto">
+          Elevate your skills and enhance your learning experience with our
+          flexible, affordable payment options tailored to fit your budget and
+          learning goals. Now is the perfect time to accelerate your career
+          journey!
+        </p>
+      </section>
+
+      {/* Toggle payment duration (optional feature) */}
+      {/* 
+      <div className="flex border border-gray-300 rounded-xl p-1 mt-10 mb-8 bg-gray-50">
         <button
-          className="flex items-center absolute top-2 left-2 outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
-          onClick={() => router.back()}
+          className={`py-2 px-6 rounded-lg text-sm md:text-base transition-all ${
+            paymentDuration === 0
+              ? "bg-main text-white font-semibold shadow"
+              : "text-gray-600"
+          }`}
+          onClick={() => setPaymentDuration(0)}
         >
-          <ChevronLeft size={24} />
+          Monthly Billing
         </button>
-        <section className="text-center text-black flex justify-center items-center flex-col pt-5 pb-10 mx-auto mt-6">
-          <span className="bg-[#E6F6FF] rounded-full py-2 px-6 text-main mb-8">
-            Pricing Plans
-          </span>
-          <h1 className="font-semibold pb-2 md:pb-5 text-xl sm:text-xl md:text-5xl">
-            We’ve got a plan that’s perfect for you.
-          </h1>
-          <p className="md:max-w-[65vw] max-w-full md:text-lg sm:text-sm text-xs text-[#484848]">
-            Elevate your skills and enhance your learning experience with our
-            flexible and affordable payment options tailored to fit your budget
-            and learning plans. Now is the perfect time to accelerate
-            your career journey!
-          </p>
-        </section>
+        <button
+          className={`py-2 px-6 rounded-lg text-sm md:text-base transition-all ${
+            paymentDuration === 1
+              ? "bg-main text-white font-semibold shadow"
+              : "text-gray-600"
+          }`}
+          onClick={() => setPaymentDuration(1)}
+        >
+          Yearly (save up to 40%)
+        </button>
+      </div>
+      */}
 
-        {/* <section className="flex border rounded-[10px] p-[6px] w-fit items-center border-[#DADADA] mx-auto mb-14">
-          <button
-            className={
-              "py-4 text-sm lg:text-base rounded-[10px] transition-all duration-300 ease-in-out  " +
-              (paymentDuration === 0
-                ? "bg-[#2FBC8D] px-[37px] font-semibold text-white shadow-[0px_0px_10px_0px_#00000040]"
-                : "text-[#666666] font-medium px-4")
-            }
-            onClick={() => setPaymentDuration(0)}
-          >
-            Monthly Billing
-          </button>
-          <button
-            className={
-              "py-4 text-sm lg:text-base rounded-[10px] transition-all duration-300 ease-in-out  " +
-              (paymentDuration === 1
-                ? "bg-[#2FBC8D] px-[37px] font-semibold text-white shadow-[0px_0px_10px_0px_#00000040]"
-                : "text-[#666666] font-medium px-4")
-            }
-            onClick={() => setPaymentDuration(1)}
-          >
-            Yearly (save up to 40%)
-          </button>
-        </section> */}
-
-        <div className="flex flex-wrap items-center justify-center pb-5 gap-2">
-          {/* <BeginnerCard /> */}
-          {current_plan === "Intermediate" ? (
+      {/* Cards */}
+      <div className="flex flex-wrap justify-center gap-4 mt-10 pb-10">
+        {current_plan === "Intermediate" ? (
+          <AdvanceCard />
+        ) : (
+          <>
+            <IntermediateCard />
             <AdvanceCard />
-          ) : (
-            <div className="flex flex-wrap items-center justify-center gap-2 md:justify-between">
-              <IntermediateCard />
-              <AdvanceCard />
-            </div>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -17,6 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useFormStore from "@/store/create-account";
 import Link from "next/link";
 import email from "@/src/assets/email.png";
+import { createAxiosInstance } from "@/lib/axios";
 
 const Verify_SignUp = () => {
   const router = useRouter();
@@ -25,6 +26,7 @@ const Verify_SignUp = () => {
   const params = useParams<{ uid: string; token: string }>();
   const uid = params.uid;
   const token = params.token;
+  // const axios = createAxiosInstance();
 
   useEffect(() => {
     const handleVerifyToken = async () => {
@@ -95,7 +97,7 @@ const Verify_SignUp = () => {
     };
 
     handleVerifyToken();
-  }, [uid,token]);
+  }, [uid, token]);
 
   const formStore = useFormStore();
 
@@ -122,8 +124,8 @@ const Verify_SignUp = () => {
         </div>
         <div>
           <p className=" text-base py-2 font-semibold text-[#828282] text-center">
-            We’ve sent a verification link to your email, kindly click on
-            the link to activate account
+            We’ve sent a verification link to your email, kindly click on the
+            link to activate account
           </p>
         </div>
         <div className="flex justify-center">

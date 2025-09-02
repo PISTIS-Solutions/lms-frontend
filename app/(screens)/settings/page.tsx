@@ -29,7 +29,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import TopNav from "@/components/side-comp/topNav";
-import axios from "axios";
+// import axios from "axios";
 import { urls } from "@/utils/config";
 import refreshToken from "@/utils/refreshToken";
 import Cookies from "js-cookie";
@@ -39,6 +39,7 @@ import "react-toastify/dist/ReactToastify.css";
 import refreshAdminToken from "@/utils/refreshToken";
 import useStudentStore from "@/store/fetch-students";
 import { useRouter } from "next-nprogress-bar";
+import { createAxiosInstance } from "@/lib/axios";
 
 const passwordSchema = z.object({
   currentPassword: z.string(),
@@ -69,6 +70,7 @@ const SettingsPage = () => {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const router = useRouter();
+  const axios = createAxiosInstance();
 
   const passwordForm = useForm<z.infer<typeof passwordSchema>>({
     resolver: zodResolver(passwordSchema),
