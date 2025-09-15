@@ -26,6 +26,7 @@ interface cardProps {
   duration: number;
   handleCardClick: any;
   isEnrolled: any;
+  category: string;
   // handleOpen: () => void;
 }
 
@@ -37,6 +38,7 @@ const ProjectCard = ({
   handleCardClick,
   project,
   isEnrolled,
+  category,
 }: // handleOpen,
 cardProps) => {
   const [moduleCount, setModuleCount] = useState(0);
@@ -111,6 +113,9 @@ cardProps) => {
               )}{" "}
               projects
             </div>
+            <span className="inline-block mt-2 px-2 py-1 text-xs font-medium bg-main/10 text-main rounded-full capitalize">
+              {category} Course
+            </span>
           </div>
         </div>
       </div>
