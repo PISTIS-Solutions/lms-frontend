@@ -136,7 +136,7 @@ const SideNav = () => {
     );
   };
 
-  const certificate = Cookies.get("cert");
+  const certificate = Cookies.get("cert") === "true";
 
   return (
     <div>
@@ -165,7 +165,6 @@ const SideNav = () => {
           </div>
 
           <div className="space-y-4">
-
             {!loadSub && (
               <div className="p-1 rounded-lg w-full mb-2 overflow-y-auto">
                 <div className="flex flex-col justify-around p-2 h-auto space-y-2 2xl:space-y-6 bg-main border border-white rounded-lg upcoming-modal-border_gradient">
@@ -220,7 +219,7 @@ const SideNav = () => {
             {certificate && (
               <Link href="/certificate">
                 <div
-                  className={`link flex items-center pl-5 gap-3 text-center transition duration-150 ease-in-out cursor-pointer my-1 py-3 
+                  className={`link flex items-center pl-3 gap-2 text-center transition duration-150 ease-in-out cursor-pointer my-1 py-3 
                   ${
                     pathname === "/certificate"
                       ? "text-white border-l-white border-l-2"
