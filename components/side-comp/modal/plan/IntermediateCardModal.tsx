@@ -11,6 +11,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { Loader2 } from "lucide-react";
 import { createAxiosInstance } from "@/lib/axios";
+import { useRenewal } from "@/hooks/useRenewal";
+import { Switch } from "@/components/ui/switch";
 
 const data = [
   "4 one-on-one mentorship sessions per month",
@@ -115,6 +117,9 @@ const IntermediateCardModal = () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, [isOpen]);
+
+  const auto_renew = Cookies.get("auto_renew") === "true";
+  const { loading: renewalLoad, handleAutoRenewal } = useRenewal();
 
   return (
     <>
@@ -246,6 +251,30 @@ const IntermediateCardModal = () => {
                 placeholder="Enter  your Discount Code"
                 className="bg-[#FAFAFA] w-full text-sm sm:text-base p-4 border border-[#DADADA] rounded-[6px]"
               />
+            </div>
+
+            <div className="flex my-4 flex-col lg:flex-row justify-between items-center gap-3 p-2 md:p-5 border rounded-xl bg-white">
+              <div className="flex flex-col">
+                <h2 className="md:text-base text-center lg:text-left text-sm font-medium">
+                  Payment Auto-Renewal
+                </h2>
+                <p className="text-xs text-center lg:text-left text-muted-foreground">
+                  Automatically renew your subscription each billing cycle.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {renewalLoad ? (
+                  <Loader2 className="animate-spin w-5 h-5 text-main" />
+                ) : (
+                  <Switch
+                    checked={auto_renew}
+                    onClick={handleAutoRenewal}
+                    id="renewal"
+                    name="renewal"
+                  />
+                )}
+              </div>
             </div>
 
             <button

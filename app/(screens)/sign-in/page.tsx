@@ -76,6 +76,10 @@ const SignIn = () => {
           sameSite: "None",
           secure: true,
         });
+        Cookies.set("auto_renew", response?.data?.user?.auto_renew, {
+          sameSite: "None",
+          secure: true,
+        });
         toast.success("Email and password accepted!", {
           position: "top-right",
           autoClose: 5000,

@@ -39,6 +39,8 @@ export const urls = {
 
   cart: `${baseURL}/cart/`,
 
-  blog: `${baseURL}/blogs/`
+  blog: `${baseURL}/blogs/`,
+
+  autoRenewal: `${baseURL}/subscriptions/toggle-auto-renew/`
   
 };

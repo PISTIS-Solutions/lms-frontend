@@ -40,6 +40,8 @@ import refreshAdminToken from "@/utils/refreshToken";
 import useStudentStore from "@/store/fetch-students";
 import { useRouter } from "next-nprogress-bar";
 import { createAxiosInstance } from "@/lib/axios";
+import { Switch } from "@/components/ui/switch";
+import { useRenewal } from "@/hooks/useRenewal";
 
 const passwordSchema = z.object({
   currentPassword: z.string(),
@@ -129,17 +131,7 @@ const SettingsPage = () => {
         }
       } catch (error: any) {
         console.log(error, "error");
-        if (error.response && error.response.status === 401) {
-          try {
-            const refreshed = await refreshAdminToken();
-            if (refreshed) {
-              await onSubmitPassword(values, e);
-            }
-            return;
-          } catch (refreshError: any) {
-            // console.error("Error refreshing token:", refreshError.message);
-          }
-        } else if (error?.message === "Network Error") {
+        if (error?.message === "Network Error") {
           toast.error("Check your network!", {
             position: "top-right",
             autoClose: 5000,
@@ -279,19 +271,7 @@ const SettingsPage = () => {
           });
         }
       } catch (error: any) {
-        // Handle errors
-        if (error.response && error.response.status === 401) {
-          // Handle unauthorized error
-          try {
-            const refreshed = await refreshAdminToken();
-            if (refreshed) {
-              await onSubmitGeneral(e);
-            }
-            return;
-          } catch (refreshError: any) {
-            // Handle refresh token error
-          }
-        } else if (error?.message === "Network Error") {
+        if (error?.message === "Network Error") {
           // Handle network error
           toast.error("Check your network!", {
             position: "top-right",
@@ -302,8 +282,6 @@ const SettingsPage = () => {
             draggable: false,
             theme: "dark",
           });
-        } else if (error.response.status === 400) {
-        } else {
         }
       } finally {
         // Reset loading state
@@ -400,7 +378,8 @@ const SettingsPage = () => {
   };
 
   // const profile_image = Cookies.get("pfp");
-
+  const auto_renew = Cookies.get("auto_renew") === "true";
+  const { loading: renewalLoad, handleAutoRenewal } = useRenewal();
   const { studentData, fetchStudentData } = useStudentStore();
 
   useEffect(() => {
@@ -676,8 +655,35 @@ const SettingsPage = () => {
                   </form>
                 </Form>
               </div>
+              <div className="flex my-4 flex-col lg:flex-row justify-between items-center gap-3 p-2 md:p-5 border rounded-xl bg-white">
+                <div className="flex flex-col">
+                  <h2 className="md:text-[22px] text-center lg:text-left text-base font-medium">
+                    Payment Auto-Renewal
+                  </h2>
+                  <p className="text-sm text-muted-foreground">
+                    Automatically renew your subscription each billing cycle.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {renewalLoad ? (
+                    <Loader2 className="animate-spin w-5 h-5 text-main" />
+                  ) : (
+                    <Switch
+                      checked={auto_renew}
+                      onClick={handleAutoRenewal}
+                      id="renewal"
+                      name="renewal"
+                    />
+                    // <button >
+                    //   on
+                    // </button>
+                  )}
+                </div>
+              </div>
+
               <div className="lg:flex block justify-between items-center p-2 md:p-5">
-                <h2 className="md:text-[22px] text-lg font-medium ">
+                <h2 className="md:text-[22px] text-base font-medium ">
                   Delete Account
                 </h2>
                 <p className="md:text-xl text-sm font-normal w-full lg:w-96">
@@ -691,6 +697,7 @@ const SettingsPage = () => {
                   Deactivate
                 </h2>
               </div>
+
               {deleteModal && (
                 <div className="w-full h-full absolute top-0 left-0 flex justify-center items-center bg-slate-200/50">
                   <div className="bg-white rounded-[8px] py-10 px-5 md:w-auto w-[605px] h-auto md:h-[189px] max-h-auto">
