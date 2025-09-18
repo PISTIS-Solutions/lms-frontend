@@ -22,7 +22,7 @@ export default function LandingLayout({
           priority
         />
 
-        <nav className="flex items-center gap-x-2 sm:gap-x-5">
+        {/* <nav className="flex items-center gap-x-2 sm:gap-x-5">
           <Link href="/sign-in">
             <Button className="bg-sub py-2 px-3 sm:py-[13px] sm:px-[20px] text-sm sm:text-lg font-medium text-black hover:text-white">
               Sign In
@@ -34,7 +34,7 @@ export default function LandingLayout({
               Create Account
             </span>
           </Link>
-        </nav>
+        </nav> */}
       </header>
 
       <main>{children}</main>

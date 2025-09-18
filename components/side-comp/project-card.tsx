@@ -60,11 +60,11 @@ cardProps) => {
           setModuleCount(response.data.length);
           setLoading(false);
         } else {
-          console.error(`Error fetching modules for course ${id}`);
+          console.error(`Error fetching projects for course ${id}`);
           setModuleCount(0);
         }
       } catch (error: any) {
-        console.error(`Error: ${error.message}`);
+        // console.error(`Error: ${error.message}`);
         setModuleCount(0);
       } finally {
         setLoading(false);
@@ -110,7 +110,7 @@ cardProps) => {
                 </>
               ) : (
                 moduleCount
-              )}{" "}
+              )}
               projects
             </div>
             <span className="inline-block mt-2 px-2 py-1 text-xs font-medium bg-main/10 text-main rounded-full capitalize">
