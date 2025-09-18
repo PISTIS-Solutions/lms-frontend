@@ -97,17 +97,15 @@ const Dashboard = () => {
         setActivities(response?.data?.activities);
       }
     } catch (error: any) {
-      
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      
+      toast.error(error?.response?.data?.detail, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     }
   };
 
@@ -140,7 +138,6 @@ const Dashboard = () => {
       await navigation.push(link);
     } catch (error: any) {
       // console.log(error.response.data.error[0]);
-   
     }
   };
 
