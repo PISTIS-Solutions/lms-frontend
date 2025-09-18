@@ -29,6 +29,7 @@ const GoogleAuthSignUp = () => {
       const isCertified = url.searchParams.get("is_certified");
       const userId = url.searchParams.get("user_id");
       const status = url.searchParams.get("subscription_status");
+      const auto_renew = url.searchParams.get("auto_renew");
 
       if (accessToken) {
         setLoading(true);
@@ -71,6 +72,13 @@ const GoogleAuthSignUp = () => {
         }
         if (status !== null) {
           Cookies.set("status", status, {
+            secure: true,
+            sameSite: "None",
+            path: "/",
+          });
+        }
+        if (auto_renew !== null) {
+          Cookies.set("auto_renew", auto_renew, {
             secure: true,
             sameSite: "None",
             path: "/",
