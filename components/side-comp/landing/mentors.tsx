@@ -4,34 +4,36 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import ment1 from "@/src/assets/mentors/ment1.png";
+import bigTanks from "@/src/assets/mentors/bigTanks.jpeg";
+import tony from "@/src/assets/mentors/tony.jpeg";
 import { FaLinkedin, FaGithub, FaTwitter, FaEnvelope } from "react-icons/fa";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 const mentors = [
   {
-    image: ment1,
-    name: "Amaka Johnson",
+    image: tony,
+    name: "Akoji Anthony",
     location: "Lagos, Nigeria",
-    techStack: ["React", "Next.js", "TypeScript"],
+    techStack: ["SRE", "Cloud", "Kubernetes", "DevOps"],
     bio: "Frontend engineer passionate about building accessible web applications. This guy too sabi, honestly but sapa dey deal with am, make he try work harder.",
     socials: {
-      linkedin: "https://linkedin.com/in/amaka-johnson",
-      github: "https://github.com/amaka-dev",
-      twitter: "https://twitter.com/amaka_codes",
-      email: "mailto:amaka@example.com",
+      linkedin: "http://www.linkedin.com/in/akojianthony",
+      github: "https://github.com/Tonybesto",
+      twitter: "https://x.com/tonybesto6?t=1a0hxgMVeuUuy5yFRWfmOw&s=09",
+      email: "mailto:akojianthony@gmail.com",
     },
   },
   {
-    image: ment1,
-    name: "Tunde Bello",
+    image: bigTanks,
+    name: "Raphael Tanko",
     location: "Abuja, Nigeria",
-    techStack: ["Node.js", "Express", "MongoDB"],
+    techStack: ["Python", "Django", "Node", "sysAdmin"],
     bio: "Backend developer focused on building fast and scalable APIs.",
     socials: {
-      linkedin: "https://linkedin.com/in/tunde-bello",
-      github: "https://github.com/tundebello",
-      twitter: "https://twitter.com/tundebuilds",
-      email: "mailto:tunde@example.com",
+      linkedin: "http://www.linkedin.com/in/raphael-tanko-172195137/",
+      github: "https://github.com/Abbracx",
+      twitter: "https://x.com/abbrac_x",
+      email: "mailto:tankoraphael@gmail.com",
     },
   },
   {
@@ -185,7 +187,6 @@ const OurMentors = () => {
         </motion.h1>
       </div>
 
-      {/* Mentors List */}
       <div className="my-8">
         <div className="flex items-center justify-center overflow-x-auto gap-2 scrollbar-hide">
           {mentors.map((mentor, index) => (
@@ -201,14 +202,13 @@ const OurMentors = () => {
               <Image
                 src={mentor.image}
                 alt={mentor.name}
-                className="md:w-[154px] h-[100px] w-[100px] md:h-[154px]  rounded-[8px]"
+                className="md:w-[154px] h-[100px] w-[100px] md:h-[154px] object-fit rounded-[8px]"
               />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Mentor Details */}
       <div>
         <AnimatePresence mode="wait">
           <motion.div
