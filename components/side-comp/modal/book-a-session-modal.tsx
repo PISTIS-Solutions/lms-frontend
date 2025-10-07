@@ -94,8 +94,6 @@ interface NotDateErrorProps {
 
 const preferredDateError =
   "Invalid preferred date format. Use DD-MM-YYYY (e.g., 01-02-2024).";
-const altDateError =
-  "Invalid alternative date format. Use DD-MM-YYYY (e.g., 01-02-2024).";
 const preferredTimeError =
   "Incomplete preferred time format. Select AM/PM (e.g., 05:01 PM).";
 const altTimeError =
@@ -145,7 +143,6 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
         topic,
         note,
         preferred_date,
-        alternative_date,
         duration,
       };
       const axios = createAxiosInstance();
@@ -251,15 +248,6 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
       )
     )
       return false;
-    if (!validateInput(altDateStr, altDateError, "altDateStr")) return false;
-    if (
-      !validateInput(
-        `${altTimeStr.time} ${altTimeStr.period}`,
-        altTimeError,
-        "altTimeStr"
-      )
-    )
-      return false;
 
     // Check for future dates
     if (
@@ -271,15 +259,6 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
       setError("Please select a future preferred date and time.");
       updateErrorState("preferredDateStr", false);
       updateErrorState("preferredTimeStr", false);
-      return false;
-    }
-
-    if (
-      isDateTimeInPast(altDateStr, `${altTimeStr.time} ${altTimeStr.period}`)
-    ) {
-      setError("Please select a future alternate date and time.");
-      updateErrorState("altDateStr", false);
-      updateErrorState("altTimeStr", false);
       return false;
     }
 
@@ -495,96 +474,6 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                   </div>
                 </div>
               </div>
-              <div>
-                <label htmlFor="alt-date-time" className="text-[#666666]">
-                  Alternative Date & Time
-                </label>
-                <div className="flex justify-between mt-1">
-                  <div className=" w-[48%]">
-                    <DatePicker
-                      selected={altDateStr}
-                      onChange={(date) => setAltDateStr(date)}
-                      dateFormat="dd-MM-yyyy"
-                      className={`p-3 border rounded-md outline-none w-full ${
-                        notDateError.altDateStr === false
-                          ? "border-red-600"
-                          : notDateError.altDateStr === true
-                          ? "border-[#2FBC8D]"
-                          : "border-[#DADADA]"
-                      } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                      id="alt-date-time"
-                      placeholderText="DD-MM-YYYY"
-                      onBlur={() =>
-                        validateInput(altDateStr, altDateError, "altDateStr")
-                      }
-                      filterDate={(date) =>
-                        date.getDay() !== 0 && date.getDay() !== 6
-                      } // Disable weekends
-                    />
-                  </div>
-
-                  <div className="flex items-center gap-2 w-full ml-2">
-                    {/* Time Input */}
-                    <input
-                      type="text"
-                      className={`p-3 border rounded-md outline-none w-[60%] ${
-                        notDateError.altTimeStr === false
-                          ? "border-red-600"
-                          : notDateError.altTimeStr === true
-                          ? "border-[#2FBC8D]"
-                          : "border-[#DADADA]"
-                      } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                      id="alt-time-input"
-                      onChange={(e) =>
-                        setAltTimeStr({
-                          ...altTimeStr,
-                          time: e.target.value.replace(/\s+/g, " ").trim(),
-                        })
-                      }
-                      value={altTimeStr.time}
-                      placeholder="09:00"
-                      onBlur={() =>
-                        validateInput(
-                          `${altTimeStr.time} ${altTimeStr.period}`,
-                          altTimeError,
-                          "altTimeStr"
-                        )
-                      }
-                      pattern="^(0?[1-9]|1[0-2]):([0-5][0-9])$"
-                    />
-
-                    {/* AM/PM Dropdown */}
-                    <select
-                      className={`p-3 border rounded-md outline-none w-[35%] ${
-                        notDateError.altTimeStr === false
-                          ? "border-red-600"
-                          : notDateError.altTimeStr === true
-                          ? "border-[#2FBC8D]"
-                          : "border-[#DADADA]"
-                      } bg-[#FAFAFA] text-[#9F9F9F]`}
-                      onChange={(e) =>
-                        setAltTimeStr({ ...altTimeStr, period: e.target.value })
-                      }
-                      value={altTimeStr.period}
-                      onBlur={() =>
-                        validateInput(
-                          `${altTimeStr.time} ${altTimeStr.period}`,
-                          altTimeError,
-                          "altTimeStr"
-                        )
-                      }
-                      required
-                    >
-                      <option value="" disabled>
-                        Select
-                      </option>
-                      <option value="AM">AM</option>
-                      <option value="PM">PM</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
               <div>
                 <label htmlFor="date&time" className="text-[#666666] ">
                   Session Duration

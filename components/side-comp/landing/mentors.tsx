@@ -14,7 +14,7 @@ const mentors = [
     image: tony,
     name: "Akoji Anthony",
     location: "Lagos, Nigeria",
-    techStack: ["SRE", "Cloud", "Kubernetes", "DevOps"],
+    techStack: ["SRE", "DevOps"],
     bio: "Frontend engineer passionate about building accessible web applications. This guy too sabi, honestly but sapa dey deal with am, make he try work harder.",
     socials: {
       linkedin: "http://www.linkedin.com/in/akojianthony",
@@ -26,118 +26,14 @@ const mentors = [
   {
     image: bigTanks,
     name: "Raphael Tanko",
-    location: "Abuja, Nigeria",
-    techStack: ["Python", "Django", "Node", "sysAdmin"],
+    location: "Lagos, Nigeria",
+    techStack: ["Python", "Django", "Flask", "Java"],
     bio: "Backend developer focused on building fast and scalable APIs.",
     socials: {
       linkedin: "http://www.linkedin.com/in/raphael-tanko-172195137/",
       github: "https://github.com/Abbracx",
       twitter: "https://x.com/abbrac_x",
       email: "mailto:tankoraphael@gmail.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Chioma Adeyemi",
-    location: "Port Harcourt, Nigeria",
-    techStack: ["Flutter", "Dart", "Firebase"],
-    bio: "Mobile developer crafting seamless cross-platform applications.",
-    socials: {
-      linkedin: "https://linkedin.com/in/chioma-adeyemi",
-      github: "https://github.com/chiomadev",
-      twitter: "https://twitter.com/chioma_apps",
-      email: "mailto:chioma@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "David Ekene",
-    location: "Ibadan, Nigeria",
-    techStack: ["Python", "Django", "PostgreSQL"],
-    bio: "Backend engineer and database specialist passionate about data-driven systems.",
-    socials: {
-      linkedin: "https://linkedin.com/in/david-ekene",
-      github: "https://github.com/davidekene",
-      twitter: "https://twitter.com/davidekene",
-      email: "mailto:david@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Fatima Yusuf",
-    location: "Kano, Nigeria",
-    techStack: ["AWS", "DevOps", "Docker"],
-    bio: "Cloud engineer helping businesses scale infrastructure efficiently.",
-    socials: {
-      linkedin: "https://linkedin.com/in/fatima-yusuf",
-      github: "https://github.com/fatimacloud",
-      twitter: "https://twitter.com/fatimaclouds",
-      email: "mailto:fatima@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Emeka Ogbuehi",
-    location: "Lagos, Nigeria",
-    techStack: ["Java", "Spring Boot", "Kubernetes"],
-    bio: "Software engineer specializing in enterprise backend systems.",
-    socials: {
-      linkedin: "https://linkedin.com/in/emeka-ogbuehi",
-      github: "https://github.com/emekaog",
-      twitter: "https://twitter.com/emekacodes",
-      email: "mailto:emeka@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Blessing Okoro",
-    location: "Enugu, Nigeria",
-    techStack: ["Figma", "UI/UX", "Design Systems"],
-    bio: "Product designer passionate about creating user-centric experiences.",
-    socials: {
-      linkedin: "https://linkedin.com/in/blessing-okoro",
-      github: "https://github.com/blessingdesigns",
-      twitter: "https://twitter.com/blessux",
-      email: "mailto:blessing@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Samuel Adebayo",
-    location: "Lagos, Nigeria",
-    techStack: ["C#", ".NET", "Azure"],
-    bio: "Software architect with experience in building enterprise cloud solutions.",
-    socials: {
-      linkedin: "https://linkedin.com/in/samuel-adebayo",
-      github: "https://github.com/samadebayo",
-      twitter: "https://twitter.com/samcloudbuilds",
-      email: "mailto:samuel@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Nneka Obi",
-    location: "Awka, Nigeria",
-    techStack: ["HTML", "CSS", "JavaScript"],
-    bio: "Self-taught frontend developer with a passion for animations and interactivity.",
-    socials: {
-      linkedin: "https://linkedin.com/in/nneka-obi",
-      github: "https://github.com/nnekaobi",
-      twitter: "https://twitter.com/nnekadev",
-      email: "mailto:nneka@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Victor Umeh",
-    location: "Lagos, Nigeria",
-    techStack: ["Go", "Microservices", "Redis"],
-    bio: "Backend engineer passionate about distributed systems and APIs.",
-    socials: {
-      linkedin: "https://linkedin.com/in/victor-umeh",
-      github: "https://github.com/victorumeh",
-      twitter: "https://twitter.com/victorapis",
-      email: "mailto:victor@example.com",
     },
   },
 ];
@@ -201,8 +97,10 @@ const OurMentors = () => {
             >
               <Image
                 src={mentor.image}
+                width={100}
+                height={100}
                 alt={mentor.name}
-                className="md:w-[154px] h-[100px] w-[100px] md:h-[154px] object-fit rounded-[8px]"
+                className="md:w-[154px] h-[100px] w-[100px] md:h-[154px] object-cover rounded-[8px]"
               />
             </div>
           ))}
@@ -229,7 +127,10 @@ const OurMentors = () => {
             <Image
               src={selectedMentor.image}
               alt={selectedMentor.name}
-              className="lg:w-[388px] w-[250px] sm:w-[320px] h-[250px] sm:h-[320px] lg:h-[388px]"
+              width={100}
+              height={100}
+              unoptimized
+              className="lg:w-[388px] w-[250px] object-cover sm:w-[320px] h-[250px] sm:h-[320px] lg:h-[388px]"
             />
 
             {/* Mentor Info */}
