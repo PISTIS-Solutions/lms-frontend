@@ -155,7 +155,6 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
               Authorization: `Bearer ${accessToken}`,
             },
           });
-
           toast.success("Your session has been successfully scheduled!", {
             position: "top-right",
             autoClose: 5000,
