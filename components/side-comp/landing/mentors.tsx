@@ -15,7 +15,7 @@ const mentors = [
     name: "Akoji Anthony",
     location: "Lagos, Nigeria",
     techStack: ["SRE", "DevOps"],
-    bio: "Frontend engineer passionate about building accessible web applications. This guy too sabi, honestly but sapa dey deal with am, make he try work harder.",
+    bio: "Passionate about reliability engineering and automation, Akoji builds resilient infrastructure that scales. With a strong background in DevOps, he loves optimizing CI/CD pipelines, improving deployment processes, and empowering teams with robust monitoring and observability systems.",
     socials: {
       linkedin: "http://www.linkedin.com/in/akojianthony",
       github: "https://github.com/Tonybesto",
@@ -28,7 +28,7 @@ const mentors = [
     name: "Raphael Tanko",
     location: "Lagos, Nigeria",
     techStack: ["Python", "Django", "Flask", "Java"],
-    bio: "Backend developer focused on building fast and scalable APIs.",
+    bio: "Raphael is a backend engineer who thrives on designing clean, efficient APIs and distributed systems. He enjoys tackling complex data challenges, optimizing performance, and mentoring others on writing maintainable backend code using modern Python frameworks.",
     socials: {
       linkedin: "http://www.linkedin.com/in/raphael-tanko-172195137/",
       github: "https://github.com/Abbracx",

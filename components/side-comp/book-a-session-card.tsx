@@ -51,15 +51,15 @@ const BookASessionCard = () => {
               <p className="text-lg  font-medium">{userName}</p>
               {fetchingSession ? (
                 <Loader className="animate-spin" size={15} />
-              ) : (
-                sessionLeft !== null && (
-                  <div className="flex p-[2px_6px] justify-center items-center gap-[6px] bg-[#2E2E82] rounded-[6px]">
-                    <Image src={coin} alt="" className="bg-cover " />
-                    <p className="text-xs font-sfProDisplay font-normal">
-                      {sessionLeft} Session credits left
-                    </p>
-                  </div>
-                )
+              ) : ( null
+                // sessionLeft !== null && (
+                //   <div className="flex p-[2px_6px] justify-center items-center gap-[6px] bg-[#2E2E82] rounded-[6px]">
+                //     <Image src={coin} alt="" className="bg-cover " />
+                //     <p className="text-xs font-sfProDisplay font-normal">
+                //       {sessionLeft} Session credits left
+                //     </p>
+                //   </div>
+                // )
               )}
             </>
           )}

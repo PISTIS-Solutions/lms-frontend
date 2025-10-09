@@ -87,9 +87,10 @@ const useFetchStudentSessionStore = create<StoreState>((set, get) => ({
           loading: false,
           sessionLeft: 4 - response?.data?.count,
         });
+        console.log(response.data, "sessions");
       }
     } catch (error: any) {
-   if (error?.message === "Network Error") {
+      if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,

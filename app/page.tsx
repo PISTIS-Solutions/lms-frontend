@@ -91,7 +91,7 @@ const HomePage = () => {
             <span className="relative font-medium text-3xl md:text-5xl xl:text-7xl inline-block">
               {/* Your Hustle. Your Path. Your Discount. */}
               <p>Your Path</p>
-              <p>Yout Hustle</p>
+              <p>Your Hustle</p>
               <p>Your discount</p>
               <svg
                 className="absolute left-0 bottom-0 w-full h-2"

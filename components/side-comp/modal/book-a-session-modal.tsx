@@ -13,7 +13,7 @@ import { createAxiosInstance } from "@/lib/axios";
 const timeRangeData = [
   { name: "30 Min", value: 30 },
   { name: "60 Min", value: 60 },
-  { name: "1 hr 30Min", value: 90 },
+  // { name: "1 hr 30Min", value: 90 },
 ];
 
 const validateDate = (value: Date | null): boolean => {
