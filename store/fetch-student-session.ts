@@ -62,7 +62,7 @@ const useFetchStudentSessionStore = create<StoreState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       const accessToken = Cookies.get("authToken");
-      const response = await axios.get(urls.getAllSession, {
+      const response = await axios.get(`${urls.getAllSession}my-sessions/`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
