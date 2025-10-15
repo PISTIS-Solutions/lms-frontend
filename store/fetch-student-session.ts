@@ -62,32 +62,20 @@ const useFetchStudentSessionStore = create<StoreState>((set, get) => ({
     set({ loading: true, error: null });
     try {
       const accessToken = Cookies.get("authToken");
-      const response = await axios.get(`${urls.getAllSession}my-sessions/`, {
+      const response = await axios.get(urls.getAllSession, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      // console.log(response, "response")
       const data: dataProps[] = response.data.results;
 
       const nearestSession = getClosestUpcomingSession(data);
-      // const nearestSession = {
-      //   id: "6f7g8h9i-0123-f012-2345-6789abcdef01",
-      //   user: "user-06",
-      //   topic: "Monthly Review",
-      //   note: "Review monthly metrics.",
-      //   preferred_date: "2024-10-19T10:00:00+01:00",
-      //   alternative_date: "2024-10-22T11:00:00+01:00",
-      //   duration: 30,
-      // };
-
       if (response.status === 200) {
         set({
           data: nearestSession,
           loading: false,
-          sessionLeft: 4 - response?.data?.count,
+          // sessionLeft: 4 - response?.data?.count,
         });
-        console.log(response.data, "sessions");
       }
     } catch (error: any) {
       if (error?.message === "Network Error") {

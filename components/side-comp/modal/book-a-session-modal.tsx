@@ -165,10 +165,11 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
             theme: "dark",
           });
         } catch (error: any) {
-          console.log(error?.response?.data?.error?.[0]);
+          // console.log(error?.response?.data?.error?.[0]);
+          console.log(error)
           if (
-            error.response.data.error[0] ===
-            "You have exhausted your booking limit"
+            error.response.data.non_field_errors[0] ===
+            "you have already exhausted your bookings for the month"
           ) {
             toast.error("You have exhausted your booking limit!", {
               position: "top-right",
@@ -384,32 +385,6 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                       }
                     />
                   </div>
-                  {/* <input
-                    type="text"
-                    className={`p-3 border rounded-md outline-none w-[48%] ${
-                      notDateError.preferredTimeStr === false
-                        ? "border-red-600"
-                        : notDateError.preferredTimeStr === true
-                        ? "border-[#2FBC8D]"
-                        : "border-[#DADADA]"
-                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                    id="preferred-time-input"
-                    required
-                    value={preferredTimeStr}
-                    onChange={(e) =>
-                      setPreferredTimeStr(normalizeInput(e.target.value))
-                    }
-                    placeholder="09:00 AM"
-                    onBlur={() =>
-                      validateInput(
-                        preferredTimeStr,
-                        preferredTimeError,
-                        "preferredTimeStr"
-                      )
-                    }
-                    pattern="^(0?[1-9]|1[0-2]):([0-5][0-9])( ?)(AM|PM|am|pm)$"
-                  /> */}
-
                   <div className="flex items-center gap-2 w-full ml-2">
                     <input
                       type="text"
