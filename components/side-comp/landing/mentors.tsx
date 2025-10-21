@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import ment1 from "@/src/assets/mentors/ment1.png";
+import promise from "@/src/assets/mentors/promise.jpeg";
 import bigTanks from "@/src/assets/mentors/bigTanks.jpeg";
 import tony from "@/src/assets/mentors/tony.jpeg";
 import { FaLinkedin, FaGithub, FaTwitter, FaEnvelope } from "react-icons/fa";
@@ -29,6 +30,19 @@ const mentors = [
     location: "Lagos, Nigeria",
     techStack: ["Python", "Django", "Flask", "Java"],
     bio: "Raphael is a backend engineer who thrives on designing clean, efficient APIs and distributed systems. He enjoys tackling complex data challenges, optimizing performance, and mentoring others on writing maintainable backend code using modern Python frameworks.",
+    socials: {
+      linkedin: "https://www.linkedin.com/in/praise-anefu/",
+      github: "https://github.com/Anefu",
+      twitter: "",
+      email: "",
+    },
+  },
+  {
+    image: promise,
+    name: "Praise Anefu",
+    location: "Netherlands",
+    techStack: ["DevOps", "SRE"],
+    bio: "SRE/DevOps Engineer with a focus on shipping code quicker and safer while maintaining overall system quality and adhering to cost-effective practices.",
     socials: {
       linkedin: "http://www.linkedin.com/in/raphael-tanko-172195137/",
       github: "https://github.com/Abbracx",
