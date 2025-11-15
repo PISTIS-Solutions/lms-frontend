@@ -217,13 +217,12 @@ const CourseDetails = () => {
         <div className="flex items-center justify-between">
           <div
             onClick={() => router.back()}
-            className="flex items-center gap-0.5 sm:gap-1"
+            className="flex cursor-pointer items-center gap-0.5 sm:gap-1"
           >
             <ChevronLeft />
             <p className="text-[#2E2E2E] text-xs sm:text-sm md:text-base font-medium">{`Course Details / ${course?.title}`}</p>
           </div>
           <button
-            // disabled={loadAdd}
             onClick={() => {
               toggleCourse({
                 id: course!.id,
@@ -235,8 +234,7 @@ const CourseDetails = () => {
             }}
             className="bg-sub disabled:bg-sub/70 cursor-pointer rounded-[6px] flex items-center justify-between gap-2 p-[12px_10px] sm:p-[16px_14px]"
           >
-            <p className="text-sm font-semibold hidden sm:block text-white">
-              {/* {loadAdd ? "Adding to cart" : "Add to cart"} */}
+            <p className="text-sm font-semibold text-white">
               {selectedCourses.some((cart) => cart.id === course?.id) ? (
                 <span className="flex items-center gap-1">
                   <Check className="w-4 h-4 text-white" />
@@ -265,7 +263,7 @@ const CourseDetails = () => {
               <h1 className="text-[#2E2E2E] font-semibold text-lg sm:text-2xl py-2">
                 {course?.title}
               </h1>
-              <p className="text-[#666666] font-normal text-xs sm:text-sm pt-1 sm:pt-3">
+              {/* <p className="text-[#666666] font-normal text-xs sm:text-sm pt-1 sm:pt-3">
                 In this essential course on mastering DevOps, you will delve
                 into a comprehensive range of topics. From understanding the
                 core principles to practical applications, you will learn how to
@@ -273,7 +271,7 @@ const CourseDetails = () => {
                 workflows. Dive into automation, continuous integration, and
                 deployment strategies to elevate your DevOps skills to the next
                 level.
-              </p>
+              </p> */}
               <div className="flex items-center justify-between py-5">
                 <div className="flex items-center gap-x-[8px]">
                   <span className="bg-[#FAFAFA] rounded py-1 px-2 flex items-center justify-between">

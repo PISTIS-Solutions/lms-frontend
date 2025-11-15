@@ -7,7 +7,7 @@ import bolt from "@/src/assets/svg/roundBolt.svg";
 import Image from "next/image";
 import BeginnerCardModal from "../modal/plan/BeginnerCardModal";
 
-const BeginnerCard = () => {
+const   BeginnerCard = () => {
   const services = [
     { serv: "Digital literacy" },
     { serv: "Getting familiar with IT" },

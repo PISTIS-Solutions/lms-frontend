@@ -4,138 +4,50 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import ment1 from "@/src/assets/mentors/ment1.png";
+import promise from "@/src/assets/mentors/promise.jpeg";
+import bigTanks from "@/src/assets/mentors/bigTanks.jpeg";
+import tony from "@/src/assets/mentors/tony.jpeg";
 import { FaLinkedin, FaGithub, FaTwitter, FaEnvelope } from "react-icons/fa";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 const mentors = [
   {
-    image: ment1,
-    name: "Amaka Johnson",
+    image: tony,
+    name: "Akoji Anthony",
     location: "Lagos, Nigeria",
-    techStack: ["React", "Next.js", "TypeScript"],
-    bio: "Frontend engineer passionate about building accessible web applications. This guy too sabi, honestly but sapa dey deal with am, make he try work harder.",
+    techStack: ["SRE", "DevOps"],
+    bio: "Passionate about reliability engineering and automation, Akoji builds resilient infrastructure that scales. With a strong background in DevOps, he loves optimizing CI/CD pipelines, improving deployment processes, and empowering teams with robust monitoring and observability systems.",
     socials: {
-      linkedin: "https://linkedin.com/in/amaka-johnson",
-      github: "https://github.com/amaka-dev",
-      twitter: "https://twitter.com/amaka_codes",
-      email: "mailto:amaka@example.com",
+      linkedin: "http://www.linkedin.com/in/akojianthony",
+      github: "https://github.com/Tonybesto",
+      twitter: "https://x.com/tonybesto6?t=1a0hxgMVeuUuy5yFRWfmOw&s=09",
+      email: "mailto:akojianthony@gmail.com",
     },
   },
   {
-    image: ment1,
-    name: "Tunde Bello",
-    location: "Abuja, Nigeria",
-    techStack: ["Node.js", "Express", "MongoDB"],
-    bio: "Backend developer focused on building fast and scalable APIs.",
-    socials: {
-      linkedin: "https://linkedin.com/in/tunde-bello",
-      github: "https://github.com/tundebello",
-      twitter: "https://twitter.com/tundebuilds",
-      email: "mailto:tunde@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Chioma Adeyemi",
-    location: "Port Harcourt, Nigeria",
-    techStack: ["Flutter", "Dart", "Firebase"],
-    bio: "Mobile developer crafting seamless cross-platform applications.",
-    socials: {
-      linkedin: "https://linkedin.com/in/chioma-adeyemi",
-      github: "https://github.com/chiomadev",
-      twitter: "https://twitter.com/chioma_apps",
-      email: "mailto:chioma@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "David Ekene",
-    location: "Ibadan, Nigeria",
-    techStack: ["Python", "Django", "PostgreSQL"],
-    bio: "Backend engineer and database specialist passionate about data-driven systems.",
-    socials: {
-      linkedin: "https://linkedin.com/in/david-ekene",
-      github: "https://github.com/davidekene",
-      twitter: "https://twitter.com/davidekene",
-      email: "mailto:david@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Fatima Yusuf",
-    location: "Kano, Nigeria",
-    techStack: ["AWS", "DevOps", "Docker"],
-    bio: "Cloud engineer helping businesses scale infrastructure efficiently.",
-    socials: {
-      linkedin: "https://linkedin.com/in/fatima-yusuf",
-      github: "https://github.com/fatimacloud",
-      twitter: "https://twitter.com/fatimaclouds",
-      email: "mailto:fatima@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Emeka Ogbuehi",
+    image: bigTanks,
+    name: "Raphael Tanko",
     location: "Lagos, Nigeria",
-    techStack: ["Java", "Spring Boot", "Kubernetes"],
-    bio: "Software engineer specializing in enterprise backend systems.",
+    techStack: ["Python", "Django", "Flask", "Java"],
+    bio: "Raphael is a backend engineer who thrives on designing clean, efficient APIs and distributed systems. He enjoys tackling complex data challenges, optimizing performance, and mentoring others on writing maintainable backend code using modern Python frameworks.",
     socials: {
-      linkedin: "https://linkedin.com/in/emeka-ogbuehi",
-      github: "https://github.com/emekaog",
-      twitter: "https://twitter.com/emekacodes",
-      email: "mailto:emeka@example.com",
+      linkedin: "https://www.linkedin.com/in/praise-anefu/",
+      github: "https://github.com/Anefu",
+      twitter: "",
+      email: "",
     },
   },
   {
-    image: ment1,
-    name: "Blessing Okoro",
-    location: "Enugu, Nigeria",
-    techStack: ["Figma", "UI/UX", "Design Systems"],
-    bio: "Product designer passionate about creating user-centric experiences.",
+    image: promise,
+    name: "Praise Anefu",
+    location: "Netherlands",
+    techStack: ["DevOps", "SRE"],
+    bio: "SRE/DevOps Engineer with a focus on shipping code quicker and safer while maintaining overall system quality and adhering to cost-effective practices.",
     socials: {
-      linkedin: "https://linkedin.com/in/blessing-okoro",
-      github: "https://github.com/blessingdesigns",
-      twitter: "https://twitter.com/blessux",
-      email: "mailto:blessing@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Samuel Adebayo",
-    location: "Lagos, Nigeria",
-    techStack: ["C#", ".NET", "Azure"],
-    bio: "Software architect with experience in building enterprise cloud solutions.",
-    socials: {
-      linkedin: "https://linkedin.com/in/samuel-adebayo",
-      github: "https://github.com/samadebayo",
-      twitter: "https://twitter.com/samcloudbuilds",
-      email: "mailto:samuel@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Nneka Obi",
-    location: "Awka, Nigeria",
-    techStack: ["HTML", "CSS", "JavaScript"],
-    bio: "Self-taught frontend developer with a passion for animations and interactivity.",
-    socials: {
-      linkedin: "https://linkedin.com/in/nneka-obi",
-      github: "https://github.com/nnekaobi",
-      twitter: "https://twitter.com/nnekadev",
-      email: "mailto:nneka@example.com",
-    },
-  },
-  {
-    image: ment1,
-    name: "Victor Umeh",
-    location: "Lagos, Nigeria",
-    techStack: ["Go", "Microservices", "Redis"],
-    bio: "Backend engineer passionate about distributed systems and APIs.",
-    socials: {
-      linkedin: "https://linkedin.com/in/victor-umeh",
-      github: "https://github.com/victorumeh",
-      twitter: "https://twitter.com/victorapis",
-      email: "mailto:victor@example.com",
+      linkedin: "http://www.linkedin.com/in/raphael-tanko-172195137/",
+      github: "https://github.com/Abbracx",
+      twitter: "https://x.com/abbrac_x",
+      email: "mailto:tankoraphael@gmail.com",
     },
   },
 ];
@@ -185,7 +97,6 @@ const OurMentors = () => {
         </motion.h1>
       </div>
 
-      {/* Mentors List */}
       <div className="my-8">
         <div className="flex items-center justify-center overflow-x-auto gap-2 scrollbar-hide">
           {mentors.map((mentor, index) => (
@@ -200,15 +111,16 @@ const OurMentors = () => {
             >
               <Image
                 src={mentor.image}
+                width={100}
+                height={100}
                 alt={mentor.name}
-                className="md:w-[154px] h-[100px] w-[100px] md:h-[154px]  rounded-[8px]"
+                className="md:w-[154px] h-[100px] w-[100px] md:h-[154px] object-cover rounded-[8px]"
               />
             </div>
           ))}
         </div>
       </div>
 
-      {/* Mentor Details */}
       <div>
         <AnimatePresence mode="wait">
           <motion.div
@@ -229,7 +141,10 @@ const OurMentors = () => {
             <Image
               src={selectedMentor.image}
               alt={selectedMentor.name}
-              className="lg:w-[388px] w-[250px] sm:w-[320px] h-[250px] sm:h-[320px] lg:h-[388px]"
+              width={100}
+              height={100}
+              unoptimized
+              className="lg:w-[388px] w-[250px] object-cover sm:w-[320px] h-[250px] sm:h-[320px] lg:h-[388px]"
             />
 
             {/* Mentor Info */}

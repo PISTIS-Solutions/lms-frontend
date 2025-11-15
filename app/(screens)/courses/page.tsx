@@ -122,6 +122,8 @@ const Courses = () => {
                     paragraph={course.paragraph}
                     duration={course.course_duration}
                     isEnrolled={isEnrolled(course.id)}
+                    module_count={course?.module_count}
+                    course_category={course?.course_category}
                   />
                 </div>
               ))

@@ -12,16 +12,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import { createAxiosInstance } from "@/lib/axios";
 
 const timeRangeData = [
-  { name: "15 Min", value: 15 },
   { name: "30 Min", value: 30 },
   { name: "1 hr", value: 60 },
 ];
 
 const validateDate = (value: Date | null): boolean => {
-  console.log(value);
   if (value == null) return false;
   const day = String(value.getDate()).padStart(2, "0");
-  const month = String(value.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+  const month = String(value.getMonth() + 1).padStart(2, "0");
   const year = value.getFullYear();
 
   const date = `${day}-${month}-${year}`;
@@ -32,43 +30,38 @@ const validateTime = (value: string): boolean => {
   return /^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/.test(value);
 };
 
-const getISODateTime = (date: Date | null, time: string): string | null => {
-  if (!date) {
-    return null; // Handle null case as needed
-  }
-
+const getISODateTime = (
+  date: Date | null,
+  timeWithPeriod: string
+): string | null => {
+  if (!date) return null;
+  const [time, period] = timeWithPeriod.split(" ");
   const [hour, minute] = time.split(":").map(Number);
 
-  // Create a new Date object in UTC
-  const isoDate = new Date(
+  let adjustedHour = hour;
+  if (period?.toUpperCase() === "PM" && hour < 12) adjustedHour += 12;
+  if (period?.toUpperCase() === "AM" && hour === 12) adjustedHour = 0;
+
+  return new Date(
     Date.UTC(
       date.getUTCFullYear(),
       date.getUTCMonth(),
       date.getUTCDate(),
-      hour,
+      adjustedHour,
       minute
     )
   ).toISOString();
-
-  return isoDate;
 };
 
-const reverseISODateTime = (
-  isoString: string
-): { date: Date; time: string } => {
-  // Create a Date object from ISO string
-  const date = new Date(isoString);
+const reverseISODateTime = (iso: string) => {
+  const dateObj = new Date(iso);
+  let hours = dateObj.getUTCHours();
+  const minutes = dateObj.getUTCMinutes().toString().padStart(2, "0");
+  const period = hours >= 12 ? "PM" : "AM";
+  hours = hours % 12 || 12; // convert 0 -> 12
+  const time = `${hours.toString().padStart(2, "0")}:${minutes}`;
 
-  const hours = date.getUTCHours().toString().padStart(2, "0");
-  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-
-  // Format back to original format
-  const timeStr = `${hours}:${minutes}`; // HH:MM
-
-  return {
-    date: date,
-    time: timeStr,
-  };
+  return { date: dateObj, time, period };
 };
 
 interface RescheduleASessionModalProps {
@@ -80,25 +73,13 @@ const preferredDateError =
 const preferredTimeError =
   "Invalid preferred time format. Use HH:MM (e.g., 05:01).";
 
-const isDateTimeInPast = (date: Date | null, timeStr: string): boolean => {
-  if (!date) {
-    return false;
-  }
-
-  const [hour, minute] = timeStr.split(":").map(Number);
-
-  const inputDate = new Date(
-    Date.UTC(
-      date.getUTCFullYear(),
-      date.getUTCMonth(),
-      date.getUTCDate(),
-      hour,
-      minute
-    )
-  );
-  const currentDate = new Date();
-
-  return inputDate < currentDate;
+const isDateTimeInPast = (
+  date: Date | null,
+  timeWithPeriod: string
+): boolean => {
+  if (!date || !timeWithPeriod) return false;
+  const iso = getISODateTime(date, timeWithPeriod);
+  return new Date(iso!) < new Date();
 };
 
 const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
@@ -119,8 +100,10 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
     time?.date ?? null
   );
 
-  // const [preferredDateStr, setPreferredDateStr] = useState(time?.date ?? "");
-  const [preferredTimeStr, setPreferredTimeStr] = useState(time?.time ?? "");
+  const [preferredTimeStr, setPreferredTimeStr] = useState({
+    time: time?.time ?? "",
+    period: "AM",
+  });
 
   const toggleModal = () => {
     setIsOpen((isOpen) => !isOpen);
@@ -130,7 +113,10 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const preferred_date = getISODateTime(preferredDateStr, preferredTimeStr);
+    const preferred_date = getISODateTime(
+      preferredDateStr,
+      `${preferredTimeStr.time} ${preferredTimeStr.period}`
+    );
 
     if (validateAllInputs()) {
       const data = {
@@ -192,7 +178,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
           setLoading(false);
           setTopic("");
           setPreferredDateStr(null);
-          setPreferredTimeStr("");
+          setPreferredTimeStr({ time: "", period: "AM" });
           setDuration(15);
 
           toggleModal();
@@ -235,19 +221,26 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
     )
       return false;
     if (
-      !validateInput(preferredTimeStr, preferredTimeError, "preferredTimeStr")
+      !validateInput(
+        preferredTimeStr.time,
+        preferredTimeError,
+        "preferredTimeStr"
+      )
     )
       return false;
 
-    // Check for future dates
-    if (isDateTimeInPast(preferredDateStr, preferredTimeStr)) {
+    if (
+      isDateTimeInPast(
+        preferredDateStr,
+        `${preferredTimeStr.time} ${preferredTimeStr.period}`
+      )
+    ) {
       setError("Please select a future preferred date and time.");
       updateErrorState("preferredDateStr", false);
       updateErrorState("preferredTimeStr", false);
       return false;
     }
 
-    // Check for topic
     if (!topic) {
       setError("Topic is required.");
       updateErrorState("topic", false);
@@ -262,9 +255,12 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
   useEffect(() => {
     if (sessionData) {
       setTopic(sessionData.topic);
-      const time = reverseISODateTime(sessionData.preferred_date);
-      setPreferredDateStr(time.date);
-      setPreferredTimeStr(time.time);
+      const timeData = reverseISODateTime(sessionData.preferred_date);
+      setPreferredDateStr(timeData.date);
+      setPreferredTimeStr({
+        time: timeData.time,
+        period: timeData.period ?? "AM",
+      });
     }
   }, [sessionData]);
 
@@ -351,7 +347,6 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
                           ? "border-[#2FBC8D]"
                           : "border-[#DADADA]"
                       } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                      id="preferred-date-time"
                       placeholderText="DD-MM-YYYY"
                       onBlur={() =>
                         validateInput(
@@ -362,23 +357,45 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
                       }
                     />
                   </div>
-                  <input
-                    type="text"
-                    className={`p-3 border rounded-md outline-none w-[48%] ${
-                      notDateError.preferredTimeStr === false
-                        ? "border-red-600"
-                        : notDateError.preferredTimeStr === true
-                        ? "border-[#2FBC8D]"
-                        : "border-[#DADADA]"
-                    } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
-                    id="preferred-time-input"
-                    required
-                    value={preferredTimeStr}
-                    onChange={(e) => setPreferredTimeStr(e.target.value.trim())}
-                    placeholder="09:00"
-                    onBlur={() => validateAllInputs()}
-                    pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
-                  />
+
+                  <div className="flex sm:flex-row flex-col gap-2 w-[48%]">
+                    <input
+                      type="text"
+                      className={`p-3 border rounded-md outline-none w-full ${
+                        notDateError.preferredTimeStr === false
+                          ? "border-red-600"
+                          : notDateError.preferredTimeStr === true
+                          ? "border-[#2FBC8D]"
+                          : "border-[#DADADA]"
+                      } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
+                      id="preferred-time-input"
+                      required
+                      value={preferredTimeStr.time}
+                      onChange={(e) =>
+                        setPreferredTimeStr((prev) => ({
+                          ...prev,
+                          time: e.target.value.trim(),
+                        }))
+                      }
+                      placeholder="09:00"
+                      onBlur={() => validateAllInputs()}
+                      pattern="^(0?[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$"
+                    />
+
+                    <select
+                      className="p-3 border rounded-md border-[#2FBC8D] outline-none w-full bg-white text-[#9F9F9F]"
+                      value={preferredTimeStr.period}
+                      onChange={(e) =>
+                        setPreferredTimeStr((prev) => ({
+                          ...prev,
+                          period: e.target.value,
+                        }))
+                      }
+                    >
+                      <option value="AM">AM</option>
+                      <option value="PM">PM</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 

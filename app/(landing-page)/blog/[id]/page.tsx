@@ -89,6 +89,7 @@ const GetBlogbyId = () => {
                 alt={readBlog.title}
                 width={1200}
                 height={500}
+                unoptimized
                 className="w-full h-full object-cover"
               />
             </div>

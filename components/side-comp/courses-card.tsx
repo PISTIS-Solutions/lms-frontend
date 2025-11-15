@@ -19,6 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import useCourseRead from "@/store/course-read";
 import { motion } from "framer-motion";
 import { createAxiosInstance } from "@/lib/axios";
+import { useRouter } from "next-nprogress-bar";
 
 interface cardProps {
   id: string;
@@ -29,6 +30,8 @@ interface cardProps {
   handleCardClick: any;
   isEnrolled: any;
   img: any;
+  module_count: number;
+  course_category: string;
   // cardLoad: boolean;
 }
 
@@ -41,50 +44,14 @@ const CoursesCard = ({
   handleCardClick,
   isEnrolled,
   img,
+  module_count,
+  course_category,
 }: // cardLoad,
 cardProps) => {
-  const [moduleCount, setModuleCount] = useState<number>();
-  const [loading, setLoading] = useState(false);
   const [enrolling, setEnrolling] = useState(false);
   const { fetchCourseRead } = useCourseRead();
   const axios = createAxiosInstance();
-
-  useEffect(() => {
-    const getModuleCount = async () => {
-      setLoading(true);
-      try {
-        const authToken = Cookies.get("authToken");
-        const response = await axios.get(`${urls.courses}${id}/modules/`, {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        });
-        if (response.status === 200) {
-          setModuleCount(response.data.length);
-        } else {
-          console.error(`Error fetching modules for course ${index}`);
-          setModuleCount(0);
-        }
-      } catch (error: any) {
-       
-          toast.error(error?.response?.data?.detail, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
-        
-        setModuleCount(0);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getModuleCount();
-  }, []);
+  const router = useRouter();
 
   const subscriptionStatus = Cookies.get("status");
   const isFreeSubscription = subscriptionStatus === "Free";
@@ -126,13 +93,7 @@ cardProps) => {
       }
     } catch (error: any) {
       // console.log(error.response.data.message, "error")
-      if (error.response && error.response.status === 401) {
-        const refreshed = await refreshAdminToken();
-        if (refreshed) {
-          await handleEnroll(id);
-        }
-        return;
-      } else if (error?.message === "Network Error") {
+      if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,
@@ -235,7 +196,7 @@ cardProps) => {
           unoptimized
           priority
           className={`rounded-tr-[4px] h-[191px] object-cover w-full rounded-tl-[4px] ${
-            isEnrolled ? " " : " blur-sm"
+            isEnrolled || course_category === "Advanced" ? " " : " blur-sm"
           }`}
         />
         <div className="p-2">
@@ -246,33 +207,37 @@ cardProps) => {
           <div className="flex items-center gap-x-4 mt-4">
             <div className="flex md:text-base text-xs items-center gap-x-1">
               <BookText className="text-main" />
-              {loading ? (
-                <LucideLoader2 className="animate-spin" />
-              ) : (
-                moduleCount
-              )}{" "}
-              module
+              {module_count} module
             </div>
             <div className="flex md:text-base text-xs items-center gap-x-1">
               <Hourglass className="text-main" />
               {duration}
             </div>
           </div>
-          <button
-            onClick={() => {
-              handleEnroll(id);
-            }}
-            disabled={isLockedDisabled || isEnrolled}
-            className={`w-[95%] text-black absolute bottom-1 py-1 rounded-[4px] ${
-              isLockedDisabled
-                ? "cursor-not-allowed border text-white bg-[#DAE0E6]/50 text-sm md:text-lg my-2"
-                : isEnrolled
-                ? "bg-white cursor-pointer border border-sub hover:text-black text-sm md:text-lg my-2"
-                : "bg-sub cursor-pointer hover:text-black text-sm md:text-lg my-2"
-            }`}
-          >
-            {isEnrolled ? "Enrolled" : "Enroll"}
-          </button>
+          {course_category === "Advanced" ? (
+            <button
+              onClick={() => router.push(`custom-pricing/${id}`)}
+              className="w-[95%] text-sm bg-sub cursor-pointer hover:text-black my-2 text-black absolute bottom-1 py-1 rounded-[4px]"
+            >
+              View Course Information
+            </button>
+          ) : (
+            <button
+              onClick={() => {
+                handleEnroll(id);
+              }}
+              disabled={isLockedDisabled || isEnrolled}
+              className={`w-[95%] text-black absolute bottom-1 py-1 rounded-[4px] ${
+                isLockedDisabled
+                  ? "cursor-not-allowed border text-white bg-[#DAE0E6]/50 text-sm md:text-lg my-2"
+                  : isEnrolled
+                  ? "bg-white cursor-pointer border border-sub hover:text-black text-sm md:text-lg my-2"
+                  : "bg-sub cursor-pointer hover:text-black text-sm md:text-lg my-2"
+              }`}
+            >
+              {isEnrolled ? "Enrolled" : "Enroll"}
+            </button>
+          )}
         </div>
       </div>
       {isFreeSubscription && index > 3 && (

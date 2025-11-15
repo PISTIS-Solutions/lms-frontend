@@ -150,6 +150,7 @@ const Blog = () => {
                     height={100}
                     alt={blog.title}
                     src={blog.blog_picture!}
+                    unoptimized
                     className="w-full h-[200px] rounded-[16px] object-cover"
                   />
                 </div>

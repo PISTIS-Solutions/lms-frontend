@@ -28,6 +28,7 @@ import {
   customLink,
 } from "@/utils/markdown";
 import Link from "next/link";
+import ProtectedVideoPlayer from "@/components/side-comp/protectedVideo";
 
 const Content = () => {
   const router = useRouter();
@@ -47,6 +48,9 @@ const Content = () => {
     fetchModuleRead(courseID, moduleID);
     fetchCourseRead(courseID);
   }, []);
+
+  const isYouTubeLink = (url?: string) =>
+    !!url && /(youtube\.com|youtu\.be|vimeo\.com)/i.test(url);
 
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
@@ -85,26 +89,30 @@ const Content = () => {
               </h1>
               <div className="md:grid flex flex-col-reverse gap-x-2 grid-cols-10">
                 <span className="relative col-span-7">
-                  <ReactPlayer
-                    controls={true}
-                    width="100%"
-                    height="100%"
-                    playing={false}
-                    url={moduleData?.module_video_link}
-                    className="md:h-[428px] md:my-0 my-4"
-                    config={{
-                      youtube: {
-                        playerVars: {
-                          controls: 1,
-                          modestbranding: 1,
+                  {isYouTubeLink(moduleData?.module_video_link) ? (
+                    <ReactPlayer
+                      url={moduleData?.module_video_link}
+                      controls
+                      width="100%"
+                      height="100%"
+                      playing={false}
+                      className="md:h-[428px] md:my-0 my-4"
+                      config={{
+                        youtube: {
+                          playerVars: {
+                            controls: 1,
+                            modestbranding: 1,
+                          },
                         },
-                      },
-                    }}
-                  />
-                  {/* <div className=" bg-transparent cursor-not-allowed w-full h-14 absolute top-0"/>
-                  <div className=" bg-transparent cursor-not-allowed w-full h-14 absolute bottom-0"/> */}
+                      }}
+                    />
+                  ) : (
+                    <ProtectedVideoPlayer
+                      videoUrl={moduleData?.module_video_link!}
+                      className="md:h-[428px] md:my-0 my-4 w-full"
+                    />
+                  )}
                 </span>
-
                 <ScrollArea className="md:h-[428px] h-auto col-span-3 rounded-[8px] shadow-md my-2 md:my-0 bg-white">
                   {loading ? (
                     <div className="w-[100%] flex items-center justify-center h-screen">

@@ -238,10 +238,11 @@ const BeginnerCardModal = () => {
       <ToastContainer />
       {noCohort ? (
         <button
-          className="bg-main cursor-pointer rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
-          onClick={() => router.push("/create-account")}
+          className="bg-main cursor-not-allowed disabled:bg-main/50 rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
+          // onClick={() => router.push("/create-account")}
+          disabled
         >
-          Register Now
+          Coming soon
         </button>
       ) : (
         <button

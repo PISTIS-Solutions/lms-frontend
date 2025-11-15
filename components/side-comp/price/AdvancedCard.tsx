@@ -57,12 +57,12 @@ const AdvanceCard = () => {
           </section>
         </div>
         <button
-          // disabled
-          className="bg-main border border-white cursor-pointer rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
+          disabled
+          className="bg-main border border-white disabled:cursor-not-allowed disabled:main/50 cursor-pointer rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
           // onClick={() => (authToken ? toggleModal() : router.push("/pricing"))}
-          onClick={() => router.push("/create-account")}
+          // onClick={() => router.push("/create-account")}
         >
-          Register Now
+          Coming soon
         </button>
       </div>
     </div>
