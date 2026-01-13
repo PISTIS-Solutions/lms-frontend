@@ -109,7 +109,7 @@ const ForgotPassword = () => {
       </div>
       <div className="flex w-full md:w-1/2 justify-center px-4 lg:px-0">
         <div className=" flex-col gap-y-6  flex">
-          <ToastContainer />
+          {/*<ToastContainer />*/}
           <div className="flex justify-end">
             <Image src={logo} alt="pistis_logo" className="" priority />
           </div>

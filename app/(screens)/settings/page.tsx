@@ -51,9 +51,9 @@ const passwordSchema = z.object({
     .refine(
       (value) =>
         /^(?=.*[!@#$%^&*()_+{}|:<>?~_-])[a-zA-Z\d!@#$%^&*()_+{}|:<>?~_-]+$/.test(
-          value
+          value,
         ),
-      "Password should contain at least one special character"
+      "Password should contain at least one special character",
     ),
   confirmPassword: z
     .string()
@@ -61,9 +61,9 @@ const passwordSchema = z.object({
     .refine(
       (value) =>
         /^(?=.*[!@#$%^&*()_+{}|:<>?~_-])[a-zA-Z\d!@#$%^&*()_+{}|:<>?~_-]+$/.test(
-          value
+          value,
         ),
-      "Password should contain at least one special character"
+      "Password should contain at least one special character",
     ),
 });
 
@@ -92,7 +92,7 @@ const SettingsPage = () => {
   const [passwordLoading, setPasswordLoading] = useState(false);
   const onSubmitPassword = async (
     values: z.infer<typeof passwordSchema>,
-    e: any
+    e: any,
   ) => {
     e.preventDefault();
     if (values.confirmPassword === values.newPassword) {
@@ -111,7 +111,7 @@ const SettingsPage = () => {
             headers: {
               Authorization: "Bearer " + token,
             },
-          }
+          },
         );
 
         if (response.status === 204) {
@@ -182,7 +182,7 @@ const SettingsPage = () => {
               pauseOnHover: false,
               draggable: false,
               theme: "dark",
-            }
+            },
           );
         } else {
           toast.error(
@@ -195,7 +195,7 @@ const SettingsPage = () => {
               pauseOnHover: false,
               draggable: false,
               theme: "dark",
-            }
+            },
           );
         }
       } finally {
@@ -255,7 +255,7 @@ const SettingsPage = () => {
               Authorization: "Bearer " + token,
               "Content-Type": "multipart/form-data", // Set content type to multipart/form-data for file upload
             },
-          }
+          },
         );
 
         if (response.status === 200) {
@@ -327,7 +327,7 @@ const SettingsPage = () => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -362,7 +362,7 @@ const SettingsPage = () => {
           theme: "dark",
         });
       } else {
-        toast.error(error?.response?.data?.detail, {
+        toast.error(error?.response?.data?.error, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -389,7 +389,7 @@ const SettingsPage = () => {
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
           <TopNav />

@@ -73,7 +73,7 @@ const Completeprofile = () => {
           theme: "dark",
         });
       } else {
-        toast.error(error?.response?.data?.detail, {
+        toast.error(error?.response?.data?.error, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -101,7 +101,7 @@ const Completeprofile = () => {
           priority
         />
       </div>
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className="px-2 my-10 md:my-0 md:px-0">
         <h1 className="md:text-4xl sm:text-2xl text-xl font-semibold">
           Complete your profile

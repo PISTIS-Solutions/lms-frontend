@@ -44,7 +44,7 @@ const ResendToken = () => {
             headers: {
               "Content-Type": "application/json",
             },
-          }
+          },
         );
         if (response.status === 204) {
           // setResponse(response.data);
@@ -82,7 +82,7 @@ const ResendToken = () => {
             theme: "dark",
           });
         } else {
-          toast.error(error?.response?.data?.detail, {
+          toast.error(error?.response?.data?.error, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -110,7 +110,7 @@ const ResendToken = () => {
 
   return (
     <>
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className="lg:max-w-[75.4%] flex flex-col lg:my-6 w-full gap-y-6">
         <div className="flex justify-end">
           <Image src={logo} alt="pistis_logo" className="" priority />

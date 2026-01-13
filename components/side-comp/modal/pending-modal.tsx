@@ -53,7 +53,7 @@ const PendingModal = ({
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
+          },
         );
         if (response.status === 201) {
           toast.success("Project Submitted Successfully!", {
@@ -126,7 +126,7 @@ const PendingModal = ({
   return (
     <div className="bg-white p-4 overflow-y-scroll w-full lg:mx-2 mx-0 md:1/2 lg:w-1/3 h-full">
       <div>
-        <ToastContainer />
+        {/*<ToastContainer />*/}
         <div className="flex justify-between items-center">
           <h1 className="md:text-2xl text-lg font-medium">
             {bool ? projectsTitles : projectTitle}

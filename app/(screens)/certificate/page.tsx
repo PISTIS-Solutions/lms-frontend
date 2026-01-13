@@ -60,7 +60,7 @@ const Certificate = () => {
   return (
     <div className="relative h-screen w-full bg-[#FBFBFB]">
       <SideNav />
-      <ToastContainer />
+      {/*<ToastContainer />*/}
 
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen flex flex-col gap-4 items-center justify-center">
         {status === "idle" && (

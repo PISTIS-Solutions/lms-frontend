@@ -96,7 +96,7 @@ const Content = () => {
                       width="100%"
                       height="100%"
                       playing={false}
-                      className="md:h-[428px] md:my-0 my-4"
+                      className="h-auto md:my-0 my-4"
                       config={{
                         youtube: {
                           playerVars: {
@@ -109,11 +109,11 @@ const Content = () => {
                   ) : (
                     <ProtectedVideoPlayer
                       videoUrl={moduleData?.module_video_link!}
-                      className="md:h-[428px] md:my-0 my-4 w-full"
+                      className="h-auto  md:my-0 my-4 w-full"
                     />
                   )}
                 </span>
-                <ScrollArea className="md:h-[428px] h-auto col-span-3 rounded-[8px] shadow-md my-2 md:my-0 bg-white">
+                <ScrollArea className=" h-auto col-span-3 rounded-[8px] shadow-md my-2 md:my-0 bg-white">
                   {loading ? (
                     <div className="w-[100%] flex items-center justify-center h-screen">
                       <Loader2 className=" w-8 h-8 animate-spin" />

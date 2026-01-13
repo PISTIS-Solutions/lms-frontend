@@ -52,8 +52,8 @@ const getISODateTime = (date: Date | null, time: string): string | null => {
       date.getUTCMonth(),
       date.getUTCDate(),
       hourIn24,
-      minute
-    )
+      minute,
+    ),
   ).toISOString();
 
   return isoDate;
@@ -72,8 +72,8 @@ const isDateTimeInPast = (date: Date | null, timeStr: string): boolean => {
       date.getUTCMonth(),
       date.getUTCDate(),
       hour,
-      minute
-    )
+      minute,
+    ),
   );
   const currentDate = new Date();
 
@@ -131,11 +131,11 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
 
     const preferred_date = getISODateTime(
       preferredDateStr,
-      `${preferredTimeStr.time} ${preferredTimeStr.period}`
+      `${preferredTimeStr.time} ${preferredTimeStr.period}`,
     );
     const alternative_date = getISODateTime(
       altDateStr,
-      `${altTimeStr.time} ${altTimeStr.period}`
+      `${altTimeStr.time} ${altTimeStr.period}`,
     );
 
     if (validateAllInputs()) {
@@ -166,7 +166,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
           });
         } catch (error: any) {
           // console.log(error?.response?.data?.error?.[0]);
-          console.log(error)
+          console.log(error);
           if (
             error.response.data.non_field_errors[0] ===
             "you have already exhausted your bookings for the month"
@@ -181,7 +181,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
               theme: "dark",
             });
           } else {
-            toast.error(error?.response?.data?.detail, {
+            toast.error(error?.response?.data?.error, {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -217,7 +217,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
   const validateInput = (
     value: string | Date | null,
     errorMsg: string,
-    key: string
+    key: string,
   ) => {
     if (typeof value === "string") {
       if (!validateTime(value)) {
@@ -244,7 +244,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
       !validateInput(
         `${preferredTimeStr.time} ${preferredTimeStr.period}`,
         preferredTimeError,
-        "preferredTimeStr"
+        "preferredTimeStr",
       )
     )
       return false;
@@ -253,7 +253,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
     if (
       isDateTimeInPast(
         preferredDateStr,
-        `${preferredTimeStr.time} ${preferredTimeStr.period}`
+        `${preferredTimeStr.time} ${preferredTimeStr.period}`,
       )
     ) {
       setError("Please select a future preferred date and time.");
@@ -328,8 +328,8 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                     notDateError.topic === false
                       ? "border-red-600"
                       : topic
-                      ? "border-[#2FBC8D]"
-                      : "border-[#DADADA]"
+                        ? "border-[#2FBC8D]"
+                        : "border-[#DADADA]"
                   }`}
                   id="topic"
                   required
@@ -368,8 +368,8 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                         notDateError.preferredDateStr === false
                           ? "border-red-600"
                           : notDateError.preferredDateStr == true
-                          ? "border-[#2FBC8D]"
-                          : "border-[#DADADA]"
+                            ? "border-[#2FBC8D]"
+                            : "border-[#DADADA]"
                       } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
                       id="preferred-date-time"
                       placeholderText="DD-MM-YYYY"
@@ -377,7 +377,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                         validateInput(
                           preferredDateStr,
                           preferredDateError,
-                          "preferredDateStr"
+                          "preferredDateStr",
                         )
                       }
                       filterDate={(date) =>
@@ -392,8 +392,8 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                         notDateError.preferredTimeStr === false
                           ? "border-red-600"
                           : notDateError.preferredTimeStr === true
-                          ? "border-[#2FBC8D]"
-                          : "border-[#DADADA]"
+                            ? "border-[#2FBC8D]"
+                            : "border-[#DADADA]"
                       } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
                       id="preferred-time-input"
                       required
@@ -409,7 +409,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                         validateInput(
                           `${preferredTimeStr.time} ${preferredTimeStr.period}`,
                           preferredTimeError,
-                          "preferredTimeStr"
+                          "preferredTimeStr",
                         )
                       }
                       pattern="^(0?[1-9]|1[0-2]):([0-5][0-9])$"
@@ -420,8 +420,8 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                         notDateError.preferredTimeStr === false
                           ? "border-red-600"
                           : notDateError.preferredTimeStr === true
-                          ? "border-[#2FBC8D]"
-                          : "border-[#DADADA]"
+                            ? "border-[#2FBC8D]"
+                            : "border-[#DADADA]"
                       } bg-[#FAFAFA] text-[#9F9F9F]`}
                       value={preferredTimeStr.period}
                       onChange={(e) =>
@@ -434,7 +434,7 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                         validateInput(
                           `${preferredTimeStr.time} ${preferredTimeStr.period}`,
                           preferredTimeError,
-                          "preferredTimeStr"
+                          "preferredTimeStr",
                         )
                       }
                       required
@@ -454,25 +454,23 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                 </label>
                 <div className="flex gap-x-4 mt-2">
                   {timeRangeData.map((itm) => (
-                    <button
+                    <div
                       className={
                         "group rounded-[6px] flex gap-x-2 items-center py-1 px-2 border outline-none w-full self-stretch transition-all duration-300 ease-in-out " +
                         (duration == itm.value
                           ? "border-[#2FBC8D] text-[#2FBC8D]"
                           : "border-[#9F9F9F] text-[#9F9F9F]")
                       }
-                      type="button"
                       key={itm.name}
                       onClick={() => setDuration(itm.value)}
                     >
-                      <button
+                      <div
                         className={
                           "w-4 h-4 border rounded-full flex items-center justify-center   " +
                           (duration == itm.value
                             ? "border-[#2FBC8D] bg-[#2FBC8D]"
                             : "border-[#9F9F9F]")
                         }
-                        type="button"
                       >
                         <div
                           className={
@@ -482,9 +480,9 @@ const BookASessionModal = ({ isDisabled }: BookASessionModalProp) => {
                               : "opacity-0 ")
                           }
                         />
-                      </button>
+                      </div>
                       <p>{itm.name}</p>
-                    </button>
+                    </div>
                   ))}
                 </div>
               </div>

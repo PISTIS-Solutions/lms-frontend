@@ -70,7 +70,7 @@ const Blog = () => {
   return (
     <div className="bg-white">
       <NavigationBar />
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div
         style={{ backgroundImage: `url(${blogImg.src})` }}
         className=" h-[50vh] md:h-auto mx-3 md:bg-none bg-cover md:rounded-none rounded-[32px] relative"

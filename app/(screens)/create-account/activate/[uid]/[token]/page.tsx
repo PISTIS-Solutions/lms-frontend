@@ -42,7 +42,7 @@ const Verify_SignUp = () => {
             headers: {
               "Content-Type": "application/json",
             },
-          }
+          },
         );
 
         if (response.status === 200) {
@@ -81,7 +81,7 @@ const Verify_SignUp = () => {
             theme: "dark",
           });
         } else {
-          toast.error(error?.response?.data?.detail, {
+          toast.error(error?.response?.data?.error, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -103,7 +103,7 @@ const Verify_SignUp = () => {
 
   return (
     <>
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className="lg:max-w-[75.4%] flex flex-col lg:my-6 w-full gap-y-6">
         <div className="h-auto block md:hidden w-full bg-main p-2">
           <Image src={Fulllogo} alt="logo" />

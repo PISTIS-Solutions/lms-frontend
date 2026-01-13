@@ -39,7 +39,7 @@ const CustomPayment = () => {
   const fetchCourses = async () => {
     try {
       const { data, status } = await axios.get(
-        `${baseURL}/courses/advanced-courses/`
+        `${baseURL}/courses/advanced-courses/`,
       );
       if (status === 200) {
         setCourses(data);
@@ -62,7 +62,7 @@ const CustomPayment = () => {
 
   return (
     <div className="bg-slate-50 min-h-screen overflow-y-auto">
-      <ToastContainer />
+      {/*<ToastContainer />*/}
 
       <main className="px-5 sm:px-7 md:px-10">
         <div className="flex py-5 items-center justify-between">

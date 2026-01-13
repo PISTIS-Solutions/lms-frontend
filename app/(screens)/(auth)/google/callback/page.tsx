@@ -109,7 +109,7 @@ const GoogleAuthSignUp = () => {
 
   return (
     <>
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className="flex gap-2 justify-between">
         <div className="hidden md:block p-2 w-1/2 h-screen relative">
           <div className="relative mx-auto w-fit h-full ">

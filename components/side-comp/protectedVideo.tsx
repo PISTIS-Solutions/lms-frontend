@@ -81,7 +81,7 @@ const ProtectedVideoPlayer: React.FC<ProtectedVideoPlayerProps> = ({
     if (isPlaying) {
       controlsTimeoutRef.current = setTimeout(
         () => setShowControls(false),
-        3000
+        3000,
       );
     }
   };
@@ -112,7 +112,7 @@ const ProtectedVideoPlayer: React.FC<ProtectedVideoPlayerProps> = ({
         ref={videoRef}
         src={videoUrl}
         poster={poster}
-        className="w-full h-auto max-h-[70vh] object-contain"
+        className="w-full h-auto  object-contain"
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={handleLoadedMetadata}
         onEnded={handleVideoEnded}
@@ -162,18 +162,14 @@ const ProtectedVideoPlayer: React.FC<ProtectedVideoPlayerProps> = ({
             title="Forward 10s"
             className="hover:scale-110 transition-transform"
           >
-           <FaForward size={22} />
+            <FaForward size={22} />
           </button>
 
           <button
             onClick={toggleMute}
             className="hover:scale-110 cursor-pointer transition-transform ml-4"
           >
-            {isMuted ? (
-              <FaVolumeMute size={22} />
-            ) : (
-            <AiFillSound size={22} />
-            )}
+            {isMuted ? <FaVolumeMute size={22} /> : <AiFillSound size={22} />}
           </button>
         </div>
       )}

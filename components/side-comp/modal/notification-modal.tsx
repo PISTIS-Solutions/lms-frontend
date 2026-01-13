@@ -52,13 +52,13 @@ const NotificationModal = ({ activities }: { activities: any }) => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
       await navigation.push(link);
     } catch (error: any) {
       // console.log(error.response.data.error[0]);
 
-      toast.error(error?.response?.data?.detail, {
+      toast.error(error?.response?.data?.error, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -121,7 +121,7 @@ const NotificationModal = ({ activities }: { activities: any }) => {
               ) : (
                 activities?.map((tag: any, index: number) => {
                   const activityItemLink = getActivityIconLink(
-                    tag?.activity_type
+                    tag?.activity_type,
                   );
                   return (
                     <div

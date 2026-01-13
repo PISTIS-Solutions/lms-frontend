@@ -22,7 +22,7 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
 
   const submissionId = localStorage.getItem("submissionID");
   const person = projectReview.find(
-    (item: any) => item.submission_id === submissionId
+    (item: any) => item.submission_id === submissionId,
   );
 
   const handleSubmit = async () => {
@@ -42,7 +42,7 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
+          },
         );
         if (response.status === 200) {
           toast.success("Project Re-submitted Successfully!", {
@@ -124,7 +124,7 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
   return (
     <div className="bg-white p-4 overflow-y-scroll relative z-[100] w-full lg:mx-2 mx-0 md:1/2 lg:w-1/3 h-full">
       <div>
-        <ToastContainer />
+        {/*<ToastContainer />*/}
         <div className="flex justify-between items-center">
           <h1 className="md:text-2xl text-lg font-medium">
             {person?.project?.title}

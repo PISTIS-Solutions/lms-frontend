@@ -97,7 +97,7 @@ const Dashboard = () => {
         setActivities(response?.data?.activities);
       }
     } catch (error: any) {
-      toast.error(error?.response?.data?.detail, {
+      toast.error(error?.response?.data?.error, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -133,7 +133,7 @@ const Dashboard = () => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
       await navigation.push(link);
     } catch (error: any) {
@@ -178,7 +178,7 @@ const Dashboard = () => {
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div>
           <div className="grid grid-cols-1 lg:grid-cols-10 min-[1440px]:grid-cols-12 pt-16 lg:pt-10 p-4 pb-0">
@@ -424,7 +424,7 @@ const Dashboard = () => {
                       ) : (
                         activity.map((tag: any, index: any) => {
                           const activityItemLink = getActivityIconLink(
-                            tag?.activity_type
+                            tag?.activity_type,
                           );
                           return (
                             <div

@@ -64,9 +64,9 @@ const ScholarshipSignUp = () => {
                 password: formStore.password,
                 re_password: formStore.confirm,
               }),
-            }
+            },
           );
-        //   console.log(response, "challenger");
+          //   console.log(response, "challenger");
           if (response.ok) {
             // setModal(true);
             // router.push("/create-account/activate/[uid]");
@@ -119,7 +119,7 @@ const ScholarshipSignUp = () => {
   const handleCountryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     const countryData = countriesWithPhoneCodes.find(
-      (item) => item.country === value || item.phoneCode === value
+      (item) => item.country === value || item.phoneCode === value,
     );
     if (countryData) formStore.setField("selectedCountry", countryData);
   };
@@ -130,7 +130,7 @@ const ScholarshipSignUp = () => {
 
   return (
     <>
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className=" flex flex-col lg:my-6 w-full gap-y-6">
         <div className="flex justify-between items-center gap-y-6 mx-4 lg:mx-0">
           <div className="my-2 md:my-0">
@@ -157,7 +157,7 @@ const ScholarshipSignUp = () => {
         </button>
 
         <span className="before:absolute relative before:h-[1px] before:w-[45%] before:-left-0 text-center before:bg-[#BDBDBD] before:top-[45%] font-medium text-[#666666] after:absolute after:h-[1px] after:w-[45%] after:-right-0 after:bg-[#BDBDBD] after:top-[45%] mx-4 lg:mx-0">
-          
+
           or
         </span> */}
 

@@ -32,7 +32,7 @@ const validateTime = (value: string): boolean => {
 
 const getISODateTime = (
   date: Date | null,
-  timeWithPeriod: string
+  timeWithPeriod: string,
 ): string | null => {
   if (!date) return null;
   const [time, period] = timeWithPeriod.split(" ");
@@ -48,8 +48,8 @@ const getISODateTime = (
       date.getUTCMonth(),
       date.getUTCDate(),
       adjustedHour,
-      minute
-    )
+      minute,
+    ),
   ).toISOString();
 };
 
@@ -75,7 +75,7 @@ const preferredTimeError =
 
 const isDateTimeInPast = (
   date: Date | null,
-  timeWithPeriod: string
+  timeWithPeriod: string,
 ): boolean => {
   if (!date || !timeWithPeriod) return false;
   const iso = getISODateTime(date, timeWithPeriod);
@@ -97,7 +97,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
   });
   const time = sessionData && reverseISODateTime(sessionData?.preferred_date);
   const [preferredDateStr, setPreferredDateStr] = useState<Date | null>(
-    time?.date ?? null
+    time?.date ?? null,
   );
 
   const [preferredTimeStr, setPreferredTimeStr] = useState({
@@ -115,7 +115,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
 
     const preferred_date = getISODateTime(
       preferredDateStr,
-      `${preferredTimeStr.time} ${preferredTimeStr.period}`
+      `${preferredTimeStr.time} ${preferredTimeStr.period}`,
     );
 
     if (validateAllInputs()) {
@@ -136,7 +136,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
               headers: {
                 Authorization: `Bearer ${accessToken}`,
               },
-            }
+            },
           );
 
           toast.success("Your session has been successfully scheduled!", {
@@ -164,7 +164,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
               theme: "dark",
             });
           } else {
-            toast.error(error?.response?.data?.detail, {
+            toast.error(error?.response?.data?.error, {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -197,7 +197,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
   const validateInput = (
     value: string | Date | null,
     errorMsg: string,
-    key: string
+    key: string,
   ) => {
     if (typeof value === "string") {
       if (!validateTime(value)) {
@@ -224,7 +224,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
       !validateInput(
         preferredTimeStr.time,
         preferredTimeError,
-        "preferredTimeStr"
+        "preferredTimeStr",
       )
     )
       return false;
@@ -232,7 +232,7 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
     if (
       isDateTimeInPast(
         preferredDateStr,
-        `${preferredTimeStr.time} ${preferredTimeStr.period}`
+        `${preferredTimeStr.time} ${preferredTimeStr.period}`,
       )
     ) {
       setError("Please select a future preferred date and time.");
@@ -319,8 +319,8 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
                     notDateError.topic === false
                       ? "border-red-600"
                       : topic
-                      ? "border-[#2FBC8D]"
-                      : "border-[#DADADA]"
+                        ? "border-[#2FBC8D]"
+                        : "border-[#DADADA]"
                   }`}
                   id="topic"
                   required
@@ -344,15 +344,15 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
                         notDateError.preferredDateStr === false
                           ? "border-red-600"
                           : notDateError.preferredDateStr == true
-                          ? "border-[#2FBC8D]"
-                          : "border-[#DADADA]"
+                            ? "border-[#2FBC8D]"
+                            : "border-[#DADADA]"
                       } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
                       placeholderText="DD-MM-YYYY"
                       onBlur={() =>
                         validateInput(
                           preferredDateStr,
                           preferredDateError,
-                          "preferredDateStr"
+                          "preferredDateStr",
                         )
                       }
                     />
@@ -365,8 +365,8 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
                         notDateError.preferredTimeStr === false
                           ? "border-red-600"
                           : notDateError.preferredTimeStr === true
-                          ? "border-[#2FBC8D]"
-                          : "border-[#DADADA]"
+                            ? "border-[#2FBC8D]"
+                            : "border-[#DADADA]"
                       } bg-[#FAFAFA] placeholder:text-[#9F9F9F]`}
                       id="preferred-time-input"
                       required
@@ -405,25 +405,23 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
                 </label>
                 <div className="flex gap-x-4 mt-2">
                   {timeRangeData.map((itm) => (
-                    <button
+                    <div
                       className={
                         "group rounded-[6px] flex gap-x-2 items-center py-1 px-2 border outline-none w-[96.92px] self-stretch transition-all duration-300 ease-in-out " +
                         (duration == itm.value
                           ? "border-[#2FBC8D] text-[#2FBC8D]"
                           : "border-[#9F9F9F] text-[#9F9F9F]")
                       }
-                      type="button"
                       key={itm.name}
                       onClick={() => setDuration(itm.value)}
                     >
-                      <button
+                      <div
                         className={
                           "w-4 h-4 border rounded-full flex items-center justify-center   " +
                           (duration == itm.value
                             ? "border-[#2FBC8D] bg-[#2FBC8D]"
                             : "border-[#9F9F9F]")
                         }
-                        type="button"
                       >
                         <div
                           className={
@@ -433,9 +431,9 @@ const RescheduleASessionModal = ({ onClick }: RescheduleASessionModalProps) => {
                               : "opacity-0 ")
                           }
                         />
-                      </button>
+                      </div>
                       <p>{itm.name}</p>
-                    </button>
+                    </div>
                   ))}
                 </div>
               </div>

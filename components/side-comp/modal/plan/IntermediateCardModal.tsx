@@ -123,7 +123,7 @@ const IntermediateCardModal = () => {
 
   return (
     <>
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <button
         className="bg-main rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
         onClick={() => setIsOpen(true)}
@@ -146,7 +146,7 @@ const IntermediateCardModal = () => {
           }
           ref={modal}
         >
-          <ToastContainer />
+          {/*<ToastContainer />*/}
           <div className="flex flex-col items-center justify-center w-full">
             <Image src={logo} alt="Pistis logo" />
 

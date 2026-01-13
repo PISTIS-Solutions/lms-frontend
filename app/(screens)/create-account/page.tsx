@@ -158,7 +158,7 @@ const SignUp = () => {
   const handleCountryChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     const countryData = countriesWithPhoneCodes.find(
-      (item) => item.country === value || item.phoneCode === value
+      (item) => item.country === value || item.phoneCode === value,
     );
     if (countryData) formStore.setField("selectedCountry", countryData);
   };
@@ -169,7 +169,7 @@ const SignUp = () => {
 
   return (
     <>
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className=" flex flex-col lg:my-6 w-full gap-y-6">
         <div className="flex justify-between items-center gap-y-6 mx-4 lg:mx-0">
           <div className="my-2 md:my-0">

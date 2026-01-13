@@ -32,7 +32,7 @@ const PricingCard = ({ bool }: any) => {
 
   return (
     <div className="border-2 relative border-[A5ACBA] rounded-[4px] max-w-[310px] w-full h-[444px]">
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className="bg-[#F8F9FF] text-center rounded-tr-[4px] rounded-tl-[4px] px-4 py-6">
         <div>
           <h1 className="text-lg text-[#1A1A1A] font-medium">Basic Plan</h1>

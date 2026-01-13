@@ -199,7 +199,7 @@ const BeginnerCardModal = () => {
           draggable: false,
           theme: "dark",
         });
-        setError(error?.response?.data?.detail);
+        setError(error?.response?.data?.error);
       }
       setJoining(false);
     } finally {
@@ -235,7 +235,7 @@ const BeginnerCardModal = () => {
 
   return (
     <>
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       {noCohort ? (
         <button
           className="bg-main cursor-not-allowed disabled:bg-main/50 rounded-[10px] font-semibold mt-6 mb-2 h-[52px] flex items-center justify-center text-white"
@@ -272,7 +272,7 @@ const BeginnerCardModal = () => {
               }
               ref={modal}
             >
-              <ToastContainer />
+              {/*<ToastContainer />*/}
               <div className="flex flex-col items-center justify-center w-full">
                 <Image src={logo} alt="Pistis logo" />
 
@@ -384,7 +384,7 @@ const BeginnerCardModal = () => {
               }
               ref={modal}
             >
-              <ToastContainer />
+              {/*<ToastContainer />*/}
 
               <div className="flex flex-col items-center justify-center w-full">
                 <Image src={logo} alt="Pistis logo" />

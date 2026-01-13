@@ -39,7 +39,7 @@ const UpcomingModal = ({ toggleModal, isOpen }: UpcomingModal) => {
         theme: "dark",
       });
     } catch (error: any) {
-      toast.error(error?.response?.data?.detail, {
+      toast.error(error?.response?.data?.error, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,

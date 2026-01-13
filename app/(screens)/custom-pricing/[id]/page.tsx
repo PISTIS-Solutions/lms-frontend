@@ -92,7 +92,7 @@ const CourseDetails = () => {
     try {
       setLoading(true);
       const response = await axios.get(
-        `${baseURL}/courses/${id}/advanced-courses/`
+        `${baseURL}/courses/${id}/advanced-courses/`,
       );
       console.log(response, "res");
       if (response.status === 200) {
@@ -181,7 +181,7 @@ const CourseDetails = () => {
   //         theme: "dark",
   //       });
   //     } else {
-  //       toast.error(error?.response?.data?.detail, {
+  //       toast.error(error?.response?.data?.error, {
   //         position: "top-right",
   //         autoClose: 5000,
   //         hideProgressBar: false,
@@ -353,10 +353,10 @@ const CourseDetails = () => {
                   {course?.owner?.position === "frontend_dev"
                     ? "Frontend Developer"
                     : course?.owner?.position === "backend_dev"
-                    ? "Backend Developer"
-                    : course?.owner?.position === "faculty_lead"
-                    ? "Faculty Lead"
-                    : course?.owner?.position}
+                      ? "Backend Developer"
+                      : course?.owner?.position === "faculty_lead"
+                        ? "Faculty Lead"
+                        : course?.owner?.position}
                 </p>
               </div>
               <p className="text-[#2E2E2E] text-xs sm:text-base font-normal py-3 leading-relaxed">

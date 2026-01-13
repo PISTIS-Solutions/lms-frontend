@@ -53,7 +53,7 @@ const NewPassword = () => {
             draggable: false,
             theme: "dark",
           });
-          router.replace("/sign-in")
+          router.replace("/sign-in");
           // setModal(true);
           // router.push("/create-account/activate/[uid]");
         } else {
@@ -73,7 +73,7 @@ const NewPassword = () => {
 
   return (
     <main className=" bg-white min-h-screen w-full relative flex">
-      <ToastContainer />
+      {/*<ToastContainer />*/}
 
       <div className="hidden md:block p-2 w-1/2 h-screen relative">
         <div className="relative mx-auto w-fit h-full ">
