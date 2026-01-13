@@ -54,7 +54,7 @@ const OrderSummary = () => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
       console.log(response, "make course purchase");
 
@@ -64,7 +64,7 @@ const OrderSummary = () => {
         setCoupon("");
       }
     } catch (error: any) {
-      toast.error(error?.response?.data?.detail, {
+      toast.error(error?.response?.data?.error, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -115,7 +115,7 @@ const OrderSummary = () => {
   //         theme: "dark",
   //       });
   //     } else {
-  //       toast.error(error?.response?.data?.detail, {
+  //       toast.error(error?.response?.data?.error, {
   //         position: "top-right",
   //         autoClose: 5000,
   //         hideProgressBar: false,
@@ -144,7 +144,7 @@ const OrderSummary = () => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
       console.log(response, "add course to backend");
       if (response.status === 200) {
@@ -179,7 +179,7 @@ const OrderSummary = () => {
           theme: "dark",
         });
       } else {
-        toast.error(error?.response?.data?.detail, {
+        toast.error(error?.response?.data?.error, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -194,7 +194,7 @@ const OrderSummary = () => {
 
   return (
     <div className="bg-slate-50 h-[100%]">
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className="sm:p-5 p-2 flex md:flex-row flex-col  justify-between gap-1 lg:gap-5">
         <div className="bg-main rounded-[16px] w-full overflow-scroll  h-[100vh] p-10">
           <div
@@ -404,9 +404,9 @@ const OrderSummary = () => {
           </div>
         </div> */}
       </div>
-      {/* 
+      {/*
       <div className="flex items-center justify-between my-5">
-       
+
       </div>
       <div className="flex w-full justify-center flex-col items-center">
         <div className="bg-white rounded-[8px]  p-6 shadow-lg h-[339px] overflow-y-scroll w-1/2">
@@ -445,7 +445,7 @@ const OrderSummary = () => {
             );
           })}
         </div>
-       
+
         </div>
         <div className="flex pb-4 cursor-pointer justify-center">
           <button

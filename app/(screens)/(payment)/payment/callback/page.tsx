@@ -29,7 +29,7 @@ const PaymentVerification = () => {
 
     try {
       const response = await axios.get(
-        `${baseURL}/subscriptions/payment/callback/${txRef}`
+        `${baseURL}/subscriptions/payment/callback/${txRef}`,
       );
 
       // console.log(response, "payment");
@@ -59,7 +59,7 @@ const PaymentVerification = () => {
         setPaymentSuccess(false);
       }
     } catch (error: any) {
-      toast.error(error?.response?.data?.message || "Something went wrong!", {
+      toast.error(error?.response?.data?.error || "Something went wrong!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -83,7 +83,7 @@ const PaymentVerification = () => {
   return (
     <div className="">
       {/* <NavigationBar/> */}
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <button
         className="flex items-center outline-none gap-x-1 text-[#2E2E2E] font-medium text-lg"
         onClick={() => router.push("/sign-in")}

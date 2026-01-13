@@ -32,7 +32,7 @@ const useStudentDashStore = create<stuData>((set, get) => ({
       set({ stuData: response?.data });
       set({ enrolled_courses: response?.data?.courses_enrolled });
     } catch (error: any) {
-     if (error?.message === "Network Error") {
+      if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
           autoClose: 5000,
@@ -43,7 +43,7 @@ const useStudentDashStore = create<stuData>((set, get) => ({
           theme: "dark",
         });
       } else {
-        toast.error(error?.response?.data?.detail, {
+        toast.error(error?.response?.data?.error, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,

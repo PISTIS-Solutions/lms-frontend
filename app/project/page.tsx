@@ -37,17 +37,15 @@ const Project = () => {
       });
       setCourses(response.data);
     } catch (error: any) {
-     
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      
+      toast.error(error?.response?.data?.error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     } finally {
       setLoading(false);
     }
@@ -67,7 +65,7 @@ const Project = () => {
 
   const isEnrolled = (courseId: string) =>
     stuData?.courses_enrolled?.some(
-      (enrolledCourse: any) => enrolledCourse.id === courseId
+      (enrolledCourse: any) => enrolledCourse.id === courseId,
     );
 
   return (

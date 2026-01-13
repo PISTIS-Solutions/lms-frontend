@@ -116,7 +116,7 @@ const SignIn = () => {
           theme: "dark",
         });
       } else {
-        toast.error(error?.response?.data?.detail, {
+        toast.error(error?.response?.data?.error, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -138,7 +138,7 @@ const SignIn = () => {
 
   return (
     <main className=" ">
-      <ToastContainer />
+      {/*<ToastContainer />*/}
 
       <div className="flex gap-5 justify-between">
         <div className="hidden md:block p-2 w-1/2 h-screen relative">

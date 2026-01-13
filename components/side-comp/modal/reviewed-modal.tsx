@@ -12,7 +12,7 @@ import { createAxiosInstance } from "@/lib/axios";
 const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
   const submissionId = localStorage.getItem("submissionID");
   const person = projectReview.find(
-    (item: any) => item.submission_id === submissionId
+    (item: any) => item.submission_id === submissionId,
   );
   const axios = createAxiosInstance();
   const [submitDetails, setSubmitDetails] = useState<any | null>(null);
@@ -27,7 +27,7 @@ const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
       if (response.status === 200) {
         setSubmitDetails(response.data);
@@ -35,7 +35,7 @@ const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
         // console.log(response.data)
       }
     } catch (error: any) {
-      toast.error(error?.response?.data?.detail, {
+      toast.error(error?.response?.data?.error, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -55,7 +55,7 @@ const ReviewedModal = ({ handleReviewModal, projectReview }: any) => {
   return (
     <div className="bg-white overflow-y-scroll p-4 w-full mx-2 md:mx-0 lg:w-1/3 h-5/6">
       <div>
-        <ToastContainer />
+        {/*<ToastContainer />*/}
         <div className="flex justify-between items-center">
           <h1 className="md:text-2xl text-lg font-medium">
             {person?.project?.title}

@@ -68,10 +68,9 @@ export const createAxiosInstance = () => {
           //   window.location.href = "/";
           //   return Promise.reject(error);
           // }
-          const refreshRes = await axios.post(
-            urls.adminRefreshToken,
-            { refresh },
-          );
+          const refreshRes = await axios.post(urls.adminRefreshToken, {
+            refresh,
+          });
 
           const { access } = refreshRes.data;
 
@@ -105,66 +104,66 @@ export const createAxiosInstance = () => {
         }
       }
 
-      switch (status) {
-        case 400:
-          toast.error("Bad Request, Invalid Input!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
-          break;
-        case 403:
-          toast.error("Forbidden: You don’t have permission!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
-          break;
-        case 404:
-          toast.error("Not found: Resource doesn’t exist!", {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            theme: "dark",
-          });
-          break;
-        default:
-          if (status >= 500) {
-            toast.error("Server error. Please try again later!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else {
-            toast.error(`${message}`, {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          }
-      }
+      // switch (status) {
+      //   case 400:
+      //     toast.error("Bad Request, Invalid Input!", {
+      //       position: "top-right",
+      //       autoClose: 5000,
+      //       hideProgressBar: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: false,
+      //       draggable: false,
+      //       theme: "dark",
+      //     });
+      //     break;
+      //   case 403:
+      //     toast.error("Forbidden: You don’t have permission!", {
+      //       position: "top-right",
+      //       autoClose: 5000,
+      //       hideProgressBar: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: false,
+      //       draggable: false,
+      //       theme: "dark",
+      //     });
+      //     break;
+      //   case 404:
+      //     toast.error("Not found: Resource doesn’t exist!", {
+      //       position: "top-right",
+      //       autoClose: 5000,
+      //       hideProgressBar: false,
+      //       closeOnClick: true,
+      //       pauseOnHover: false,
+      //       draggable: false,
+      //       theme: "dark",
+      //     });
+      //     break;
+      //   default:
+      //     if (status >= 500) {
+      //       toast.error("Server error. Please try again later!", {
+      //         position: "top-right",
+      //         autoClose: 5000,
+      //         hideProgressBar: false,
+      //         closeOnClick: true,
+      //         pauseOnHover: false,
+      //         draggable: false,
+      //         theme: "dark",
+      //       });
+      //     } else {
+      //       toast.error(`${message}`, {
+      //         position: "top-right",
+      //         autoClose: 5000,
+      //         hideProgressBar: false,
+      //         closeOnClick: true,
+      //         pauseOnHover: false,
+      //         draggable: false,
+      //         theme: "dark",
+      //       });
+      //     }
+      // }
 
       return Promise.reject(error);
-    }
+    },
   );
 
   return instance;

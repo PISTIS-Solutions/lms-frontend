@@ -34,7 +34,6 @@ const useCourseStore = create<CourseStore>((set, get) => ({
         set({ courses: response.data, loading: false });
       }
     } catch (error: any) {
-    
       // else if (error?.message === "Network Error") {
       //   toast.error("Check your network!", {
       //     position: "top-right",
@@ -46,7 +45,7 @@ const useCourseStore = create<CourseStore>((set, get) => ({
       //     theme: "dark",
       //   });
       // } else {
-      //   toast.error(error?.response?.data?.detail, {
+      //   toast.error(error?.response?.data?.error, {
       //     position: "top-right",
       //     autoClose: 5000,
       //     hideProgressBar: false,

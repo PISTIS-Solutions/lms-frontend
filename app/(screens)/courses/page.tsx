@@ -24,7 +24,7 @@ const Courses = () => {
   const [loading, setLoading] = useState(false);
   const { stuData, fetchStuData } = useStudentStore();
   const [courseType, setCourseType] = useState<"Intermediate" | "Advanced">(
-    "Intermediate"
+    "Intermediate",
   );
   const axios = createAxiosInstance();
   useEffect(() => {
@@ -38,12 +38,12 @@ const Courses = () => {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
-          }
+          },
         );
         setCourses(response.data);
         // console.log(response.data, "cd")
       } catch (error: any) {
-        toast.error(error?.response?.data?.detail, {
+        toast.error(error?.response?.data?.error, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -69,13 +69,13 @@ const Courses = () => {
 
   const isEnrolled = (courseId: string) =>
     stuData?.courses_enrolled?.some(
-      (enrolledCourse: any) => enrolledCourse.id === courseId
+      (enrolledCourse: any) => enrolledCourse.id === courseId,
     );
 
   return (
     <div className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-end items-center bg-white shadow-md p-4 w-full">
           <TopNav />

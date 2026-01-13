@@ -38,8 +38,9 @@ const useCheckStatusStore = create<CheckStatusState>((set) => ({
         });
       }
     } catch (error: any) {
-      set({ error: error?.response?.data?.detail || "An error occurred" });
-      toast.error(error?.response?.data?.detail, {
+      console.log(error?.response?.data?.error);
+      set({ error: error?.response?.data?.error || "An error occurred" });
+      toast.error(error?.response?.data?.error, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,

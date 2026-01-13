@@ -57,12 +57,12 @@ const SideProject = () => {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
       setProject(response.data);
       // console.log(response.data, "project");
     } catch (error: any) {
-      toast.error(error?.response?.data?.detail, {
+      toast.error(error?.response?.data?.error, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -94,17 +94,15 @@ const SideProject = () => {
       });
       setProjectList(response.data);
     } catch (error: any) {
-    
-        toast.error(error?.response?.data?.detail, {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: false,
-          theme: "dark",
-        });
-      
+      toast.error(error?.response?.data?.error, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        theme: "dark",
+      });
     } finally {
       setLoadingProjectList(false);
     }
@@ -123,7 +121,7 @@ const SideProject = () => {
   return (
     <main className="relative h-screen bg-[#FBFBFB]">
       <SideNav />
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div className="lg:ml-64 ml-0 overflow-y-scroll h-screen">
         <div className="md:h-[96px] h-[60px] flex justify-between items-center bg-white shadow-md p-4 w-full">
           <ArrowLeft

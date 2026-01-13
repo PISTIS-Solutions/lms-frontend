@@ -76,7 +76,7 @@ cardProps) => {
             Accept: "application/json",
             Authorization: `Bearer ${authToken}`,
           },
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -92,7 +92,7 @@ cardProps) => {
         });
       }
     } catch (error: any) {
-      // console.log(error.response.data.message, "error")
+      console.log(error.response.data, "error");
       if (error?.message === "Network Error") {
         toast.error("Check your network!", {
           position: "top-right",
@@ -107,7 +107,7 @@ cardProps) => {
         error?.response?.data?.message ===
         "User already enrolled in this course."
       ) {
-        toast.error(error?.response?.data?.message, {
+        toast.error(error?.response?.data?.error, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -120,7 +120,7 @@ cardProps) => {
         error?.response?.data?.message ===
         "Please complete previous course before enrolling in another."
       ) {
-        toast.error(error?.response?.data?.message, {
+        toast.error(error?.response?.data?.error, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -143,10 +143,10 @@ cardProps) => {
             pauseOnHover: false,
             draggable: false,
             theme: "dark",
-          }
+          },
         );
       } else {
-        toast.error(error?.response?.data?.detail, {
+        toast.error(error?.response?.data?.error, {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -171,7 +171,7 @@ cardProps) => {
       transition={{ duration: 0.5 }}
       className="relative"
     >
-      <ToastContainer />
+      {/*<ToastContainer />*/}
       <div
         aria-disabled={isLockedDisabled || !isEnrolled}
         className={`w-full h-[374px] shadow-md rounded-[8px]  bg-[#FFF] ${
@@ -231,8 +231,8 @@ cardProps) => {
                 isLockedDisabled
                   ? "cursor-not-allowed border text-white bg-[#DAE0E6]/50 text-sm md:text-lg my-2"
                   : isEnrolled
-                  ? "bg-white cursor-pointer border border-sub hover:text-black text-sm md:text-lg my-2"
-                  : "bg-sub cursor-pointer hover:text-black text-sm md:text-lg my-2"
+                    ? "bg-white cursor-pointer border border-sub hover:text-black text-sm md:text-lg my-2"
+                    : "bg-sub cursor-pointer hover:text-black text-sm md:text-lg my-2"
               }`}
             >
               {isEnrolled ? "Enrolled" : "Enroll"}

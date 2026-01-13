@@ -23,7 +23,7 @@ const CustomCard = (
     module_count,
     course_duration,
   }: CourseType,
-  key: any
+  key: any,
 ) => {
   const router = useRouter();
   const { selectedCourses, toggleCourse } = useCartStoreInitial();
@@ -84,7 +84,7 @@ const CustomCard = (
   //         theme: "dark",
   //       });
   //     } else {
-  //       toast.error(error?.response?.data?.detail, {
+  //       toast.error(error?.response?.data?.error, {
   //         position: "top-right",
   //         autoClose: 5000,
   //         hideProgressBar: false,
