@@ -1,13 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    
-    domains: [
-      "res.cloudinary.com",
-      "cloudinary-2-s3.s3.amazonaws.com",
-      "${{%20secrets.aws_storage_bucket_name%20}}.s3.amazonaws.com",
-      "images.pexels.com",
-      "cloudinary2.s3.amazonaws.com"
+    remotePatterns: [
+      { protocol: "https", hostname: "res.cloudinary.com" },
+      { protocol: "https", hostname: "cloudinary-2-s3.s3.amazonaws.com" },
+      { protocol: "https", hostname: "cloudinary2.s3.amazonaws.com" },
+      { protocol: "https", hostname: "images.pexels.com" },
+      { protocol: "https", hostname: "*.s3.amazonaws.com" },
     ],
   },
 };

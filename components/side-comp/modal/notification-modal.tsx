@@ -1,6 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChevronsRight, X } from "lucide-react";
-import { Montserrat } from "next/font/google";
 import CourseEnrollMent from "@/src/assets/svg/courseEnrollment.svg";
 import ProjectSubmitted from "@/src/assets/svg/projectSubmitted.svg";
 import ProjectReviewNotification from "@/src/assets/svg/projectReview.svg";
@@ -16,8 +15,6 @@ import { urls } from "@/utils/config";
 // import axios from "axios";
 import Cookies from "js-cookie";
 import { createAxiosInstance } from "@/lib/axios";
-
-const montserrat = Montserrat({ subsets: ["latin"] });
 
 const NotificationModal = ({ activities }: { activities: any }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -96,7 +93,7 @@ const NotificationModal = ({ activities }: { activities: any }) => {
         >
           <span className="flex justify-between items-center mb-6 sticky top-0 pt-10 lg:p-0">
             <h3
-              className={`text-[#014873] text-2xl font-medium ${montserrat.className} `}
+              className={`text-[#014873] text-2xl font-medium`}
             >
               Notification{" "}
               {/* <span className="font-sfProDisplay text-xs text-[#9F9F9F]  relative top-[-4px]">

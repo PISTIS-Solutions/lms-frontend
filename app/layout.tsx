@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import { Montserrat } from "next/font/google";
 import "./globals.css";
 import Favicon from "../public/favicon.ico";
 import localFont from "next/font/local";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Providers from "@/components/side-comp/ProgressBarProvider";
-
-const montserrat = Montserrat({ subsets: ["latin"], display: "auto" });
 
 const SFProDisplay = localFont({
   src: [
@@ -48,7 +45,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${montserrat.className} ${digitalNumbers.variable} ${SFProDisplay.variable} `}
+        className={`${digitalNumbers.variable} ${SFProDisplay.variable} `}
+        style={{ fontFamily: "'Montserrat', sans-serif" }}
       >
         <Providers>{children}</Providers>
         <ToastContainer position="top-right" autoClose={5000} />
