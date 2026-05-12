@@ -300,14 +300,18 @@ const Dashboard = () => {
                           className="rounded-[8px]  my-2 lg:my-0 relative bg-white shadow-md sm:w-[242px] lg:w-[calc(33.333%-16px)] w-full min-h-[218px] p-1 font-sfProDisplay"
                         >
                           <div className="rounded-[8px] overflow-hidden h-[120px] relative w-full">
-                            <Image
-                              className=" object-cover w-full h-full"
-                              src={data?.course_image}
-                              alt={data?.title}
-                              layout="fill"
-                              objectFit="cover"
-                              unoptimized
-                            />
+                            {data?.course_image ? (
+                              <Image
+                                className=" object-cover w-full h-full"
+                                src={data.course_image}
+                                alt={data?.title}
+                                layout="fill"
+                                objectFit="cover"
+                                unoptimized
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gradient-to-br from-[#014873] to-[#02A1FF]" />
+                            )}
                           </div>
                           <Link
                             href={`/courses/${data?.id}`}
@@ -358,14 +362,18 @@ const Dashboard = () => {
                             className="rounded-[8px]  my-2 lg:my-0 relative bg-white shadow-md sm:w-[242px] lg:w-[calc(33.333%-16px)] w-full h-[218px] p-1 font-sfProDisplay"
                           >
                             <div className="rounded-[8px] overflow-hidden h-[120px] relative w-full">
-                              <Image
-                                className=" object-cover w-full h-full"
-                                src={data?.course_image}
-                                alt={data?.title}
-                                layout="fill"
-                                objectFit="cover"
-                                unoptimized
-                              />
+                              {data?.course_image ? (
+                                <Image
+                                  className=" object-cover w-full h-full"
+                                  src={data.course_image}
+                                  alt={data?.title}
+                                  layout="fill"
+                                  objectFit="cover"
+                                  unoptimized
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-gradient-to-br from-[#014873] to-[#02A1FF]" />
+                              )}
                             </div>
                             <div
                               className="p-2 flex flex-col h-[87px] justify-between"

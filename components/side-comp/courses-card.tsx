@@ -2,7 +2,7 @@
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 
-import img from "@/src/assets/course/ansible.png";
+import fallbackImg from "@/src/assets/course/ansible.png";
 import {
   BookText,
   Hourglass,
@@ -32,6 +32,7 @@ interface cardProps {
   img: any;
   module_count: number;
   course_category: string;
+  is_premium: boolean;
   // cardLoad: boolean;
 }
 
@@ -46,6 +47,7 @@ const CoursesCard = ({
   img,
   module_count,
   course_category,
+  is_premium,
 }: // cardLoad,
 cardProps) => {
   const [enrolling, setEnrolling] = useState(false);
@@ -54,9 +56,10 @@ cardProps) => {
   const router = useRouter();
 
   const subscriptionStatus = Cookies.get("status");
-  const isFreeSubscription = subscriptionStatus === "Free";
+  const isPaid = subscriptionStatus === "Paid";
 
-  const isLocked = isFreeSubscription && index > 3;
+  // Lock only courses explicitly marked as premium for non-paid students.
+  const isLocked = is_premium && !isPaid;
   const isLockedDisabled = isLocked;
 
   const handleEnroll = async (id: string) => {
@@ -189,7 +192,7 @@ cardProps) => {
         }
       >
         <Image
-          src={img}
+          src={img || fallbackImg}
           width={100}
           height={100}
           alt={title}
@@ -240,7 +243,7 @@ cardProps) => {
           )}
         </div>
       </div>
-      {isFreeSubscription && index > 3 && (
+      {isLocked && (
         <div className="p-2 bg-white cursor-pointer rounded-full w-[35px] h-[35px] flex justify-center items-center absolute top-2 right-2 hover:bg-red-500 duration-150 ease-in-out text-red-500 hover:text-white">
           <LucideLockKeyhole />
         </div>

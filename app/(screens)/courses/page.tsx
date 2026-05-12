@@ -124,6 +124,7 @@ const Courses = () => {
                     isEnrolled={isEnrolled(course.id)}
                     module_count={course?.module_count}
                     course_category={course?.course_category}
+                    is_premium={course?.is_premium ?? false}
                   />
                 </div>
               ))
