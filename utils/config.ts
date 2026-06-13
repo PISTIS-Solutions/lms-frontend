@@ -1,10 +1,9 @@
 // export const baseURL = "https://lms-backend-1-9kcc.onrender.com/api/v2/auth";
 // export const baseURL = "https://backend.dev.pististechub.io/api/v2/auth";
 
-// export const baseURL = process.env.NEXT_PUBLIC_API_URL;
+export const baseURL = process.env.NEXT_PUBLIC_API_URL;
 
-export const baseURL = "https://backend.pististechub.io/api/v2/auth";
-
+// export const baseURL = "https://backend.pististechub.io/api/v2/auth";
 
 export const urls = {
   signup: `${baseURL}/users/`,
@@ -22,20 +21,19 @@ export const urls = {
   activities: `${baseURL}/activities/`,
   resendToken: `${baseURL}/users/resend_activation/`,
   projectReview: `${baseURL}/students/project-review/`,
-  
+
   plans: `${baseURL}/subscriptions/payment-plans/`,
   makeBeginnerPayment: `${baseURL}/subscriptions/make-payment-beginner/`,
   makeIntermediatePayment: `${baseURL}/subscriptions/make-payment-intermediate/`,
   subs: `${baseURL}/subscriptions/`,
-  
-  
+
   getStudents: `${baseURL}/courses-and-students/`,
   bookings: `${baseURL}/booking-sessions/`,
   getSessions: `${baseURL}/booking-sessions/get_count/`,
   getAllSession: `${baseURL}/booking-sessions/`,
 
   cohorts: `${baseURL}/cohorts/`,
-  
+
   waitlist: `${baseURL}/waitlist/join_waitlist/`,
 
   subStatus: `${baseURL}/students/StudentSubscriptionDetails/`,
@@ -44,6 +42,5 @@ export const urls = {
 
   blog: `${baseURL}/blogs/`,
 
-  autoRenewal: `${baseURL}/subscriptions/toggle-auto-renew/`
-  
+  autoRenewal: `${baseURL}/subscriptions/toggle-auto-renew/`,
 };
