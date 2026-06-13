@@ -76,64 +76,26 @@ const SignUp = () => {
             });
           }
         } catch (error: any) {
-          const passwordErrors = error?.response?.data?.password;
-          const emailErrors = error?.response?.data?.email;
-          const phoneError = error?.response?.data?.phone_number;
-
-          if (error.message === containsSpecialChars) {
-            setError(error.message);
-          }
-
-          console.log(passwordErrors?.[0], "err");
-          console.log(error?.response, "errRez");
-
-          if (
-            emailErrors?.[0] === "User with this Email Address already exists."
-          ) {
-            toast.error(emailErrors?.[0] || "Something went wrong!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else if (
-            passwordErrors?.[0] ===
-              "The password is too similar to the Last Name." ||
-            "The password is too similar to the First Name."
-          ) {
-            toast.error(passwordErrors?.[0] || "Something went wrong!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else if (phoneError?.[0] === "Enter a valid phone number.") {
-            toast.error(phoneError?.[0] || "Something went wrong!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else {
-            toast.error(error?.response?.message || "Something went wrong!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          }
+          const data = error?.response?.data;
+          const errorMessage =
+            data?.email?.[0] ||
+            data?.password?.[0] ||
+            data?.phone_number?.[0] ||
+            data?.first_name?.[0] ||
+            data?.last_name?.[0] ||
+            data?.detail ||
+            data?.non_field_errors?.[0] ||
+            (Array.isArray(data) ? data[0] : null) ||
+            "Something went wrong!";
+          toast.error(errorMessage, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
         } finally {
           setLoading(false);
         }
