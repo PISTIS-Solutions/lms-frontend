@@ -58,44 +58,28 @@ const GradingPendingModal = ({ handleCloseModal, projectReview }: any) => {
         }
       } catch (error: any) {
         if (error.response) {
-          const status = error.response.status;
           const data = error.response.data;
-          if (status === 400 && data[0]) {
-            toast.error(data[0], {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else if (
-            status === 400 &&
-            data.submission_link?.[0] == "Enter a valid URL."
-          ) {
-            toast.error(data.submission_link[0], {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          } else {
-            toast.error(data?.detail || "An error occurred", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: false,
-              theme: "dark",
-            });
-          }
+          const pick = (f: any) => (Array.isArray(f) ? f[0] : f) || undefined;
+          const errorMessage =
+            pick(data?.detail) ||
+            pick(data?.message) ||
+            pick(data?.error) ||
+            pick(data?.project) ||
+            pick(data?.submission_link) ||
+            pick(data?.non_field_errors) ||
+            (Array.isArray(data) ? data[0] : null) ||
+            "An error occurred";
+          toast.error(errorMessage, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            theme: "dark",
+          });
         } else {
-          toast.error("An unexpected error occurred", {
+          toast.error("Network error — please try again", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,

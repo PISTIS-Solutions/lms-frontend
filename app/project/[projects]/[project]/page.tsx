@@ -212,7 +212,7 @@ const SideProject = () => {
             cID={courseID}
             bool={true}
             pID2={projectList}
-            status={project?.submission_status}
+            submissionStatus={project?.submission_status}
             projectsTitles={project?.project_title}
             handleCloseModal={openPendingModal}
             setPendingModal={setPendingModal}
